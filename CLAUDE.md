@@ -38,7 +38,7 @@ Single-target Swift app compiled with `swiftc` (no Xcode project, no SPM). All s
 ./install.sh --run # install and launch
 ```
 
-No Xcode project — just `swiftc` with `-framework Cocoa`. Build script at `build.sh`.
+No Xcode project — just `swiftc` with `-framework Cocoa`. Build script at `build.sh`. Version is stamped into `Info.plist` at build time via `git describe --tags --dirty --always`.
 
 ## Key Implementation Details
 

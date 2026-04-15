@@ -146,6 +146,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         menu.addItem(NSMenuItem.separator())
         menu.addItem(NSMenuItem(title: "Request Permissions...", action: #selector(requestPermissions), keyEquivalent: ""))
+        menu.addItem(NSMenuItem(title: "About OptWin", action: #selector(showAbout), keyEquivalent: ""))
         menu.addItem(NSMenuItem.separator())
         menu.addItem(NSMenuItem(title: "Quit OptWin", action: #selector(quit), keyEquivalent: "q"))
         statusItem.menu = menu
@@ -211,6 +212,31 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 NSWorkspace.shared.open(url)
             }
         }
+    }
+
+    @objc private func showAbout() {
+        NSApplication.shared.activate(ignoringOtherApps: true)
+        NSApplication.shared.orderFrontStandardAboutPanel(options: [
+            .version: "",
+            .credits: {
+                let credits = NSMutableAttributedString()
+                let font = NSFont.systemFont(ofSize: 11)
+                let paragraphStyle = NSMutableParagraphStyle()
+                paragraphStyle.paragraphSpacing = 8
+                paragraphStyle.alignment = .center
+
+                credits.append(NSAttributedString(string: "GitHub\n", attributes: [
+                    .font: font,
+                    .link: URL(string: "https://github.com/logonoff/opt-win")!,
+                    .paragraphStyle: paragraphStyle,
+                ]))
+                credits.append(NSAttributedString(string: "License: WTFPL v2", attributes: [
+                    .font: font,
+                    .paragraphStyle: paragraphStyle,
+                ]))
+                return credits
+            }(),
+        ])
     }
 
     @objc private func quit() {
