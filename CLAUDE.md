@@ -10,7 +10,9 @@ A macOS menu bar app that repurposes the Option key and adds GNOME-style hot cor
 - **Double press `⌥`** → Opens Spotlight (simulates Cmd+Space)
 - **Hot corner** → Slamming mouse to top-left corner of any screen opens Mission Control with a GNOME-style ripple animation
 - **Opt+1–9** → Launches the Nth app in the Dock (position 1 = Finder, then persistent-apps from `com.apple.dock.plist`). Consumes the keypress so no special character is typed.
-- All four features can be individually toggled on/off via the status bar menu (persisted via UserDefaults, all enabled by default)
+- **Caps Lock OSD** → Shows a centered on-screen notification ("⇪ Caps Lock On/Off") when Caps Lock is toggled, inspired by gnome-shell-extension-lockkeys
+- All features can be individually toggled on/off via the status bar menu (persisted via UserDefaults, all enabled by default)
+- **Every new feature must have a toggle** in the status bar menu, persisted via UserDefaults, enabled by default
 - **Request Permissions** menu item — checks Accessibility (`AXIsProcessTrusted`) and Input Monitoring (event tap exists), offers buttons to open each settings pane directly
 - Option key detection happens on key-up so existing keyboard shortcuts are unaffected
 
@@ -26,6 +28,7 @@ Single-target Swift app compiled with `swiftc` (no Xcode project, no SPM). All s
 | `HotCorner.swift` | Monitors `mouseMoved` events and detects when cursor hits the top-left corner (2px zone) of any screen. Exposes `onTrigger(NSScreen)` closure. Handles CGEvent↔NSScreen coordinate conversion. |
 | `RippleAnimation.swift` | Ported from GNOME Shell `js/ui/ripples.js`. Three concentric quarter-circle CAShapeLayer ripples with staggered scale/opacity animations. Displays in a borderless transparent window. |
 | `DockLauncher.swift` | Reads persistent dock apps from `com.apple.dock.plist`. Finder is hardcoded at position 1. Launches apps via `NSWorkspace`. |
+| `LockKeyOSD.swift` | Caps Lock on-screen display. Shows a dark rounded overlay centered on screen with fade in/out animations. Reuses the window if already visible. |
 
 ## Build & Install
 

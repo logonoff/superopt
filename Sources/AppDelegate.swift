@@ -29,11 +29,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private var optSingleMenuItem: NSMenuItem!
     private var optDoubleMenuItem: NSMenuItem!
     private var dockShortcutsMenuItem: NSMenuItem!
+    private var lockKeyOSDMenuItem: NSMenuItem!
 
     private let optionKeyHandler = OptionKeyHandler()
     private let hotCorner = HotCorner()
     private let rippleAnimation = RippleAnimation()
     private let dockLauncher = DockLauncher()
+    private let lockKeyOSD = LockKeyOSD()
+    private var lastCapsLockState = false
 
     private var hotCornersEnabled: Bool {
         get { UserDefaults.standard.bool(forKey: "hotCornersEnabled") }
@@ -68,6 +71,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
+    private var lockKeyOSDEnabled: Bool {
+        get { UserDefaults.standard.bool(forKey: "lockKeyOSDEnabled") }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "lockKeyOSDEnabled")
+            lockKeyOSDMenuItem.state = newValue ? .on : .off
+        }
+    }
+
     // MARK: - App Lifecycle
 
     func applicationDidFinishLaunching(_ notification: Notification) {
@@ -76,7 +87,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             "optSingleEnabled": true,
             "optDoubleEnabled": true,
             "dockShortcutsEnabled": true,
+            "lockKeyOSDEnabled": true,
         ])
+
+        lastCapsLockState = NSEvent.modifierFlags.contains(.capsLock)
 
         optionKeyHandler.onSinglePress = { [weak self] in
             guard let self = self, self.optSingleEnabled else { return }
@@ -126,6 +140,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         dockShortcutsMenuItem.state = dockShortcutsEnabled ? .on : .off
         menu.addItem(dockShortcutsMenuItem)
 
+        lockKeyOSDMenuItem = NSMenuItem(title: "Caps Lock OSD", action: #selector(toggleLockKeyOSD), keyEquivalent: "")
+        lockKeyOSDMenuItem.state = lockKeyOSDEnabled ? .on : .off
+        menu.addItem(lockKeyOSDMenuItem)
+
         menu.addItem(NSMenuItem.separator())
         menu.addItem(NSMenuItem(title: "Request Permissions...", action: #selector(requestPermissions), keyEquivalent: ""))
         menu.addItem(NSMenuItem.separator())
@@ -147,6 +165,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     @objc private func toggleDockShortcuts() {
         dockShortcutsEnabled = !dockShortcutsEnabled
+    }
+
+    @objc private func toggleLockKeyOSD() {
+        lockKeyOSDEnabled = !lockKeyOSDEnabled
     }
 
     @objc private func requestPermissions() {
@@ -268,6 +290,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         switch type {
         case .flagsChanged:
             optionKeyHandler.handleFlagsChanged(event: event)
+            if lockKeyOSDEnabled {
+                let capsLockOn = event.flags.contains(.maskAlphaShift)
+                if capsLockOn != lastCapsLockState {
+                    lastCapsLockState = capsLockOn
+                    lockKeyOSD.show(text: capsLockOn ? "⇪ Caps Lock On" : "⇪ Caps Lock Off", active: capsLockOn)
+                }
+            }
         case .keyDown:
             if dockShortcutsEnabled && event.flags.contains(.maskAlternate) {
                 let keyCode = event.getIntegerValueField(.keyboardEventKeycode)
