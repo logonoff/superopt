@@ -13,6 +13,9 @@ jobs:
     runs-on: macos-26
     steps:
       - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          fetch-tags: true
 
       - name: Build
         run: ./build.sh
@@ -24,7 +27,9 @@ jobs:
         run: |
           PREV_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || git rev-list --max-parents=0 HEAD)
           echo "## Changes" > notes.md
-          git log --format="- %h %s" "${PREV_TAG}..HEAD" >> notes.md
+          git log --format="- %h %s" "${PREV_TAG}..HEAD" --invert-grep --grep="chore: update cask" >> notes.md
+          echo "" >> notes.md
+          echo "**Full Changelog**: https://github.com/logonoff/opt-win/compare/${PREV_TAG}...${{ github.ref_name }}" >> notes.md
 
       - name: Create release
         run: gh release create "${{ github.ref_name }}" build/OptWin.zip --title "${{ github.ref_name }}" --notes-file notes.md
