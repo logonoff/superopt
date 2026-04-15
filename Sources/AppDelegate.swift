@@ -250,30 +250,51 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func showAccessibilityAlert() {
         let alert = NSAlert()
-        alert.messageText = "Permissions Required"
-        alert.informativeText = """
-            OptWin needs two permissions to detect key presses:
-
-            1. Accessibility
-            2. Input Monitoring
-
-            Grant both in System Settings → Privacy & Security, then restart OptWin.
-            """
         alert.alertStyle = .warning
+        alert.addButton(withTitle: "Continue").keyEquivalent = "\r"
         alert.addButton(withTitle: "Open Accessibility")
         alert.addButton(withTitle: "Open Input Monitoring")
         alert.addButton(withTitle: "Quit")
 
-        let response = alert.runModal()
-        if response == .alertFirstButtonReturn {
-            let options = [kAXTrustedCheckOptionPrompt.takeUnretainedValue(): true] as CFDictionary
-            AXIsProcessTrustedWithOptions(options)
-        } else if response == .alertSecondButtonReturn {
-            if let url = URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_ListenEvent") {
-                NSWorkspace.shared.open(url)
+        while true {
+            let trusted = AXIsProcessTrusted()
+
+            var missing: [String] = []
+            if !trusted { missing.append("Accessibility") }
+            if eventTap == nil { missing.append("Input Monitoring") }
+
+            if missing.isEmpty && setupEventTap() {
+                alert.window.orderOut(nil)
+                break
+            }
+
+            alert.messageText = "Permissions Required"
+            alert.informativeText = """
+                OptWin needs the following permissions:
+
+                \(missing.joined(separator: ", "))
+
+                Grant access in System Settings → Privacy & Security, then click Continue.
+                """
+
+            let response = alert.runModal()
+            if response == .alertFirstButtonReturn {
+                if setupEventTap() {
+                    alert.window.orderOut(nil)
+                    break
+                }
+            } else if response == .alertSecondButtonReturn {
+                let options = [kAXTrustedCheckOptionPrompt.takeUnretainedValue(): true] as CFDictionary
+                AXIsProcessTrustedWithOptions(options)
+            } else if response == .alertThirdButtonReturn {
+                if let url = URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_ListenEvent") {
+                    NSWorkspace.shared.open(url)
+                }
+            } else {
+                NSApplication.shared.terminate(nil)
+                return
             }
         }
-        NSApplication.shared.terminate(nil)
     }
 
     // MARK: - Event Routing
