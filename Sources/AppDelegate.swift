@@ -33,57 +33,45 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private let lockKeyOSD = LockKeyOSD()
     private let homeEndHandler = HomeEndHandler()
     private let menuBarBackground = MenuBarBackground()
+    private let settingsWindow = SettingsWindowController()
     private var lastCapsLockState = false
 
-    // MARK: - Feature Toggles
+    // MARK: - Preferences
 
-    private static let features: [(title: String, key: String, defaultOn: Bool)] = [
-        ("Opt → Mission Control",    "optSingleEnabled",     true),
-        ("Opt Opt → Apps",           "optDoubleEnabled",     true),
-        ("Hot Corner",               "hotCornersEnabled",    true),
-        ("Opt+N → Dock App",         "dockShortcutsEnabled", true),
-        ("Caps Lock OSD",            "lockKeyOSDEnabled",    true),
-        ("Home/End → Line Start/End","homeEndRemapEnabled",  true),
-        ("Dark Menu Bar",            "menuBarBgEnabled",     false),
+    private static let defaultPreferences: [String: Any] = [
+        "optSingleEnabled": true,
+        "optDoubleEnabled": true,
+        "hotCornersEnabled": true,
+        "dockShortcutsEnabled": true,
+        "lockKeyOSDEnabled": true,
+        "homeEndRemapEnabled": true,
+        "menuBarBgEnabled": false,
+        "dockFinderPosition": 1,
     ]
-
-    private var featureMenuItems: [String: NSMenuItem] = [:]
-    private var dockFinderPositionMenuItem: NSMenuItem!
 
     private func isEnabled(_ key: String) -> Bool {
         UserDefaults.standard.bool(forKey: key)
     }
 
-    private func setEnabled(_ key: String, _ value: Bool) {
-        UserDefaults.standard.set(value, forKey: key)
-        featureMenuItems[key]?.state = value ? .on : .off
-
+    private func handleSettingChanged(_ key: String, _ value: Any) {
         switch key {
         case "hotCornersEnabled":
-            hotCorner.enabled = value
-        case "dockShortcutsEnabled":
-            dockFinderPositionMenuItem.isEnabled = value
+            hotCorner.enabled = value as? Bool ?? true
         case "menuBarBgEnabled":
-            if value { menuBarBackground.start() } else { menuBarBackground.stop() }
+            if value as? Bool == true { menuBarBackground.start() } else { menuBarBackground.stop() }
         default:
             break
         }
     }
 
     private var dockFinderPosition: Int {
-        get { UserDefaults.standard.integer(forKey: "dockFinderPosition") }
-        set {
-            UserDefaults.standard.set(newValue, forKey: "dockFinderPosition")
-            dockFinderPositionMenuItem.title = "  Finder Position: \(newValue)"
-        }
+        UserDefaults.standard.integer(forKey: "dockFinderPosition")
     }
 
     // MARK: - App Lifecycle
 
     func applicationDidFinishLaunching(_ notification: Notification) {
-        var defaults: [String: Any] = ["dockFinderPosition": 1]
-        for f in AppDelegate.features { defaults[f.key] = f.defaultOn }
-        UserDefaults.standard.register(defaults: defaults)
+        UserDefaults.standard.register(defaults: AppDelegate.defaultPreferences)
 
         let systemMenuBarBg = UserDefaults.standard.bool(forKey: "SLSMenuBarUseBlurredAppearance")
         if isEnabled("menuBarBgEnabled") && !systemMenuBarBg { menuBarBackground.start() }
@@ -121,35 +109,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         let menu = NSMenu()
-
-        for (i, f) in AppDelegate.features.enumerated() {
-            let item = NSMenuItem(title: f.title, action: #selector(toggleFeature(_:)), keyEquivalent: "")
-            item.tag = i
-            item.state = isEnabled(f.key) ? .on : .off
-            featureMenuItems[f.key] = item
-            menu.addItem(item)
-
-            if f.key == "dockShortcutsEnabled" {
-                dockFinderPositionMenuItem = NSMenuItem(title: "  Finder Position: \(dockFinderPosition)", action: nil, keyEquivalent: "")
-                let positionSubmenu = NSMenu()
-                for pos in 1...9 {
-                    let posItem = NSMenuItem(title: "\(pos)", action: #selector(setFinderPosition(_:)), keyEquivalent: "")
-                    posItem.tag = pos
-                    posItem.state = (pos == dockFinderPosition) ? .on : .off
-                    positionSubmenu.addItem(posItem)
-                }
-                dockFinderPositionMenuItem.submenu = positionSubmenu
-                dockFinderPositionMenuItem.isEnabled = isEnabled("dockShortcutsEnabled")
-                menu.addItem(dockFinderPositionMenuItem)
-            }
-        }
-
-        let systemMenuBarBgOn = UserDefaults.standard.bool(forKey: "SLSMenuBarUseBlurredAppearance")
-        if systemMenuBarBgOn {
-            featureMenuItems["menuBarBgEnabled"]?.isEnabled = false
-        }
-
-        menu.addItem(NSMenuItem.separator())
+        menu.addItem(NSMenuItem(title: "Settings...", action: #selector(openSettings), keyEquivalent: ","))
         menu.addItem(NSMenuItem(title: "Request Permissions...", action: #selector(requestPermissions), keyEquivalent: ""))
         menu.addItem(NSMenuItem(title: "About OptWin", action: #selector(showAbout), keyEquivalent: ""))
         menu.addItem(NSMenuItem.separator())
@@ -157,15 +117,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         statusItem.menu = menu
     }
 
-    @objc private func toggleFeature(_ sender: NSMenuItem) {
-        let f = AppDelegate.features[sender.tag]
-        setEnabled(f.key, !isEnabled(f.key))
-    }
-
-    @objc private func setFinderPosition(_ sender: NSMenuItem) {
-        dockFinderPosition = sender.tag
-        for item in sender.menu!.items {
-            item.state = (item.tag == sender.tag) ? .on : .off
+    @objc private func openSettings() {
+        settingsWindow.show { [weak self] key, value in
+            self?.handleSettingChanged(key, value)
         }
     }
 

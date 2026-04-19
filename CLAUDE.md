@@ -25,7 +25,8 @@ Single-target Swift app compiled with `swiftc` (no Xcode project, no SPM). All s
 | File | Purpose |
 |---|---|
 | `main.swift` | Entry point — creates NSApplication, sets `.accessory` policy, runs the app |
-| `AppDelegate.swift` | Status bar menu, CGEventTap setup, event routing, action triggers (Mission Control / Spotlight). Contains the free `eventTapCallback` function (required for C interop). |
+| `AppDelegate.swift` | Status bar menu, CGEventTap setup, event routing, action triggers (Mission Control / Spotlight). Contains the free `eventTapCallback` function (required for C interop). Menu contains Settings/Permissions/About/Quit — feature toggles are in the settings window. |
+| `SettingsWindow.swift` | SwiftUI `Form` with `.grouped` style embedded in an NSWindow via `NSHostingView`. Uses `@AppStorage` for live UserDefaults binding. Opened via Cmd+Comma or the menu. |
 | `OptionKeyHandler.swift` | Tracks Option key state via `flagsChanged` events. Detects clean single/double presses using a timer. Exposes `onSinglePress` / `onDoublePress` closures. |
 | `HotCorner.swift` | Monitors `mouseMoved` events and detects when cursor hits the top-left corner (2px zone) of any screen. Exposes `onTrigger(NSScreen)` closure. Handles CGEvent↔NSScreen coordinate conversion. |
 | `RippleAnimation.swift` | Ported from GNOME Shell `js/ui/ripples.js`. Three concentric quarter-circle CAShapeLayer ripples with staggered scale/opacity animations. Displays in a borderless transparent window. |
@@ -58,6 +59,9 @@ No Xcode project — just `swiftc` with `-framework Cocoa`. Build script at `bui
 - **Permissions**: Requires both **Accessibility** and **Input Monitoring** in System Settings → Privacy & Security. Running from terminal inherits the terminal's permissions; running as a standalone app (via `open`) requires its own grants.
 - **Code signing**: Ad-hoc signed (`codesign --force --sign -`) so permissions persist across rebuilds (tied to bundle ID, not binary hash).
 - **App hides from Dock**: Both `LSUIElement=true` in Info.plist and `.accessory` activation policy.
+- **Menu bar background positioning**: macOS constrains normal windows below the menu bar area. `UnconstrainedWindow` overrides `constrainFrameRect(_:to:)` to bypass this. Windows must be created once and never destroyed to avoid position resets. Uses `NSApplication.didChangeScreenParametersNotification` to reposition when screen layout changes. Hides during Mission Control by checking for Dock-owned windows at layer > 0 in `CGWindowListCopyWindowInfo`.
+- **Liquid Glass**: `NSGlassEffectView` is available on macOS 26. Style `1` (`NSGlassEffectView.Style(rawValue: 1)`) gives the "clear glass" variant. Use `contentView` property to embed content, not `addSubview`. `actool` compiles `icon.icon` bundles from Icon Composer into `Assets.car`; requires full Xcode, not just CLT.
+- **Home/End in terminals**: CGEvents can't inject into a terminal's PTY. Terminal apps are skipped; users must configure Home/End in their terminal's keyboard settings and shell (`bindkey` in zsh).
 
 ## CI
 
