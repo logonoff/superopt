@@ -32,6 +32,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private var dockFinderPositionMenuItem: NSMenuItem!
     private var lockKeyOSDMenuItem: NSMenuItem!
     private var homeEndRemapMenuItem: NSMenuItem!
+    private var menuBarBgMenuItem: NSMenuItem!
 
     private let optionKeyHandler = OptionKeyHandler()
     private let hotCorner = HotCorner()
@@ -39,6 +40,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private let dockLauncher = DockLauncher()
     private let lockKeyOSD = LockKeyOSD()
     private let homeEndHandler = HomeEndHandler()
+    private let menuBarBackground = MenuBarBackground()
     private var lastCapsLockState = false
 
     private var hotCornersEnabled: Bool {
@@ -99,6 +101,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
+    private var menuBarBgEnabled: Bool {
+        get { UserDefaults.standard.bool(forKey: "menuBarBgEnabled") }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "menuBarBgEnabled")
+            menuBarBgMenuItem.state = newValue ? .on : .off
+            if newValue { menuBarBackground.start() } else { menuBarBackground.stop() }
+        }
+    }
+
     // MARK: - App Lifecycle
 
     func applicationDidFinishLaunching(_ notification: Notification) {
@@ -110,7 +121,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             "dockFinderPosition": 1,
             "lockKeyOSDEnabled": true,
             "homeEndRemapEnabled": true,
+            "menuBarBgEnabled": false,
         ])
+
+        let systemMenuBarBg = UserDefaults.standard.bool(forKey: "SLSMenuBarUseBlurredAppearance")
+        if menuBarBgEnabled && !systemMenuBarBg { menuBarBackground.start() }
 
         lastCapsLockState = NSEvent.modifierFlags.contains(.capsLock)
 
@@ -181,6 +196,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         homeEndRemapMenuItem.state = homeEndRemapEnabled ? .on : .off
         menu.addItem(homeEndRemapMenuItem)
 
+        let systemMenuBarBgOn = UserDefaults.standard.bool(forKey: "SLSMenuBarUseBlurredAppearance")
+        menuBarBgMenuItem = NSMenuItem(title: "Dark Menu Bar", action: #selector(toggleMenuBarBg), keyEquivalent: "")
+        menuBarBgMenuItem.state = menuBarBgEnabled ? .on : .off
+        menuBarBgMenuItem.isEnabled = !systemMenuBarBgOn
+        menu.addItem(menuBarBgMenuItem)
+
         menu.addItem(NSMenuItem.separator())
         menu.addItem(NSMenuItem(title: "Request Permissions...", action: #selector(requestPermissions), keyEquivalent: ""))
         menu.addItem(NSMenuItem(title: "About OptWin", action: #selector(showAbout), keyEquivalent: ""))
@@ -218,6 +239,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     @objc private func toggleHomeEndRemap() {
         homeEndRemapEnabled = !homeEndRemapEnabled
+    }
+
+    @objc private func toggleMenuBarBg() {
+        menuBarBgEnabled = !menuBarBgEnabled
     }
 
     @objc private func requestPermissions() {

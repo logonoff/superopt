@@ -11,6 +11,7 @@ A tiny macOS menu bar app that repurposes the Option key. Requires **macOS 26 (T
 - **`⌥`+`1-9`** → Launch the Nth app in your Dock (Finder position configurable)
 - **Caps Lock OSD** → On-screen notification when Caps Lock is toggled
 - **Home/End** → Moves cursor to line start/end in text fields (Linux behavior)
+- **Dark Menu Bar** → Shows a black bar behind the transparent menu bar when a window fills the screen (off by default, requires "Show menu bar background" to be disabled in System Settings → Menu Bar as this replaces it)
 
 All features can be individually toggled on/off from the menu bar. Detection happens on key-up, so existing keyboard shortcuts using Option are unaffected.
 
