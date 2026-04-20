@@ -22,7 +22,7 @@ class GnomeShortcutHandler {
 
     // swiftlint:disable line_length
     static let allShortcuts: [GnomeShortcutDef] = [
-        GnomeShortcutDef(id: "copy",       label: NSLocalizedString("Copy", comment: ""),        from: "⌃C",  to: "⌘C",   category: general),
+        GnomeShortcutDef(id: "copy",       label: NSLocalizedString("Copy", comment: ""),         from: "⌃C",  to: "⌘C",   category: general),
         GnomeShortcutDef(id: "cut",        label: NSLocalizedString("Cut", comment: ""),          from: "⌃X",  to: "⌘X",   category: general),
         GnomeShortcutDef(id: "paste",      label: NSLocalizedString("Paste", comment: ""),        from: "⌃V",  to: "⌘V",   category: general),
         GnomeShortcutDef(id: "undo",       label: NSLocalizedString("Undo", comment: ""),         from: "⌃Z",  to: "⌘Z",   category: general),
@@ -36,7 +36,7 @@ class GnomeShortcutHandler {
 
         GnomeShortcutDef(id: "getInfo",      label: NSLocalizedString("Properties", comment: ""),    from: "⌥↩", to: "⌘I",  category: finder),
         GnomeShortcutDef(id: "finderDelete", label: NSLocalizedString("Move to Trash", comment: ""), from: "⌦",  to: "⌘⌫",  category: finder),
-        GnomeShortcutDef(id: "rename",       label: NSLocalizedString("Rename", comment: ""),        from: "F2", to: "↩",    category: finder),
+        GnomeShortcutDef(id: "rename",       label: NSLocalizedString("Rename", comment: ""),        from: "F2", to: "↩",   category: finder),
 
         GnomeShortcutDef(id: "bold",              label: NSLocalizedString("Bold", comment: ""),            from: "⌃B", to: "⌘B", category: textEditing),
         GnomeShortcutDef(id: "underline",         label: NSLocalizedString("Underline", comment: ""),       from: "⌃U", to: "⌘U", category: textEditing),
@@ -50,17 +50,18 @@ class GnomeShortcutHandler {
         GnomeShortcutDef(id: "reopenTab",   label: NSLocalizedString("Reopen Tab", comment: ""),   from: "⌃⇧T", to: "⌘⇧T", category: tabsWindows),
         GnomeShortcutDef(id: "closeWindow", label: NSLocalizedString("Close Window", comment: ""), from: "⌥F4", to: "⌘W",  category: tabsWindows),
 
-        GnomeShortcutDef(id: "addressBar",  label: NSLocalizedString("Address Bar", comment: ""),      from: "⌃L",  to: "⌘L",   category: browsers),
-        GnomeShortcutDef(id: "downloads",   label: NSLocalizedString("Downloads", comment: ""),        from: "⌃J",  to: "⌘J",   category: browsers),
-        GnomeShortcutDef(id: "reload",      label: NSLocalizedString("Reload", comment: ""),           from: "⌃R",  to: "⌘R",   category: browsers),
-        GnomeShortcutDef(id: "devTools",    label: NSLocalizedString("Developer Tools", comment: ""),  from: "⌃⇧I", to: "⌘⌥I",  category: browsers),
-        GnomeShortcutDef(id: "devToolsF12", label: NSLocalizedString("Developer Tools", comment: ""),  from: "F12", to: "⌘⌥I",   category: browsers),
-        GnomeShortcutDef(id: "viewHistory", label: NSLocalizedString("View History", comment: ""),     from: "⌃H",  to: "⌘Y",   category: browsers),
-        GnomeShortcutDef(id: "viewSource",  label: NSLocalizedString("View Source", comment: ""),      from: "⌃U",  to: "⌘U",   category: browsers),
-        GnomeShortcutDef(id: "zoomIn",      label: NSLocalizedString("Zoom In", comment: ""),          from: "⌃+",  to: "⌘+",   category: browsers),
-        GnomeShortcutDef(id: "zoomOut",     label: NSLocalizedString("Zoom Out", comment: ""),         from: "⌃-",  to: "⌘-",   category: browsers),
-        GnomeShortcutDef(id: "zoomReset",   label: NSLocalizedString("Reset Zoom", comment: ""),       from: "⌃0",  to: "⌘0",   category: browsers),
-        GnomeShortcutDef(id: "fullscreen",  label: NSLocalizedString("Full Screen", comment: ""),      from: "F11", to: "⌃⌘F",   category: browsers),
+        GnomeShortcutDef(id: "addressBar",    label: NSLocalizedString("Address Bar", comment: ""),        from: "⌃L",  to: "⌘L",   category: browsers),
+        GnomeShortcutDef(id: "downloads",     label: NSLocalizedString("Downloads", comment: ""),          from: "⌃J",  to: "⌘J",   category: browsers),
+        GnomeShortcutDef(id: "reload",        label: NSLocalizedString("Reload", comment: ""),             from: "⌃R",  to: "⌘R",   category: browsers),
+        GnomeShortcutDef(id: "devTools",      label: NSLocalizedString("Developer Tools", comment: ""),    from: "⌃⇧I", to: "⌘⌥I",  category: browsers),
+        GnomeShortcutDef(id: "devToolsF12",   label: NSLocalizedString("Developer Tools", comment: ""),    from: "F12", to: "⌘⌥I",  category: browsers),
+        GnomeShortcutDef(id: "viewHistory",   label: NSLocalizedString("View History", comment: ""),       from: "⌃H",  to: "⌘Y",   category: browsers),
+        GnomeShortcutDef(id: "viewSource",    label: NSLocalizedString("View Source", comment: ""),        from: "⌃U",  to: "⌘U",   category: browsers),
+        GnomeShortcutDef(id: "zoomIn",        label: NSLocalizedString("Zoom In", comment: ""),            from: "⌃+",  to: "⌘+",   category: browsers),
+        GnomeShortcutDef(id: "zoomOut",       label: NSLocalizedString("Zoom Out", comment: ""),           from: "⌃-",  to: "⌘-",   category: browsers),
+        GnomeShortcutDef(id: "zoomReset",     label: NSLocalizedString("Reset Zoom", comment: ""),         from: "⌃0",  to: "⌘0",   category: browsers),
+        GnomeShortcutDef(id: "fullscreen",    label: NSLocalizedString("Full Screen", comment: ""),        from: "F11",  to: "⌃⌘F", category: browsers),
+        GnomeShortcutDef(id: "privateWindow", label: NSLocalizedString("New Private Window", comment: ""), from: "⌃⇧P", to: "⌘⇧P",  category: browsers),
 
         GnomeShortcutDef(id: "termCopy",        label: NSLocalizedString("Copy", comment: ""),         from: "⌃⇧C", to: "⌘C", category: terminal),
         GnomeShortcutDef(id: "termPaste",       label: NSLocalizedString("Paste", comment: ""),        from: "⌃⇧V", to: "⌘V", category: terminal),
@@ -78,7 +79,7 @@ class GnomeShortcutHandler {
         GnomeShortcutDef(id: "hyperlink",       label: NSLocalizedString("Insert Link", comment: ""),       from: "⌃K",  to: "⌘K",   category: codeEditor),
         GnomeShortcutDef(id: "duplicate",       label: NSLocalizedString("Duplicate", comment: ""),         from: "⌃D",  to: "⌘D",   category: codeEditor),
         GnomeShortcutDef(id: "searchSelection", label: NSLocalizedString("Search Selection", comment: ""),  from: "⌃E",  to: "⌘E",   category: codeEditor),
-        GnomeShortcutDef(id: "findReplace",    label: NSLocalizedString("Find and Replace", comment: ""),  from: "⌃H",  to: "⌘⌥F",  category: codeEditor),
+        GnomeShortcutDef(id: "findReplace",     label: NSLocalizedString("Find and Replace", comment: ""),  from: "⌃H",  to: "⌘⌥F",  category: codeEditor),
     ]
     // swiftlint:enable line_length
 
@@ -109,11 +110,11 @@ class GnomeShortcutHandler {
     // MARK: - Key code maps
 
     // Ctrl+Shift+key shortcuts with their own toggle (checked before base Ctrl+key)
-    private static let ctrlShiftMap: [Int64: String] = [
-        0x11: "reopenTab",       // T
-        0x23: "commandPalette",  // P
-        0x28: "deleteLine",      // K
-        0x24: "insertLineAbove", // Return
+    private static let ctrlShiftMap: [Int64: [String]] = [
+        0x11: ["reopenTab"],                    // T
+        0x23: ["commandPalette", "privateWindow"], // P
+        0x28: ["deleteLine"],                   // K
+        0x24: ["insertLineAbove"],              // Return
     ]
 
     // Ctrl+key → Cmd+key (simple modifier swap)
@@ -303,8 +304,8 @@ class GnomeShortcutHandler {
             }
 
             // Ctrl+Shift+key shortcuts (check before base Ctrl+key)
-            if hasShift, let id = Self.ctrlShiftMap[keyCode] {
-                if isEnabled(id) {
+            if hasShift, let ids = Self.ctrlShiftMap[keyCode] {
+                if ids.contains(where: { isEnabled($0) }) {
                     var newFlags = flags
                     newFlags.remove(.maskControl)
                     newFlags.insert(.maskCommand)
