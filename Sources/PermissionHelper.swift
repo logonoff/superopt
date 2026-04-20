@@ -33,7 +33,9 @@ class PermissionHelper {
 
         var missing: [String] = []
         if !AXIsProcessTrusted() { missing.append(NSLocalizedString("Accessibility", comment: "Permission name")) }
-        if !isInputMonitoringGranted() {
+        // IOHIDCheckAccess may report granted when inheriting terminal permissions,
+        // so also check if the event tap actually works
+        if !isInputMonitoringGranted() || (!hasEventTap() && AXIsProcessTrusted()) {
             missing.append(NSLocalizedString("Input Monitoring", comment: "Permission name"))
         }
         return missing
@@ -54,7 +56,10 @@ class PermissionHelper {
     }
 
     func requestPermissions() {
-        if AXIsProcessTrusted() && isInputMonitoringGranted() && hasEventTap() {
+        let needsAccessibility = !AXIsProcessTrusted()
+        let needsInputMonitoring = !isInputMonitoringGranted()
+
+        if !needsAccessibility && !needsInputMonitoring && hasEventTap() {
             let alert = NSAlert()
             alert.messageText = NSLocalizedString(
                 "Permissions Granted", comment: "Alert title when all permissions are granted")
@@ -62,36 +67,40 @@ class PermissionHelper {
                 "OptWin already has all required permissions.", comment: "Alert body when all permissions are granted")
             alert.alertStyle = .informational; alert.runModal(); return
         }
+
         let alert = NSAlert()
         alert.messageText = PermissionHelper.permissionsRequiredTitle
         alert.informativeText = formatPermissionsMessage(buildMissingPermissions())
         alert.alertStyle = .warning
-        alert.addButton(withTitle: PermissionHelper.openAccessibilityTitle)
-        alert.addButton(withTitle: PermissionHelper.openInputMonitoringTitle)
+        if needsAccessibility {
+            alert.addButton(withTitle: PermissionHelper.openAccessibilityTitle)
+        }
+        if needsInputMonitoring {
+            alert.addButton(withTitle: PermissionHelper.openInputMonitoringTitle)
+        }
         alert.addButton(withTitle: NSLocalizedString("Cancel", comment: "Cancel button"))
-        switch alert.runModal() {
-        case .alertFirstButtonReturn: openAccessibilityPrompt()
-        case .alertSecondButtonReturn: openInputMonitoring()
-        default: break
+
+        let response = alert.runModal()
+        var buttonIndex = 0
+        if needsAccessibility {
+            if response == NSApplication.ModalResponse(rawValue: 1000 + buttonIndex) {
+                openAccessibilityPrompt(); return
+            }
+            buttonIndex += 1
+        }
+        if needsInputMonitoring {
+            if response == NSApplication.ModalResponse(rawValue: 1000 + buttonIndex) {
+                openInputMonitoring(); return
+            }
         }
     }
 
-    // swiftlint:disable:next cyclomatic_complexity
+    // swiftlint:disable:next cyclomatic_complexity function_body_length
     func showPermissionLoop() {
-        let alert = NSAlert()
-        alert.alertStyle = .warning
-        alert.addButton(withTitle: NSLocalizedString(
-            "Continue", comment: "Button to retry after granting permissions"))
-            .keyEquivalent = "\r"
-        alert.addButton(withTitle: PermissionHelper.openAccessibilityTitle)
-        alert.addButton(withTitle: PermissionHelper.openInputMonitoringTitle)
-        alert.addButton(withTitle: NSLocalizedString("Quit", comment: "Button to quit the app"))
-
         let permissionTimer = Timer(timeInterval: 1.0, repeats: true) { [weak self] timer in
             guard let self = self else { timer.invalidate(); return }
             if AXIsProcessTrusted() && self.isInputMonitoringGranted() && self.trySetupEventTap() {
                 timer.invalidate()
-                alert.window.orderOut(nil)
                 NSApplication.shared.abortModal()
             }
         }
@@ -99,12 +108,27 @@ class PermissionHelper {
 
         while true {
             let missing = buildMissingPermissions()
-            if missing.isEmpty && trySetupEventTap() { alert.window.orderOut(nil); break }
+            if missing.isEmpty && trySetupEventTap() { break }
 
+            let needsAccessibility = !AXIsProcessTrusted()
+            let needsInputMonitoring = !isInputMonitoringGranted()
+
+            let alert = NSAlert()
+            alert.alertStyle = .warning
             alert.messageText = PermissionHelper.permissionsRequiredTitle
             alert.informativeText = formatPermissionsMessage(missing)
 
-            // Reposition after runModal centers the alert, to avoid overlapping the system prompt
+            alert.addButton(withTitle: NSLocalizedString(
+                "Continue", comment: "Button to retry after granting permissions"))
+                .keyEquivalent = "\r"
+            if needsAccessibility {
+                alert.addButton(withTitle: PermissionHelper.openAccessibilityTitle)
+            }
+            if needsInputMonitoring {
+                alert.addButton(withTitle: PermissionHelper.openInputMonitoringTitle)
+            }
+            alert.addButton(withTitle: NSLocalizedString("Quit", comment: "Button to quit the app"))
+
             DispatchQueue.main.async {
                 if let screen = NSScreen.main {
                     let originX = screen.frame.maxX - alert.window.frame.width - 40
@@ -114,22 +138,31 @@ class PermissionHelper {
             }
 
             let response = alert.runModal()
-            if response == .abort {
-                break // auto-dismissed by timer — permissions granted
+            alert.window.orderOut(nil)
+
+            if response == .abort { break }
+
+            // Button indices shift depending on which permissions are missing
+            var buttonIndex = 1
+            if needsAccessibility {
+                if response == NSApplication.ModalResponse(rawValue: 1000 + buttonIndex) {
+                    openAccessibilityPrompt(); continue
+                }
+                buttonIndex += 1
             }
-            switch response {
-            case .alertFirstButtonReturn:
-                if trySetupEventTap() { alert.window.orderOut(nil); break }
-            case .alertSecondButtonReturn:
-                alert.window.orderOut(nil)
-                openAccessibilityPrompt()
-            case .alertThirdButtonReturn:
-                alert.window.orderOut(nil)
-                openInputMonitoring()
-            default:
+            if needsInputMonitoring {
+                if response == NSApplication.ModalResponse(rawValue: 1000 + buttonIndex) {
+                    openInputMonitoring(); continue
+                }
+                buttonIndex += 1
+            }
+            // Last button is always Quit
+            if response == NSApplication.ModalResponse(rawValue: 1000 + buttonIndex) {
                 permissionTimer.invalidate()
                 NSApplication.shared.terminate(nil); return
             }
+            // Continue button (alertFirstButtonReturn = 1000)
+            if trySetupEventTap() { break }
         }
         permissionTimer.invalidate()
     }
