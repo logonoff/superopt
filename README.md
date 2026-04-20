@@ -13,6 +13,7 @@ A tiny macOS menu bar app that repurposes the Option key. Requires **macOS 26 (T
 - **Home/End** → Moves cursor to line start/end in text fields (Linux behavior)
 - **GNOME-style Shortcuts** → Remaps Linux/GNOME keyboard shortcuts to Mac equivalents (off by default). Includes Ctrl+C/V/X → ⌘C/V/X, Alt+F4 → close, F2 → rename in Finder, browser shortcuts (reload, DevTools, zoom, fullscreen), terminal Ctrl+Shift+C/V for copy/paste, and more. Each shortcut can be individually toggled.
 - **Cut & Paste Files** → Ctrl+X then Ctrl+V in Finder moves files instead of duplicating (off by default)
+- **Middle-click Paste** → Middle mouse button pastes from clipboard, X11-style (off by default)
 - **Dark Menu Bar** → Shows a black bar behind the transparent menu bar when a window fills the screen (off by default, requires "Show menu bar background" to be disabled in System Settings → Menu Bar as this replaces it)
 
 All features can be individually toggled on/off from the menu bar. Detection happens on key-up, so existing keyboard shortcuts using Option are unaffected.

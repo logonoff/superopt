@@ -10,6 +10,7 @@ struct SettingsView: View {
     @AppStorage("lockKeyOSDEnabled") var lockKeyOSD = true
     @AppStorage("homeEndRemapEnabled") var homeEndRemap = true
     @AppStorage("finderCutEnabled") var finderCut = false
+    @AppStorage("middleClickPasteEnabled") var middleClickPaste = false
     @AppStorage("gnomeShortcutsEnabled") var gnomeShortcuts = false
     @AppStorage("menuBarBgEnabled") var menuBarBg = false
     @AppStorage("SLSMenuBarUseBlurredAppearance") var systemMenuBarBgOn = false
@@ -75,6 +76,12 @@ struct SettingsView: View {
                     Text("⌃X then ⌃V moves files instead of duplicating")
                 }
                 .onChange(of: finderCut) { _, val in notify("finderCutEnabled", val) }
+
+                Toggle(isOn: $middleClickPaste) {
+                    Text("Middle-click Paste")
+                    Text("Middle mouse button pastes from clipboard (X11-style)")
+                }
+                .onChange(of: middleClickPaste) { _, val in notify("middleClickPasteEnabled", val) }
 
                 Toggle(isOn: $gnomeShortcuts) {
                     Text("Ctrl → ⌘ Keyboard Shortcuts")
