@@ -165,6 +165,8 @@ extension GnomeShortcutHandler {
         GnomeShortcutDef(id: "selectAll", label: NSLocalizedString("Select All", comment: ""), from: "⌃A", to: "⌘A", category: general),
         GnomeShortcutDef(id: "find", label: NSLocalizedString("Find", comment: ""), from: "⌃F", to: "⌘F", category: general),
         GnomeShortcutDef(id: "lockScreen", label: NSLocalizedString("Lock Screen", comment: ""), from: "⌥L", to: "⌃⌘Q", category: general),
+        GnomeShortcutDef(id: "cmdEnter", label: NSLocalizedString("Run / Confirm", comment: ""), from: "⌃↩", to: "⌘↩", category: general),
+        GnomeShortcutDef(id: "hyperlink", label: NSLocalizedString("Insert Link", comment: ""), from: "⌃K", to: "⌘K", category: general),
 
         GnomeShortcutDef(id: "new", label: NSLocalizedString("New", comment: ""), from: "⌃N", to: "⌘N", category: file),
         GnomeShortcutDef(id: "save", label: NSLocalizedString("Save", comment: ""), from: "⌃S", to: "⌘S", category: file),
@@ -211,11 +213,9 @@ extension GnomeShortcutHandler {
         GnomeShortcutDef(id: "toggleComment", label: NSLocalizedString("Toggle Comment", comment: ""), from: "⌃/", to: "⌘/", category: codeEditor),
         GnomeShortcutDef(id: "indent", label: NSLocalizedString("Indent", comment: ""), from: "⌃]", to: "⌘]", category: codeEditor),
         GnomeShortcutDef(id: "outdent", label: NSLocalizedString("Outdent", comment: ""), from: "⌃[", to: "⌘[", category: codeEditor),
-        GnomeShortcutDef(id: "cmdEnter", label: NSLocalizedString("Run / Confirm", comment: ""), from: "⌃↩", to: "⌘↩", category: codeEditor),
         GnomeShortcutDef(id: "commandPalette", label: NSLocalizedString("Command Palette", comment: ""), from: "⌃⇧P", to: "⌘⇧P", category: codeEditor),
         GnomeShortcutDef(id: "deleteLine", label: NSLocalizedString("Delete Line", comment: ""), from: "⌃⇧K", to: "⌘⇧K", category: codeEditor),
         GnomeShortcutDef(id: "insertLineAbove", label: NSLocalizedString("Insert Line Above", comment: ""), from: "⌃⇧↩", to: "⌘⇧↩", category: codeEditor),
-        GnomeShortcutDef(id: "hyperlink", label: NSLocalizedString("Insert Link", comment: ""), from: "⌃K", to: "⌘K", category: codeEditor),
         GnomeShortcutDef(id: "duplicate", label: NSLocalizedString("Duplicate", comment: ""), from: "⌃D", to: "⌘D", category: codeEditor),
         GnomeShortcutDef(id: "searchSelection", label: NSLocalizedString("Search Selection", comment: ""), from: "⌃E", to: "⌘E", category: codeEditor),
         GnomeShortcutDef(id: "findReplace", label: NSLocalizedString("Find and Replace", comment: ""), from: "⌃H", to: "⌘⌥F", category: codeEditor)
