@@ -16,8 +16,8 @@ class FinderCutHandler {
               !flags.contains(.maskAlternate),
               !flags.contains(.maskShift),
               !flags.contains(.maskCommand),
-              Self.isFinderApp(),
-              !Self.isFocusedOnTextField()
+              KeyboardUtils.isFinderApp(),
+              !KeyboardUtils.isFocusedOnTextField()
         else {
             return false
         }
@@ -27,7 +27,7 @@ class FinderCutHandler {
             var newFlags = flags
             newFlags.remove(.maskControl)
             newFlags.insert(.maskCommand)
-            postKey(Self.keyC, flags: newFlags)
+            KeyboardUtils.postKey(Self.keyC, flags: newFlags)
             cutPending = true
             return true
         }
@@ -37,7 +37,7 @@ class FinderCutHandler {
             var newFlags = flags
             newFlags.remove(.maskControl)
             newFlags.insert([.maskCommand, .maskAlternate])
-            postKey(Self.keyV, flags: newFlags)
+            KeyboardUtils.postKey(Self.keyV, flags: newFlags)
             cutPending = false
             return true
         }
@@ -48,41 +48,5 @@ class FinderCutHandler {
         }
 
         return false
-    }
-
-    private func postKey(_ keyCode: Int64, flags: CGEventFlags) {
-        let src = CGEventSource(stateID: .hidSystemState)
-        guard let down = CGEvent(keyboardEventSource: src, virtualKey: CGKeyCode(keyCode), keyDown: true),
-              let up = CGEvent(keyboardEventSource: src, virtualKey: CGKeyCode(keyCode), keyDown: false)
-        else { return }
-        down.flags = flags
-        up.flags = flags
-        down.post(tap: .cgSessionEventTap)
-        up.post(tap: .cgSessionEventTap)
-    }
-
-    private static func isFinderApp() -> Bool {
-        NSWorkspace.shared.frontmostApplication?.bundleIdentifier == "com.apple.finder"
-    }
-
-    private static func isFocusedOnTextField() -> Bool {
-        let systemWide = AXUIElementCreateSystemWide()
-        var focusedElement: AnyObject?
-        let result = AXUIElementCopyAttributeValue(
-            systemWide, kAXFocusedUIElementAttribute as CFString, &focusedElement)
-        guard result == .success,
-              let element = focusedElement,
-              CFGetTypeID(element) == AXUIElementGetTypeID()
-        else { return false }
-
-        let axElement = element as! AXUIElement
-        var roleValue: AnyObject?
-        AXUIElementCopyAttributeValue(axElement, kAXRoleAttribute as CFString, &roleValue)
-        guard let role = roleValue as? String else { return false }
-
-        let textRoles: Set<String> = [
-            kAXTextFieldRole, kAXTextAreaRole, kAXComboBoxRole, "AXSearchField",
-        ]
-        return textRoles.contains(role)
     }
 }

@@ -1,0 +1,24 @@
+{
+    "configurations": [
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:opt-win}",
+            "name": "Debug OptWin",
+            "target": "OptWin",
+            "configuration": "debug",
+            "preLaunchTask": "swift: Build Debug OptWin"
+        },
+        {
+            "type": "swift",
+            "request": "launch",
+            "args": [],
+            "cwd": "${workspaceFolder:opt-win}",
+            "name": "Release OptWin",
+            "target": "OptWin",
+            "configuration": "release",
+            "preLaunchTask": "swift: Build Release OptWin"
+        }
+    ]
+}

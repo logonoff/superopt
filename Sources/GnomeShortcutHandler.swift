@@ -87,16 +87,6 @@ class GnomeShortcutHandler {
 
     // MARK: - Terminal detection
 
-    private static let terminalBundleIDs: Set<String> = [
-        "com.apple.Terminal",
-        "com.googlecode.iterm2",
-        "io.alacritty",
-        "com.mitchellh.ghostty",
-        "net.kovidgoyal.kitty",
-        "co.zeit.hyper",
-        "dev.warp.Warp-Stable",
-    ]
-
     private static let terminalPassthroughKeys: Set<Int64> = [
         0x08, // C - interrupt
         0x02, // D - EOF
@@ -207,7 +197,7 @@ class GnomeShortcutHandler {
 
         if hasCommand { return false }
 
-        let isTerminal = Self.isTerminalApp()
+        let isTerminal = KeyboardUtils.isTerminalApp()
 
         // --- Ctrl+key remaps ---
         if hasControl && !hasOption {
@@ -218,7 +208,7 @@ class GnomeShortcutHandler {
                 var newFlags = flags
                 newFlags.remove([.maskControl, .maskShift])
                 newFlags.insert(.maskCommand)
-                postKey(keyCode, flags: newFlags)
+                KeyboardUtils.postKey(keyCode, flags: newFlags)
                 return true
             }
 
@@ -234,7 +224,7 @@ class GnomeShortcutHandler {
                 var newFlags = flags
                 newFlags.remove(.maskControl)
                 newFlags.insert([.maskCommand, .maskShift])
-                postKey(Self.keyZ, flags: newFlags)
+                KeyboardUtils.postKey(Self.keyZ, flags: newFlags)
                 return true
             }
 
@@ -243,7 +233,7 @@ class GnomeShortcutHandler {
                 var newFlags = flags
                 newFlags.remove(.maskControl)
                 newFlags.insert(.maskAlternate)
-                postKey(Self.keyDelete, flags: newFlags)
+                KeyboardUtils.postKey(Self.keyDelete, flags: newFlags)
                 return true
             }
 
@@ -252,7 +242,7 @@ class GnomeShortcutHandler {
                 var newFlags = flags
                 newFlags.remove(.maskControl)
                 newFlags.insert(.maskAlternate)
-                postKey(Self.keyForwardDelete, flags: newFlags)
+                KeyboardUtils.postKey(Self.keyForwardDelete, flags: newFlags)
                 return true
             }
 
@@ -261,7 +251,7 @@ class GnomeShortcutHandler {
                 var newFlags = flags
                 newFlags.remove(.maskControl)
                 newFlags.insert(.maskAlternate)
-                postKey(keyCode, flags: newFlags)
+                KeyboardUtils.postKey(keyCode, flags: newFlags)
                 return true
             }
 
@@ -270,7 +260,7 @@ class GnomeShortcutHandler {
                 var newFlags = flags
                 newFlags.remove(.maskControl)
                 newFlags.insert(.maskAlternate)
-                postKey(keyCode, flags: newFlags)
+                KeyboardUtils.postKey(keyCode, flags: newFlags)
                 return true
             }
 
@@ -279,7 +269,7 @@ class GnomeShortcutHandler {
                 var newFlags = flags
                 newFlags.remove([.maskControl, .maskShift])
                 newFlags.insert([.maskCommand, .maskAlternate])
-                postKey(Self.keyI, flags: newFlags)
+                KeyboardUtils.postKey(Self.keyI, flags: newFlags)
                 return true
             }
 
@@ -288,7 +278,7 @@ class GnomeShortcutHandler {
                 var newFlags = flags
                 newFlags.remove(.maskControl)
                 newFlags.insert(.maskCommand)
-                postKey(Self.keyY, flags: newFlags)
+                KeyboardUtils.postKey(Self.keyY, flags: newFlags)
                 return true
             }
 
@@ -298,7 +288,7 @@ class GnomeShortcutHandler {
                     var newFlags = flags
                     newFlags.remove(.maskControl)
                     newFlags.insert(.maskCommand)
-                    postKey(keyCode, flags: newFlags)
+                    KeyboardUtils.postKey(keyCode, flags: newFlags)
                     return true
                 }
                 return false
@@ -309,7 +299,7 @@ class GnomeShortcutHandler {
                 var newFlags = flags
                 newFlags.remove(.maskControl)
                 newFlags.insert(.maskCommand)
-                postKey(keyCode, flags: newFlags)
+                KeyboardUtils.postKey(keyCode, flags: newFlags)
                 return true
             }
         }
@@ -321,7 +311,7 @@ class GnomeShortcutHandler {
                 var newFlags = flags
                 newFlags.remove(.maskAlternate)
                 newFlags.insert(.maskCommand)
-                postKey(Self.keyW, flags: newFlags)
+                KeyboardUtils.postKey(Self.keyW, flags: newFlags)
                 return true
             }
 
@@ -330,7 +320,7 @@ class GnomeShortcutHandler {
                 var newFlags = flags
                 newFlags.remove(.maskAlternate)
                 newFlags.insert(.maskCommand)
-                postKey(Self.keyI, flags: newFlags)
+                KeyboardUtils.postKey(Self.keyI, flags: newFlags)
                 return true
             }
 
@@ -339,7 +329,7 @@ class GnomeShortcutHandler {
                 var newFlags = flags
                 newFlags.remove(.maskAlternate)
                 newFlags.insert([.maskCommand, .maskControl])
-                postKey(Self.keyQ, flags: newFlags)
+                KeyboardUtils.postKey(Self.keyQ, flags: newFlags)
                 return true
             }
         }
@@ -349,22 +339,22 @@ class GnomeShortcutHandler {
             // Forward Delete → Cmd+Backspace (Move to Trash in Finder)
             if keyCode == Self.keyForwardDelete
                 && isEnabled("finderDelete")
-                && Self.isFinderApp()
-                && !Self.isFocusedOnTextField()
+                && KeyboardUtils.isFinderApp()
+                && !KeyboardUtils.isFocusedOnTextField()
             {
                 var newFlags = flags
                 newFlags.insert(.maskCommand)
-                postKey(Self.keyDelete, flags: newFlags)
+                KeyboardUtils.postKey(Self.keyDelete, flags: newFlags)
                 return true
             }
 
             // F2 → Return (Rename in Finder)
             if keyCode == Self.keyF2
                 && isEnabled("rename")
-                && Self.isFinderApp()
-                && !Self.isFocusedOnTextField()
+                && KeyboardUtils.isFinderApp()
+                && !KeyboardUtils.isFocusedOnTextField()
             {
-                postKey(Self.keyReturn, flags: flags)
+                KeyboardUtils.postKey(Self.keyReturn, flags: flags)
                 return true
             }
 
@@ -372,7 +362,7 @@ class GnomeShortcutHandler {
             if keyCode == Self.keyF11 && isEnabled("fullscreen") {
                 var newFlags = flags
                 newFlags.insert([.maskCommand, .maskControl])
-                postKey(Self.keyF, flags: newFlags)
+                KeyboardUtils.postKey(Self.keyF, flags: newFlags)
                 return true
             }
 
@@ -380,7 +370,7 @@ class GnomeShortcutHandler {
             if keyCode == Self.keyF12 && isEnabled("devToolsF12") {
                 var newFlags = flags
                 newFlags.insert([.maskCommand, .maskAlternate])
-                postKey(Self.keyI, flags: newFlags)
+                KeyboardUtils.postKey(Self.keyI, flags: newFlags)
                 return true
             }
         }
@@ -388,46 +378,4 @@ class GnomeShortcutHandler {
         return false
     }
 
-    private func postKey(_ keyCode: Int64, flags: CGEventFlags) {
-        let src = CGEventSource(stateID: .hidSystemState)
-        guard let down = CGEvent(keyboardEventSource: src, virtualKey: CGKeyCode(keyCode), keyDown: true),
-              let up = CGEvent(keyboardEventSource: src, virtualKey: CGKeyCode(keyCode), keyDown: false)
-        else { return }
-        down.flags = flags
-        up.flags = flags
-        down.post(tap: .cgSessionEventTap)
-        up.post(tap: .cgSessionEventTap)
-    }
-
-    private static func isTerminalApp() -> Bool {
-        guard let bundleID = NSWorkspace.shared.frontmostApplication?.bundleIdentifier else {
-            return false
-        }
-        return terminalBundleIDs.contains(bundleID)
-    }
-
-    private static func isFinderApp() -> Bool {
-        NSWorkspace.shared.frontmostApplication?.bundleIdentifier == "com.apple.finder"
-    }
-
-    private static func isFocusedOnTextField() -> Bool {
-        let systemWide = AXUIElementCreateSystemWide()
-        var focusedElement: AnyObject?
-        let result = AXUIElementCopyAttributeValue(
-            systemWide, kAXFocusedUIElementAttribute as CFString, &focusedElement)
-        guard result == .success,
-              let element = focusedElement,
-              CFGetTypeID(element) == AXUIElementGetTypeID()
-        else { return false }
-
-        let axElement = element as! AXUIElement
-        var roleValue: AnyObject?
-        AXUIElementCopyAttributeValue(axElement, kAXRoleAttribute as CFString, &roleValue)
-        guard let role = roleValue as? String else { return false }
-
-        let textRoles: Set<String> = [
-            kAXTextFieldRole, kAXTextAreaRole, kAXComboBoxRole, "AXSearchField",
-        ]
-        return textRoles.contains(role)
-    }
 }

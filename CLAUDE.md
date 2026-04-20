@@ -42,6 +42,7 @@ Single-target Swift app compiled with `swiftc` (no Xcode project, no SPM). All s
 | `MiddleClickPasteHandler.swift` | X11-style middle-click paste. Intercepts middle mouse button (button 2) on `otherMouseDown`, posts ⌘V, and consumes the event. Own UserDefaults key (`middleClickPasteEnabled`). |
 | `ZoomButtonHandler.swift` | Green button fill-window. Detects clicks on `AXFullScreenButton`/`AXZoomButton` via `AXUIElementCopyElementAtPosition`, traverses to parent `AXWindow`, and toggles between filling the visible screen and restoring the saved frame via `AXPosition`/`AXSize`. Stores pre-zoom frames keyed by PID + title. Own UserDefaults key (`zoomButtonEnabled`). |
 | `GnomeShortcutSettings.swift` | `ObservableObject` managing per-shortcut enabled/disabled state. Stores disabled shortcut IDs in `gnomeDisabledShortcuts` UserDefaults array. Provides `Binding<Bool>` per shortcut for SwiftUI toggles. |
+| `KeyboardUtils.swift` | Shared utilities: `postKey` (CGEvent key synthesis), `isTerminalApp`/`isFinderApp` (bundle ID checks), `isFocusedOnTextField` (Accessibility API role check), `terminalBundleIDs` set. Used by HomeEndHandler, GnomeShortcutHandler, and FinderCutHandler. |
 | `MenuBarBackground.swift` | Shows a black bar behind the menu bar when a window fills the screen. Uses `CGWindowListCopyWindowInfo` to detect filled screens. `UnconstrainedWindow` subclass bypasses menu bar frame constraints. |
 
 ## Build & Install
@@ -52,7 +53,7 @@ Single-target Swift app compiled with `swiftc` (no Xcode project, no SPM). All s
 ./install.sh --run # install and launch
 ```
 
-No Xcode project — just `swiftc` with `-framework Cocoa`. Build script at `build.sh`. Version is stamped into `Info.plist` at build time via `git describe --tags --dirty --always`. If `actool` is available (requires full Xcode, not just CLT), the Liquid Glass icon from `icon.icon` is compiled into `Assets.car` and bundled; otherwise the icon step is skipped.
+No Xcode project — just `swiftc` with `-framework Cocoa`. Build script at `build.sh`. A `Package.swift` exists for IDE support (symbol resolution across files) but is not used for production builds. Version is stamped into `Info.plist` at build time via `git describe --tags --dirty --always`. If `actool` is available (requires full Xcode, not just CLT), the Liquid Glass icon from `icon.icon` is compiled into `Assets.car` and bundled; otherwise the icon step is skipped.
 
 ## Localization
 
