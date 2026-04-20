@@ -40,6 +40,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private let scrollZoomHandler = ScrollZoomHandler()
     private let menuBarBackground = MenuBarBackground()
     private let settingsWindow = SettingsWindowController()
+    private let permissionHelper = PermissionHelper()
     private var lastCapsLockState = false
 
     // MARK: - Preferences
@@ -108,8 +109,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         setupStatusItem()
 
+        permissionHelper.hasEventTap = { [weak self] in self?.eventTap != nil }
+        permissionHelper.trySetupEventTap = { [weak self] in self?.setupEventTap() ?? false }
+
         if !setupEventTap() {
-            showAccessibilityAlertLoop()
+            permissionHelper.showPermissionLoop()
         }
     }
     // MARK: - Event Tap
@@ -186,6 +190,10 @@ extension AppDelegate {
         let quitTitle = NSLocalizedString("Quit OptWin", comment: "Menu item to quit the app")
         menu.addItem(NSMenuItem(title: quitTitle, action: #selector(quit), keyEquivalent: "q"))
         statusItem.menu = menu
+    }
+
+    @objc func requestPermissions() {
+        permissionHelper.requestPermissions()
     }
 
     @objc private func openSettings() {
@@ -300,92 +308,5 @@ extension AppDelegate {
         }
         optionKeyHandler.markOtherInput()
         return false
-    }
-}
-
-// MARK: - Permission Alerts
-extension AppDelegate {
-    private static let inputMonitoringURL =
-        "x-apple.systempreferences:com.apple.preference.security?Privacy_ListenEvent"
-
-    private static var openAccessibilityTitle: String {
-        NSLocalizedString("Open Accessibility", comment: "Button to open Accessibility preferences")
-    }
-    private static var openInputMonitoringTitle: String {
-        NSLocalizedString("Open Input Monitoring", comment: "Button to open Input Monitoring preferences")
-    }
-    private static var permissionsRequiredTitle: String {
-        NSLocalizedString("Permissions Required", comment: "Alert title for missing permissions")
-    }
-
-    private func buildMissingPermissions() -> [String] {
-        var missing: [String] = []
-        if !AXIsProcessTrusted() { missing.append(NSLocalizedString("Accessibility", comment: "Permission name")) }
-        if eventTap == nil { missing.append(NSLocalizedString("Input Monitoring", comment: "Permission name")) }
-        return missing
-    }
-
-    private func formatPermissionsMessage(_ missing: [String]) -> String {
-        // swiftlint:disable:next line_length
-        let format = NSLocalizedString("OptWin needs the following permissions:\n\n%@\n\nGrant access in System Settings → Privacy & Security, then click Continue. If you recently updated OptWin, you may need to remove and re-add it in each permission list.", comment: "Alert body for missing permissions — %@ is the list of missing permissions")
-        return String(format: format, missing.joined(separator: ", "))
-    }
-
-    private func openAccessibilityPrompt() {
-        AXIsProcessTrustedWithOptions([kAXTrustedCheckOptionPrompt.takeUnretainedValue(): true] as CFDictionary)
-    }
-
-    private func openInputMonitoring() {
-        if let url = URL(string: AppDelegate.inputMonitoringURL) { NSWorkspace.shared.open(url) }
-    }
-
-    @objc func requestPermissions() {
-        if AXIsProcessTrusted() && eventTap != nil {
-            let alert = NSAlert()
-            alert.messageText = NSLocalizedString(
-                "Permissions Granted", comment: "Alert title when all permissions are granted")
-            alert.informativeText = NSLocalizedString(
-                "OptWin already has all required permissions.", comment: "Alert body when all permissions are granted")
-            alert.alertStyle = .informational; alert.runModal(); return
-        }
-        let alert = NSAlert()
-        alert.messageText = AppDelegate.permissionsRequiredTitle
-        alert.informativeText = formatPermissionsMessage(buildMissingPermissions())
-        alert.alertStyle = .warning
-        alert.addButton(withTitle: AppDelegate.openAccessibilityTitle)
-        alert.addButton(withTitle: AppDelegate.openInputMonitoringTitle)
-        alert.addButton(withTitle: NSLocalizedString("Cancel", comment: "Cancel button"))
-        switch alert.runModal() {
-        case .alertFirstButtonReturn: openAccessibilityPrompt()
-        case .alertSecondButtonReturn: openInputMonitoring()
-        default: break
-        }
-    }
-
-    fileprivate func showAccessibilityAlertLoop() {
-        let alert = NSAlert()
-        alert.alertStyle = .warning
-        alert.addButton(withTitle: NSLocalizedString(
-            "Continue", comment: "Button to retry after granting permissions"))
-            .keyEquivalent = "\r"
-        alert.addButton(withTitle: AppDelegate.openAccessibilityTitle)
-        alert.addButton(withTitle: AppDelegate.openInputMonitoringTitle)
-        alert.addButton(withTitle: NSLocalizedString("Quit", comment: "Button to quit the app"))
-
-        while true {
-            let missing = buildMissingPermissions()
-            if missing.isEmpty && setupEventTap() { alert.window.orderOut(nil); break }
-
-            alert.messageText = AppDelegate.permissionsRequiredTitle
-            alert.informativeText = formatPermissionsMessage(missing)
-
-            switch alert.runModal() {
-            case .alertFirstButtonReturn:
-                if setupEventTap() { alert.window.orderOut(nil); break }
-            case .alertSecondButtonReturn: openAccessibilityPrompt()
-            case .alertThirdButtonReturn: openInputMonitoring()
-            default: NSApplication.shared.terminate(nil); return
-            }
-        }
     }
 }

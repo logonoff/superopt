@@ -218,7 +218,7 @@
 "OptWin already has all required permissions." = "OptWin already has all required permissions.";
 
 /* Alert body for missing permissions — %@ is the list of missing permissions */
-"OptWin needs the following permissions:\n\n%@\n\nGrant access in System Settings → Privacy & Security, then click Continue. If you recently updated OptWin, you may need to remove and re-add it in each permission list." = "OptWin needs the following permissions:\n\n%@\n\nGrant access in System Settings → Privacy & Security, then click Continue. If you recently updated OptWin, you may need to remove and re-add it in each permission list.";
+"OptWin needs the following permissions:\n\n%@\n\nGrant access in System Settings → Privacy & Security, then click Continue.\n\nIf you recently updated OptWin, you may need to remove and re-add it in each permission list." = "OptWin needs the following permissions:\n\n%@\n\nGrant access in System Settings → Privacy & Security, then click Continue.\n\nIf you recently updated OptWin, you may need to remove and re-add it in each permission list.";
 
 /* Settings window title */
 "OptWin Settings" = "OptWin Settings";
