@@ -54,6 +54,15 @@ Single-target Swift app compiled with `swiftc` (no Xcode project, no SPM). All s
 
 No Xcode project — just `swiftc` with `-framework Cocoa`. Build script at `build.sh`. Version is stamped into `Info.plist` at build time via `git describe --tags --dirty --always`. If `actool` is available (requires full Xcode, not just CLT), the Liquid Glass icon from `icon.icon` is compiled into `Assets.car` and bundled; otherwise the icon step is skipped.
 
+## Localization
+
+All user-visible strings are localizable. Non-SwiftUI strings (menu items, alerts, OSD text) use `NSLocalizedString()`. SwiftUI `Text("literal")` strings auto-resolve via `LocalizedStringKey`.
+
+- **Source strings**: `Locales/en.lproj/Localizable.strings` (UTF-8, checked into repo)
+- **Regenerating**: Delete `Locales/en.lproj/` and run `./build.sh` — it runs `genstrings` and converts from UTF-16 to UTF-8. SwiftUI `Text()` literals are covered by dummy `NSLocalizedString` calls at the top of `SettingsWindow.swift`.
+- **Adding a language**: Create `Locales/XX.lproj/Localizable.strings` (copy from `Locales/en.lproj/`, translate the right-hand values), then add a `cp -R XX.lproj "$APP_BUNDLE/Contents/Resources/"` line to `build.sh`
+- **Adding new strings**: For AppKit code, wrap in `NSLocalizedString("key", comment: "description")`. For SwiftUI `Text()` literals, also add a dummy `NSLocalizedString` call in the `_settingsStrings` block at the top of `SettingsWindow.swift` so `genstrings` extracts it.
+
 ## Key Implementation Details
 
 - **Event tap**: Active tap (`CGEventTapOptions.defaultTap`) on `cgSessionEventTap`. Monitors: `flagsChanged`, `keyDown`, mouse down events, `mouseMoved`. Re-enables itself on `tapDisabledByTimeout`. Only Opt+N keyDown events are consumed; all other events pass through unchanged.

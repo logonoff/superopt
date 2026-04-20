@@ -1,0 +1,309 @@
+/* No comment provided by engineer. */
+"%@" = "%@";
+
+/* Menu item to show about panel */
+"About OptWin" = "About OptWin";
+
+/* Permission name */
+"Accessibility" = "Accessibility";
+
+/* No comment provided by engineer. */
+"Address Bar" = "Address Bar";
+
+/* No comment provided by engineer. */
+"Bold" = "Bold";
+
+/* Shortcut category */
+"Browsers" = "Browsers";
+
+/* Cancel button */
+"Cancel" = "Cancel";
+
+/* No comment provided by engineer. */
+"Caps Lock OSD" = "Caps Lock OSD";
+
+/* No comment provided by engineer. */
+"Clicking the green button fills the window instead of entering full screen" = "Clicking the green button fills the window instead of entering full screen";
+
+/* No comment provided by engineer. */
+"Close Tab" = "Close Tab";
+
+/* No comment provided by engineer. */
+"Close Window" = "Close Window";
+
+/* Shortcut category */
+"Code Editor" = "Code Editor";
+
+/* No comment provided by engineer. */
+"Command Palette" = "Command Palette";
+
+/* Button to retry after granting permissions */
+"Continue" = "Continue";
+
+/* No comment provided by engineer. */
+"Copy" = "Copy";
+
+/* No comment provided by engineer. */
+"Ctrl → ⌘ Keyboard Shortcuts" = "Ctrl → ⌘ Keyboard Shortcuts";
+
+/* No comment provided by engineer. */
+"Cut" = "Cut";
+
+/* No comment provided by engineer. */
+"Cut & Paste Files in Finder" = "Cut & Paste Files in Finder";
+
+/* No comment provided by engineer. */
+"Dark Menu Bar" = "Dark Menu Bar";
+
+/* No comment provided by engineer. */
+"Delete Line" = "Delete Line";
+
+/* No comment provided by engineer. */
+"Delete Word" = "Delete Word";
+
+/* Section header */
+"Desktop" = "Desktop";
+
+/* No comment provided by engineer. */
+"Developer Tools" = "Developer Tools";
+
+/* No comment provided by engineer. */
+"Dock position assigned to Finder — other apps shift to fill" = "Dock position assigned to Finder — other apps shift to fill";
+
+/* No comment provided by engineer. */
+"Downloads" = "Downloads";
+
+/* No comment provided by engineer. */
+"Duplicate" = "Duplicate";
+
+/* No comment provided by engineer. */
+"Find" = "Find";
+
+/* Shortcut category */
+"Finder" = "Finder";
+
+/* No comment provided by engineer. */
+"Finder Position" = "Finder Position";
+
+/* No comment provided by engineer. */
+"Full Screen" = "Full Screen";
+
+/* No comment provided by engineer. */
+"Fwd Delete Word" = "Fwd Delete Word";
+
+/* Shortcut category */
+"General" = "General";
+
+/* About panel link text */
+"GitHub" = "GitHub";
+
+/* Section header */
+"GNOME-style Shortcuts" = "GNOME-style Shortcuts";
+
+/* No comment provided by engineer. */
+"Green Button Fills Window" = "Green Button Fills Window";
+
+/* No comment provided by engineer. */
+"Home and End keys move the cursor to the start or end of the line" = "Home and End keys move the cursor to the start or end of the line";
+
+/* No comment provided by engineer. */
+"Hot Corner" = "Hot Corner";
+
+/* No comment provided by engineer. */
+"Indent" = "Indent";
+
+/* Permission name */
+"Input Monitoring" = "Input Monitoring";
+
+/* No comment provided by engineer. */
+"Insert Line Above" = "Insert Line Above";
+
+/* No comment provided by engineer. */
+"Insert Link" = "Insert Link";
+
+/* Section header */
+"Keyboard" = "Keyboard";
+
+/* Menu item to toggle start at login */
+"Launch at Login" = "Launch at Login";
+
+/* About panel license text */
+"License: WTFPL v2" = "License: WTFPL v2";
+
+/* No comment provided by engineer. */
+"Lock Screen" = "Lock Screen";
+
+/* No comment provided by engineer. */
+"Middle mouse button pastes from the clipboard" = "Middle mouse button pastes from the clipboard";
+
+/* No comment provided by engineer. */
+"Middle-Click Paste" = "Middle-Click Paste";
+
+/* No comment provided by engineer. */
+"Move to Trash" = "Move to Trash";
+
+/* No comment provided by engineer. */
+"Moving the mouse to the top-left corner opens Mission Control" = "Moving the mouse to the top-left corner opens Mission Control";
+
+/* No comment provided by engineer. */
+"New" = "New";
+
+/* No comment provided by engineer. */
+"New Tab" = "New Tab";
+
+/* Button to open Accessibility preferences */
+"Open Accessibility" = "Open Accessibility";
+
+/* Button to open Input Monitoring preferences */
+"Open Input Monitoring" = "Open Input Monitoring";
+
+/* Button to open login items settings */
+"Open Login Items" = "Open Login Items";
+
+/* Alert body when all permissions are granted */
+"OptWin already has all required permissions." = "OptWin already has all required permissions.";
+
+/* Alert body for missing permissions — %@ is the list of missing permissions */
+"OptWin needs the following permissions:\n\n%@\n\nGrant access in System Settings → Privacy & Security, then click Continue. If you recently updated OptWin, you may need to remove and re-add it in each permission list." = "OptWin needs the following permissions:\n\n%@\n\nGrant access in System Settings → Privacy & Security, then click Continue. If you recently updated OptWin, you may need to remove and re-add it in each permission list.";
+
+/* Settings window title */
+"OptWin Settings" = "OptWin Settings";
+
+/* No comment provided by engineer. */
+"Outdent" = "Outdent";
+
+/* No comment provided by engineer. */
+"Paste" = "Paste";
+
+/* Alert title when all permissions are granted */
+"Permissions Granted" = "Permissions Granted";
+
+/* Alert title for missing permissions */
+"Permissions Required" = "Permissions Required";
+
+/* No comment provided by engineer. */
+"Print" = "Print";
+
+/* No comment provided by engineer. */
+"Properties" = "Properties";
+
+/* Button to quit the app */
+"Quit" = "Quit";
+
+/* Menu item to quit the app */
+"Quit OptWin" = "Quit OptWin";
+
+/* No comment provided by engineer. */
+"Redo" = "Redo";
+
+/* No comment provided by engineer. */
+"Reload" = "Reload";
+
+/* No comment provided by engineer. */
+"Remaps Ctrl+key to ⌘+key and other Linux-style shortcuts" = "Remaps Ctrl+key to ⌘+key and other Linux-style shortcuts";
+
+/* No comment provided by engineer. */
+"Rename" = "Rename";
+
+/* No comment provided by engineer. */
+"Reopen Tab" = "Reopen Tab";
+
+/* Menu item to check and request permissions */
+"Request Permissions..." = "Request Permissions...";
+
+/* No comment provided by engineer. */
+"Reset Zoom" = "Reset Zoom";
+
+/* No comment provided by engineer. */
+"Run / Confirm" = "Run / Confirm";
+
+/* No comment provided by engineer. */
+"Save" = "Save";
+
+/* No comment provided by engineer. */
+"Search Selection" = "Search Selection";
+
+/* No comment provided by engineer. */
+"Select All" = "Select All";
+
+/* No comment provided by engineer. */
+"Settings" = "Settings";
+
+/* Menu item to open settings window */
+"Settings..." = "Settings...";
+
+/* No comment provided by engineer. */
+"Shows a black bar behind the menu bar when a window fills the screen" = "Shows a black bar behind the menu bar when a window fills the screen";
+
+/* No comment provided by engineer. */
+"Shows an on-screen notification when Caps Lock is toggled" = "Shows an on-screen notification when Caps Lock is toggled";
+
+/* Shortcut category */
+"Tabs & Windows" = "Tabs & Windows";
+
+/* Shortcut category */
+"Terminal" = "Terminal";
+
+/* Shortcut category */
+"Text Editing" = "Text Editing";
+
+/* No comment provided by engineer. */
+"Toggle Comment" = "Toggle Comment";
+
+/* No comment provided by engineer. */
+"Turn off Show Menu Bar Background in System Settings to use this" = "Turn off Show Menu Bar Background in System Settings to use this";
+
+/* Alert title when login item registration fails */
+"Unable to update login item" = "Unable to update login item";
+
+/* No comment provided by engineer. */
+"Underline" = "Underline";
+
+/* No comment provided by engineer. */
+"Undo" = "Undo";
+
+/* No comment provided by engineer. */
+"View History" = "View History";
+
+/* No comment provided by engineer. */
+"View Source" = "View Source";
+
+/* No comment provided by engineer. */
+"Word Left" = "Word Left";
+
+/* No comment provided by engineer. */
+"Word Right" = "Word Right";
+
+/* Alert body directing user to login items settings */
+"You can manage login items in System Settings → General → Login Items." = "You can manage login items in System Settings → General → Login Items.";
+
+/* No comment provided by engineer. */
+"Zoom In" = "Zoom In";
+
+/* No comment provided by engineer. */
+"Zoom Out" = "Zoom Out";
+
+/* No comment provided by engineer. */
+"↖/↘ → Line Start/End" = "↖/↘ → Line Start/End";
+
+/* OSD text when Caps Lock is disabled */
+"⇪ Caps Lock Off" = "⇪ Caps Lock Off";
+
+/* OSD text when Caps Lock is enabled */
+"⇪ Caps Lock On" = "⇪ Caps Lock On";
+
+/* No comment provided by engineer. */
+"⌃X copies files for moving, ⌃V moves them to the current folder" = "⌃X copies files for moving, ⌃V moves them to the current folder";
+
+/* Toggle label */
+"⌥ → Mission Control" = "⌥ → Mission Control";
+
+/* Toggle label */
+"⌥+N → Dock App" = "⌥+N → Dock App";
+
+/* Toggle label */
+"⌥⌥ → Apps" = "⌥⌥ → Apps";
+
+/* No comment provided by engineer. */
+"▸" = "▸";
+

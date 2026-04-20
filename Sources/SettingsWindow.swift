@@ -1,6 +1,16 @@
 import Cocoa
 import SwiftUI
 
+// genstrings -SwiftUI only extracts Text(); Section/Toggle string labels need manual entries
+private let _extraStrings = [
+    NSLocalizedString("Desktop", comment: "Section header"),
+    NSLocalizedString("Keyboard", comment: "Section header"),
+    NSLocalizedString("GNOME-style Shortcuts", comment: "Section header"),
+    NSLocalizedString("⌥ → Mission Control", comment: "Toggle label"),
+    NSLocalizedString("⌥⌥ → Apps", comment: "Toggle label"),
+    NSLocalizedString("⌥+N → Dock App", comment: "Toggle label"),
+]
+
 struct SettingsView: View {
     @AppStorage("optSingleEnabled") var optSingle = true
     @AppStorage("optDoubleEnabled") var optDouble = true
@@ -192,7 +202,7 @@ class SettingsWindowController: NSObject {
             backing: .buffered,
             defer: false
         )
-        window.title = "OptWin Settings"
+        window.title = NSLocalizedString("OptWin Settings", comment: "Settings window title")
         window.center()
         window.isReleasedWhenClosed = false
         window.minSize = NSSize(width: 420, height: 400)

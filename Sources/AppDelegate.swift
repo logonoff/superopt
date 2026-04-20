@@ -121,14 +121,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         let menu = NSMenu()
-        menu.addItem(NSMenuItem(title: "Settings...", action: #selector(openSettings), keyEquivalent: ","))
-        menu.addItem(NSMenuItem(title: "Request Permissions...", action: #selector(requestPermissions), keyEquivalent: ""))
-        let launchItem = NSMenuItem(title: "Launch at Login", action: #selector(toggleLaunchAtLogin), keyEquivalent: "")
+        menu.addItem(NSMenuItem(title: NSLocalizedString("Settings...", comment: "Menu item to open settings window"), action: #selector(openSettings), keyEquivalent: ","))
+        menu.addItem(NSMenuItem(title: NSLocalizedString("Request Permissions...", comment: "Menu item to check and request permissions"), action: #selector(requestPermissions), keyEquivalent: ""))
+        let launchItem = NSMenuItem(title: NSLocalizedString("Launch at Login", comment: "Menu item to toggle start at login"), action: #selector(toggleLaunchAtLogin), keyEquivalent: "")
         launchItem.state = SMAppService.mainApp.status == .enabled ? .on : .off
         menu.addItem(launchItem)
-        menu.addItem(NSMenuItem(title: "About OptWin", action: #selector(showAbout), keyEquivalent: ""))
+        menu.addItem(NSMenuItem(title: NSLocalizedString("About OptWin", comment: "Menu item to show about panel"), action: #selector(showAbout), keyEquivalent: ""))
         menu.addItem(NSMenuItem.separator())
-        menu.addItem(NSMenuItem(title: "Quit OptWin", action: #selector(quit), keyEquivalent: "q"))
+        menu.addItem(NSMenuItem(title: NSLocalizedString("Quit OptWin", comment: "Menu item to quit the app"), action: #selector(quit), keyEquivalent: "q"))
         statusItem.menu = menu
     }
 
@@ -144,31 +144,28 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         if trusted && hasEventTap {
             let alert = NSAlert()
-            alert.messageText = "Permissions Granted"
-            alert.informativeText = "OptWin already has all required permissions."
+            alert.messageText = NSLocalizedString("Permissions Granted", comment: "Alert title when all permissions are granted")
+            alert.informativeText = NSLocalizedString("OptWin already has all required permissions.", comment: "Alert body when all permissions are granted")
             alert.alertStyle = .informational
             alert.runModal()
             return
         }
 
         var missing: [String] = []
-        if !trusted { missing.append("Accessibility") }
-        if !hasEventTap { missing.append("Input Monitoring") }
+        if !trusted { missing.append(NSLocalizedString("Accessibility", comment: "Permission name")) }
+        if !hasEventTap { missing.append(NSLocalizedString("Input Monitoring", comment: "Permission name")) }
 
         let alert = NSAlert()
-        alert.messageText = "Permissions Required"
-        alert.informativeText = """
-            OptWin needs the following permissions:
-
-            \(missing.joined(separator: ", "))
-
-            After granting, restart OptWin for changes to take effect. \
-            If you recently updated OptWin, you may need to remove and re-add it in each permission list.
-            """
+        alert.messageText = NSLocalizedString("Permissions Required", comment: "Alert title for missing permissions")
+        alert.informativeText = String(
+            format: NSLocalizedString(
+                "OptWin needs the following permissions:\n\n%@\n\nGrant access in System Settings → Privacy & Security, then click Continue. If you recently updated OptWin, you may need to remove and re-add it in each permission list.",
+                comment: "Alert body for missing permissions — %@ is the list of missing permissions"),
+            missing.joined(separator: ", "))
         alert.alertStyle = .warning
-        alert.addButton(withTitle: "Open Accessibility")
-        alert.addButton(withTitle: "Open Input Monitoring")
-        alert.addButton(withTitle: "Cancel")
+        alert.addButton(withTitle: NSLocalizedString("Open Accessibility", comment: "Button to open Accessibility preferences"))
+        alert.addButton(withTitle: NSLocalizedString("Open Input Monitoring", comment: "Button to open Input Monitoring preferences"))
+        alert.addButton(withTitle: NSLocalizedString("Cancel", comment: "Cancel button"))
 
         let response = alert.runModal()
         if response == .alertFirstButtonReturn {
@@ -192,12 +189,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 paragraphStyle.paragraphSpacing = 8
                 paragraphStyle.alignment = .center
 
-                credits.append(NSAttributedString(string: "GitHub\n", attributes: [
+                credits.append(NSAttributedString(string: NSLocalizedString("GitHub", comment: "About panel link text") + "\n", attributes: [
                     .font: font,
                     .link: URL(string: "https://github.com/logonoff/opt-win")!,
                     .paragraphStyle: paragraphStyle,
                 ]))
-                credits.append(NSAttributedString(string: "License: WTFPL v2", attributes: [
+                credits.append(NSAttributedString(string: NSLocalizedString("License: WTFPL v2", comment: "About panel license text"), attributes: [
                     .font: font,
                     .paragraphStyle: paragraphStyle,
                 ]))
@@ -217,11 +214,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
         } catch {
             let alert = NSAlert()
-            alert.messageText = "Unable to update login item"
-            alert.informativeText = "You can manage login items in System Settings → General → Login Items."
+            alert.messageText = NSLocalizedString("Unable to update login item", comment: "Alert title when login item registration fails")
+            alert.informativeText = NSLocalizedString("You can manage login items in System Settings → General → Login Items.", comment: "Alert body directing user to login items settings")
             alert.alertStyle = .warning
-            alert.addButton(withTitle: "Open Login Items")
-            alert.addButton(withTitle: "Cancel")
+            alert.addButton(withTitle: NSLocalizedString("Open Login Items", comment: "Button to open login items settings"))
+            alert.addButton(withTitle: NSLocalizedString("Cancel", comment: "Cancel button"))
             if alert.runModal() == .alertFirstButtonReturn {
                 if let url = URL(string: "x-apple.systempreferences:com.apple.LoginItems-Settings.extension") {
                     NSWorkspace.shared.open(url)
@@ -268,31 +265,29 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private func showAccessibilityAlert() {
         let alert = NSAlert()
         alert.alertStyle = .warning
-        alert.addButton(withTitle: "Continue").keyEquivalent = "\r"
-        alert.addButton(withTitle: "Open Accessibility")
-        alert.addButton(withTitle: "Open Input Monitoring")
-        alert.addButton(withTitle: "Quit")
+        alert.addButton(withTitle: NSLocalizedString("Continue", comment: "Button to retry after granting permissions")).keyEquivalent = "\r"
+        alert.addButton(withTitle: NSLocalizedString("Open Accessibility", comment: "Button to open Accessibility preferences"))
+        alert.addButton(withTitle: NSLocalizedString("Open Input Monitoring", comment: "Button to open Input Monitoring preferences"))
+        alert.addButton(withTitle: NSLocalizedString("Quit", comment: "Button to quit the app"))
 
         while true {
             let trusted = AXIsProcessTrusted()
 
             var missing: [String] = []
-            if !trusted { missing.append("Accessibility") }
-            if eventTap == nil { missing.append("Input Monitoring") }
+            if !trusted { missing.append(NSLocalizedString("Accessibility", comment: "Permission name")) }
+            if eventTap == nil { missing.append(NSLocalizedString("Input Monitoring", comment: "Permission name")) }
 
             if missing.isEmpty && setupEventTap() {
                 alert.window.orderOut(nil)
                 break
             }
 
-            alert.messageText = "Permissions Required"
-            alert.informativeText = """
-                OptWin needs the following permissions:
-
-                \(missing.joined(separator: ", "))
-
-                Grant access in System Settings → Privacy & Security, then click Continue.
-                """
+            alert.messageText = NSLocalizedString("Permissions Required", comment: "Alert title for missing permissions")
+            alert.informativeText = String(
+                format: NSLocalizedString(
+                    "OptWin needs the following permissions:\n\n%@\n\nGrant access in System Settings → Privacy & Security, then click Continue. If you recently updated OptWin, you may need to remove and re-add it in each permission list.",
+                    comment: "Alert body for missing permissions — %@ is the list of missing permissions"),
+                missing.joined(separator: ", "))
 
             let response = alert.runModal()
             if response == .alertFirstButtonReturn {
@@ -332,7 +327,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 let capsLockOn = event.flags.contains(.maskAlphaShift)
                 if capsLockOn != lastCapsLockState {
                     lastCapsLockState = capsLockOn
-                    lockKeyOSD.show(text: capsLockOn ? "⇪ Caps Lock On" : "⇪ Caps Lock Off", active: capsLockOn)
+                    lockKeyOSD.show(text: capsLockOn
+                        ? NSLocalizedString("⇪ Caps Lock On", comment: "OSD text when Caps Lock is enabled")
+                        : NSLocalizedString("⇪ Caps Lock Off", comment: "OSD text when Caps Lock is disabled"),
+                        active: capsLockOn)
                 }
             }
         case .keyDown:
