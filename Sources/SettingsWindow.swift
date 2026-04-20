@@ -5,7 +5,8 @@ import SwiftUI
 private let _extraStrings = [
     NSLocalizedString("Desktop", comment: "Section header"),
     NSLocalizedString("Keyboard", comment: "Section header"),
-    NSLocalizedString("GNOME-style Shortcuts", comment: "Section header"),
+    NSLocalizedString("Input", comment: "Section header"),
+    NSLocalizedString("Shortcut Remapping", comment: "Section header"),
     NSLocalizedString("⌥ → Mission Control", comment: "Toggle label"),
     NSLocalizedString("⌥⌥ → Apps", comment: "Toggle label"),
     NSLocalizedString("⌥+N → Dock App", comment: "Toggle label"),
@@ -87,14 +88,23 @@ struct SettingsView: View {
                 .onChange(of: homeEndRemap) { _, val in notify("homeEndRemapEnabled", val) }
             }
 
-            Section("GNOME-style Shortcuts") {
-                Toggle("⌥ → Mission Control", isOn: $optSingle)
-                    .onChange(of: optSingle) { _, val in notify("optSingleEnabled", val) }
-                Toggle("⌥⌥ → Apps", isOn: $optDouble)
-                    .onChange(of: optDouble) { _, val in notify("optDoubleEnabled", val) }
+            Section("Input") {
+                Toggle(isOn: $optSingle) {
+                    Text("⌥ → Mission Control")
+                    Text("Single press Option to open Mission Control")
+                }
+                .onChange(of: optSingle) { _, val in notify("optSingleEnabled", val) }
+                Toggle(isOn: $optDouble) {
+                    Text("⌥⌥ → Apps")
+                    Text("Double press Option to open Spotlight Apps")
+                }
+                .onChange(of: optDouble) { _, val in notify("optDoubleEnabled", val) }
 
-                Toggle("⌥+N → Dock App", isOn: $dockShortcuts)
-                    .onChange(of: dockShortcuts) { _, val in notify("dockShortcutsEnabled", val) }
+                Toggle(isOn: $dockShortcuts) {
+                    Text("⌥+N → Dock App")
+                    Text("Option plus a number key launches the corresponding Dock app")
+                }
+                .onChange(of: dockShortcuts) { _, val in notify("dockShortcutsEnabled", val) }
                 Picker(selection: $finderPosition) {
                     ForEach(1...9, id: \.self) { Text("\($0)").tag($0) }
                 } label: {
@@ -123,9 +133,11 @@ struct SettingsView: View {
                     Text("Scroll Zoom in Browsers")
                     Text("⌃Scroll zooms in and out in browser apps")
                 }
+            }
 
+            Section("Shortcut Remapping") {
                 Toggle(isOn: $gnomeShortcuts) {
-                    Text("Shortcut Remapping")
+                    Text("Remap Shortcuts")
                     Text("Maps Linux keyboard shortcuts to their Mac equivalents")
                 }
                 .onChange(of: gnomeShortcuts) { _, val in notify("gnomeShortcutsEnabled", val) }

@@ -83,6 +83,9 @@
 "Dock position assigned to Finder — other apps shift to fill" = "Dock position assigned to Finder — other apps shift to fill";
 
 /* No comment provided by engineer. */
+"Double press Option to open Spotlight Apps" = "Double press Option to open Spotlight Apps";
+
+/* No comment provided by engineer. */
 "Downloads" = "Downloads";
 
 /* No comment provided by engineer. */
@@ -115,9 +118,6 @@
 /* About panel link text */
 "GitHub" = "GitHub";
 
-/* Section header */
-"GNOME-style Shortcuts" = "GNOME-style Shortcuts";
-
 /* No comment provided by engineer. */
 "Green Button Fills Window" = "Green Button Fills Window";
 
@@ -129,6 +129,9 @@
 
 /* No comment provided by engineer. */
 "Indent" = "Indent";
+
+/* Section header */
+"Input" = "Input";
 
 /* Permission name */
 "Input Monitoring" = "Input Monitoring";
@@ -193,6 +196,9 @@
 /* Button to open login items settings */
 "Open Login Items" = "Open Login Items";
 
+/* No comment provided by engineer. */
+"Option plus a number key launches the corresponding Dock app" = "Option plus a number key launches the corresponding Dock app";
+
 /* Alert body when all permissions are granted */
 "OptWin already has all required permissions." = "OptWin already has all required permissions.";
 
@@ -233,6 +239,9 @@
 "Reload" = "Reload";
 
 /* No comment provided by engineer. */
+"Remap Shortcuts" = "Remap Shortcuts";
+
+/* No comment provided by engineer. */
 "Rename" = "Rename";
 
 /* No comment provided by engineer. */
@@ -265,7 +274,7 @@
 /* Menu item to open settings window */
 "Settings..." = "Settings...";
 
-/* No comment provided by engineer. */
+/* Section header */
 "Shortcut Remapping" = "Shortcut Remapping";
 
 /* No comment provided by engineer. */
@@ -273,6 +282,9 @@
 
 /* No comment provided by engineer. */
 "Shows an on-screen notification when Caps Lock is toggled" = "Shows an on-screen notification when Caps Lock is toggled";
+
+/* No comment provided by engineer. */
+"Single press Option to open Mission Control" = "Single press Option to open Mission Control";
 
 /* Category hint */
 "Tab and window management" = "Tab and window management";
