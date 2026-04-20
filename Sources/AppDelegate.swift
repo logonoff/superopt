@@ -36,6 +36,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private let gnomeShortcutHandler = GnomeShortcutHandler()
     private let finderCutHandler = FinderCutHandler()
     private let middleClickPasteHandler = MiddleClickPasteHandler()
+    private let zoomButtonHandler = ZoomButtonHandler()
     private let menuBarBackground = MenuBarBackground()
     private let settingsWindow = SettingsWindowController()
     private var lastCapsLockState = false
@@ -53,6 +54,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         "gnomeShortcutsEnabled": false,
         "finderCutEnabled": false,
         "middleClickPasteEnabled": false,
+        "zoomButtonEnabled": false,
         "dockFinderPosition": 1,
     ]
 
@@ -362,7 +364,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 return true
             }
             optionKeyHandler.markOtherInput()
-        case .leftMouseDown, .rightMouseDown:
+        case .leftMouseDown:
+            if isEnabled("zoomButtonEnabled") && zoomButtonHandler.handleClick(event: event) {
+                return true
+            }
+            optionKeyHandler.markOtherInput()
+        case .rightMouseDown:
             optionKeyHandler.markOtherInput()
         case .otherMouseDown:
             if isEnabled("middleClickPasteEnabled") && middleClickPasteHandler.handleMouseDown(event: event) {

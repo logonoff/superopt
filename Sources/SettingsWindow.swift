@@ -9,6 +9,7 @@ struct SettingsView: View {
     @AppStorage("dockFinderPosition") var finderPosition = 1
     @AppStorage("lockKeyOSDEnabled") var lockKeyOSD = true
     @AppStorage("homeEndRemapEnabled") var homeEndRemap = true
+    @AppStorage("zoomButtonEnabled") var zoomButton = false
     @AppStorage("finderCutEnabled") var finderCut = false
     @AppStorage("middleClickPasteEnabled") var middleClickPaste = false
     @AppStorage("gnomeShortcutsEnabled") var gnomeShortcuts = false
@@ -39,6 +40,12 @@ struct SettingsView: View {
                 }
                 .disabled(systemMenuBarBgOn)
                 .onChange(of: menuBarBg) { _, val in notify("menuBarBgEnabled", val) }
+
+                Toggle(isOn: $zoomButton) {
+                    Text("Green Button Fills Window")
+                    Text("Green traffic light fills the window instead of entering full screen")
+                }
+                .onChange(of: zoomButton) { _, val in notify("zoomButtonEnabled", val) }
             }
 
             Section("Keyboard") {
