@@ -46,11 +46,11 @@ class LockKeyOSD {
     }
 
     private func createWindow(text: String, textAlpha: CGFloat, on screen: NSScreen) -> NSWindow {
-        let x = screen.frame.midX - osdWidth / 2
-        let y = screen.frame.minY + screen.frame.height * 0.12
+        let originX = screen.frame.midX - osdWidth / 2
+        let originY = screen.frame.minY + screen.frame.height * 0.12
 
         let window = NSWindow(
-            contentRect: NSRect(x: x, y: y, width: osdWidth, height: osdHeight),
+            contentRect: NSRect(x: originX, y: originY, width: osdWidth, height: osdHeight),
             styleMask: .borderless,
             backing: .buffered,
             defer: false
@@ -76,7 +76,7 @@ class LockKeyOSD {
         contentWrapper.addSubview(label)
         NSLayoutConstraint.activate([
             label.centerXAnchor.constraint(equalTo: contentWrapper.centerXAnchor),
-            label.centerYAnchor.constraint(equalTo: contentWrapper.centerYAnchor),
+            label.centerYAnchor.constraint(equalTo: contentWrapper.centerYAnchor)
         ])
 
         let glass = NSGlassEffectView(frame: NSRect(x: 0, y: 0, width: osdWidth, height: osdHeight))

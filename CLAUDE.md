@@ -53,7 +53,7 @@ Single-target Swift app compiled with `swiftc` (no Xcode project, no SPM). All s
 ./install.sh --run # install and launch
 ```
 
-No Xcode project — just `swiftc` with `-framework Cocoa`. Build script at `build.sh`. A `Package.swift` exists for IDE support (symbol resolution across files) but is not used for production builds. Version is stamped into `Info.plist` at build time via `git describe --tags --dirty --always`. If `actool` is available (requires full Xcode, not just CLT), the Liquid Glass icon from `icon.icon` is compiled into `Assets.car` and bundled; otherwise the icon step is skipped.
+No Xcode project — just `swiftc` with `-framework Cocoa`. Build script at `build.sh`. A `Package.swift` exists for IDE support (symbol resolution across files) but is not used for production builds. Version is stamped into `Info.plist` at build time via `git describe --tags --dirty --always`. If `actool` is available (requires full Xcode, not just CLT), the Liquid Glass icon from `icon.icon` is compiled into `Assets.car` and bundled; otherwise the icon step is skipped. SwiftLint runs before compilation if installed (`brew install swiftlint`); build fails on any violation.
 
 ## Localization
 

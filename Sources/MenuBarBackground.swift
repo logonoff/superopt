@@ -27,7 +27,7 @@ class MenuBarBackground: NSObject {
     }
 
     @objc private func screenChanged() {
-        for w in windows { w.orderOut(nil) }
+        for win in windows { win.orderOut(nil) }
         windows.removeAll()
         createWindows()
         update()
@@ -35,8 +35,8 @@ class MenuBarBackground: NSObject {
 
     func stop() {
         active = false
-        for w in windows {
-            w.alphaValue = 0
+        for win in windows {
+            win.alphaValue = 0
         }
     }
 
@@ -76,11 +76,14 @@ class MenuBarBackground: NSObject {
 
     private func update() {
         if !active {
-            for w in windows { w.alphaValue = 0 }
+            for win in windows { win.alphaValue = 0 }
             return
         }
 
-        let windowList = CGWindowListCopyWindowInfo([.optionOnScreenOnly, .excludeDesktopElements], kCGNullWindowID) as? [[String: Any]] ?? []
+        let windowList = CGWindowListCopyWindowInfo(
+            [.optionOnScreenOnly, .excludeDesktopElements],
+            kCGNullWindowID
+        ) as? [[String: Any]] ?? []
 
         // Hide when Mission Control is active — Dock creates overlay windows at high layers
         let missionControlActive = windowList.contains { info in
@@ -89,20 +92,20 @@ class MenuBarBackground: NSObject {
             return owner == "Dock" && layer > 0
         }
         if missionControlActive {
-            for w in windows { w.alphaValue = 0 }
+            for win in windows { win.alphaValue = 0 }
             return
         }
 
         let screens = NSScreen.screens
-        for (i, screen) in screens.enumerated() {
-            guard i < windows.count else { break }
+        for (idx, screen) in screens.enumerated() {
+            guard idx < windows.count else { break }
             let filled = isScreenFilled(screen, windowList: windowList)
             let target: CGFloat = filled ? 1 : 0
-            if windows[i].alphaValue != target {
-                let w = windows[i]
+            if windows[idx].alphaValue != target {
+                let win = windows[idx]
                 NSAnimationContext.runAnimationGroup { ctx in
                     ctx.duration = 0.3
-                    w.animator().alphaValue = target
+                    win.animator().alphaValue = target
                 }
             }
         }
@@ -137,8 +140,7 @@ class MenuBarBackground: NSObject {
             if windowFrame.minX <= usableArea.minX + 2
                 && windowFrame.minY <= usableArea.minY + 2
                 && windowFrame.maxX >= usableArea.maxX - 2
-                && windowFrame.maxY >= usableArea.maxY - 2
-            {
+                && windowFrame.maxY >= usableArea.maxY - 2 {
                 return true
             }
         }

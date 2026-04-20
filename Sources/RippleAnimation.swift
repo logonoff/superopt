@@ -6,30 +6,59 @@ import QuartzCore
 class RippleAnimation {
     private var activeWindows: [NSWindow] = []
 
-    // GNOME's parameters:
-    //                    delay   duration  startScale  startOpacity  finalScale
-    private let ripples: [(CFTimeInterval, CFTimeInterval, CGFloat, Float, CGFloat)] = [
-        (0.0,   0.83,  0.25, 1.0,  1.5),
-        (0.05,  1.0,   0.0,  0.7,  1.25),
-        (0.35,  1.0,   0.0,  0.3,  1.0),
+    private struct RippleConfig {
+        let delay: CFTimeInterval
+        let duration: CFTimeInterval
+        let startScale: CGFloat
+        let startOpacity: Float
+        let finalScale: CGFloat
+    }
+
+    // GNOME's parameters
+    private let ripples: [RippleConfig] = [
+        RippleConfig(delay: 0.0, duration: 0.83, startScale: 0.25,
+                     startOpacity: 1.0, finalScale: 1.5),
+        RippleConfig(delay: 0.05, duration: 1.0, startScale: 0.0,
+                     startOpacity: 0.7, finalScale: 1.25),
+        RippleConfig(delay: 0.35, duration: 1.0, startScale: 0.0,
+                     startOpacity: 0.3, finalScale: 1.0)
     ]
 
+    private static let rippleSize: CGFloat = 52
+    private static let windowSize: CGFloat = ceil(rippleSize * 1.5) + 2
+
     func play(onScreen screen: NSScreen) {
-        let rippleSize: CGFloat = 52
-        let windowSize: CGFloat = ceil(rippleSize * 1.5) + 2
+        let window = makeWindow(on: screen)
+        guard let rootLayer = window.contentView?.layer else { return }
 
-        let windowFrame = NSRect(
+        let path = makeQuarterCirclePath()
+        let now = CACurrentMediaTime()
+
+        for config in ripples {
+            animateRipple(config: config, path: path, now: now, rootLayer: rootLayer)
+        }
+
+        window.orderFrontRegardless()
+        activeWindows.append(window)
+
+        let maxDuration = ripples.map { $0.delay + $0.duration }.max() ?? 1.5
+        DispatchQueue.main.asyncAfter(
+            deadline: .now() + maxDuration + 0.1
+        ) { [weak self] in
+            window.orderOut(nil)
+            self?.activeWindows.removeAll { $0 === window }
+        }
+    }
+
+    private func makeWindow(on screen: NSScreen) -> NSWindow {
+        let frame = NSRect(
             x: screen.frame.minX,
-            y: screen.frame.maxY - windowSize,
-            width: windowSize,
-            height: windowSize
+            y: screen.frame.maxY - Self.windowSize,
+            width: Self.windowSize, height: Self.windowSize
         )
-
         let window = NSWindow(
-            contentRect: windowFrame,
-            styleMask: .borderless,
-            backing: .buffered,
-            defer: false
+            contentRect: frame, styleMask: .borderless,
+            backing: .buffered, defer: false
         )
         window.isOpaque = false
         window.backgroundColor = .clear
@@ -37,67 +66,58 @@ class RippleAnimation {
         window.ignoresMouseEvents = true
         window.hasShadow = false
         window.collectionBehavior = [.canJoinAllSpaces, .stationary]
-
-        let view = NSView(frame: NSRect(origin: .zero, size: windowFrame.size))
+        let view = NSView(frame: NSRect(origin: .zero, size: frame.size))
         view.wantsLayer = true
         window.contentView = view
+        return window
+    }
 
-        guard let rootLayer = view.layer else { return }
-
-        // Quarter-circle path matching GNOME's border-radius style
+    private func makeQuarterCirclePath() -> CGPath {
         let path = CGMutablePath()
-        path.move(to: CGPoint(x: 0, y: rippleSize))
-        path.addLine(to: CGPoint(x: rippleSize, y: rippleSize))
+        path.move(to: CGPoint(x: 0, y: Self.rippleSize))
+        path.addLine(to: CGPoint(x: Self.rippleSize, y: Self.rippleSize))
         path.addArc(
-            center: CGPoint(x: 0, y: rippleSize),
-            radius: rippleSize,
-            startAngle: 0,
-            endAngle: -.pi / 2,
-            clockwise: true
+            center: CGPoint(x: 0, y: Self.rippleSize),
+            radius: Self.rippleSize,
+            startAngle: 0, endAngle: -.pi / 2, clockwise: true
         )
         path.closeSubpath()
+        return path
+    }
 
-        let now = CACurrentMediaTime()
+    private func animateRipple(
+        config: RippleConfig, path: CGPath,
+        now: CFTimeInterval, rootLayer: CALayer
+    ) {
+        let layer = CAShapeLayer()
+        layer.path = path
+        layer.fillColor = NSColor(white: 1.0, alpha: 0.25).cgColor
+        layer.bounds = CGRect(x: 0, y: 0,
+                              width: Self.rippleSize, height: Self.rippleSize)
+        layer.anchorPoint = CGPoint(x: 0, y: 1)
+        layer.position = CGPoint(x: 0, y: Self.windowSize)
+        layer.opacity = 0
 
-        for (delay, duration, startScale, startOpacity, finalScale) in ripples {
-            let layer = CAShapeLayer()
-            layer.path = path
-            layer.fillColor = NSColor(white: 1.0, alpha: 0.25).cgColor
-            layer.bounds = CGRect(x: 0, y: 0, width: rippleSize, height: rippleSize)
-            layer.anchorPoint = CGPoint(x: 0, y: 1)
-            layer.position = CGPoint(x: 0, y: windowSize)
-            layer.opacity = 0
+        let scaleAnim = CABasicAnimation(keyPath: "transform.scale")
+        scaleAnim.fromValue = config.startScale
+        scaleAnim.toValue = config.finalScale
+        scaleAnim.duration = config.duration
+        scaleAnim.beginTime = now + config.delay
+        scaleAnim.timingFunction = CAMediaTimingFunction(name: .easeOut)
+        scaleAnim.fillMode = .both
+        scaleAnim.isRemovedOnCompletion = false
 
-            let scaleAnim = CABasicAnimation(keyPath: "transform.scale")
-            scaleAnim.fromValue = startScale
-            scaleAnim.toValue = finalScale
-            scaleAnim.duration = duration
-            scaleAnim.beginTime = now + delay
-            scaleAnim.timingFunction = CAMediaTimingFunction(name: .easeOut)
-            scaleAnim.fillMode = .both
-            scaleAnim.isRemovedOnCompletion = false
+        let opacityAnim = CABasicAnimation(keyPath: "opacity")
+        opacityAnim.fromValue = sqrt(config.startOpacity)
+        opacityAnim.toValue = 0
+        opacityAnim.duration = config.duration
+        opacityAnim.beginTime = now + config.delay
+        opacityAnim.timingFunction = CAMediaTimingFunction(name: .easeIn)
+        opacityAnim.fillMode = .both
+        opacityAnim.isRemovedOnCompletion = false
 
-            let opacityAnim = CABasicAnimation(keyPath: "opacity")
-            opacityAnim.fromValue = sqrt(startOpacity)
-            opacityAnim.toValue = 0
-            opacityAnim.duration = duration
-            opacityAnim.beginTime = now + delay
-            opacityAnim.timingFunction = CAMediaTimingFunction(name: .easeIn)
-            opacityAnim.fillMode = .both
-            opacityAnim.isRemovedOnCompletion = false
-
-            rootLayer.addSublayer(layer)
-            layer.add(scaleAnim, forKey: "scale")
-            layer.add(opacityAnim, forKey: "opacity")
-        }
-
-        window.orderFrontRegardless()
-        activeWindows.append(window)
-
-        let maxDuration = ripples.map { $0.0 + $0.1 }.max() ?? 1.5
-        DispatchQueue.main.asyncAfter(deadline: .now() + maxDuration + 0.1) { [weak self] in
-            window.orderOut(nil)
-            self?.activeWindows.removeAll { $0 === window }
-        }
+        rootLayer.addSublayer(layer)
+        layer.add(scaleAnim, forKey: "scale")
+        layer.add(opacityAnim, forKey: "opacity")
     }
 }

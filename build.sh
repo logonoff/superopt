@@ -9,6 +9,15 @@ VERSION=$(git describe --tags --dirty --always 2>/dev/null || echo "unknown")
 
 echo "Building $APP_NAME ($VERSION)..."
 
+# Lint sources if SwiftLint is available, but don't fail the build if it's not installed (e.g., in CI)
+if command -v swiftlint &>/dev/null; then
+    swiftlint lint --strict --quiet Sources/
+else
+    echo "Warning: SwiftLint not found, skipping linting"
+    echo "Run 'brew install swiftlint' to install SwiftLint"
+fi
+
+# Compile the app bundle
 mkdir -p "$BUILD_DIR"
 
 swiftc Sources/*.swift \
@@ -36,7 +45,6 @@ cp -R Locales/*.lproj "$APP_BUNDLE/Contents/Resources/"
 
 # Compile Liquid Glass icon if actool is available (requires Xcode, not just CLT)
 if [ -d "icon.icon" ] && actool --version &>/dev/null; then
-    echo "Compiling Liquid Glass icon..."
     actool icon.icon \
         --compile "$APP_BUNDLE/Contents/Resources" \
         --output-format human-readable-text \
@@ -55,12 +63,10 @@ else
     echo "Skipping icon (actool not available or icon.icon not found)"
 fi
 
+# Codesign the app bundle with an ad-hoc signature to allow it to run without Gatekeeper blocking it
 codesign --force --sign - "$APP_BUNDLE"
 
 echo "Build complete: $APP_BUNDLE"
 echo ""
-echo "To run:    open $APP_BUNDLE"
-echo "To install: cp -r $APP_BUNDLE /Applications/"
-echo ""
-echo "NOTE: Grant Accessibility permissions in"
-echo "  System Settings -> Privacy & Security -> Accessibility"
+echo "To run:     open $APP_BUNDLE"
+echo "To install: ./install.sh"

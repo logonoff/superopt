@@ -17,7 +17,7 @@ private let _extraStrings = [
     NSLocalizedString("Tab and window management", comment: "Category hint"),
     NSLocalizedString("Active only in browsers", comment: "Category hint"),
     NSLocalizedString("Active only in terminal apps", comment: "Category hint"),
-    NSLocalizedString("Active only in code editors", comment: "Category hint"),
+    NSLocalizedString("Active only in code editors", comment: "Category hint")
 ]
 
 struct SettingsView: View {
@@ -205,7 +205,7 @@ struct SettingsView: View {
         NSLocalizedString("Terminal", comment: "Shortcut category"):
             NSLocalizedString("Active only in terminal apps", comment: "Category hint"),
         NSLocalizedString("Code Editor", comment: "Shortcut category"):
-            NSLocalizedString("Active only in code editors", comment: "Category hint"),
+            NSLocalizedString("Active only in code editors", comment: "Category hint")
     ]
 
     private func notify(_ key: String, _ value: Any) {

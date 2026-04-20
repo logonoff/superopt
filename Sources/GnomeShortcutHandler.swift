@@ -4,96 +4,11 @@ struct GnomeShortcutDef: Identifiable, Hashable {
     let id: String
     let label: String
     let from: String
-    let to: String
+    let to: String // swiftlint:disable:this identifier_name
     let category: String
 }
 
 class GnomeShortcutHandler {
-    // genstrings requires literal NSLocalizedString calls — can't use a wrapper function
-    private static let general = NSLocalizedString("General", comment: "Shortcut category")
-    private static let file = NSLocalizedString("File", comment: "Shortcut category")
-    private static let view = NSLocalizedString("View", comment: "Shortcut category")
-    private static let textEditing = NSLocalizedString("Text Editing", comment: "Shortcut category")
-    private static let finder = NSLocalizedString("Finder", comment: "Shortcut category")
-    private static let tabsWindows = NSLocalizedString("Tabs & Windows", comment: "Shortcut category")
-    private static let browsers = NSLocalizedString("Browsers", comment: "Shortcut category")
-    private static let terminal = NSLocalizedString("Terminal", comment: "Shortcut category")
-    private static let codeEditor = NSLocalizedString("Code Editor", comment: "Shortcut category")
-
-    static let categories = [general, file, view, textEditing, finder, tabsWindows, browsers, terminal, codeEditor]
-
-    // swiftlint:disable line_length
-    static let allShortcuts: [GnomeShortcutDef] = [
-        GnomeShortcutDef(id: "copy",       label: NSLocalizedString("Copy", comment: ""),        from: "⌃C", to: "⌘C",   category: general),
-        GnomeShortcutDef(id: "cut",        label: NSLocalizedString("Cut", comment: ""),         from: "⌃X", to: "⌘X",   category: general),
-        GnomeShortcutDef(id: "paste",      label: NSLocalizedString("Paste", comment: ""),       from: "⌃V", to: "⌘V",   category: general),
-        GnomeShortcutDef(id: "undo",       label: NSLocalizedString("Undo", comment: ""),        from: "⌃Z", to: "⌘Z",   category: general),
-        GnomeShortcutDef(id: "redo",       label: NSLocalizedString("Redo", comment: ""),        from: "⌃Y", to: "⌘⇧Z",  category: general),
-        GnomeShortcutDef(id: "selectAll",  label: NSLocalizedString("Select All", comment: ""),  from: "⌃A", to: "⌘A",   category: general),
-        GnomeShortcutDef(id: "find",       label: NSLocalizedString("Find", comment: ""),        from: "⌃F", to: "⌘F",   category: general),
-        GnomeShortcutDef(id: "lockScreen", label: NSLocalizedString("Lock Screen", comment: ""), from: "⌥L", to: "⌃⌘Q",  category: general),
-
-        GnomeShortcutDef(id: "new",   label: NSLocalizedString("New", comment: ""),   from: "⌃N", to: "⌘N", category: file),
-        GnomeShortcutDef(id: "save",  label: NSLocalizedString("Save", comment: ""),  from: "⌃S", to: "⌘S", category: file),
-        GnomeShortcutDef(id: "print", label: NSLocalizedString("Print", comment: ""), from: "⌃P", to: "⌘P", category: file),
-        GnomeShortcutDef(id: "quit",  label: NSLocalizedString("Quit", comment: ""),  from: "⌃Q", to: "⌘Q", category: file),
-
-        GnomeShortcutDef(id: "zoomIn",     label: NSLocalizedString("Zoom In", comment: ""),     from: "⌃+",  to: "⌘+",  category: view),
-        GnomeShortcutDef(id: "zoomOut",    label: NSLocalizedString("Zoom Out", comment: ""),    from: "⌃-",  to: "⌘-",  category: view),
-        GnomeShortcutDef(id: "zoomReset",  label: NSLocalizedString("Reset Zoom", comment: ""),  from: "⌃0",  to: "⌘0",  category: view),
-        GnomeShortcutDef(id: "fullscreen", label: NSLocalizedString("Full Screen", comment: ""), from: "F11", to: "⌃⌘F", category: view),
-
-        GnomeShortcutDef(id: "getInfo",      label: NSLocalizedString("Properties", comment: ""),    from: "⌥↩", to: "⌘I",  category: finder),
-        GnomeShortcutDef(id: "finderDelete", label: NSLocalizedString("Move to Trash", comment: ""), from: "⌦",  to: "⌘⌫",  category: finder),
-        GnomeShortcutDef(id: "rename",       label: NSLocalizedString("Rename", comment: ""),        from: "F2", to: "↩",   category: finder),
-
-        GnomeShortcutDef(id: "bold",              label: NSLocalizedString("Bold", comment: ""),            from: "⌃B", to: "⌘B", category: textEditing),
-        GnomeShortcutDef(id: "underline",         label: NSLocalizedString("Underline", comment: ""),       from: "⌃U", to: "⌘U", category: textEditing),
-        GnomeShortcutDef(id: "deleteWord",        label: NSLocalizedString("Delete Word", comment: ""),     from: "⌃⌫", to: "⌥⌫", category: textEditing),
-        GnomeShortcutDef(id: "forwardDeleteWord", label: NSLocalizedString("Fwd Delete Word", comment: ""), from: "⌃⌦", to: "⌥⌦", category: textEditing),
-        GnomeShortcutDef(id: "wordLeft",          label: NSLocalizedString("Word Left", comment: ""),       from: "⌃←", to: "⌥←", category: textEditing),
-        GnomeShortcutDef(id: "wordRight",         label: NSLocalizedString("Word Right", comment: ""),      from: "⌃→", to: "⌥→", category: textEditing),
-
-        GnomeShortcutDef(id: "newTab",      label: NSLocalizedString("New Tab", comment: ""),      from: "⌃T",  to: "⌘T",  category: tabsWindows),
-        GnomeShortcutDef(id: "closeTab",    label: NSLocalizedString("Close Tab", comment: ""),    from: "⌃W",  to: "⌘W",  category: tabsWindows),
-        GnomeShortcutDef(id: "reopenTab",   label: NSLocalizedString("Reopen Tab", comment: ""),   from: "⌃⇧T", to: "⌘⇧T", category: tabsWindows),
-        GnomeShortcutDef(id: "closeWindow", label: NSLocalizedString("Close Window", comment: ""), from: "⌥F4", to: "⌘W",  category: tabsWindows),
-
-        GnomeShortcutDef(id: "addressBar",    label: NSLocalizedString("Address Bar", comment: ""),        from: "⌃L",  to: "⌘L",   category: browsers),
-        GnomeShortcutDef(id: "downloads",     label: NSLocalizedString("Downloads", comment: ""),          from: "⌃J",  to: "⌘J",   category: browsers),
-        GnomeShortcutDef(id: "reload",        label: NSLocalizedString("Reload", comment: ""),             from: "⌃R",  to: "⌘R",   category: browsers),
-        GnomeShortcutDef(id: "devTools",      label: NSLocalizedString("Developer Tools", comment: ""),    from: "⌃⇧I", to: "⌘⌥I",  category: browsers),
-        GnomeShortcutDef(id: "devToolsF12",   label: NSLocalizedString("Developer Tools", comment: ""),    from: "F12", to: "⌘⌥I",  category: browsers),
-        GnomeShortcutDef(id: "viewHistory",   label: NSLocalizedString("View History", comment: ""),       from: "⌃H",  to: "⌘Y",   category: browsers),
-        GnomeShortcutDef(id: "viewSource",    label: NSLocalizedString("View Source", comment: ""),        from: "⌃U",  to: "⌘U",   category: browsers),
-        GnomeShortcutDef(id: "privateWindow", label: NSLocalizedString("New Private Window", comment: ""), from: "⌃⇧P", to: "⌘⇧P",  category: browsers),
-        GnomeShortcutDef(id: "scrollZoom",    label: NSLocalizedString("Scroll Zoom", comment: ""),        from: "⌃Scroll", to: "⌘±", category: browsers),
-
-        GnomeShortcutDef(id: "termCopy",        label: NSLocalizedString("Copy", comment: ""),         from: "⌃⇧C", to: "⌘C", category: terminal),
-        GnomeShortcutDef(id: "termPaste",       label: NSLocalizedString("Paste", comment: ""),        from: "⌃⇧V", to: "⌘V", category: terminal),
-        GnomeShortcutDef(id: "termCloseTab",    label: NSLocalizedString("Close Tab", comment: ""),    from: "⌃⇧W", to: "⌘W", category: terminal),
-        GnomeShortcutDef(id: "termCloseWindow", label: NSLocalizedString("Close Window", comment: ""), from: "⌃⇧Q", to: "⌘Q", category: terminal),
-        GnomeShortcutDef(id: "termNewTab",      label: NSLocalizedString("New Tab", comment: ""),      from: "⌃⇧T", to: "⌘T", category: terminal),
-
-        GnomeShortcutDef(id: "settings",        label: NSLocalizedString("Settings", comment: ""),          from: "⌃,",  to: "⌘,",   category: codeEditor),
-        GnomeShortcutDef(id: "toggleComment",   label: NSLocalizedString("Toggle Comment", comment: ""),    from: "⌃/",  to: "⌘/",   category: codeEditor),
-        GnomeShortcutDef(id: "indent",          label: NSLocalizedString("Indent", comment: ""),            from: "⌃]",  to: "⌘]",   category: codeEditor),
-        GnomeShortcutDef(id: "outdent",         label: NSLocalizedString("Outdent", comment: ""),           from: "⌃[",  to: "⌘[",   category: codeEditor),
-        GnomeShortcutDef(id: "cmdEnter",        label: NSLocalizedString("Run / Confirm", comment: ""),     from: "⌃↩",  to: "⌘↩",   category: codeEditor),
-        GnomeShortcutDef(id: "commandPalette",  label: NSLocalizedString("Command Palette", comment: ""),   from: "⌃⇧P", to: "⌘⇧P",  category: codeEditor),
-        GnomeShortcutDef(id: "deleteLine",      label: NSLocalizedString("Delete Line", comment: ""),       from: "⌃⇧K", to: "⌘⇧K",  category: codeEditor),
-        GnomeShortcutDef(id: "insertLineAbove", label: NSLocalizedString("Insert Line Above", comment: ""), from: "⌃⇧↩", to: "⌘⇧↩",  category: codeEditor),
-        GnomeShortcutDef(id: "hyperlink",       label: NSLocalizedString("Insert Link", comment: ""),       from: "⌃K",  to: "⌘K",   category: codeEditor),
-        GnomeShortcutDef(id: "duplicate",       label: NSLocalizedString("Duplicate", comment: ""),         from: "⌃D",  to: "⌘D",   category: codeEditor),
-        GnomeShortcutDef(id: "searchSelection", label: NSLocalizedString("Search Selection", comment: ""),  from: "⌃E",  to: "⌘E",   category: codeEditor),
-        GnomeShortcutDef(id: "findReplace",     label: NSLocalizedString("Find and Replace", comment: ""),  from: "⌃H",  to: "⌘⌥F",  category: codeEditor),
-    ]
-    // swiftlint:enable line_length
-
-    static func shortcuts(in category: String) -> [GnomeShortcutDef] {
-        allShortcuts.filter { $0.category == category }
-    }
-
     // MARK: - Terminal detection
 
     private static let terminalPassthroughKeys: Set<Int64> = [
@@ -103,7 +18,7 @@ class GnomeShortcutHandler {
         0x25, // L - clear
         0x20, // U - delete to start of line
         0x0D, // W - delete previous word
-        0x06, // Z - suspend
+        0x06 // Z - suspend
     ]
 
     // Ctrl+Shift+key in terminal apps → Cmd+key (removes both Ctrl and Shift)
@@ -112,7 +27,7 @@ class GnomeShortcutHandler {
         0x09: "termPaste",       // V
         0x11: "termNewTab",      // T
         0x0D: "termCloseTab",    // W
-        0x0C: "termCloseWindow", // Q
+        0x0C: "termCloseWindow" // Q
     ]
 
     // MARK: - Key code maps
@@ -122,7 +37,7 @@ class GnomeShortcutHandler {
         0x11: ["reopenTab"],                    // T
         0x23: ["commandPalette", "privateWindow"], // P
         0x28: ["deleteLine"],                   // K
-        0x24: ["insertLineAbove"],              // Return
+        0x24: ["insertLineAbove"]              // Return
     ]
 
     // Ctrl+key → Cmd+key (simple modifier swap)
@@ -154,7 +69,7 @@ class GnomeShortcutHandler {
         0x2C: ["toggleComment"],   // /
         0x1E: ["indent"],          // ]
         0x21: ["outdent"],         // [
-        0x24: ["cmdEnter"],        // Return
+        0x24: ["cmdEnter"]        // Return
     ]
 
     // MARK: - Key codes
@@ -182,9 +97,7 @@ class GnomeShortcutHandler {
 
     private var disabledShortcuts: Set<String> = []
 
-    init() {
-        reloadSettings()
-    }
+    init() { reloadSettings() }
 
     func reloadSettings() {
         disabledShortcuts = Set(
@@ -192,17 +105,13 @@ class GnomeShortcutHandler {
     }
 
     private static let finderOnlyShortcuts: Set<String> = Set(
-        allShortcuts.filter { $0.category == finder }.map(\.id)
-    )
+        allShortcuts.filter { $0.category == finder }.map(\.id))
     private static let terminalOnlyShortcuts: Set<String> = Set(
-        allShortcuts.filter { $0.category == terminal }.map(\.id)
-    )
+        allShortcuts.filter { $0.category == terminal }.map(\.id))
     private static let browserOnlyShortcuts: Set<String> = Set(
-        allShortcuts.filter { $0.category == browsers }.map(\.id)
-    )
+        allShortcuts.filter { $0.category == browsers }.map(\.id))
     private static let codeEditorOnlyShortcuts: Set<String> = Set(
-        allShortcuts.filter { $0.category == codeEditor }.map(\.id)
-    )
+        allShortcuts.filter { $0.category == codeEditor }.map(\.id))
 
     private func isEnabled(_ id: String) -> Bool {
         if disabledShortcuts.contains(id) { return false }
@@ -213,8 +122,126 @@ class GnomeShortcutHandler {
         return true
     }
 
-    // MARK: - Event handling
+    /// Swaps modifier flags, posts the key, always returns true.
+    private func remap(_ keyCode: Int64, flags: CGEventFlags,
+                       remove: CGEventFlags = [], add: CGEventFlags) -> Bool {
+        var newFlags = flags
+        newFlags.remove(remove)
+        newFlags.insert(add)
+        KeyboardUtils.postKey(keyCode, flags: newFlags)
+        return true
+    }
 
+    // MARK: - Scroll handling
+
+    private static let keyPlus: Int64 = 0x18  // = key
+    private static let keyMinus: Int64 = 0x1B // - key
+
+    /// Handles Ctrl+scroll → Cmd+Plus/Minus in browsers. Returns true if consumed.
+    func handleScroll(event: CGEvent) -> Bool {
+        guard event.flags.contains(.maskControl),
+              !event.flags.contains(.maskCommand),
+              isEnabled("scrollZoom")
+        else { return false }
+        let delta = event.getIntegerValueField(.scrollWheelEventDeltaAxis1)
+        guard delta != 0 else { return false }
+        KeyboardUtils.postKey(delta < 0 ? Self.keyPlus : Self.keyMinus, flags: .maskCommand)
+        return true
+    }
+}
+
+// MARK: - Shortcut data
+
+extension GnomeShortcutHandler {
+    // genstrings requires literal NSLocalizedString calls — can't use a wrapper function
+    static let general = NSLocalizedString("General", comment: "Shortcut category")
+    static let file = NSLocalizedString("File", comment: "Shortcut category")
+    static let view = NSLocalizedString("View", comment: "Shortcut category")
+    static let textEditing = NSLocalizedString("Text Editing", comment: "Shortcut category")
+    static let finder = NSLocalizedString("Finder", comment: "Shortcut category")
+    static let tabsWindows = NSLocalizedString("Tabs & Windows", comment: "Shortcut category")
+    static let browsers = NSLocalizedString("Browsers", comment: "Shortcut category")
+    static let terminal = NSLocalizedString("Terminal", comment: "Shortcut category")
+    static let codeEditor = NSLocalizedString("Code Editor", comment: "Shortcut category")
+
+    static let categories = [general, file, view, textEditing, finder, tabsWindows, browsers, terminal, codeEditor]
+
+    // swiftlint:disable line_length
+    static let allShortcuts: [GnomeShortcutDef] = [
+        GnomeShortcutDef(id: "copy", label: NSLocalizedString("Copy", comment: ""), from: "⌃C", to: "⌘C", category: general),
+        GnomeShortcutDef(id: "cut", label: NSLocalizedString("Cut", comment: ""), from: "⌃X", to: "⌘X", category: general),
+        GnomeShortcutDef(id: "paste", label: NSLocalizedString("Paste", comment: ""), from: "⌃V", to: "⌘V", category: general),
+        GnomeShortcutDef(id: "undo", label: NSLocalizedString("Undo", comment: ""), from: "⌃Z", to: "⌘Z", category: general),
+        GnomeShortcutDef(id: "redo", label: NSLocalizedString("Redo", comment: ""), from: "⌃Y", to: "⌘⇧Z", category: general),
+        GnomeShortcutDef(id: "selectAll", label: NSLocalizedString("Select All", comment: ""), from: "⌃A", to: "⌘A", category: general),
+        GnomeShortcutDef(id: "find", label: NSLocalizedString("Find", comment: ""), from: "⌃F", to: "⌘F", category: general),
+        GnomeShortcutDef(id: "lockScreen", label: NSLocalizedString("Lock Screen", comment: ""), from: "⌥L", to: "⌃⌘Q", category: general),
+
+        GnomeShortcutDef(id: "new", label: NSLocalizedString("New", comment: ""), from: "⌃N", to: "⌘N", category: file),
+        GnomeShortcutDef(id: "save", label: NSLocalizedString("Save", comment: ""), from: "⌃S", to: "⌘S", category: file),
+        GnomeShortcutDef(id: "print", label: NSLocalizedString("Print", comment: ""), from: "⌃P", to: "⌘P", category: file),
+        GnomeShortcutDef(id: "quit", label: NSLocalizedString("Quit", comment: ""), from: "⌃Q", to: "⌘Q", category: file),
+
+        GnomeShortcutDef(id: "zoomIn", label: NSLocalizedString("Zoom In", comment: ""), from: "⌃+", to: "⌘+", category: view),
+        GnomeShortcutDef(id: "zoomOut", label: NSLocalizedString("Zoom Out", comment: ""), from: "⌃-", to: "⌘-", category: view),
+        GnomeShortcutDef(id: "zoomReset", label: NSLocalizedString("Reset Zoom", comment: ""), from: "⌃0", to: "⌘0", category: view),
+        GnomeShortcutDef(id: "fullscreen", label: NSLocalizedString("Full Screen", comment: ""), from: "F11", to: "⌃⌘F", category: view),
+
+        GnomeShortcutDef(id: "getInfo", label: NSLocalizedString("Properties", comment: ""), from: "⌥↩", to: "⌘I", category: finder),
+        GnomeShortcutDef(id: "finderDelete", label: NSLocalizedString("Move to Trash", comment: ""), from: "⌦", to: "⌘⌫", category: finder),
+        GnomeShortcutDef(id: "rename", label: NSLocalizedString("Rename", comment: ""), from: "F2", to: "↩", category: finder),
+
+        GnomeShortcutDef(id: "bold", label: NSLocalizedString("Bold", comment: ""), from: "⌃B", to: "⌘B", category: textEditing),
+        GnomeShortcutDef(id: "underline", label: NSLocalizedString("Underline", comment: ""), from: "⌃U", to: "⌘U", category: textEditing),
+        GnomeShortcutDef(id: "deleteWord", label: NSLocalizedString("Delete Word", comment: ""), from: "⌃⌫", to: "⌥⌫", category: textEditing),
+        GnomeShortcutDef(id: "forwardDeleteWord", label: NSLocalizedString("Fwd Delete Word", comment: ""), from: "⌃⌦", to: "⌥⌦", category: textEditing),
+        GnomeShortcutDef(id: "wordLeft", label: NSLocalizedString("Word Left", comment: ""), from: "⌃←", to: "⌥←", category: textEditing),
+        GnomeShortcutDef(id: "wordRight", label: NSLocalizedString("Word Right", comment: ""), from: "⌃→", to: "⌥→", category: textEditing),
+
+        GnomeShortcutDef(id: "newTab", label: NSLocalizedString("New Tab", comment: ""), from: "⌃T", to: "⌘T", category: tabsWindows),
+        GnomeShortcutDef(id: "closeTab", label: NSLocalizedString("Close Tab", comment: ""), from: "⌃W", to: "⌘W", category: tabsWindows),
+        GnomeShortcutDef(id: "reopenTab", label: NSLocalizedString("Reopen Tab", comment: ""), from: "⌃⇧T", to: "⌘⇧T", category: tabsWindows),
+        GnomeShortcutDef(id: "closeWindow", label: NSLocalizedString("Close Window", comment: ""), from: "⌥F4", to: "⌘W", category: tabsWindows),
+
+        GnomeShortcutDef(id: "addressBar", label: NSLocalizedString("Address Bar", comment: ""), from: "⌃L", to: "⌘L", category: browsers),
+        GnomeShortcutDef(id: "downloads", label: NSLocalizedString("Downloads", comment: ""), from: "⌃J", to: "⌘J", category: browsers),
+        GnomeShortcutDef(id: "reload", label: NSLocalizedString("Reload", comment: ""), from: "⌃R", to: "⌘R", category: browsers),
+        GnomeShortcutDef(id: "devTools", label: NSLocalizedString("Developer Tools", comment: ""), from: "⌃⇧I", to: "⌘⌥I", category: browsers),
+        GnomeShortcutDef(id: "devToolsF12", label: NSLocalizedString("Developer Tools", comment: ""), from: "F12", to: "⌘⌥I", category: browsers),
+        GnomeShortcutDef(id: "viewHistory", label: NSLocalizedString("View History", comment: ""), from: "⌃H", to: "⌘Y", category: browsers),
+        GnomeShortcutDef(id: "viewSource", label: NSLocalizedString("View Source", comment: ""), from: "⌃U", to: "⌘U", category: browsers),
+        GnomeShortcutDef(id: "privateWindow", label: NSLocalizedString("New Private Window", comment: ""), from: "⌃⇧P", to: "⌘⇧P", category: browsers),
+        GnomeShortcutDef(id: "scrollZoom", label: NSLocalizedString("Scroll Zoom", comment: ""), from: "⌃Scroll", to: "⌘±", category: browsers),
+
+        GnomeShortcutDef(id: "termCopy", label: NSLocalizedString("Copy", comment: ""), from: "⌃⇧C", to: "⌘C", category: terminal),
+        GnomeShortcutDef(id: "termPaste", label: NSLocalizedString("Paste", comment: ""), from: "⌃⇧V", to: "⌘V", category: terminal),
+        GnomeShortcutDef(id: "termCloseTab", label: NSLocalizedString("Close Tab", comment: ""), from: "⌃⇧W", to: "⌘W", category: terminal),
+        GnomeShortcutDef(id: "termCloseWindow", label: NSLocalizedString("Close Window", comment: ""), from: "⌃⇧Q", to: "⌘Q", category: terminal),
+        GnomeShortcutDef(id: "termNewTab", label: NSLocalizedString("New Tab", comment: ""), from: "⌃⇧T", to: "⌘T", category: terminal),
+
+        GnomeShortcutDef(id: "settings", label: NSLocalizedString("Settings", comment: ""), from: "⌃,", to: "⌘,", category: codeEditor),
+        GnomeShortcutDef(id: "toggleComment", label: NSLocalizedString("Toggle Comment", comment: ""), from: "⌃/", to: "⌘/", category: codeEditor),
+        GnomeShortcutDef(id: "indent", label: NSLocalizedString("Indent", comment: ""), from: "⌃]", to: "⌘]", category: codeEditor),
+        GnomeShortcutDef(id: "outdent", label: NSLocalizedString("Outdent", comment: ""), from: "⌃[", to: "⌘[", category: codeEditor),
+        GnomeShortcutDef(id: "cmdEnter", label: NSLocalizedString("Run / Confirm", comment: ""), from: "⌃↩", to: "⌘↩", category: codeEditor),
+        GnomeShortcutDef(id: "commandPalette", label: NSLocalizedString("Command Palette", comment: ""), from: "⌃⇧P", to: "⌘⇧P", category: codeEditor),
+        GnomeShortcutDef(id: "deleteLine", label: NSLocalizedString("Delete Line", comment: ""), from: "⌃⇧K", to: "⌘⇧K", category: codeEditor),
+        GnomeShortcutDef(id: "insertLineAbove", label: NSLocalizedString("Insert Line Above", comment: ""), from: "⌃⇧↩", to: "⌘⇧↩", category: codeEditor),
+        GnomeShortcutDef(id: "hyperlink", label: NSLocalizedString("Insert Link", comment: ""), from: "⌃K", to: "⌘K", category: codeEditor),
+        GnomeShortcutDef(id: "duplicate", label: NSLocalizedString("Duplicate", comment: ""), from: "⌃D", to: "⌘D", category: codeEditor),
+        GnomeShortcutDef(id: "searchSelection", label: NSLocalizedString("Search Selection", comment: ""), from: "⌃E", to: "⌘E", category: codeEditor),
+        GnomeShortcutDef(id: "findReplace", label: NSLocalizedString("Find and Replace", comment: ""), from: "⌃H", to: "⌘⌥F", category: codeEditor)
+    ]
+    // swiftlint:enable line_length
+
+    static func shortcuts(in category: String) -> [GnomeShortcutDef] {
+        allShortcuts.filter { $0.category == category }
+    }
+}
+
+// MARK: - Event handling
+
+extension GnomeShortcutHandler {
     /// Returns true if the event was consumed.
     func handleKeyDown(event: CGEvent) -> Bool {
         let keyCode = event.getIntegerValueField(.keyboardEventKeycode)
@@ -226,210 +253,119 @@ class GnomeShortcutHandler {
 
         if hasCommand { return false }
 
-        let isTerminal = KeyboardUtils.isTerminalApp()
-
-        // --- Ctrl+key remaps ---
         if hasControl && !hasOption {
-            // Terminal Ctrl+Shift shortcuts (must be checked before passthrough)
-            if isTerminal && hasShift,
-               let id = Self.terminalShiftMap[keyCode], isEnabled(id)
-            {
-                var newFlags = flags
-                newFlags.remove([.maskControl, .maskShift])
-                newFlags.insert(.maskCommand)
-                KeyboardUtils.postKey(keyCode, flags: newFlags)
-                return true
-            }
-
-            if isTerminal && Self.terminalPassthroughKeys.contains(keyCode) {
-                return false
-            }
-
-            // Ctrl+Tab already works correctly on Mac
-            if keyCode == Self.keyTab { return false }
-
-            // Ctrl+Y → Cmd+Shift+Z (Redo)
-            if keyCode == Self.keyY && !hasShift && isEnabled("redo") {
-                var newFlags = flags
-                newFlags.remove(.maskControl)
-                newFlags.insert([.maskCommand, .maskShift])
-                KeyboardUtils.postKey(Self.keyZ, flags: newFlags)
-                return true
-            }
-
-            // Ctrl+Delete → Opt+Delete (Delete Word)
-            if keyCode == Self.keyDelete && !hasShift && isEnabled("deleteWord") {
-                var newFlags = flags
-                newFlags.remove(.maskControl)
-                newFlags.insert(.maskAlternate)
-                KeyboardUtils.postKey(Self.keyDelete, flags: newFlags)
-                return true
-            }
-
-            // Ctrl+Forward Delete → Opt+Forward Delete (Forward Delete Word)
-            if keyCode == Self.keyForwardDelete && !hasShift && isEnabled("forwardDeleteWord") {
-                var newFlags = flags
-                newFlags.remove(.maskControl)
-                newFlags.insert(.maskAlternate)
-                KeyboardUtils.postKey(Self.keyForwardDelete, flags: newFlags)
-                return true
-            }
-
-            // Ctrl+Left → Opt+Left (Word Left)
-            if keyCode == Self.keyLeft && isEnabled("wordLeft") {
-                var newFlags = flags
-                newFlags.remove(.maskControl)
-                newFlags.insert(.maskAlternate)
-                KeyboardUtils.postKey(keyCode, flags: newFlags)
-                return true
-            }
-
-            // Ctrl+Right → Opt+Right (Word Right)
-            if keyCode == Self.keyRight && isEnabled("wordRight") {
-                var newFlags = flags
-                newFlags.remove(.maskControl)
-                newFlags.insert(.maskAlternate)
-                KeyboardUtils.postKey(keyCode, flags: newFlags)
-                return true
-            }
-
-            // Ctrl+Shift+I → Cmd+Opt+I (Developer Tools)
-            if hasShift && keyCode == Self.keyI && isEnabled("devTools") {
-                var newFlags = flags
-                newFlags.remove([.maskControl, .maskShift])
-                newFlags.insert([.maskCommand, .maskAlternate])
-                KeyboardUtils.postKey(Self.keyI, flags: newFlags)
-                return true
-            }
-
-            // Ctrl+H → Cmd+Opt+F (Find and Replace) or Cmd+Y (View History)
-            if keyCode == Self.keyH && !hasShift {
-                if isEnabled("findReplace") {
-                    var newFlags = flags
-                    newFlags.remove(.maskControl)
-                    newFlags.insert([.maskCommand, .maskAlternate])
-                    KeyboardUtils.postKey(Self.keyF, flags: newFlags)
-                    return true
-                }
-                if isEnabled("viewHistory") {
-                    var newFlags = flags
-                    newFlags.remove(.maskControl)
-                    newFlags.insert(.maskCommand)
-                    KeyboardUtils.postKey(Self.keyY, flags: newFlags)
-                    return true
-                }
-            }
-
-            // Ctrl+Shift+key shortcuts (check before base Ctrl+key)
-            if hasShift, let ids = Self.ctrlShiftMap[keyCode] {
-                if ids.contains(where: { isEnabled($0) }) {
-                    var newFlags = flags
-                    newFlags.remove(.maskControl)
-                    newFlags.insert(.maskCommand)
-                    KeyboardUtils.postKey(keyCode, flags: newFlags)
-                    return true
-                }
-                return false
-            }
-
-            // General Ctrl → Cmd swap
-            if let ids = Self.ctrlToCmdMap[keyCode], ids.contains(where: { isEnabled($0) }) {
-                var newFlags = flags
-                newFlags.remove(.maskControl)
-                newFlags.insert(.maskCommand)
-                KeyboardUtils.postKey(keyCode, flags: newFlags)
-                return true
-            }
+            return handleCtrlKey(keyCode: keyCode, flags: flags, hasShift: hasShift,
+                                 isTerminal: KeyboardUtils.isTerminalApp())
         }
 
-        // --- Alt (Option) shortcuts ---
         if hasOption && !hasControl {
-            // Alt+F4 → Cmd+W (Close Window)
-            if keyCode == Self.keyF4 && isEnabled("closeWindow") {
-                var newFlags = flags
-                newFlags.remove(.maskAlternate)
-                newFlags.insert(.maskCommand)
-                KeyboardUtils.postKey(Self.keyW, flags: newFlags)
-                return true
-            }
-
-            // Alt+Enter → Cmd+I (Properties / Get Info)
-            if keyCode == Self.keyReturn && !hasShift && isEnabled("getInfo") {
-                var newFlags = flags
-                newFlags.remove(.maskAlternate)
-                newFlags.insert(.maskCommand)
-                KeyboardUtils.postKey(Self.keyI, flags: newFlags)
-                return true
-            }
-
-            // Alt+L → Cmd+Ctrl+Q (Lock Screen)
-            if keyCode == Self.keyL && !hasShift && isEnabled("lockScreen") {
-                var newFlags = flags
-                newFlags.remove(.maskAlternate)
-                newFlags.insert([.maskCommand, .maskControl])
-                KeyboardUtils.postKey(Self.keyQ, flags: newFlags)
-                return true
-            }
+            return handleAltKey(keyCode: keyCode, flags: flags, hasShift: hasShift)
         }
 
-        // --- No-modifier shortcuts ---
         if !hasControl && !hasOption && !hasCommand && !hasShift {
-            // Forward Delete → Cmd+Backspace (Move to Trash in Finder)
-            if keyCode == Self.keyForwardDelete
-                && isEnabled("finderDelete")
-                && !KeyboardUtils.isFocusedOnTextField()
-            {
-                var newFlags = flags
-                newFlags.insert(.maskCommand)
-                KeyboardUtils.postKey(Self.keyDelete, flags: newFlags)
-                return true
-            }
-
-            // F2 → Return (Rename in Finder)
-            if keyCode == Self.keyF2
-                && isEnabled("rename")
-                && !KeyboardUtils.isFocusedOnTextField()
-            {
-                KeyboardUtils.postKey(Self.keyReturn, flags: flags)
-                return true
-            }
-
-            // F11 → Ctrl+Cmd+F (Fullscreen)
-            if keyCode == Self.keyF11 && isEnabled("fullscreen") {
-                var newFlags = flags
-                newFlags.insert([.maskCommand, .maskControl])
-                KeyboardUtils.postKey(Self.keyF, flags: newFlags)
-                return true
-            }
-
-            // F12 → Cmd+Opt+I (Developer Tools)
-            if keyCode == Self.keyF12 && isEnabled("devToolsF12") {
-                var newFlags = flags
-                newFlags.insert([.maskCommand, .maskAlternate])
-                KeyboardUtils.postKey(Self.keyI, flags: newFlags)
-                return true
-            }
+            return handleNoModifierKey(keyCode: keyCode, flags: flags)
         }
 
         return false
     }
 
-    private static let keyPlus: Int64 = 0x18  // = key
-    private static let keyMinus: Int64 = 0x1B // - key
+    // MARK: - Ctrl+key remaps
 
-    /// Handles Ctrl+scroll → Cmd+Plus/Minus in browsers. Returns true if consumed.
-    func handleScroll(event: CGEvent) -> Bool {
-        guard event.flags.contains(.maskControl),
-              !event.flags.contains(.maskCommand),
-              isEnabled("scrollZoom")
-        else { return false }
+    private func handleCtrlKey(keyCode: Int64, flags: CGEventFlags,
+                               hasShift: Bool, isTerminal: Bool) -> Bool {
+        // Terminal Ctrl+Shift shortcuts (must be checked before passthrough)
+        if isTerminal && hasShift,
+           let id = Self.terminalShiftMap[keyCode], isEnabled(id) {
+            return remap(keyCode, flags: flags, remove: [.maskControl, .maskShift], add: .maskCommand)
+        }
+        if isTerminal && Self.terminalPassthroughKeys.contains(keyCode) { return false }
+        if keyCode == Self.keyTab { return false } // Ctrl+Tab already works on Mac
 
-        let delta = event.getIntegerValueField(.scrollWheelEventDeltaAxis1)
-        guard delta != 0 else { return false }
+        // Special remaps (non-standard modifier swaps)
+        if let result = handleCtrlSpecialKey(keyCode: keyCode, flags: flags, hasShift: hasShift) {
+            return result
+        }
 
-        let key = delta < 0 ? Self.keyPlus : Self.keyMinus
-        KeyboardUtils.postKey(key, flags: .maskCommand)
-        return true
+        // Ctrl+Shift+key shortcuts (check before base Ctrl+key)
+        if hasShift, let ids = Self.ctrlShiftMap[keyCode] {
+            guard ids.contains(where: { isEnabled($0) }) else { return false }
+            return remap(keyCode, flags: flags, remove: .maskControl, add: .maskCommand)
+        }
+
+        // General Ctrl → Cmd swap
+        if let ids = Self.ctrlToCmdMap[keyCode], ids.contains(where: { isEnabled($0) }) {
+            return remap(keyCode, flags: flags, remove: .maskControl, add: .maskCommand)
+        }
+        return false
     }
 
+    /// Handles Ctrl+key remaps that need non-standard modifier changes.
+    /// Returns `true` if consumed, `false` if not consumed, `nil` if not handled.
+    private func handleCtrlSpecialKey(keyCode: Int64, flags: CGEventFlags,
+                                      hasShift: Bool) -> Bool? {
+        if keyCode == Self.keyY && !hasShift && isEnabled("redo") { // Ctrl+Y → ⌘⇧Z
+            return remap(Self.keyZ, flags: flags, remove: .maskControl, add: [.maskCommand, .maskShift])
+        }
+        if keyCode == Self.keyDelete && !hasShift && isEnabled("deleteWord") { // Ctrl+⌫ → ⌥⌫
+            return remap(Self.keyDelete, flags: flags, remove: .maskControl, add: .maskAlternate)
+        }
+        if keyCode == Self.keyForwardDelete && !hasShift && isEnabled("forwardDeleteWord") { // Ctrl+⌦ → ⌥⌦
+            return remap(Self.keyForwardDelete, flags: flags, remove: .maskControl, add: .maskAlternate)
+        }
+        if keyCode == Self.keyLeft && isEnabled("wordLeft") { // Ctrl+← → ⌥←
+            return remap(keyCode, flags: flags, remove: .maskControl, add: .maskAlternate)
+        }
+        if keyCode == Self.keyRight && isEnabled("wordRight") { // Ctrl+→ → ⌥→
+            return remap(keyCode, flags: flags, remove: .maskControl, add: .maskAlternate)
+        }
+        if hasShift && keyCode == Self.keyI && isEnabled("devTools") { // Ctrl+Shift+I → ⌘⌥I
+            return remap(Self.keyI, flags: flags, remove: [.maskControl, .maskShift],
+                         add: [.maskCommand, .maskAlternate])
+        }
+        if keyCode == Self.keyH && !hasShift { // Ctrl+H → ⌘⌥F or ⌘Y
+            if isEnabled("findReplace") {
+                return remap(Self.keyF, flags: flags, remove: .maskControl,
+                             add: [.maskCommand, .maskAlternate])
+            }
+            if isEnabled("viewHistory") {
+                return remap(Self.keyY, flags: flags, remove: .maskControl, add: .maskCommand)
+            }
+        }
+        return nil
+    }
+
+    // MARK: - Alt (Option) shortcuts
+
+    private func handleAltKey(keyCode: Int64, flags: CGEventFlags, hasShift: Bool) -> Bool {
+        if keyCode == Self.keyF4 && isEnabled("closeWindow") { // Alt+F4 → ⌘W
+            return remap(Self.keyW, flags: flags, remove: .maskAlternate, add: .maskCommand)
+        }
+        if keyCode == Self.keyReturn && !hasShift && isEnabled("getInfo") { // Alt+Enter → ⌘I
+            return remap(Self.keyI, flags: flags, remove: .maskAlternate, add: .maskCommand)
+        }
+        if keyCode == Self.keyL && !hasShift && isEnabled("lockScreen") { // Alt+L → ⌃⌘Q
+            return remap(Self.keyQ, flags: flags, remove: .maskAlternate, add: [.maskCommand, .maskControl])
+        }
+        return false
+    }
+
+    // MARK: - No-modifier shortcuts
+
+    private func handleNoModifierKey(keyCode: Int64, flags: CGEventFlags) -> Bool {
+        if keyCode == Self.keyForwardDelete // ⌦ → ⌘⌫ (Move to Trash)
+            && isEnabled("finderDelete") && !KeyboardUtils.isFocusedOnTextField() {
+            return remap(Self.keyDelete, flags: flags, add: .maskCommand)
+        }
+        if keyCode == Self.keyF2 // F2 → Return (Rename)
+            && isEnabled("rename") && !KeyboardUtils.isFocusedOnTextField() {
+            return remap(Self.keyReturn, flags: flags, add: [])
+        }
+        if keyCode == Self.keyF11 && isEnabled("fullscreen") { // F11 → ⌃⌘F
+            return remap(Self.keyF, flags: flags, add: [.maskCommand, .maskControl])
+        }
+        if keyCode == Self.keyF12 && isEnabled("devToolsF12") { // F12 → ⌘⌥I
+            return remap(Self.keyI, flags: flags, add: [.maskCommand, .maskAlternate])
+        }
+        return false
+    }
 }

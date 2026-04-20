@@ -25,11 +25,11 @@ class HotCorner {
 
         if let screen = screenAtTopLeftCorner(pos) {
             if !triggered && (now - lastTriggerTime) >= cooldown {
-                let dt = now - lastMouseTime
-                if dt > 0 && dt < 0.5 {
-                    let dx = pos.x - lastMousePos.x
-                    let dy = pos.y - lastMousePos.y
-                    let speed = sqrt(dx * dx + dy * dy) / CGFloat(dt)
+                let elapsed = now - lastMouseTime
+                if elapsed > 0 && elapsed < 0.5 {
+                    let deltaX = pos.x - lastMousePos.x
+                    let deltaY = pos.y - lastMousePos.y
+                    let speed = sqrt(deltaX * deltaX + deltaY * deltaY) / CGFloat(elapsed)
 
                     if speed >= velocityThreshold {
                         triggered = true
@@ -55,8 +55,7 @@ class HotCorner {
             let cornerY = primaryHeight - frame.origin.y - frame.height
 
             if point.x >= cornerX && point.x < cornerX + zone
-                && point.y >= cornerY && point.y < cornerY + zone
-            {
+                && point.y >= cornerY && point.y < cornerY + zone {
                 return screen
             }
         }

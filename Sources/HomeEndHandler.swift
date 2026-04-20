@@ -17,7 +17,9 @@ PROFILE=$(defaults read com.apple.Terminal "Default Window Settings")
   ~/Library/Preferences/com.apple.Terminal.plist
 
 # zsh: bind the escape sequences to cursor movement
-grep -q 'beginning-of-line' ~/.zshrc 2>/dev/null || printf '\n# Home/End\nbindkey "\\e[H" beginning-of-line\nbindkey "\\e[F" end-of-line\n' >> ~/.zshrc && source ~/.zshrc
+grep -q 'beginning-of-line' ~/.zshrc 2>/dev/null || \
+  printf '\n# Home/End\nbindkey "\\e[H" beginning-of-line\nbindkey "\\e[F" end-of-line\n' \
+  >> ~/.zshrc && source ~/.zshrc
 */
 
 class HomeEndHandler {

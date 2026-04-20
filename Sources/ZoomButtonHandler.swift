@@ -26,11 +26,13 @@ class ZoomButtonHandler {
             if let saved = savedFrames.removeValue(forKey: key) {
                 setFrame(of: window, to: saved)
             } else {
-                let w = fillFrame.width * 0.75
-                let h = fillFrame.height * 0.75
-                let x = fillFrame.origin.x + (fillFrame.width - w) / 2
-                let y = fillFrame.origin.y + (fillFrame.height - h) / 2
-                setFrame(of: window, to: CGRect(x: x, y: y, width: w, height: h))
+                let fallbackWidth = fillFrame.width * 0.75
+                let fallbackHeight = fillFrame.height * 0.75
+                let fallbackX = fillFrame.origin.x + (fillFrame.width - fallbackWidth) / 2
+                let fallbackY = fillFrame.origin.y + (fillFrame.height - fallbackHeight) / 2
+                setFrame(of: window, to: CGRect(
+                    x: fallbackX, y: fallbackY,
+                    width: fallbackWidth, height: fallbackHeight))
             }
         } else {
             savedFrames[key] = windowFrame
@@ -62,7 +64,10 @@ class ZoomButtonHandler {
         for _ in 0..<10 {
             var parentValue: AnyObject?
             AXUIElementCopyAttributeValue(current, kAXParentAttribute as CFString, &parentValue)
-            guard let parent = parentValue else { return nil }
+            guard let parent = parentValue,
+                  CFGetTypeID(parent) == AXUIElementGetTypeID()
+            else { return nil }
+            // swiftlint:disable:next force_cast
             let parentElement = parent as! AXUIElement
             var roleValue: AnyObject?
             AXUIElementCopyAttributeValue(parentElement, kAXRoleAttribute as CFString, &roleValue)
@@ -91,19 +96,25 @@ class ZoomButtonHandler {
 
         var position = CGPoint.zero
         var size = CGSize.zero
-        if let pv = positionValue { AXValueGetValue(pv as! AXValue, .cgPoint, &position) }
-        if let sv = sizeValue { AXValueGetValue(sv as! AXValue, .cgSize, &size) }
+        // swiftlint:disable force_cast
+        if let positionValue {
+            AXValueGetValue(positionValue as! AXValue, .cgPoint, &position)
+        }
+        if let sizeValue {
+            AXValueGetValue(sizeValue as! AXValue, .cgSize, &size)
+        }
+        // swiftlint:enable force_cast
         return CGRect(origin: position, size: size)
     }
 
     private func setFrame(of window: AXUIElement, to frame: CGRect) {
         var position = frame.origin
         var size = frame.size
-        if let pv = AXValueCreate(.cgPoint, &position) {
-            AXUIElementSetAttributeValue(window, kAXPositionAttribute as CFString, pv)
+        if let posValue = AXValueCreate(.cgPoint, &position) {
+            AXUIElementSetAttributeValue(window, kAXPositionAttribute as CFString, posValue)
         }
-        if let sv = AXValueCreate(.cgSize, &size) {
-            AXUIElementSetAttributeValue(window, kAXSizeAttribute as CFString, sv)
+        if let sizeValue = AXValueCreate(.cgSize, &size) {
+            AXUIElementSetAttributeValue(window, kAXSizeAttribute as CFString, sizeValue)
         }
     }
 
@@ -118,8 +129,8 @@ class ZoomButtonHandler {
 
     private func visibleFrameInAXCoords(screen: NSScreen) -> CGRect {
         let primaryHeight = NSScreen.screens.first?.frame.height ?? 0
-        let vf = screen.visibleFrame
-        return CGRect(x: vf.origin.x, y: primaryHeight - vf.origin.y - vf.height,
-                      width: vf.width, height: vf.height)
+        let visible = screen.visibleFrame
+        return CGRect(x: visible.origin.x, y: primaryHeight - visible.origin.y - visible.height,
+                      width: visible.width, height: visible.height)
     }
 }

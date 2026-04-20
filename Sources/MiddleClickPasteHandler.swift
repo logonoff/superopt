@@ -10,12 +10,12 @@ class MiddleClickPasteHandler {
 
         let src = CGEventSource(stateID: .hidSystemState)
         guard let down = CGEvent(keyboardEventSource: src, virtualKey: Self.keyV, keyDown: true),
-              let up = CGEvent(keyboardEventSource: src, virtualKey: Self.keyV, keyDown: false)
+              let keyUp = CGEvent(keyboardEventSource: src, virtualKey: Self.keyV, keyDown: false)
         else { return false }
         down.flags = .maskCommand
-        up.flags = .maskCommand
+        keyUp.flags = .maskCommand
         down.post(tap: .cgSessionEventTap)
-        up.post(tap: .cgSessionEventTap)
+        keyUp.post(tap: .cgSessionEventTap)
         return true
     }
 }
