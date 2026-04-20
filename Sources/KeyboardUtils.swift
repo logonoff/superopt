@@ -29,6 +29,33 @@ enum KeyboardUtils {
         return terminalBundleIDs.contains(bundleID)
     }
 
+    static let codeEditorBundleIDs: Set<String> = [
+        "com.microsoft.VSCode",
+        "com.todesktop.230313mzl4w4u92", // Cursor
+        "com.vscodium.VSCodium",
+        "dev.zed.Zed",
+        "com.sublimetext.4",
+        "com.sublimetext.3",
+        "com.jetbrains.intellij",
+        "com.jetbrains.intellij.ce",
+        "com.jetbrains.WebStorm",
+        "com.jetbrains.pycharm",
+        "com.jetbrains.pycharm.ce",
+        "com.jetbrains.CLion",
+        "com.jetbrains.goland",
+        "com.jetbrains.rider",
+        "com.jetbrains.PhpStorm",
+        "com.jetbrains.rubymine",
+        "com.panic.Nova",
+    ]
+
+    static func isCodeEditorApp() -> Bool {
+        guard let bundleID = NSWorkspace.shared.frontmostApplication?.bundleIdentifier else {
+            return false
+        }
+        return codeEditorBundleIDs.contains(bundleID)
+    }
+
     static func isFinderApp() -> Bool {
         NSWorkspace.shared.frontmostApplication?.bundleIdentifier == "com.apple.finder"
     }

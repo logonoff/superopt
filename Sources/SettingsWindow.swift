@@ -9,6 +9,8 @@ private let _extraStrings = [
     NSLocalizedString("⌥ → Mission Control", comment: "Toggle label"),
     NSLocalizedString("⌥⌥ → Apps", comment: "Toggle label"),
     NSLocalizedString("⌥+N → Dock App", comment: "Toggle label"),
+    NSLocalizedString("Active only in terminal apps", comment: "Category hint"),
+    NSLocalizedString("Active only in code editors", comment: "Category hint"),
 ]
 
 struct SettingsView: View {
@@ -152,9 +154,16 @@ struct SettingsView: View {
                                     }
                                 }
                             } label: {
-                                Text(category)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                    .contentShape(Rectangle())
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text(category)
+                                    if let hint = Self.categoryHints[category] {
+                                        Text(hint)
+                                            .font(.caption)
+                                            .foregroundStyle(.secondary)
+                                    }
+                                }
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .contentShape(Rectangle())
                             }
                             .buttonStyle(.plain)
                         }
@@ -170,6 +179,13 @@ struct SettingsView: View {
         .frame(minHeight: 400, idealHeight: 600)
         .toggleStyle(.switch)
     }
+
+    private static let categoryHints: [String: String] = [
+        NSLocalizedString("Terminal", comment: "Shortcut category"):
+            NSLocalizedString("Active only in terminal apps", comment: "Category hint"),
+        NSLocalizedString("Code Editor", comment: "Shortcut category"):
+            NSLocalizedString("Active only in code editors", comment: "Category hint"),
+    ]
 
     private func notify(_ key: String, _ value: Any) {
         onSettingChanged?(key, value)

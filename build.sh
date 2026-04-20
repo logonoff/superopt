@@ -27,12 +27,11 @@ cp Info.plist "$APP_BUNDLE/Contents/"
 # Generate and bundle localization strings
 mkdir -p "$APP_BUNDLE/Contents/Resources"
 LPROJ_SRC="Locales/en.lproj"
-if [ ! -d "$LPROJ_SRC" ]; then
-    mkdir -p "$LPROJ_SRC"
-    genstrings -SwiftUI -o "$LPROJ_SRC" Sources/*.swift 2>/dev/null
-    iconv -f UTF-16 -t UTF-8 "$LPROJ_SRC/Localizable.strings" > "$LPROJ_SRC/Localizable.strings.tmp"
-    mv "$LPROJ_SRC/Localizable.strings.tmp" "$LPROJ_SRC/Localizable.strings"
-fi
+rm -rf "$LPROJ_SRC"
+mkdir -p "$LPROJ_SRC"
+genstrings -SwiftUI -o "$LPROJ_SRC" Sources/*.swift 2>/dev/null
+iconv -f UTF-16 -t UTF-8 "$LPROJ_SRC/Localizable.strings" > "$LPROJ_SRC/Localizable.strings.tmp"
+mv "$LPROJ_SRC/Localizable.strings.tmp" "$LPROJ_SRC/Localizable.strings"
 cp -R Locales/*.lproj "$APP_BUNDLE/Contents/Resources/"
 
 # Compile Liquid Glass icon if actool is available (requires Xcode, not just CLT)

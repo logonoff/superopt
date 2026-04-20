@@ -78,6 +78,7 @@ class GnomeShortcutHandler {
         GnomeShortcutDef(id: "hyperlink",       label: NSLocalizedString("Insert Link", comment: ""),       from: "⌃K",  to: "⌘K",   category: codeEditor),
         GnomeShortcutDef(id: "duplicate",       label: NSLocalizedString("Duplicate", comment: ""),         from: "⌃D",  to: "⌘D",   category: codeEditor),
         GnomeShortcutDef(id: "searchSelection", label: NSLocalizedString("Search Selection", comment: ""),  from: "⌃E",  to: "⌘E",   category: codeEditor),
+        GnomeShortcutDef(id: "findReplace",    label: NSLocalizedString("Find and Replace", comment: ""),  from: "⌃H",  to: "⌘⌥F",  category: codeEditor),
     ]
     // swiftlint:enable line_length
 
@@ -180,8 +181,18 @@ class GnomeShortcutHandler {
             UserDefaults.standard.stringArray(forKey: "gnomeDisabledShortcuts") ?? [])
     }
 
+    private static let terminalOnlyShortcuts: Set<String> = Set(
+        allShortcuts.filter { $0.category == terminal }.map(\.id)
+    )
+    private static let codeEditorOnlyShortcuts: Set<String> = Set(
+        allShortcuts.filter { $0.category == codeEditor }.map(\.id)
+    )
+
     private func isEnabled(_ id: String) -> Bool {
-        !disabledShortcuts.contains(id)
+        if disabledShortcuts.contains(id) { return false }
+        if Self.terminalOnlyShortcuts.contains(id) && !KeyboardUtils.isTerminalApp() { return false }
+        if Self.codeEditorOnlyShortcuts.contains(id) && !KeyboardUtils.isCodeEditorApp() { return false }
+        return true
     }
 
     // MARK: - Event handling
@@ -273,13 +284,22 @@ class GnomeShortcutHandler {
                 return true
             }
 
-            // Ctrl+H → Cmd+Y (View History)
-            if keyCode == Self.keyH && !hasShift && isEnabled("viewHistory") {
-                var newFlags = flags
-                newFlags.remove(.maskControl)
-                newFlags.insert(.maskCommand)
-                KeyboardUtils.postKey(Self.keyY, flags: newFlags)
-                return true
+            // Ctrl+H → Cmd+Opt+F (Find and Replace) or Cmd+Y (View History)
+            if keyCode == Self.keyH && !hasShift {
+                if isEnabled("findReplace") {
+                    var newFlags = flags
+                    newFlags.remove(.maskControl)
+                    newFlags.insert([.maskCommand, .maskAlternate])
+                    KeyboardUtils.postKey(Self.keyF, flags: newFlags)
+                    return true
+                }
+                if isEnabled("viewHistory") {
+                    var newFlags = flags
+                    newFlags.remove(.maskControl)
+                    newFlags.insert(.maskCommand)
+                    KeyboardUtils.postKey(Self.keyY, flags: newFlags)
+                    return true
+                }
             }
 
             // Ctrl+Shift+key shortcuts (check before base Ctrl+key)

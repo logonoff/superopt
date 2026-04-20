@@ -7,6 +7,12 @@
 /* Permission name */
 "Accessibility" = "Accessibility";
 
+/* Category hint */
+"Active only in code editors" = "Active only in code editors";
+
+/* Category hint */
+"Active only in terminal apps" = "Active only in terminal apps";
+
 /* No comment provided by engineer. */
 "Address Bar" = "Address Bar";
 
@@ -78,6 +84,9 @@
 
 /* No comment provided by engineer. */
 "Find" = "Find";
+
+/* No comment provided by engineer. */
+"Find and Replace" = "Find and Replace";
 
 /* Shortcut category */
 "Finder" = "Finder";
