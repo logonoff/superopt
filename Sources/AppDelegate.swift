@@ -11,8 +11,10 @@ func eventTapCallback(
     let delegate = Unmanaged<AppDelegate>.fromOpaque(userInfo).takeUnretainedValue()
 
     if type == .tapDisabledByTimeout || type == .tapDisabledByUserInput {
-        if let tap = delegate.eventTap {
+        if AXIsProcessTrusted(), let tap = delegate.eventTap {
             CGEvent.tapEnable(tap: tap, enable: true)
+        } else {
+            delegate.tearDownEventTap()
         }
         return Unmanaged.passUnretained(event)
     }
@@ -115,6 +117,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if !setupEventTap() {
             permissionHelper.showPermissionLoop()
         }
+
+        // React to Accessibility permission changes
+        DistributedNotificationCenter.default().addObserver(
+            self, selector: #selector(accessibilityChanged),
+            name: NSNotification.Name("com.apple.accessibility.api"), object: nil
+        )
+
+        // Safety net: periodically verify permissions in case the notification doesn't fire
+        Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true) { [weak self] _ in
+            self?.accessibilityChanged()
+        }
     }
     // MARK: - Event Tap
 
@@ -146,6 +159,22 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         CFRunLoopAddSource(CFRunLoopGetCurrent(), source, .commonModes)
         CGEvent.tapEnable(tap: tap, enable: true)
         return true
+    }
+
+    @objc private func accessibilityChanged() {
+        if AXIsProcessTrusted() {
+            if eventTap == nil { _ = setupEventTap() }
+        } else {
+            tearDownEventTap()
+        }
+    }
+
+    func tearDownEventTap() {
+        if let tap = eventTap {
+            CGEvent.tapEnable(tap: tap, enable: false)
+            CFMachPortInvalidate(tap)
+            eventTap = nil
+        }
     }
     // MARK: - Actions
 

@@ -95,16 +95,29 @@ class PermissionHelper {
         }
     }
 
+    private var permissionChanged = false
+
+    @objc private func permissionDidChange() {
+        permissionChanged = true
+    }
+
     // swiftlint:disable:next cyclomatic_complexity function_body_length
     func showPermissionLoop() {
-        let permissionTimer = Timer(timeInterval: 1.0, repeats: true) { [weak self] timer in
-            guard let self = self else { timer.invalidate(); return }
-            if AXIsProcessTrusted() && self.isInputMonitoringGranted() && self.trySetupEventTap() {
-                timer.invalidate()
+        permissionChanged = false
+        DistributedNotificationCenter.default().addObserver(
+            self, selector: #selector(permissionDidChange),
+            name: NSNotification.Name("com.apple.accessibility.api"), object: nil
+        )
+
+        // Lightweight timer to check the flag during modal sessions
+        let modalCheck = Timer(timeInterval: 1, repeats: true) { [weak self] _ in
+            guard let self = self, self.permissionChanged else { return }
+            self.permissionChanged = false
+            if AXIsProcessTrusted() && self.trySetupEventTap() {
                 NSApplication.shared.abortModal()
             }
         }
-        RunLoop.main.add(permissionTimer, forMode: .modalPanel)
+        RunLoop.main.add(modalCheck, forMode: .modalPanel)
 
         while true {
             let missing = buildMissingPermissions()
@@ -158,12 +171,20 @@ class PermissionHelper {
             }
             // Last button is always Quit
             if response == NSApplication.ModalResponse(rawValue: 1000 + buttonIndex) {
-                permissionTimer.invalidate()
+                modalCheck.invalidate()
+                removePermissionObserver()
                 NSApplication.shared.terminate(nil); return
             }
             // Continue button (alertFirstButtonReturn = 1000)
             if trySetupEventTap() { break }
         }
-        permissionTimer.invalidate()
+        modalCheck.invalidate()
+        removePermissionObserver()
+    }
+
+    private func removePermissionObserver() {
+        DistributedNotificationCenter.default().removeObserver(
+            self, name: NSNotification.Name("com.apple.accessibility.api"), object: nil
+        )
     }
 }
