@@ -51,7 +51,7 @@ class GnomeShortcutHandler {
         GnomeShortcutDef(id: "zoomIn", label: "Zoom In", from: "⌃+", to: "⌘+", category: "Browsers"),
         GnomeShortcutDef(id: "zoomOut", label: "Zoom Out", from: "⌃-", to: "⌘-", category: "Browsers"),
         GnomeShortcutDef(id: "zoomReset", label: "Reset Zoom", from: "⌃0", to: "⌘0", category: "Browsers"),
-        GnomeShortcutDef(id: "fullscreen", label: "Fullscreen", from: "F11", to: "⌃⌘F", category: "Browsers"),
+        GnomeShortcutDef(id: "fullscreen", label: "Full Screen", from: "F11", to: "⌃⌘F", category: "Browsers"),
         // Terminal
         GnomeShortcutDef(id: "termCopy", label: "Copy", from: "⌃⇧C", to: "⌘C", category: "Terminal"),
         GnomeShortcutDef(id: "termPaste", label: "Paste", from: "⌃⇧V", to: "⌘V", category: "Terminal"),

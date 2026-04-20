@@ -162,7 +162,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
             \(missing.joined(separator: ", "))
 
-            After granting, restart OptWin for changes to take effect.
+            After granting, restart OptWin for changes to take effect. \
+            If you recently updated OptWin, you may need to remove and re-add it in each permission list.
             """
         alert.alertStyle = .warning
         alert.addButton(withTitle: "Open Accessibility")
@@ -216,8 +217,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
         } catch {
             let alert = NSAlert()
-            alert.messageText = "Could Not Update Login Item"
-            alert.informativeText = "Open System Settings → General → Login Items to manage manually."
+            alert.messageText = "Unable to update login item"
+            alert.informativeText = "You can manage login items in System Settings → General → Login Items."
             alert.alertStyle = .warning
             alert.addButton(withTitle: "Open Login Items")
             alert.addButton(withTitle: "Cancel")

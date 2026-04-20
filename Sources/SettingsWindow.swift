@@ -26,16 +26,16 @@ struct SettingsView: View {
             Section("Desktop") {
                 Toggle(isOn: $hotCorners) {
                     Text("Hot Corner")
-                    Text("Slam mouse to top-left corner → Mission Control")
+                    Text("Moving the mouse to the top-left corner opens Mission Control")
                 }
                 .onChange(of: hotCorners) { _, val in notify("hotCornersEnabled", val) }
 
                 Toggle(isOn: $menuBarBg) {
                     Text("Dark Menu Bar")
                     if systemMenuBarBgOn {
-                        Text("Disable \"Show menu bar background\" in System Settings to use this")
+                        Text("Turn off Show Menu Bar Background in System Settings to use this")
                     } else {
-                        Text("Black bar behind menu bar when a window fills the screen")
+                        Text("Shows a black bar behind the menu bar when a window fills the screen")
                     }
                 }
                 .disabled(systemMenuBarBgOn)
@@ -43,7 +43,7 @@ struct SettingsView: View {
 
                 Toggle(isOn: $zoomButton) {
                     Text("Green Button Fills Window")
-                    Text("Green traffic light fills the window instead of entering full screen")
+                    Text("Clicking the green button fills the window instead of entering full screen")
                 }
                 .onChange(of: zoomButton) { _, val in notify("zoomButtonEnabled", val) }
             }
@@ -51,13 +51,13 @@ struct SettingsView: View {
             Section("Keyboard") {
                 Toggle(isOn: $lockKeyOSD) {
                     Text("Caps Lock OSD")
-                    Text("On-screen notification when Caps Lock is toggled")
+                    Text("Shows an on-screen notification when Caps Lock is toggled")
                 }
                 .onChange(of: lockKeyOSD) { _, val in notify("lockKeyOSDEnabled", val) }
 
                 Toggle(isOn: $homeEndRemap) {
                     Text("↖/↘ → Line Start/End")
-                    Text("Home/End keys move cursor to line start/end in text fields")
+                    Text("Home and End keys move the cursor to the start or end of the line")
                 }
                 .onChange(of: homeEndRemap) { _, val in notify("homeEndRemapEnabled", val) }
             }
@@ -74,25 +74,25 @@ struct SettingsView: View {
                     ForEach(1...9, id: \.self) { Text("\($0)").tag($0) }
                 } label: {
                     Text("Finder Position")
-                    Text("Which ⌥+N slot opens Finder (other apps shift to fill)")
+                    Text("Dock position assigned to Finder — other apps shift to fill")
                 }
                 .onChange(of: finderPosition) { _, val in notify("dockFinderPosition", val) }
 
                 Toggle(isOn: $finderCut) {
                     Text("Cut & Paste Files in Finder")
-                    Text("⌃X then ⌃V moves files instead of duplicating")
+                    Text("⌃X copies files for moving, ⌃V moves them to the current folder")
                 }
                 .onChange(of: finderCut) { _, val in notify("finderCutEnabled", val) }
 
                 Toggle(isOn: $middleClickPaste) {
-                    Text("Middle-click Paste")
-                    Text("Middle mouse button pastes from clipboard (X11-style)")
+                    Text("Middle-Click Paste")
+                    Text("Middle mouse button pastes from the clipboard")
                 }
                 .onChange(of: middleClickPaste) { _, val in notify("middleClickPasteEnabled", val) }
 
                 Toggle(isOn: $gnomeShortcuts) {
                     Text("Ctrl → ⌘ Keyboard Shortcuts")
-                    Text("Remap Ctrl+key to ⌘+key and other Linux-style shortcuts")
+                    Text("Remaps Ctrl+key to ⌘+key and other Linux-style shortcuts")
                 }
                 .onChange(of: gnomeShortcuts) { _, val in notify("gnomeShortcutsEnabled", val) }
 
