@@ -29,6 +29,8 @@ class DockLauncher {
 
     func launch(position: Int) {
         guard let url = appURL(at: position) else { return }
-        NSWorkspace.shared.open(url)
+        let config = NSWorkspace.OpenConfiguration()
+        config.activates = true
+        NSWorkspace.shared.openApplication(at: url, configuration: config)
     }
 }
