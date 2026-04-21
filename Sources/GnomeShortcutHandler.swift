@@ -237,7 +237,9 @@ extension GnomeShortcutHandler {
         GnomeShortcutDef(id: "insertLineAbove", label: NSLocalizedString("Insert Line Above", comment: ""), from: "⌃⇧↩", to: "⌘⇧↩", category: codeEditor),
         GnomeShortcutDef(id: "duplicate", label: NSLocalizedString("Duplicate", comment: ""), from: "⌃D", to: "⌘D", category: codeEditor),
         GnomeShortcutDef(id: "searchSelection", label: NSLocalizedString("Search Selection", comment: ""), from: "⌃E", to: "⌘E", category: codeEditor),
-        GnomeShortcutDef(id: "findReplace", label: NSLocalizedString("Find and Replace", comment: ""), from: "⌃H", to: "⌘⌥F", category: codeEditor)
+        GnomeShortcutDef(id: "findReplace", label: NSLocalizedString("Find and Replace", comment: ""), from: "⌃H", to: "⌘⌥F", category: codeEditor),
+        GnomeShortcutDef(id: "moveLineUp", label: NSLocalizedString("Move Line Up", comment: ""), from: "⌃⇧↑", to: "⌥↑", category: codeEditor),
+        GnomeShortcutDef(id: "moveLineDown", label: NSLocalizedString("Move Line Down", comment: ""), from: "⌃⇧↓", to: "⌥↓", category: codeEditor)
     ]
     // swiftlint:enable line_length
 
@@ -331,6 +333,12 @@ extension GnomeShortcutHandler {
         }
         if keyCode == Self.keyRight && isEnabled("wordRight") { // Ctrl+→ → ⌥→
             return remap(keyCode, flags: flags, remove: .maskControl, add: .maskAlternate)
+        }
+        if hasShift && keyCode == Self.keyDown && isEnabled("moveLineDown") { // Ctrl+Shift+↓ → ⌥↓
+            return remap(keyCode, flags: flags, remove: [.maskControl, .maskShift], add: .maskAlternate)
+        }
+        if hasShift && keyCode == Self.keyUp && isEnabled("moveLineUp") { // Ctrl+Shift+↑ → ⌥↑
+            return remap(keyCode, flags: flags, remove: [.maskControl, .maskShift], add: .maskAlternate)
         }
         if hasShift && keyCode == Self.keyDown && isEnabled("selectDown") { // Ctrl+Shift+↓ → Shift+↓
             return remap(keyCode, flags: flags, remove: .maskControl)
