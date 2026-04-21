@@ -55,6 +55,22 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Check if next branch can be fast-forwarded
+        id: check-next
+        run: |
+          if git ls-remote --exit-code origin next &>/dev/null; then
+            git fetch origin next
+            if git merge-base --is-ancestor origin/next HEAD; then
+              echo "can_ff=true" >> "$GITHUB_OUTPUT"
+            fi
+          fi
+
+      - name: Fast-forward next branch
+        if: steps.check-next.outputs.can_ff == 'true'
+        run: git push origin HEAD:next
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   deploy:
     runs-on: ubuntu-latest
     environment:
