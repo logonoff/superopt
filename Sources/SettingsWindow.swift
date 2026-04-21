@@ -25,6 +25,7 @@ private let _extraStrings = [
     NSLocalizedString("Shortcut Remapping", comment: "Section header"),
     NSLocalizedString("⌥ → Mission Control", comment: "Toggle label"),
     NSLocalizedString("⌥⌥ → Apps", comment: "Toggle label"),
+    NSLocalizedString("Window Tiling", comment: "Toggle label"),
     NSLocalizedString("⌥+N → Dock App", comment: "Toggle label"),
     NSLocalizedString("Copy, paste, undo, find, and other essentials", comment: "Category hint"),
     NSLocalizedString("New, save, print, and quit", comment: "Category hint"),
@@ -51,6 +52,7 @@ struct SettingsView: View {
     @AppStorage("dockFinderPosition") var finderPosition = 1
     @AppStorage("lockKeyOSDEnabled") var lockKeyOSD = true
     @AppStorage("homeEndRemapEnabled") var homeEndRemap = true
+    @AppStorage("windowTilingEnabled") var windowTiling = false
     @AppStorage("zoomButtonEnabled") var zoomButton = false
     @AppStorage("finderCutEnabled") var finderCut = false
     @AppStorage("middleClickPasteEnabled") var middleClickPaste = false
@@ -89,6 +91,12 @@ struct SettingsView: View {
                     Text("Clicking the green button fills the window instead of entering full screen")
                 }
                 .onChange(of: zoomButton) { _, val in notify("zoomButtonEnabled", val) }
+
+                Toggle(isOn: $windowTiling) {
+                    Text("Window Tiling")
+                    Text("⌥+Arrow keys tile, maximize, or restore windows")
+                }
+                .onChange(of: windowTiling) { _, val in notify("windowTilingEnabled", val) }
             }
 
             Section("Keyboard") {

@@ -39,6 +39,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private let finderCutHandler = FinderCutHandler()
     private let middleClickPasteHandler = MiddleClickPasteHandler()
     private let zoomButtonHandler = ZoomButtonHandler()
+    private let windowTilingHandler = WindowTilingHandler()
     private let scrollZoomHandler = ScrollZoomHandler()
     private let menuBarBackground = MenuBarBackground()
     private let settingsWindow = SettingsWindowController()
@@ -56,6 +57,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         "homeEndRemapEnabled": true,
         "menuBarBgEnabled": false,
         "appGridEnabled": true,
+        "windowTilingEnabled": false,
         "gnomeShortcutsEnabled": false,
         "finderCutEnabled": false,
         "middleClickPasteEnabled": false,
@@ -339,6 +341,7 @@ extension AppDelegate {
     }
 
     private func handleKeyDown(event: CGEvent) -> Bool {
+        if KeyboardUtils.isSynthetic(event) { return false }
         if isEnabled("dockShortcutsEnabled") && event.flags.contains(.maskAlternate) {
             let keyCode = event.getIntegerValueField(.keyboardEventKeycode)
             if let number = AppDelegate.numberKeyCodes[keyCode] {
@@ -361,6 +364,9 @@ extension AppDelegate {
                 triggerSpotlight()
                 return true
             }
+        }
+        if isEnabled("windowTilingEnabled") && windowTilingHandler.handleKeyDown(event: event) {
+            optionKeyHandler.markOtherInput(); return true
         }
         if isEnabled("gnomeShortcutsEnabled") && gnomeShortcutHandler.handleKeyDown(event: event) {
             optionKeyHandler.markOtherInput(); return true

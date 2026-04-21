@@ -11,6 +11,12 @@ enum KeyboardUtils {
         "dev.warp.Warp-Stable"
     ]
 
+    private static let syntheticTag: Int64 = 0x4F5054 // "OPT"
+
+    static func isSynthetic(_ event: CGEvent) -> Bool {
+        event.getIntegerValueField(.eventSourceUserData) == syntheticTag
+    }
+
     static func postKey(_ keyCode: Int64, flags: CGEventFlags) {
         let src = CGEventSource(stateID: .hidSystemState)
         guard let down = CGEvent(keyboardEventSource: src, virtualKey: CGKeyCode(keyCode), keyDown: true),
@@ -18,6 +24,8 @@ enum KeyboardUtils {
         else { return }
         down.flags = flags
         keyUp.flags = flags
+        down.setIntegerValueField(.eventSourceUserData, value: syntheticTag)
+        keyUp.setIntegerValueField(.eventSourceUserData, value: syntheticTag)
         down.post(tap: .cgSessionEventTap)
         keyUp.post(tap: .cgSessionEventTap)
     }

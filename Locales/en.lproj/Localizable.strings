@@ -364,6 +364,9 @@
 /* No comment provided by engineer. */
 "View Source" = "View Source";
 
+/* Toggle label */
+"Window Tiling" = "Window Tiling";
+
 /* No comment provided by engineer. */
 "Word Left" = "Word Left";
 
@@ -402,6 +405,9 @@
 
 /* Toggle label */
 "⌥ → Mission Control" = "⌥ → Mission Control";
+
+/* No comment provided by engineer. */
+"⌥+Arrow keys tile, maximize, or restore windows" = "⌥+Arrow keys tile, maximize, or restore windows";
 
 /* Toggle label */
 "⌥+N → Dock App" = "⌥+N → Dock App";
