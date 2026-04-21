@@ -44,23 +44,23 @@ mv "$LPROJ_SRC/Localizable.strings.tmp" "$LPROJ_SRC/Localizable.strings"
 cp -R Locales/*.lproj "$APP_BUNDLE/Contents/Resources/"
 
 # Compile Liquid Glass icon if actool is available (requires Xcode, not just CLT)
-if [ -d "icon.icon" ] && actool --version &>/dev/null; then
-    actool icon.icon \
+if [ -d "Icon.icon" ] && actool --version &>/dev/null; then
+    actool Icon.icon \
         --compile "$APP_BUNDLE/Contents/Resources" \
         --output-format human-readable-text \
         --notices --warnings --errors \
         --output-partial-info-plist /dev/null \
-        --app-icon icon \
+        --app-icon Icon \
         --include-all-app-icons \
         --enable-on-demand-resources NO \
         --development-region en \
         --target-device mac \
         --minimum-deployment-target 26.0 \
         --platform macosx
-    /usr/libexec/PlistBuddy -c "Add :CFBundleIconName string icon" "$APP_BUNDLE/Contents/Info.plist" 2>/dev/null || \
-    /usr/libexec/PlistBuddy -c "Set :CFBundleIconName icon" "$APP_BUNDLE/Contents/Info.plist"
+    /usr/libexec/PlistBuddy -c "Add :CFBundleIconName string Icon" "$APP_BUNDLE/Contents/Info.plist" 2>/dev/null || \
+    /usr/libexec/PlistBuddy -c "Set :CFBundleIconName Icon" "$APP_BUNDLE/Contents/Info.plist"
 else
-    echo "Skipping icon (actool not available or icon.icon not found)"
+    echo "Skipping icon (actool not available or Icon.icon not found)"
 fi
 
 # Codesign the app bundle with an ad-hoc signature to allow it to run without Gatekeeper blocking it
