@@ -8,7 +8,7 @@ install: clean
 	./install.sh
 
 kill:
-	pkill -f "OptWin" || echo "No running OptWin processes found."
+	pkill -9 -f "OptWin" || echo "No running OptWin processes found."
 
 run: kill clean
 	./install.sh --run
