@@ -42,8 +42,12 @@ class PermissionHelper {
     }
 
     private func formatPermissionsMessage(_ missing: [String]) -> String {
-        // swiftlint:disable:next line_length
-        let format = NSLocalizedString("SuperOpt needs the following permissions:\n\n%@\n\nGrant access in System Settings → Privacy & Security, then click Continue.\n\nIf you recently updated SuperOpt, you may need to remove and re-add it in each permission list.", comment: "Alert body for missing permissions — %@ is the list of missing permissions")
+        let format = NSLocalizedString(
+            "SuperOpt needs the following permissions:\n\n%@\n\n"
+            + "Grant access in System Settings → Privacy & Security, then click Continue.\n\n"
+            + "If you recently updated SuperOpt, you may need to remove and re-add it "
+            + "in each permission list.",
+            comment: "Alert body for missing permissions — %@ is the list of missing permissions")
         return String(format: format, missing.joined(separator: ", "))
     }
 
@@ -102,6 +106,7 @@ class PermissionHelper {
         permissionChanged = true
     }
 
+    // Modal loop with dynamic button layout depending on which permissions are missing.
     // swiftlint:disable:next cyclomatic_complexity function_body_length
     func showPermissionLoop() {
         permissionChanged = false

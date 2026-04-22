@@ -195,11 +195,11 @@ struct SettingsView: View {
                                         Text(shortcut.label)
                                             .frame(width: 130, alignment: .leading)
                                         HStack(spacing: 4) {
-                                            Text(shortcut.from)
+                                            Text(shortcut.fromKeys)
                                                 .foregroundStyle(.secondary)
                                             Text("▸")
                                                 .foregroundStyle(.secondary.opacity(0.5))
-                                            Text(shortcut.to)
+                                            Text(shortcut.toKeys)
                                                 .foregroundStyle(.secondary)
                                         }
                                     }

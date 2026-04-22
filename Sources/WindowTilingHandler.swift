@@ -57,9 +57,10 @@ class WindowTilingHandler {
         var menuBarValue: AnyObject?
         guard AXUIElementCopyAttributeValue(
             axApp, kAXMenuBarAttribute as CFString, &menuBarValue
-        ) == .success else { return false }
-        // swiftlint:disable:next force_cast
-        return search(in: menuBarValue as! AXUIElement, matching: predicate, depth: 5)
+        ) == .success,
+              let menuBar = menuBarValue.flatMap(KeyboardUtils.toAXElement)
+        else { return false }
+        return search(in: menuBar, matching: predicate, depth: 5)
     }
 
     private func search(

@@ -87,6 +87,16 @@ enum KeyboardUtils {
         NSWorkspace.shared.frontmostApplication?.bundleIdentifier == "com.apple.finder"
     }
 
+    static func toAXElement(_ ref: AnyObject) -> AXUIElement? {
+        guard CFGetTypeID(ref) == AXUIElementGetTypeID() else { return nil }
+        return (ref as! AXUIElement) // swiftlint:disable:this force_cast
+    }
+
+    static func toAXValue(_ ref: AnyObject) -> AXValue? {
+        guard CFGetTypeID(ref) == AXValueGetTypeID() else { return nil }
+        return (ref as! AXValue) // swiftlint:disable:this force_cast
+    }
+
     static func isFocusedOnTextField() -> Bool {
         let systemWide = AXUIElementCreateSystemWide()
         var focusedElement: AnyObject?
@@ -94,11 +104,9 @@ enum KeyboardUtils {
             systemWide, kAXFocusedUIElementAttribute as CFString, &focusedElement)
         guard result == .success,
               let element = focusedElement,
-              CFGetTypeID(element) == AXUIElementGetTypeID()
+              let axElement = toAXElement(element)
         else { return false }
 
-        // swiftlint:disable:next force_cast
-        let axElement = element as! AXUIElement // CFTypeID already verified above
         var roleValue: AnyObject?
         AXUIElementCopyAttributeValue(axElement, kAXRoleAttribute as CFString, &roleValue)
         guard let role = roleValue as? String else { return false }

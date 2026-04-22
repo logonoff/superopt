@@ -46,10 +46,9 @@ class MiddleClickPasteHandler {
             var parentValue: AnyObject?
             AXUIElementCopyAttributeValue(current, kAXParentAttribute as CFString, &parentValue)
             guard let parent = parentValue,
-                  CFGetTypeID(parent) == AXUIElementGetTypeID()
+                  let parentElement = KeyboardUtils.toAXElement(parent)
             else { break }
-            // swiftlint:disable:next force_cast
-            current = parent as! AXUIElement
+            current = parentElement
         }
         return false
     }
@@ -89,10 +88,9 @@ class MiddleClickPasteHandler {
             var parentValue: AnyObject?
             AXUIElementCopyAttributeValue(current, kAXParentAttribute as CFString, &parentValue)
             guard let parent = parentValue,
-                  CFGetTypeID(parent) == AXUIElementGetTypeID()
+                  let parentElement = KeyboardUtils.toAXElement(parent)
             else { break }
-            // swiftlint:disable:next force_cast
-            current = parent as! AXUIElement
+            current = parentElement
         }
         return (true, nil)
     }

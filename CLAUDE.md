@@ -61,7 +61,7 @@ Single-target Swift app compiled with `swiftc` (no Xcode project, no SPM). All s
 ./install.sh --run # install and launch
 ```
 
-No Xcode project — just `swiftc` with `-framework Cocoa`. Build script at `build.sh`. A `Package.swift` exists for IDE support (symbol resolution across files) but is not used for production builds. Version is stamped into `Info.plist` at build time via `git describe --tags --dirty --always`. If `actool` is available (requires full Xcode, not just CLT), the Liquid Glass icon from `Icon.icon` is compiled into `Assets.car` and bundled; otherwise the icon step is skipped. SwiftLint runs before compilation if installed (`brew install swiftlint`); build fails on any violation.
+No Xcode project — just `swiftc` with `-framework Cocoa`. Build script at `build.sh`. A `Package.swift` exists for IDE support (symbol resolution across files) but is not used for production builds. Version is stamped into `Info.plist` at build time via `git describe --tags --dirty --always`. If `actool` is available (requires full Xcode, not just CLT), the Liquid Glass icon from `Icon.icon` is compiled into `Assets.car` and bundled; otherwise the icon step is skipped. SwiftLint runs before compilation if installed (`brew install swiftlint`); build fails on any violation. **Every `// swiftlint:disable` comment must have a justification comment explaining why the rule can't be satisfied.** Fix the underlying issue instead of disabling the rule when possible. For `force_cast` on Core Foundation types (`AXUIElement`, `AXValue`), use the `KeyboardUtils.toAXElement`/`toAXValue` helpers instead of inline disables.
 
 ## Localization
 

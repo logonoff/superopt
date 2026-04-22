@@ -65,10 +65,8 @@ class ZoomButtonHandler {
             var parentValue: AnyObject?
             AXUIElementCopyAttributeValue(current, kAXParentAttribute as CFString, &parentValue)
             guard let parent = parentValue,
-                  CFGetTypeID(parent) == AXUIElementGetTypeID()
+                  let parentElement = KeyboardUtils.toAXElement(parent)
             else { return nil }
-            // swiftlint:disable:next force_cast
-            let parentElement = parent as! AXUIElement
             var roleValue: AnyObject?
             AXUIElementCopyAttributeValue(parentElement, kAXRoleAttribute as CFString, &roleValue)
             if let role = roleValue as? String, role == kAXWindowRole {
@@ -96,14 +94,12 @@ class ZoomButtonHandler {
 
         var position = CGPoint.zero
         var size = CGSize.zero
-        // swiftlint:disable force_cast
-        if let positionValue {
-            AXValueGetValue(positionValue as! AXValue, .cgPoint, &position)
+        if let positionValue, let axPos = KeyboardUtils.toAXValue(positionValue) {
+            AXValueGetValue(axPos, .cgPoint, &position)
         }
-        if let sizeValue {
-            AXValueGetValue(sizeValue as! AXValue, .cgSize, &size)
+        if let sizeValue, let axSize = KeyboardUtils.toAXValue(sizeValue) {
+            AXValueGetValue(axSize, .cgSize, &size)
         }
-        // swiftlint:enable force_cast
         return CGRect(origin: position, size: size)
     }
 
