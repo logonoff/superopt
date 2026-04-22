@@ -67,10 +67,11 @@ No Xcode project — just `swiftc` with `-framework Cocoa`. Build script at `bui
 
 All user-visible strings are localizable. Non-SwiftUI strings (menu items, alerts, OSD text) use `NSLocalizedString()`. SwiftUI `Text("literal")` strings auto-resolve via `LocalizedStringKey`.
 
+- **Languages**: English (en), Arabic (ar), Chinese Simplified (zh-Hans), French (fr), Russian (ru), Spanish (es)
 - **Source strings**: `Locales/en.lproj/Localizable.strings` (UTF-8, checked into repo)
 - **Regenerating**: Delete `Locales/en.lproj/` and run `./build.sh` — it runs `genstrings` and converts from UTF-16 to UTF-8. SwiftUI `Text()` literals are covered by dummy `NSLocalizedString` calls at the top of `SettingsWindow.swift`.
-- **Adding a language**: Create `Locales/XX.lproj/Localizable.strings` (copy from `Locales/en.lproj/`, translate the right-hand values), then add a `cp -R XX.lproj "$APP_BUNDLE/Contents/Resources/"` line to `build.sh`
-- **Adding new strings**: For AppKit code, wrap in `NSLocalizedString("key", comment: "description")`. For SwiftUI `Text()` literals, also add a dummy `NSLocalizedString` call in the `_settingsStrings` block at the top of `SettingsWindow.swift` so `genstrings` extracts it.
+- **Adding a language**: Create `Locales/XX.lproj/Localizable.strings` (copy from `Locales/en.lproj/`, translate the right-hand values). The build script copies all `Locales/*.lproj` directories automatically.
+- **Adding new strings**: For AppKit code, wrap in `NSLocalizedString("key", comment: "description")`. For SwiftUI `Text()` literals, also add a dummy `NSLocalizedString` call in the `_settingsStrings` block at the top of `SettingsWindow.swift` so `genstrings` extracts it. **When adding or removing strings, update all locale files** (`ar`, `zh-Hans`, `fr`, `ru`, `es`) — the build script warns on missing or extra keys.
 
 ## Key Implementation Details
 

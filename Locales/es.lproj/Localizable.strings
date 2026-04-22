@@ -1,0 +1,422 @@
+/* No comment provided by engineer. */
+"%@" = "%@";
+
+/* Menu item to show about panel */
+"About SuperOpt" = "Acerca de SuperOpt";
+
+/* Permission name */
+"Accessibility" = "Accesibilidad";
+
+/* Category hint */
+"Active only in browsers" = "Activo solo en navegadores";
+
+/* Category hint */
+"Active only in code editors" = "Activo solo en editores de código";
+
+/* Category hint */
+"Active only in Finder" = "Activo solo en Finder";
+
+/* Category hint */
+"Active only in terminal apps" = "Activo solo en apps de terminal";
+
+/* No comment provided by engineer. */
+"Address Bar" = "Barra de direcciones";
+
+/* No comment provided by engineer. */
+"Bold" = "Negrita";
+
+/* No comment provided by engineer. */
+"Bookmark Page" = "Agregar marcador";
+
+/* Shortcut category */
+"Browsers" = "Navegadores";
+
+/* Cancel button */
+"Cancel" = "Cancelar";
+
+/* No comment provided by engineer. */
+"Caps Lock OSD" = "Notificación de Bloq Mayús";
+
+/* No comment provided by engineer. */
+"Clear Browsing Data" = "Borrar datos de navegación";
+
+/* No comment provided by engineer. */
+"Clicking the green button fills the window instead of entering full screen" = "Hacer clic en el botón verde llena la ventana en lugar de entrar en pantalla completa";
+
+/* No comment provided by engineer. */
+"Close Tab" = "Cerrar pestaña";
+
+/* No comment provided by engineer. */
+"Close Window" = "Cerrar ventana";
+
+/* Shortcut category */
+"Code Editor" = "Editor de código";
+
+/* No comment provided by engineer. */
+"Command Palette" = "Paleta de comandos";
+
+/* Button to retry after granting permissions */
+"Continue" = "Continuar";
+
+/* No comment provided by engineer. */
+"Copy" = "Copiar";
+
+/* Category hint */
+"Copy, paste, undo, find, and other essentials" = "Copiar, pegar, deshacer, buscar y otras funciones esenciales";
+
+/* No comment provided by engineer. */
+"Cut" = "Cortar";
+
+/* No comment provided by engineer. */
+"Cut & Paste Files in Finder" = "Cortar y pegar archivos en Finder";
+
+/* No comment provided by engineer. */
+"Dark Menu Bar" = "Barra de menús oscura";
+
+/* No comment provided by engineer. */
+"Delete Line" = "Eliminar línea";
+
+/* No comment provided by engineer. */
+"Delete Word" = "Eliminar palabra";
+
+/* Section header */
+"Desktop" = "Escritorio";
+
+/* No comment provided by engineer. */
+"Developer Tools" = "Herramientas de desarrollo";
+
+/* No comment provided by engineer. */
+"Dock position assigned to Finder — other apps shift to fill" = "Posición del Dock asignada a Finder — las demás apps se desplazan";
+
+/* No comment provided by engineer. */
+"Double press Option to open Spotlight Apps" = "Pulsa Option dos veces para abrir las apps de Spotlight";
+
+/* No comment provided by engineer. */
+"Downloads" = "Descargas";
+
+/* No comment provided by engineer. */
+"Duplicate" = "Duplicar";
+
+/* Shortcut category */
+"File" = "Archivo";
+
+/* No comment provided by engineer. */
+"Find" = "Buscar";
+
+/* No comment provided by engineer. */
+"Find and Replace" = "Buscar y reemplazar";
+
+/* No comment provided by engineer. */
+"Find Next" = "Buscar siguiente";
+
+/* No comment provided by engineer. */
+"Find Previous" = "Buscar anterior";
+
+/* Shortcut category */
+"Finder" = "Finder";
+
+/* No comment provided by engineer. */
+"Finder Position" = "Posición de Finder";
+
+/* No comment provided by engineer. */
+"Forward Delete Word" = "Eliminar palabra siguiente";
+
+/* No comment provided by engineer. */
+"Full Screen" = "Pantalla completa";
+
+/* Shortcut category */
+"General" = "General";
+
+/* About panel link text */
+"GitHub" = "GitHub";
+
+/* No comment provided by engineer. */
+"Green Button Fills Window" = "El botón verde llena la ventana";
+
+/* No comment provided by engineer. */
+"Home and End keys move the cursor to the start or end of the line" = "Las teclas Inicio y Fin mueven el cursor al principio o final de la línea";
+
+/* No comment provided by engineer. */
+"Hot Corner" = "Esquina activa";
+
+/* No comment provided by engineer. */
+"Indent" = "Aumentar sangría";
+
+/* Section header */
+"Input" = "Entrada";
+
+/* Permission name */
+"Input Monitoring" = "Monitoreo de entrada";
+
+/* No comment provided by engineer. */
+"Insert Line Above" = "Insertar línea arriba";
+
+/* No comment provided by engineer. */
+"Insert Link" = "Insertar enlace";
+
+/* No comment provided by engineer. */
+"Italic" = "Cursiva";
+
+/* Section header */
+"Keyboard" = "Teclado";
+
+/* Menu item to toggle start at login */
+"Launch at Login" = "Abrir al iniciar sesión";
+
+/* No comment provided by engineer. */
+"Lock Screen" = "Bloquear pantalla";
+
+/* No comment provided by engineer. */
+"Maps Linux keyboard shortcuts to their Mac equivalents" = "Asigna atajos de teclado de Linux a sus equivalentes en Mac";
+
+/* No comment provided by engineer. */
+"Middle-Click Paste" = "Pegar con clic medio";
+
+/* No comment provided by engineer. */
+"Move Line Down" = "Mover línea abajo";
+
+/* No comment provided by engineer. */
+"Move Line Up" = "Mover línea arriba";
+
+/* No comment provided by engineer. */
+"Move to Trash" = "Trasladar a la papelera";
+
+/* No comment provided by engineer. */
+"Moving the mouse to the top-left corner opens Mission Control" = "Mover el ratón a la esquina superior izquierda abre Mission Control";
+
+/* Scroll zoom picker option */
+"Natural" = "Natural";
+
+/* No comment provided by engineer. */
+"New" = "Nuevo";
+
+/* No comment provided by engineer. */
+"New Private Window" = "Nueva ventana privada";
+
+/* No comment provided by engineer. */
+"New Tab" = "Nueva pestaña";
+
+/* No comment provided by engineer. */
+"New Window" = "Nueva ventana";
+
+/* Category hint */
+"New, save, print, and quit" = "Nuevo, guardar, imprimir y salir";
+
+/* Scroll zoom picker option */
+"Off" = "Desactivado";
+
+/* Button to open Accessibility preferences */
+"Open Accessibility" = "Abrir Accesibilidad";
+
+/* Button to open Input Monitoring preferences */
+"Open Input Monitoring" = "Abrir Monitoreo de entrada";
+
+/* Button to open login items settings */
+"Open Login Items" = "Abrir elementos de inicio de sesión";
+
+/* No comment provided by engineer. */
+"Option plus a number key launches the corresponding Dock app" = "Option más una tecla numérica abre la app correspondiente del Dock";
+
+/* No comment provided by engineer. */
+"Option+A opens Spotlight Apps" = "Option+A abre las apps de Spotlight";
+
+/* No comment provided by engineer. */
+"Outdent" = "Reducir sangría";
+
+/* No comment provided by engineer. */
+"Paste" = "Pegar";
+
+/* No comment provided by engineer. */
+"Paste with middle-click, or open a new window from the Dock" = "Pegar con clic medio, o abrir una ventana nueva desde el Dock";
+
+/* Alert title when all permissions are granted */
+"Permissions Granted" = "Permisos concedidos";
+
+/* Alert title for missing permissions */
+"Permissions Required" = "Permisos necesarios";
+
+/* No comment provided by engineer. */
+"Print" = "Imprimir";
+
+/* No comment provided by engineer. */
+"Properties" = "Propiedades";
+
+/* Button to quit the app */
+"Quit" = "Salir";
+
+/* Menu item to quit the app */
+"Quit SuperOpt" = "Salir de SuperOpt";
+
+/* No comment provided by engineer. */
+"Redo" = "Rehacer";
+
+/* No comment provided by engineer. */
+"Reload" = "Recargar";
+
+/* No comment provided by engineer. */
+"Remap Shortcuts" = "Reasignar atajos";
+
+/* No comment provided by engineer. */
+"Rename" = "Cambiar nombre";
+
+/* No comment provided by engineer. */
+"Reopen Tab" = "Reabrir pestaña";
+
+/* Menu item to check and request permissions */
+"Request Permissions\u{2026}" = "Solicitar permisos\u{2026}";
+
+/* No comment provided by engineer. */
+"Reset Zoom" = "Restablecer zoom";
+
+/* No comment provided by engineer. */
+"Run/Confirm" = "Ejecutar/Confirmar";
+
+/* No comment provided by engineer. */
+"Save" = "Guardar";
+
+/* Picker label */
+"Scroll Zoom in Browsers" = "Zoom con desplazamiento en navegadores";
+
+/* No comment provided by engineer. */
+"Search Selection" = "Buscar selección";
+
+/* No comment provided by engineer. */
+"Select All" = "Seleccionar todo";
+
+/* No comment provided by engineer. */
+"Select Down" = "Seleccionar abajo";
+
+/* No comment provided by engineer. */
+"Select Up" = "Seleccionar arriba";
+
+/* No comment provided by engineer. */
+"Select Word Left" = "Seleccionar palabra a la izquierda";
+
+/* No comment provided by engineer. */
+"Select Word Right" = "Seleccionar palabra a la derecha";
+
+/* No comment provided by engineer. */
+"Settings" = "Ajustes";
+
+/* Menu item to open settings window */
+"Settings\u{2026}" = "Ajustes\u{2026}";
+
+/* Section header */
+"Shortcut Remapping" = "Reasignación de atajos";
+
+/* No comment provided by engineer. */
+"Shows a black bar behind the menu bar when a window fills the screen" = "Muestra una barra negra detrás de la barra de menús cuando una ventana llena la pantalla";
+
+/* No comment provided by engineer. */
+"Shows an on-screen notification when Caps Lock is toggled" = "Muestra una notificación en pantalla al activar o desactivar Bloq Mayús";
+
+/* No comment provided by engineer. */
+"Single press Option to open Mission Control" = "Pulsa Option una vez para abrir Mission Control";
+
+/* Alert body when all permissions are granted */
+"SuperOpt already has all required permissions." = "SuperOpt ya tiene todos los permisos necesarios.";
+
+/* Alert body for missing permissions — %@ is the list of missing permissions */
+"SuperOpt needs the following permissions:\n\n%@\n\nGrant access in System Settings → Privacy & Security, then click Continue.\n\nIf you recently updated SuperOpt, you may need to remove and re-add it in each permission list." = "SuperOpt necesita los siguientes permisos:\n\n%@\n\nOtorga acceso en Ajustes del Sistema → Privacidad y seguridad, luego haz clic en Continuar.\n\nSi actualizaste SuperOpt recientemente, es posible que necesites eliminarlo y volver a agregarlo en cada lista de permisos.";
+
+/* Settings window title */
+"SuperOpt Settings" = "Ajustes de SuperOpt";
+
+/* Category hint */
+"Tab and window management" = "Gestión de pestañas y ventanas";
+
+/* Shortcut category */
+"Tabs & Windows" = "Pestañas y ventanas";
+
+/* Shortcut category */
+"Terminal" = "Terminal";
+
+/* Shortcut category */
+"Text Editing" = "Edición de texto";
+
+/* No comment provided by engineer. */
+"Toggle Bookmarks Bar" = "Mostrar/ocultar barra de marcadores";
+
+/* No comment provided by engineer. */
+"Toggle Comment" = "Comentar/descomentar";
+
+/* Scroll zoom picker option */
+"Traditional" = "Tradicional";
+
+/* No comment provided by engineer. */
+"Turn off Show Menu Bar Background in System Settings to use this" = "Desactiva Mostrar fondo de la barra de menús en Ajustes del Sistema para usar esta función";
+
+/* Alert title when login item registration fails */
+"Unable to Update Login Item" = "No se pudo actualizar el elemento de inicio de sesión";
+
+/* No comment provided by engineer. */
+"Underline" = "Subrayado";
+
+/* No comment provided by engineer. */
+"Undo" = "Deshacer";
+
+/* Shortcut category */
+"View" = "Visualización";
+
+/* No comment provided by engineer. */
+"View History" = "Ver historial";
+
+/* No comment provided by engineer. */
+"View Source" = "Ver código fuente";
+
+/* Toggle label */
+"Window Tiling" = "Mosaico de ventanas";
+
+/* No comment provided by engineer. */
+"Word Left" = "Palabra a la izquierda";
+
+/* No comment provided by engineer. */
+"Word Right" = "Palabra a la derecha";
+
+/* Category hint */
+"Word-level navigation, deletion, and formatting" = "Navegación, eliminación y formato a nivel de palabra";
+
+/* Alert body directing user to login items settings */
+"You can manage login items in System Settings → General → Login Items." = "Puedes gestionar los elementos de inicio de sesión en Ajustes del Sistema → General → Elementos de inicio de sesión.";
+
+/* Category hint */
+"Zoom and full screen" = "Zoom y pantalla completa";
+
+/* No comment provided by engineer. */
+"Zoom In" = "Acercar";
+
+/* No comment provided by engineer. */
+"Zoom Out" = "Alejar";
+
+/* No comment provided by engineer. */
+"↖/↘ → Line Start/End" = "↖/↘ → Inicio/Fin de línea";
+
+/* OSD text when Caps Lock is disabled */
+"⇪ Caps Lock Off" = "⇪ Bloq Mayús desactivado";
+
+/* OSD text when Caps Lock is enabled */
+"⇪ Caps Lock On" = "⇪ Bloq Mayús activado";
+
+/* Picker description */
+"⌃Scroll zooms in and out in browser apps" = "⌃Desplazamiento acerca y aleja en apps de navegador";
+
+/* No comment provided by engineer. */
+"⌃X copies files for moving, ⌃V moves them to the current folder" = "⌃X copia archivos para mover, ⌃V los mueve a la carpeta actual";
+
+/* Toggle label */
+"⌥ → Mission Control" = "⌥ → Mission Control";
+
+/* No comment provided by engineer. */
+"⌥+Arrow keys tile, maximize, or restore windows" = "⌥+Teclas de flecha organizan, maximizan o restauran ventanas";
+
+/* Toggle label */
+"⌥+N → Dock App" = "⌥+N → App del Dock";
+
+/* No comment provided by engineer. */
+"⌥A → Apps" = "⌥A → Apps";
+
+/* Toggle label */
+"⌥⌥ → Apps" = "⌥⌥ → Apps";
+
+/* No comment provided by engineer. */
+"▸" = "▸";

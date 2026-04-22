@@ -41,6 +41,47 @@ mkdir -p "$LPROJ_SRC"
 genstrings -SwiftUI -o "$LPROJ_SRC" Sources/*.swift 2>/dev/null
 iconv -f UTF-16 -t UTF-8 "$LPROJ_SRC/Localizable.strings" > "$LPROJ_SRC/Localizable.strings.tmp"
 mv "$LPROJ_SRC/Localizable.strings.tmp" "$LPROJ_SRC/Localizable.strings"
+
+# Validate and check translations against the English source
+KEYS_TMP="/tmp/_superopt_keys.json"
+KEYS_JS='
+  var path = $.NSProcessInfo.processInfo.environment.objectForKey("_KEYS_FILE").js;
+  var data = $.NSString.stringWithContentsOfFileEncodingError(path, $.NSUTF8StringEncoding, null);
+  Object.keys(JSON.parse(data.js)).sort().map(JSON.stringify).join("\n");
+'
+
+extract_keys() {
+    plutil -convert json -o "$KEYS_TMP" "$1"
+    _KEYS_FILE="$KEYS_TMP" osascript -l JavaScript -e "$KEYS_JS"
+}
+
+EN_KEYS=$(extract_keys "$LPROJ_SRC/Localizable.strings")
+
+for LPROJ in Locales/*.lproj; do
+    [ "$LPROJ" = "$LPROJ_SRC" ] && continue
+    LANG=$(basename "$LPROJ" .lproj)
+    STRINGS="$LPROJ/Localizable.strings"
+
+    if ! plutil -lint "$STRINGS" >/dev/null 2>&1; then
+        echo "Error: $LANG.lproj/Localizable.strings is malformed"
+        plutil -lint "$STRINGS"
+        exit 1
+    fi
+
+    LANG_KEYS=$(extract_keys "$STRINGS")
+    MISSING=$(comm -23 <(echo "$EN_KEYS") <(echo "$LANG_KEYS"))
+    EXTRA=$(comm -13 <(echo "$EN_KEYS") <(echo "$LANG_KEYS"))
+
+    if [ -n "$MISSING" ]; then
+        echo "Warning: $LANG is missing $(echo "$MISSING" | wc -l | tr -d ' ') key(s):"
+        echo "$MISSING" | sed "s/^/  /"
+    fi
+    if [ -n "$EXTRA" ]; then
+        echo "Warning: $LANG has $(echo "$EXTRA" | wc -l | tr -d ' ') extra key(s):"
+        echo "$EXTRA" | sed "s/^/  /"
+    fi
+done
+
 cp -R Locales/*.lproj "$APP_BUNDLE/Contents/Resources/"
 
 # Compile Liquid Glass icon if actool is available (requires Xcode, not just CLT)
