@@ -11,6 +11,27 @@
 
 A macOS menu bar app that brings GNOME desktop muscle memory to macOS. Requires **macOS 26 (Tahoe)** or later.
 
+## Install
+
+```
+brew tap logonoff/superopt https://github.com/logonoff/superopt
+brew install --cask superopt
+```
+
+Or build from source:
+
+```
+./build.sh && ./install.sh
+```
+
+### Gatekeeper
+
+The app is not notarized. Right-click and select "Open" on first launch, or run:
+
+```
+xattr -d com.apple.quarantine /Applications/SuperOpt.app
+```
+
 ## Features
 
 ### Option Key Shortcuts
@@ -48,27 +69,6 @@ A macOS menu bar app that brings GNOME desktop muscle memory to macOS. Requires 
 | Middle-click Paste | Paste on text fields (X11-style), new window from Dock, native behavior elsewhere (off by default) |
 
 All features can be individually toggled on/off. Option key detection happens on key-up, so existing shortcuts are unaffected.
-
-## Install
-
-```
-brew tap logonoff/superopt https://github.com/logonoff/superopt
-brew install --cask superopt
-```
-
-Or build from source:
-
-```
-./build.sh && ./install.sh
-```
-
-### Gatekeeper
-
-The app is not notarized. Right-click and select "Open" on first launch, or run:
-
-```
-xattr -d com.apple.quarantine /Applications/SuperOpt.app
-```
 
 ## Build
 
