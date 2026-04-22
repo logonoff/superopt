@@ -177,7 +177,7 @@ extension GnomeShortcutHandler {
         GnomeShortcutDef(id: "findPrev", label: NSLocalizedString("Find Previous", comment: ""), fromKeys: "⌃⇧G", toKeys: "⌘⇧G", category: general),
         GnomeShortcutDef(id: "newWindow", label: NSLocalizedString("New Window", comment: ""), fromKeys: "⌃⇧N", toKeys: "⌘⇧N", category: general),
         GnomeShortcutDef(id: "lockScreen", label: NSLocalizedString("Lock Screen", comment: ""), fromKeys: "⌥L", toKeys: "⌃⌘Q", category: general),
-        GnomeShortcutDef(id: "cmdEnter", label: NSLocalizedString("Run / Confirm", comment: ""), fromKeys: "⌃↩", toKeys: "⌘↩", category: general),
+        GnomeShortcutDef(id: "cmdEnter", label: NSLocalizedString("Run/Confirm", comment: ""), fromKeys: "⌃↩", toKeys: "⌘↩", category: general),
         GnomeShortcutDef(id: "hyperlink", label: NSLocalizedString("Insert Link", comment: ""), fromKeys: "⌃K", toKeys: "⌘K", category: general),
 
         GnomeShortcutDef(id: "new", label: NSLocalizedString("New", comment: ""), fromKeys: "⌃N", toKeys: "⌘N", category: file),
@@ -198,7 +198,7 @@ extension GnomeShortcutHandler {
         GnomeShortcutDef(id: "italic", label: NSLocalizedString("Italic", comment: ""), fromKeys: "⌃I", toKeys: "⌘I", category: textEditing),
         GnomeShortcutDef(id: "underline", label: NSLocalizedString("Underline", comment: ""), fromKeys: "⌃U", toKeys: "⌘U", category: textEditing),
         GnomeShortcutDef(id: "deleteWord", label: NSLocalizedString("Delete Word", comment: ""), fromKeys: "⌃⌫", toKeys: "⌥⌫", category: textEditing),
-        GnomeShortcutDef(id: "forwardDeleteWord", label: NSLocalizedString("Fwd Delete Word", comment: ""), fromKeys: "⌃⌦", toKeys: "⌥⌦", category: textEditing),
+        GnomeShortcutDef(id: "forwardDeleteWord", label: NSLocalizedString("Forward Delete Word", comment: ""), fromKeys: "⌃⌦", toKeys: "⌥⌦", category: textEditing),
         GnomeShortcutDef(id: "wordLeft", label: NSLocalizedString("Word Left", comment: ""), fromKeys: "⌃←", toKeys: "⌥←", category: textEditing),
         GnomeShortcutDef(id: "wordRight", label: NSLocalizedString("Word Right", comment: ""), fromKeys: "⌃→", toKeys: "⌥→", category: textEditing),
         GnomeShortcutDef(id: "selectWordLeft", label: NSLocalizedString("Select Word Left", comment: ""), fromKeys: "⌃⇧←", toKeys: "⌥⇧←", category: textEditing),

@@ -119,10 +119,10 @@
 "Finder Position" = "Finder Position";
 
 /* No comment provided by engineer. */
-"Full Screen" = "Full Screen";
+"Forward Delete Word" = "Forward Delete Word";
 
 /* No comment provided by engineer. */
-"Fwd Delete Word" = "Fwd Delete Word";
+"Full Screen" = "Full Screen";
 
 /* Shortcut category */
 "General" = "General";
@@ -263,13 +263,13 @@
 "Reopen Tab" = "Reopen Tab";
 
 /* Menu item to check and request permissions */
-"Request Permissions..." = "Request Permissions...";
+"Request Permissions\u{2026}" = "Request Permissions\u{2026}";
 
 /* No comment provided by engineer. */
 "Reset Zoom" = "Reset Zoom";
 
 /* No comment provided by engineer. */
-"Run / Confirm" = "Run / Confirm";
+"Run/Confirm" = "Run/Confirm";
 
 /* No comment provided by engineer. */
 "Save" = "Save";
@@ -299,7 +299,7 @@
 "Settings" = "Settings";
 
 /* Menu item to open settings window */
-"Settings..." = "Settings...";
+"Settings\u{2026}" = "Settings\u{2026}";
 
 /* Section header */
 "Shortcut Remapping" = "Shortcut Remapping";
@@ -347,7 +347,7 @@
 "Turn off Show Menu Bar Background in System Settings to use this" = "Turn off Show Menu Bar Background in System Settings to use this";
 
 /* Alert title when login item registration fails */
-"Unable to update login item" = "Unable to update login item";
+"Unable to Update Login Item" = "Unable to Update Login Item";
 
 /* No comment provided by engineer. */
 "Underline" = "Underline";
