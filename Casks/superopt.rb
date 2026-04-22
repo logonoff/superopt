@@ -5,7 +5,7 @@ cask "superopt" do
   url "https://github.com/logonoff/superopt/releases/download/#{version}/SuperOpt.zip"
   name "SuperOpt"
   desc "macOS menu bar app that repurposes the Option key with GNOME-style features"
-  homepage "https://github.com/logonoff/superopt"
+  homepage "https://logonoff.co/superopt"
 
   depends_on macos: ">= :tahoe"
 
