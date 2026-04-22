@@ -132,6 +132,6 @@ else
 fi
 
 # Codesign the app bundle with an ad-hoc signature to allow it to run without Gatekeeper blocking it
-codesign --force --sign - "$APP_BUNDLE"
+codesign --force --sign - --options runtime --entitlements OptWin.entitlements "$APP_BUNDLE"
 
 echo "Build complete: $APP_BUNDLE"

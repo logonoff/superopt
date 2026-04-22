@@ -5,6 +5,9 @@ class PermissionHelper {
     var hasEventTap: () -> Bool = { false }
     var trySetupEventTap: () -> Bool = { false }
 
+    // Private API — IOHIDCheckAccess is not a public Swift symbol. Accessed via dlsym
+    // to check Input Monitoring without requiring an event tap. Falls back to hasEventTap()
+    // if unavailable. Will need replacement if notarizing.
     private static let ioHIDCheck: ((UInt32) -> UInt32)? = {
         guard let ptr = dlsym(dlopen(nil, RTLD_LAZY), "IOHIDCheckAccess") else { return nil }
         return unsafeBitCast(ptr, to: (@convention(c) (UInt32) -> UInt32).self)
@@ -13,7 +16,7 @@ class PermissionHelper {
     private func isInputMonitoringGranted() -> Bool {
         // IOHIDCheckAccess(kIOHIDRequestTypeListenEvent) — 0 = granted
         guard let check = PermissionHelper.ioHIDCheck else { return hasEventTap() }
-        return check(1) == 0
+        return check(1) == 0 // kIOHIDRequestTypeListenEvent = 1, 0 = granted
     }
 
     private static let inputMonitoringURL =
@@ -35,7 +38,7 @@ class PermissionHelper {
         var missing: [String] = []
         if !AXIsProcessTrusted() { missing.append(NSLocalizedString("Accessibility", comment: "Permission name")) }
         // IOHIDCheckAccess may report granted when inheriting terminal permissions,
-        // so also check if the event tap actually works
+        // so also verify the event tap actually works
         if !isInputMonitoringGranted() || (!hasEventTap() && AXIsProcessTrusted()) {
             missing.append(NSLocalizedString("Input Monitoring", comment: "Permission name"))
         }
