@@ -17,6 +17,12 @@ enum KeyboardUtils {
         event.getIntegerValueField(.eventSourceUserData) == syntheticTag
     }
 
+    static func rewriteEvent(_ event: CGEvent, keyCode: Int64, flags: CGEventFlags) {
+        event.setIntegerValueField(.keyboardEventKeycode, value: keyCode)
+        event.flags = flags
+        event.setIntegerValueField(.eventSourceUserData, value: syntheticTag)
+    }
+
     static func postKey(_ keyCode: Int64, flags: CGEventFlags) {
         let src = CGEventSource(stateID: .hidSystemState)
         guard let down = CGEvent(keyboardEventSource: src, virtualKey: CGKeyCode(keyCode), keyDown: true),

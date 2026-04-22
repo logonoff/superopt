@@ -20,6 +20,9 @@ func eventTapCallback(
     }
 
     if delegate.handleEvent(type: type, event: event) {
+        if KeyboardUtils.isSynthetic(event) {
+            return Unmanaged.passUnretained(event) // rewritten in-place
+        }
         return nil // consume the event
     }
     return Unmanaged.passUnretained(event)

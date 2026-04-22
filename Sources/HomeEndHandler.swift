@@ -30,7 +30,6 @@ class HomeEndHandler {
     private static let keyUp: Int64 = 0x7E
     private static let keyDown: Int64 = 0x7D
 
-    /// Attempts to handle a keyDown event. Returns true if the event was consumed.
     func handleKeyDown(event: CGEvent) -> Bool {
         let keyCode = event.getIntegerValueField(.keyboardEventKeycode)
 
@@ -54,7 +53,7 @@ class HomeEndHandler {
         var newFlags = event.flags
         newFlags.remove(.maskControl)
         newFlags.insert(.maskCommand)
-        KeyboardUtils.postKey(arrowKey, flags: newFlags)
+        KeyboardUtils.rewriteEvent(event, keyCode: arrowKey, flags: newFlags)
         return true
     }
 }

@@ -135,13 +135,12 @@ class GnomeShortcutHandler {
         return true
     }
 
-    /// Swaps modifier flags, posts the key, always returns true.
+    private var activeEvent: CGEvent!
+
     private func remap(_ keyCode: Int64, flags: CGEventFlags,
                        remove: CGEventFlags = [], add: CGEventFlags = []) -> Bool {
-        var newFlags = flags
-        newFlags.remove(remove)
-        newFlags.insert(add)
-        KeyboardUtils.postKey(keyCode, flags: newFlags)
+        var newFlags = flags; newFlags.remove(remove); newFlags.insert(add)
+        KeyboardUtils.rewriteEvent(activeEvent, keyCode: keyCode, flags: newFlags)
         return true
     }
 
@@ -252,8 +251,9 @@ extension GnomeShortcutHandler {
 // MARK: - Event handling
 
 extension GnomeShortcutHandler {
-    /// Returns true if the event was consumed.
     func handleKeyDown(event: CGEvent) -> Bool {
+        activeEvent = event
+        defer { activeEvent = nil }
         let keyCode = event.getIntegerValueField(.keyboardEventKeycode)
         let flags = event.flags
         let hasControl = flags.contains(.maskControl)
