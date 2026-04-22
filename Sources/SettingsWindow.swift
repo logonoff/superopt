@@ -61,10 +61,8 @@ struct SettingsView: View {
     @AppStorage("menuBarBgEnabled") var menuBarBg = false
     @AppStorage("SLSMenuBarUseBlurredAppearance") var systemMenuBarBgOn = false
 
-    @StateObject private var gnomeSettings = GnomeShortcutSettings()
+    @State private var gnomeSettings = GnomeShortcutSettings()
     @State private var expandedCategories: Set<String> = []
-
-    var onSettingChanged: ((String, Any) -> Void)?
 
     var body: some View {
         Form {
@@ -73,7 +71,6 @@ struct SettingsView: View {
                     Text("Hot Corner")
                     Text("Moving the mouse to the top-left corner opens Mission Control")
                 }
-                .onChange(of: hotCorners) { _, val in notify("hotCornersEnabled", val) }
 
                 Toggle(isOn: $menuBarBg) {
                     Text("Dark Menu Bar")
@@ -84,19 +81,16 @@ struct SettingsView: View {
                     }
                 }
                 .disabled(systemMenuBarBgOn)
-                .onChange(of: menuBarBg) { _, val in notify("menuBarBgEnabled", val) }
 
                 Toggle(isOn: $zoomButton) {
                     Text("Green Button Fills Window")
                     Text("Clicking the green button fills the window instead of entering full screen")
                 }
-                .onChange(of: zoomButton) { _, val in notify("zoomButtonEnabled", val) }
 
                 Toggle(isOn: $windowTiling) {
                     Text("Window Tiling")
                     Text("⌥+Arrow keys tile, maximize, or restore windows")
                 }
-                .onChange(of: windowTiling) { _, val in notify("windowTilingEnabled", val) }
             }
 
             Section("Keyboard") {
@@ -104,13 +98,11 @@ struct SettingsView: View {
                     Text("Caps Lock OSD")
                     Text("Shows an on-screen notification when Caps Lock is toggled")
                 }
-                .onChange(of: lockKeyOSD) { _, val in notify("lockKeyOSDEnabled", val) }
 
                 Toggle(isOn: $homeEndRemap) {
                     Text("↖/↘ → Line Start/End")
                     Text("Home and End keys move the cursor to the start or end of the line")
                 }
-                .onChange(of: homeEndRemap) { _, val in notify("homeEndRemapEnabled", val) }
             }
 
             Section("Input") {
@@ -118,43 +110,36 @@ struct SettingsView: View {
                     Text("⌥ → Mission Control")
                     Text("Single press Option to open Mission Control")
                 }
-                .onChange(of: optSingle) { _, val in notify("optSingleEnabled", val) }
                 Toggle(isOn: $optDouble) {
                     Text("⌥⌥ → Apps")
                     Text("Double press Option to open Spotlight Apps")
                 }
-                .onChange(of: optDouble) { _, val in notify("optDoubleEnabled", val) }
 
                 Toggle(isOn: $appGrid) {
                     Text("⌥A → Apps")
                     Text("Option+A opens Spotlight Apps")
                 }
-                .onChange(of: appGrid) { _, val in notify("appGridEnabled", val) }
 
                 Toggle(isOn: $dockShortcuts) {
                     Text("⌥+N → Dock App")
                     Text("Option plus a number key launches the corresponding Dock app")
                 }
-                .onChange(of: dockShortcuts) { _, val in notify("dockShortcutsEnabled", val) }
                 Picker(selection: $finderPosition) {
                     ForEach(1...9, id: \.self) { Text("\($0)").tag($0) }
                 } label: {
                     Text("Finder Position")
                     Text("Dock position assigned to Finder — other apps shift to fill")
                 }
-                .onChange(of: finderPosition) { _, val in notify("dockFinderPosition", val) }
 
                 Toggle(isOn: $finderCut) {
                     Text("Cut & Paste Files in Finder")
                     Text("⌃X copies files for moving, ⌃V moves them to the current folder")
                 }
-                .onChange(of: finderCut) { _, val in notify("finderCutEnabled", val) }
 
                 Toggle(isOn: $middleClickPaste) {
                     Text("Middle-Click Paste")
                     Text("Paste with middle-click, or open a new window from the Dock")
                 }
-                .onChange(of: middleClickPaste) { _, val in notify("middleClickPasteEnabled", val) }
 
                 Picker(selection: $scrollZoomMode) {
                     Text("Off").tag(ScrollZoomMode.off.rawValue)
@@ -171,7 +156,6 @@ struct SettingsView: View {
                     Text("Remap Shortcuts")
                     Text("Maps Linux keyboard shortcuts to their Mac equivalents")
                 }
-                .onChange(of: gnomeShortcuts) { _, val in notify("gnomeShortcutsEnabled", val) }
 
                 if gnomeShortcuts {
                     ForEach(GnomeShortcutHandler.categories, id: \.self) { category in
@@ -220,9 +204,6 @@ struct SettingsView: View {
                     }
                 }
             }
-            .onChange(of: gnomeSettings.disabledShortcuts) { _, _ in
-                notify("gnomeDisabledShortcuts", 0)
-            }
         }
         .formStyle(.grouped)
         .frame(width: 420)
@@ -250,16 +231,12 @@ struct SettingsView: View {
         NSLocalizedString("Code Editor", comment: "Shortcut category"):
             NSLocalizedString("Active only in code editors", comment: "Category hint")
     ]
-
-    private func notify(_ key: String, _ value: Any) {
-        onSettingChanged?(key, value)
-    }
 }
 
 private struct CategoryLabel: View {
     let category: String
     let hint: String?
-    @ObservedObject var settings: GnomeShortcutSettings
+    var settings: GnomeShortcutSettings
     @Binding var expandedCategories: Set<String>
 
     var body: some View {
@@ -295,21 +272,15 @@ private struct CategoryLabel: View {
 @MainActor
 class SettingsWindowController: NSObject, NSWindowDelegate {
     private var window: NSWindow?
-    private var onSettingChanged: ((String, Any) -> Void)?
 
-    func show(onSettingChanged: @escaping (String, Any) -> Void) {
-        self.onSettingChanged = onSettingChanged
-
+    func show() {
         if let existing = window {
             existing.makeKeyAndOrderFront(nil)
-            NSApplication.shared.activate(ignoringOtherApps: true)
+            NSApplication.shared.activate()
             return
         }
 
-        var settingsView = SettingsView()
-        settingsView.onSettingChanged = onSettingChanged
-
-        let hostingView = NSHostingView(rootView: settingsView)
+        let hostingView = NSHostingView(rootView: SettingsView())
 
         // HIG says settings windows should auto-size to content, but our disclosure
         // groups make content height vary dramatically — resizable is more practical.
@@ -329,7 +300,7 @@ class SettingsWindowController: NSObject, NSWindowDelegate {
         window.contentView = hostingView
 
         window.makeKeyAndOrderFront(nil)
-        NSApplication.shared.activate(ignoringOtherApps: true)
+        NSApplication.shared.activate()
         self.window = window
     }
 

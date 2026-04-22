@@ -2,6 +2,7 @@ import Cocoa
 
 class ZoomButtonHandler {
     private var savedFrames: [String: CGRect] = [:]
+    private static let maxSavedFrames = 50
 
     /// Returns true if the event should be consumed.
     func handleClick(event: CGEvent) -> Bool {
@@ -9,11 +10,11 @@ class ZoomButtonHandler {
 
         let pos = event.location
         guard let button = fullScreenButton(at: pos),
-              let window = windowForButton(button)
+              let window = windowForButton(button),
+              let screen = screenForPoint(pos)
         else { return false }
 
         let windowFrame = getFrame(of: window)
-        let screen = screenForPoint(pos)
         let fillFrame = visibleFrameInAXCoords(screen: screen)
         let key = windowKey(window)
 
@@ -35,6 +36,7 @@ class ZoomButtonHandler {
                     width: fallbackWidth, height: fallbackHeight))
             }
         } else {
+            if savedFrames.count >= Self.maxSavedFrames { savedFrames.removeAll() }
             savedFrames[key] = windowFrame
             setFrame(of: window, to: fillFrame)
         }
@@ -115,10 +117,10 @@ class ZoomButtonHandler {
 
     // MARK: - Coordinate conversion
 
-    private func screenForPoint(_ point: CGPoint) -> NSScreen {
+    private func screenForPoint(_ point: CGPoint) -> NSScreen? {
         let nsPoint = NSPoint(x: point.x, y: KeyboardUtils.primaryScreenHeight() - point.y)
         return NSScreen.screens.first(where: { $0.frame.contains(nsPoint) })
-            ?? NSScreen.main ?? NSScreen.screens[0]
+            ?? NSScreen.main
     }
 
     private func visibleFrameInAXCoords(screen: NSScreen) -> CGRect {

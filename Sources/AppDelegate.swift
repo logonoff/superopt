@@ -78,17 +78,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         UserDefaults.standard.bool(forKey: key)
     }
 
-    private func handleSettingChanged(_ key: String, _ value: Any) {
-        switch key {
-        case "hotCornersEnabled":
-            hotCorner.enabled = value as? Bool ?? true
-        case "menuBarBgEnabled":
-            if value as? Bool == true { menuBarBackground.start() } else { menuBarBackground.stop() }
-        case "gnomeDisabledShortcuts":
-            gnomeShortcutHandler.reloadSettings()
-        default:
-            break
-        }
+    @objc private func defaultsChanged() {
+        hotCorner.enabled = isEnabled("hotCornersEnabled")
+        let wantsBg = isEnabled("menuBarBgEnabled")
+            && !UserDefaults.standard.bool(forKey: "SLSMenuBarUseBlurredAppearance")
+        if wantsBg { menuBarBackground.start() } else { menuBarBackground.stop() }
+        gnomeShortcutHandler.reloadSettings()
+        scrollZoomHandler.reloadSettings()
     }
 
     private var dockFinderPosition: Int {
@@ -96,14 +92,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     // MARK: - App Lifecycle
-
     func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
         NSApplication.shared.abortModal()
         return .terminateNow
     }
 
     @objc func handleQuitAppleEvent(_ event: NSAppleEventDescriptor, withReply reply: NSAppleEventDescriptor) {
-        exit(0)
+        NSApplication.shared.terminate(nil)
     }
 
     func applicationDidFinishLaunching(_ notification: Notification) {
@@ -139,6 +134,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             self?.triggerMissionControl()
         }
         hotCorner.enabled = isEnabled("hotCornersEnabled")
+
+        NotificationCenter.default.addObserver(
+            self, selector: #selector(defaultsChanged),
+            name: UserDefaults.didChangeNotification, object: nil
+        )
 
         setupStatusItem()
 
@@ -271,11 +271,11 @@ extension AppDelegate {
     }
 
     @objc private func openSettings() {
-        settingsWindow.show { [weak self] key, value in self?.handleSettingChanged(key, value) }
+        settingsWindow.show()
     }
 
     @objc private func showAbout() {
-        NSApplication.shared.activate(ignoringOtherApps: true)
+        NSApplication.shared.activate()
         let style = NSMutableParagraphStyle()
         style.paragraphSpacing = 8; style.alignment = .center
         let font = NSFont.systemFont(ofSize: 11)

@@ -1,7 +1,8 @@
 import SwiftUI
 
-class GnomeShortcutSettings: ObservableObject {
-    @Published var disabledShortcuts: Set<String>
+@Observable
+class GnomeShortcutSettings {
+    var disabledShortcuts: Set<String>
 
     init() {
         disabledShortcuts = Set(
