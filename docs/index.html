@@ -32,20 +32,54 @@
         -webkit-overflow-scrolling: touch;
         gap: var(--shale-v1-font-2);
         padding-bottom: 8px;
-      }
 
-      .screenshot-strip img {
-        scroll-snap-align: start;
-        border-radius: 8px;
-        height: 340px;
-        flex-shrink: 0;
-        cursor: pointer;
+        & img {
+          scroll-snap-align: start;
+          border-radius: 8px;
+          height: 340px;
+          flex-shrink: 0;
+          cursor: pointer;
+        }
       }
 
       #screenshot-dialog img {
         max-width: 85vw;
         max-height: 85vh;
         border-radius: 8px;
+      }
+
+      #shortcut-mapping {
+        & summary {
+          padding: 10px 12px;
+          margin: 0;
+        }
+
+        & table {
+          width: 100%;
+          border-collapse: collapse;
+        }
+
+        & th {
+          text-align: left;
+          font-weight: 600;
+          border-bottom: 1px solid var(--shale-v1-border);
+          padding: 8px 12px;
+          font-size: 0.85em;
+          opacity: 0.7;
+        }
+
+        & td {
+          padding: 6px 12px;
+          border-bottom: 1px solid var(--shale-v1-border);
+
+          &:first-child {
+            font-weight: 500;
+          }
+        }
+
+        & tr:last-child td {
+          border-bottom: none;
+        }
       }
 
       @media (max-width: 768px) {
@@ -210,13 +244,10 @@ brew install --cask superopt</pre>
 
         <div class="shale-v1-flex-space-between">
           <div class="shale-v1-flex-third shale-v1-card feature-card">
-            <h3 class="shale-v1-h3">Shortcut Remapping</h3>
+            <h3 class="shale-v1-h3">Localized</h3>
             <p class="shale-v1-p">
-              Maps Linux keyboard shortcuts to macOS equivalents.
-              <kbd class="shale-v1-code">Control</kbd>+<kbd class="shale-v1-code">C</kbd>/<kbd
-                class="shale-v1-code">V</kbd>/<kbd class="shale-v1-code">X</kbd>/<kbd class="shale-v1-code">Z</kbd>,
-              browser shortcuts,
-              terminal shortcuts, and more. Each shortcut can be individually turned on or off.
+              Available in 11 languages: English, Arabic, Chinese (Simplified), French, German, Italian,
+              Japanese, Korean, Portuguese (Brazilian), Russian, and Spanish.
             </p>
           </div>
           <div class="shale-v1-flex-third shale-v1-card feature-card">
@@ -275,11 +306,508 @@ brew install --cask superopt</pre>
           </div>
         </div>
       </section>
+
+      <section id="shortcut-mapping">
+        <div class="shale-v1-flex-center">
+          <h2 class="shale-v1-h2">Shortcut Mapping</h2>
+        </div>
+        <p class="shale-v1-p">
+          Maps Linux/GNOME keyboard shortcuts to their macOS equivalents — <kbd class="shale-v1-code">Control</kbd>+<kbd
+            class="shale-v1-code">C</kbd>/<kbd class="shale-v1-code">V</kbd>/<kbd class="shale-v1-code">X</kbd>/<kbd
+            class="shale-v1-code">Z</kbd>,
+          browser shortcuts, terminal shortcuts, and more. Each shortcut can be individually toggled in settings.
+        </p>
+
+        <div class="shale-v1-card" style="padding: 0">
+          <details>
+            <summary class="shale-v1-h5" style="cursor: pointer">General</summary>
+            <table class="shale-v1-table">
+              <thead>
+                <tr>
+                  <th>Action</th>
+                  <th>Linux/GNOME</th>
+                  <th>macOS (remapped)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Copy</td>
+                  <td><kbd class="shale-v1-code">⌃C</kbd></td>
+                  <td><kbd class="shale-v1-code">⌘C</kbd></td>
+                </tr>
+                <tr>
+                  <td>Cut</td>
+                  <td><kbd class="shale-v1-code">⌃X</kbd></td>
+                  <td><kbd class="shale-v1-code">⌘X</kbd></td>
+                </tr>
+                <tr>
+                  <td>Paste</td>
+                  <td><kbd class="shale-v1-code">⌃V</kbd></td>
+                  <td><kbd class="shale-v1-code">⌘V</kbd></td>
+                </tr>
+                <tr>
+                  <td>Undo</td>
+                  <td><kbd class="shale-v1-code">⌃Z</kbd></td>
+                  <td><kbd class="shale-v1-code">⌘Z</kbd></td>
+                </tr>
+                <tr>
+                  <td>Redo</td>
+                  <td><kbd class="shale-v1-code">⌃Y</kbd></td>
+                  <td><kbd class="shale-v1-code">⌘⇧Z</kbd></td>
+                </tr>
+                <tr>
+                  <td>Select All</td>
+                  <td><kbd class="shale-v1-code">⌃A</kbd></td>
+                  <td><kbd class="shale-v1-code">⌘A</kbd></td>
+                </tr>
+                <tr>
+                  <td>Find</td>
+                  <td><kbd class="shale-v1-code">⌃F</kbd></td>
+                  <td><kbd class="shale-v1-code">⌘F</kbd></td>
+                </tr>
+                <tr>
+                  <td>Find Next</td>
+                  <td><kbd class="shale-v1-code">⌃G</kbd></td>
+                  <td><kbd class="shale-v1-code">⌘G</kbd></td>
+                </tr>
+                <tr>
+                  <td>Find Previous</td>
+                  <td><kbd class="shale-v1-code">⌃⇧G</kbd></td>
+                  <td><kbd class="shale-v1-code">⌘⇧G</kbd></td>
+                </tr>
+                <tr>
+                  <td>New Window</td>
+                  <td><kbd class="shale-v1-code">⌃⇧N</kbd></td>
+                  <td><kbd class="shale-v1-code">⌘⇧N</kbd></td>
+                </tr>
+                <tr>
+                  <td>Lock Screen</td>
+                  <td><kbd class="shale-v1-code">⌥L</kbd></td>
+                  <td><kbd class="shale-v1-code">⌃⌘Q</kbd></td>
+                </tr>
+                <tr>
+                  <td>Run / Confirm</td>
+                  <td><kbd class="shale-v1-code">⌃↩</kbd></td>
+                  <td><kbd class="shale-v1-code">⌘↩</kbd></td>
+                </tr>
+                <tr>
+                  <td>Insert Link</td>
+                  <td><kbd class="shale-v1-code">⌃K</kbd></td>
+                  <td><kbd class="shale-v1-code">⌘K</kbd></td>
+                </tr>
+              </tbody>
+            </table>
+          </details>
+        </div>
+
+        <div class="shale-v1-card" style="padding: 0">
+          <details>
+            <summary class="shale-v1-h5" style="cursor: pointer">File</summary>
+            <table class="shale-v1-table">
+              <thead>
+                <tr>
+                  <th>Action</th>
+                  <th>Linux/GNOME</th>
+                  <th>macOS (remapped)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>New</td>
+                  <td><kbd class="shale-v1-code">⌃N</kbd></td>
+                  <td><kbd class="shale-v1-code">⌘N</kbd></td>
+                </tr>
+                <tr>
+                  <td>Save</td>
+                  <td><kbd class="shale-v1-code">⌃S</kbd></td>
+                  <td><kbd class="shale-v1-code">⌘S</kbd></td>
+                </tr>
+                <tr>
+                  <td>Print</td>
+                  <td><kbd class="shale-v1-code">⌃P</kbd></td>
+                  <td><kbd class="shale-v1-code">⌘P</kbd></td>
+                </tr>
+                <tr>
+                  <td>Quit</td>
+                  <td><kbd class="shale-v1-code">⌃Q</kbd></td>
+                  <td><kbd class="shale-v1-code">⌘Q</kbd></td>
+                </tr>
+              </tbody>
+            </table>
+          </details>
+        </div>
+
+        <div class="shale-v1-card" style="padding: 0">
+          <details>
+            <summary class="shale-v1-h5" style="cursor: pointer">View</summary>
+            <table class="shale-v1-table">
+              <thead>
+                <tr>
+                  <th>Action</th>
+                  <th>Linux/GNOME</th>
+                  <th>macOS (remapped)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Zoom In</td>
+                  <td><kbd class="shale-v1-code">⌃+</kbd></td>
+                  <td><kbd class="shale-v1-code">⌘+</kbd></td>
+                </tr>
+                <tr>
+                  <td>Zoom Out</td>
+                  <td><kbd class="shale-v1-code">⌃-</kbd></td>
+                  <td><kbd class="shale-v1-code">⌘-</kbd></td>
+                </tr>
+                <tr>
+                  <td>Reset Zoom</td>
+                  <td><kbd class="shale-v1-code">⌃0</kbd></td>
+                  <td><kbd class="shale-v1-code">⌘0</kbd></td>
+                </tr>
+                <tr>
+                  <td>Full Screen</td>
+                  <td><kbd class="shale-v1-code">F11</kbd></td>
+                  <td><kbd class="shale-v1-code">⌃⌘F</kbd></td>
+                </tr>
+              </tbody>
+            </table>
+          </details>
+        </div>
+
+        <div class="shale-v1-card" style="padding: 0">
+          <details>
+            <summary class="shale-v1-h5" style="cursor: pointer">Text Editing</summary>
+            <table class="shale-v1-table">
+              <thead>
+                <tr>
+                  <th>Action</th>
+                  <th>Linux/GNOME</th>
+                  <th>macOS (remapped)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Bold</td>
+                  <td><kbd class="shale-v1-code">⌃B</kbd></td>
+                  <td><kbd class="shale-v1-code">⌘B</kbd></td>
+                </tr>
+                <tr>
+                  <td>Italic</td>
+                  <td><kbd class="shale-v1-code">⌃I</kbd></td>
+                  <td><kbd class="shale-v1-code">⌘I</kbd></td>
+                </tr>
+                <tr>
+                  <td>Underline</td>
+                  <td><kbd class="shale-v1-code">⌃U</kbd></td>
+                  <td><kbd class="shale-v1-code">⌘U</kbd></td>
+                </tr>
+                <tr>
+                  <td>Delete Word</td>
+                  <td><kbd class="shale-v1-code">⌃⌫</kbd></td>
+                  <td><kbd class="shale-v1-code">⌥⌫</kbd></td>
+                </tr>
+                <tr>
+                  <td>Forward Delete Word</td>
+                  <td><kbd class="shale-v1-code">⌃⌦</kbd></td>
+                  <td><kbd class="shale-v1-code">⌥⌦</kbd></td>
+                </tr>
+                <tr>
+                  <td>Word Left</td>
+                  <td><kbd class="shale-v1-code">⌃←</kbd></td>
+                  <td><kbd class="shale-v1-code">⌥←</kbd></td>
+                </tr>
+                <tr>
+                  <td>Word Right</td>
+                  <td><kbd class="shale-v1-code">⌃→</kbd></td>
+                  <td><kbd class="shale-v1-code">⌥→</kbd></td>
+                </tr>
+                <tr>
+                  <td>Select Word Left</td>
+                  <td><kbd class="shale-v1-code">⌃⇧←</kbd></td>
+                  <td><kbd class="shale-v1-code">⌥⇧←</kbd></td>
+                </tr>
+                <tr>
+                  <td>Select Word Right</td>
+                  <td><kbd class="shale-v1-code">⌃⇧→</kbd></td>
+                  <td><kbd class="shale-v1-code">⌥⇧→</kbd></td>
+                </tr>
+                <tr>
+                  <td>Select Down</td>
+                  <td><kbd class="shale-v1-code">⌃⇧↓</kbd></td>
+                  <td><kbd class="shale-v1-code">⇧↓</kbd></td>
+                </tr>
+                <tr>
+                  <td>Select Up</td>
+                  <td><kbd class="shale-v1-code">⌃⇧↑</kbd></td>
+                  <td><kbd class="shale-v1-code">⇧↑</kbd></td>
+                </tr>
+              </tbody>
+            </table>
+          </details>
+        </div>
+
+        <div class="shale-v1-card" style="padding: 0">
+          <details>
+            <summary class="shale-v1-h5" style="cursor: pointer">Finder</summary>
+            <table class="shale-v1-table">
+              <thead>
+                <tr>
+                  <th>Action</th>
+                  <th>Linux/GNOME</th>
+                  <th>macOS (remapped)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Properties</td>
+                  <td><kbd class="shale-v1-code">⌥↩</kbd></td>
+                  <td><kbd class="shale-v1-code">⌘I</kbd></td>
+                </tr>
+                <tr>
+                  <td>Move to Trash</td>
+                  <td><kbd class="shale-v1-code">⌦</kbd></td>
+                  <td><kbd class="shale-v1-code">⌘⌫</kbd></td>
+                </tr>
+                <tr>
+                  <td>Rename</td>
+                  <td><kbd class="shale-v1-code">F2</kbd></td>
+                  <td><kbd class="shale-v1-code">↩</kbd></td>
+                </tr>
+              </tbody>
+            </table>
+          </details>
+        </div>
+
+        <div class="shale-v1-card" style="padding: 0">
+          <details>
+            <summary class="shale-v1-h5" style="cursor: pointer">Tabs &amp; Windows</summary>
+            <table class="shale-v1-table">
+              <thead>
+                <tr>
+                  <th>Action</th>
+                  <th>Linux/GNOME</th>
+                  <th>macOS (remapped)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>New Tab</td>
+                  <td><kbd class="shale-v1-code">⌃T</kbd></td>
+                  <td><kbd class="shale-v1-code">⌘T</kbd></td>
+                </tr>
+                <tr>
+                  <td>Close Tab</td>
+                  <td><kbd class="shale-v1-code">⌃W</kbd></td>
+                  <td><kbd class="shale-v1-code">⌘W</kbd></td>
+                </tr>
+                <tr>
+                  <td>Reopen Tab</td>
+                  <td><kbd class="shale-v1-code">⌃⇧T</kbd></td>
+                  <td><kbd class="shale-v1-code">⌘⇧T</kbd></td>
+                </tr>
+                <tr>
+                  <td>Close Window</td>
+                  <td><kbd class="shale-v1-code">⌥F4</kbd></td>
+                  <td><kbd class="shale-v1-code">⌘W</kbd></td>
+                </tr>
+              </tbody>
+            </table>
+          </details>
+        </div>
+
+        <div class="shale-v1-card" style="padding: 0">
+          <details>
+            <summary class="shale-v1-h5" style="cursor: pointer">Browsers</summary>
+            <table class="shale-v1-table">
+              <thead>
+                <tr>
+                  <th>Action</th>
+                  <th>Linux/GNOME</th>
+                  <th>macOS (remapped)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Address Bar</td>
+                  <td><kbd class="shale-v1-code">⌃L</kbd></td>
+                  <td><kbd class="shale-v1-code">⌘L</kbd></td>
+                </tr>
+                <tr>
+                  <td>Downloads</td>
+                  <td><kbd class="shale-v1-code">⌃J</kbd></td>
+                  <td><kbd class="shale-v1-code">⌘J</kbd></td>
+                </tr>
+                <tr>
+                  <td>Reload</td>
+                  <td><kbd class="shale-v1-code">⌃R</kbd></td>
+                  <td><kbd class="shale-v1-code">⌘R</kbd></td>
+                </tr>
+                <tr>
+                  <td>Developer Tools</td>
+                  <td><kbd class="shale-v1-code">⌃⇧I</kbd> / <kbd class="shale-v1-code">F12</kbd></td>
+                  <td><kbd class="shale-v1-code">⌘⌥I</kbd></td>
+                </tr>
+                <tr>
+                  <td>View History</td>
+                  <td><kbd class="shale-v1-code">⌃H</kbd></td>
+                  <td><kbd class="shale-v1-code">⌘Y</kbd></td>
+                </tr>
+                <tr>
+                  <td>View Source</td>
+                  <td><kbd class="shale-v1-code">⌃U</kbd></td>
+                  <td><kbd class="shale-v1-code">⌘U</kbd></td>
+                </tr>
+                <tr>
+                  <td>New Private Window</td>
+                  <td><kbd class="shale-v1-code">⌃⇧P</kbd></td>
+                  <td><kbd class="shale-v1-code">⌘⇧P</kbd></td>
+                </tr>
+                <tr>
+                  <td>Bookmark Page</td>
+                  <td><kbd class="shale-v1-code">⌃D</kbd></td>
+                  <td><kbd class="shale-v1-code">⌘D</kbd></td>
+                </tr>
+                <tr>
+                  <td>Toggle Bookmarks Bar</td>
+                  <td><kbd class="shale-v1-code">⌃⇧B</kbd></td>
+                  <td><kbd class="shale-v1-code">⌘⇧B</kbd></td>
+                </tr>
+                <tr>
+                  <td>Clear Browsing Data</td>
+                  <td><kbd class="shale-v1-code">⌃⇧⌦</kbd></td>
+                  <td><kbd class="shale-v1-code">⌘⇧⌫</kbd></td>
+                </tr>
+              </tbody>
+            </table>
+          </details>
+        </div>
+
+        <div class="shale-v1-card" style="padding: 0">
+          <details>
+            <summary class="shale-v1-h5" style="cursor: pointer">Terminal</summary>
+            <table class="shale-v1-table">
+              <thead>
+                <tr>
+                  <th>Action</th>
+                  <th>Linux/GNOME</th>
+                  <th>macOS (remapped)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Copy</td>
+                  <td><kbd class="shale-v1-code">⌃⇧C</kbd></td>
+                  <td><kbd class="shale-v1-code">⌘C</kbd></td>
+                </tr>
+                <tr>
+                  <td>Paste</td>
+                  <td><kbd class="shale-v1-code">⌃⇧V</kbd></td>
+                  <td><kbd class="shale-v1-code">⌘V</kbd></td>
+                </tr>
+                <tr>
+                  <td>Close Tab</td>
+                  <td><kbd class="shale-v1-code">⌃⇧W</kbd></td>
+                  <td><kbd class="shale-v1-code">⌘W</kbd></td>
+                </tr>
+                <tr>
+                  <td>Close Window</td>
+                  <td><kbd class="shale-v1-code">⌃⇧Q</kbd></td>
+                  <td><kbd class="shale-v1-code">⌘Q</kbd></td>
+                </tr>
+                <tr>
+                  <td>New Tab</td>
+                  <td><kbd class="shale-v1-code">⌃⇧T</kbd></td>
+                  <td><kbd class="shale-v1-code">⌘T</kbd></td>
+                </tr>
+              </tbody>
+            </table>
+          </details>
+        </div>
+
+        <div class="shale-v1-card" style="padding: 0">
+          <details>
+            <summary class="shale-v1-h5" style="cursor: pointer">Code Editor</summary>
+            <table class="shale-v1-table">
+              <thead>
+                <tr>
+                  <th>Action</th>
+                  <th>Linux/GNOME</th>
+                  <th>macOS (remapped)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Settings</td>
+                  <td><kbd class="shale-v1-code">⌃,</kbd></td>
+                  <td><kbd class="shale-v1-code">⌘,</kbd></td>
+                </tr>
+                <tr>
+                  <td>Toggle Comment</td>
+                  <td><kbd class="shale-v1-code">⌃/</kbd></td>
+                  <td><kbd class="shale-v1-code">⌘/</kbd></td>
+                </tr>
+                <tr>
+                  <td>Indent</td>
+                  <td><kbd class="shale-v1-code">⌃]</kbd></td>
+                  <td><kbd class="shale-v1-code">⌘]</kbd></td>
+                </tr>
+                <tr>
+                  <td>Outdent</td>
+                  <td><kbd class="shale-v1-code">⌃[</kbd></td>
+                  <td><kbd class="shale-v1-code">⌘[</kbd></td>
+                </tr>
+                <tr>
+                  <td>Command Palette</td>
+                  <td><kbd class="shale-v1-code">⌃⇧P</kbd></td>
+                  <td><kbd class="shale-v1-code">⌘⇧P</kbd></td>
+                </tr>
+                <tr>
+                  <td>Delete Line</td>
+                  <td><kbd class="shale-v1-code">⌃⇧K</kbd></td>
+                  <td><kbd class="shale-v1-code">⌘⇧K</kbd></td>
+                </tr>
+                <tr>
+                  <td>Insert Line Above</td>
+                  <td><kbd class="shale-v1-code">⌃⇧↩</kbd></td>
+                  <td><kbd class="shale-v1-code">⌘⇧↩</kbd></td>
+                </tr>
+                <tr>
+                  <td>Duplicate</td>
+                  <td><kbd class="shale-v1-code">⌃D</kbd></td>
+                  <td><kbd class="shale-v1-code">⌘D</kbd></td>
+                </tr>
+                <tr>
+                  <td>Search Selection</td>
+                  <td><kbd class="shale-v1-code">⌃E</kbd></td>
+                  <td><kbd class="shale-v1-code">⌘E</kbd></td>
+                </tr>
+                <tr>
+                  <td>Find and Replace</td>
+                  <td><kbd class="shale-v1-code">⌃H</kbd></td>
+                  <td><kbd class="shale-v1-code">⌘⌥F</kbd></td>
+                </tr>
+                <tr>
+                  <td>Move Line Up</td>
+                  <td><kbd class="shale-v1-code">⌃⇧↑</kbd></td>
+                  <td><kbd class="shale-v1-code">⌥↑</kbd></td>
+                </tr>
+                <tr>
+                  <td>Move Line Down</td>
+                  <td><kbd class="shale-v1-code">⌃⇧↓</kbd></td>
+                  <td><kbd class="shale-v1-code">⌥↓</kbd></td>
+                </tr>
+              </tbody>
+            </table>
+          </details>
+        </div>
+      </section>
     </main>
 
     <dialog id="screenshot-dialog" class="shale-v1-dialog">
       <header class="shale-v1-header shale-v1-header-compact">
-        <div class="shale-v1-header-title"><p class="shale-v1-header-text" id="screenshot-dialog-title"></p></div>
+        <div class="shale-v1-header-title">
+          <p class="shale-v1-header-text" id="screenshot-dialog-title"></p>
+        </div>
         <menu class="shale-v1-caption-menu">
           <li>
             <button title="Close" type="button" commandfor="screenshot-dialog" command="close"

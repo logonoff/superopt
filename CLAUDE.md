@@ -131,7 +131,7 @@ Search before fetching when the path is uncertain. Target specific symbol pages 
 
 ## Website
 
-The project website is at `docs/index.html`, served via GitHub Pages from the `main` branch `/docs` folder. Keep it updated when adding or changing features.
+The project website is at `docs/index.html`, served via GitHub Pages from the `main` branch `/docs` folder. Keep it updated when adding or changing features. The shortcut reference table must be kept in sync with `GnomeShortcutHandler.allShortcuts` — when adding or removing shortcuts, update both.
 
 ## Git
 
