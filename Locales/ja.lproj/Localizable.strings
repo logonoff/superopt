@@ -169,7 +169,7 @@
 /* No comment provided by engineer. */
 "Maps Linux keyboard shortcuts to their Mac equivalents" = "Linuxのキーボードショートカットを対応するMacのショートカットに割り当て";
 
-/* No comment provided by engineer. */
+/* Toggle label */
 "Menu Key → Shortcut Menu" = "メニューキー → ショートカットメニュー";
 
 /* No comment provided by engineer. */
@@ -298,7 +298,7 @@
 /* No comment provided by engineer. */
 "Select Word Right" = "右の単語を選択";
 
-/* No comment provided by engineer. */
+/* Settings window title */
 "Settings" = "設定";
 
 /* Menu item to open settings window */
@@ -322,7 +322,6 @@
 /* Alert body for missing permissions — %@ is the list of missing permissions */
 "SuperOpt needs the following permissions:\n\n%@\n\nGrant access in System Settings → Privacy & Security, then click Continue.\n\nIf you recently updated SuperOpt, you may need to remove and re-add it in each permission list." = "SuperOptには以下の権限が必要です:\n\n%@\n\nシステム設定 → プライバシーとセキュリティでアクセスを許可し、「続ける」をクリックしてください。\n\nSuperOptを最近アップデートした場合は、各権限リストから削除して再度追加する必要がある場合があります。";
 
-
 /* Category hint */
 "Tab and window management" = "タブとウインドウの管理";
 
@@ -335,7 +334,7 @@
 /* Shortcut category */
 "Text Editing" = "テキスト編集";
 
-/* No comment provided by engineer. */
+/* Toggle description */
 "The Menu key on PC keyboards opens a shortcut menu" = "PCキーボードのメニューキーでショートカットメニューを開く";
 
 /* No comment provided by engineer. */
@@ -424,3 +423,4 @@
 
 /* No comment provided by engineer. */
 "▸" = "▸";
+

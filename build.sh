@@ -80,6 +80,28 @@ for LPROJ in Locales/*.lproj; do
         echo "Warning: $LANG has $(echo "$EXTRA" | wc -l | tr -d ' ') extra key(s):"
         echo "$EXTRA" | sed "s/^/  /"
     fi
+
+    # Reorder locale entries to match English key order.
+    # Reads the locale file first to build a key→line map, then walks the
+    # English file and outputs each line with the translated value substituted.
+    awk '
+    NR == FNR {
+        if (/^"/) {
+            key = $0; sub(/^"/, "", key); sub(/".*/, "", key)
+            trans[key] = $0
+        }
+        next
+    }
+    {
+        if (/^"/) {
+            key = $0; sub(/^"/, "", key); sub(/".*/, "", key)
+            if (key in trans) print trans[key]; else print
+        } else {
+            print
+        }
+    }
+    ' "$STRINGS" "$LPROJ_SRC/Localizable.strings" > "${STRINGS}.tmp"
+    mv "${STRINGS}.tmp" "$STRINGS"
 done
 
 cp -R Locales/*.lproj "$APP_BUNDLE/Contents/Resources/"
