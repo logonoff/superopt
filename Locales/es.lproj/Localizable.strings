@@ -170,6 +170,9 @@
 "Maps Linux keyboard shortcuts to their Mac equivalents" = "Asigna atajos de teclado de Linux a sus equivalentes en Mac";
 
 /* No comment provided by engineer. */
+"Menu Key → Shortcut Menu" = "Tecla Menú → Menú de funciones rápidas";
+
+/* No comment provided by engineer. */
 "Middle-Click Paste" = "Pegar con clic medio";
 
 /* No comment provided by engineer. */
@@ -330,6 +333,9 @@
 
 /* Shortcut category */
 "Text Editing" = "Edición de texto";
+
+/* No comment provided by engineer. */
+"The Menu key on PC keyboards opens a shortcut menu" = "La tecla Menú en teclados de PC abre un menú de funciones rápidas";
 
 /* No comment provided by engineer. */
 "Toggle Bookmarks Bar" = "Mostrar/ocultar barra de marcadores";

@@ -170,6 +170,9 @@
 "Maps Linux keyboard shortcuts to their Mac equivalents" = "Associe les raccourcis clavier Linux à leurs équivalents Mac";
 
 /* No comment provided by engineer. */
+"Menu Key → Shortcut Menu" = "Touche Menu → Menu contextuel";
+
+/* No comment provided by engineer. */
 "Middle-Click Paste" = "Coller avec le clic du milieu";
 
 /* No comment provided by engineer. */
@@ -330,6 +333,9 @@
 
 /* Shortcut category */
 "Text Editing" = "Édition de texte";
+
+/* No comment provided by engineer. */
+"The Menu key on PC keyboards opens a shortcut menu" = "La touche Menu des claviers PC ouvre un menu contextuel";
 
 /* No comment provided by engineer. */
 "Toggle Bookmarks Bar" = "Afficher/masquer la barre des signets";

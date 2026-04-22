@@ -170,6 +170,9 @@
 "Maps Linux keyboard shortcuts to their Mac equivalents" = "将 Linux 键盘快捷键映射为对应的 Mac 快捷键";
 
 /* No comment provided by engineer. */
+"Menu Key → Shortcut Menu" = "菜单键 → 快捷菜单";
+
+/* No comment provided by engineer. */
 "Middle-Click Paste" = "中键点击粘贴";
 
 /* No comment provided by engineer. */
@@ -331,6 +334,9 @@
 
 /* Shortcut category */
 "Text Editing" = "文本编辑";
+
+/* No comment provided by engineer. */
+"The Menu key on PC keyboards opens a shortcut menu" = "PC键盘上的菜单键打开快捷菜单";
 
 /* No comment provided by engineer. */
 "Toggle Bookmarks Bar" = "切换书签栏";

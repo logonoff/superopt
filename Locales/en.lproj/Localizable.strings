@@ -169,6 +169,9 @@
 /* No comment provided by engineer. */
 "Maps Linux keyboard shortcuts to their Mac equivalents" = "Maps Linux keyboard shortcuts to their Mac equivalents";
 
+/* Toggle label */
+"Menu Key → Shortcut Menu" = "Menu Key → Shortcut Menu";
+
 /* No comment provided by engineer. */
 "Middle-Click Paste" = "Middle-Click Paste";
 
@@ -330,6 +333,9 @@
 
 /* Shortcut category */
 "Text Editing" = "Text Editing";
+
+/* Toggle description */
+"The Menu key on PC keyboards opens a shortcut menu" = "The Menu key on PC keyboards opens a shortcut menu";
 
 /* No comment provided by engineer. */
 "Toggle Bookmarks Bar" = "Toggle Bookmarks Bar";

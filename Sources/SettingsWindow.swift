@@ -40,7 +40,9 @@ private let _extraStrings = [
     NSLocalizedString("Natural", comment: "Scroll zoom picker option"),
     NSLocalizedString("Traditional", comment: "Scroll zoom picker option"),
     NSLocalizedString("Scroll Zoom in Browsers", comment: "Picker label"),
-    NSLocalizedString("⌃Scroll zooms in and out in browser apps", comment: "Picker description")
+    NSLocalizedString("⌃Scroll zooms in and out in browser apps", comment: "Picker description"),
+    NSLocalizedString("Menu Key → Shortcut Menu", comment: "Toggle label"),
+    NSLocalizedString("The Menu key on PC keyboards opens a shortcut menu", comment: "Toggle description")
 ]
 
 struct SettingsView: View {
@@ -57,6 +59,7 @@ struct SettingsView: View {
     @AppStorage("finderCutEnabled") var finderCut = false
     @AppStorage("middleClickPasteEnabled") var middleClickPaste = false
     @AppStorage("scrollZoomMode") var scrollZoomMode = ScrollZoomMode.off.rawValue
+    @AppStorage("menuKeyRightClickEnabled") var menuKeyRightClick = false
     @AppStorage("gnomeShortcutsEnabled") var gnomeShortcuts = false
     @AppStorage("menuBarBgEnabled") var menuBarBg = false
     @AppStorage("SLSMenuBarUseBlurredAppearance") var systemMenuBarBgOn = false
@@ -139,6 +142,11 @@ struct SettingsView: View {
                 Toggle(isOn: $middleClickPaste) {
                     Text("Middle-Click Paste")
                     Text("Paste with middle-click, or open a new window from the Dock")
+                }
+
+                Toggle(isOn: $menuKeyRightClick) {
+                    Text("Menu Key → Shortcut Menu")
+                    Text("The Menu key on PC keyboards opens a shortcut menu")
                 }
 
                 Picker(selection: $scrollZoomMode) {

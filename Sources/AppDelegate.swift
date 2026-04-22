@@ -49,6 +49,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private let zoomButtonHandler = ZoomButtonHandler()
     private let windowTilingHandler = WindowTilingHandler()
     private let scrollZoomHandler = ScrollZoomHandler()
+    private let menuKeyHandler = MenuKeyHandler()
     private let menuBarBackground = MenuBarBackground()
     private let settingsWindow = SettingsWindowController()
     private let permissionHelper = PermissionHelper()
@@ -70,6 +71,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         "finderCutEnabled": false,
         "middleClickPasteEnabled": false,
         "zoomButtonEnabled": false,
+        "menuKeyRightClickEnabled": false,
         "scrollZoomMode": ScrollZoomMode.off.rawValue,
         "dockFinderPosition": 1
     ]
@@ -319,10 +321,6 @@ extension AppDelegate {
 
 // MARK: - Event Routing
 extension AppDelegate {
-    private static var numberKeyCodes: [Int64: Int] { // Virtual key codes 1–9
-        [0x12: 1, 0x13: 2, 0x14: 3, 0x15: 4, 0x17: 5, 0x16: 6, 0x1A: 7, 0x1C: 8, 0x19: 9]
-    }
-
     /// Returns true if the event should be consumed.
     @discardableResult
     func handleEvent(type: CGEventType, event: CGEvent) -> Bool {
@@ -365,16 +363,11 @@ extension AppDelegate {
 
     private func handleKeyDown(event: CGEvent) -> Bool {
         if KeyboardUtils.isSynthetic(event) { return false }
-        if isEnabled("dockShortcutsEnabled") && event.flags.contains(.maskAlternate) {
-            let keyCode = event.getIntegerValueField(.keyboardEventKeycode)
-            if let number = AppDelegate.numberKeyCodes[keyCode] {
-                let finderPos = dockFinderPosition
-                let position = number == finderPos ? 1 : (number < finderPos ? number + 1 : number)
-                optionKeyHandler.markOtherInput()
-                dockLauncher.launch(position: position)
-                return true
-            }
+        if isEnabled("dockShortcutsEnabled")
+            && dockLauncher.handleKeyDown(event: event, finderPosition: dockFinderPosition) {
+            optionKeyHandler.markOtherInput(); return true
         }
+        if isEnabled("menuKeyRightClickEnabled") && menuKeyHandler.handleKeyDown(event: event) { return true }
         if isEnabled("homeEndRemapEnabled") && homeEndHandler.handleKeyDown(event: event) { return true }
         if isEnabled("finderCutEnabled") && finderCutHandler.handleKeyDown(event: event) {
             optionKeyHandler.markOtherInput(); return true

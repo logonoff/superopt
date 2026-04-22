@@ -28,6 +28,21 @@ class DockLauncher {
         return URL(string: urlString) ?? URL(fileURLWithPath: urlString)
     }
 
+    // Virtual key codes for number keys 1–9
+    private static let numberKeyCodes: [Int64: Int] = [
+        0x12: 1, 0x13: 2, 0x14: 3, 0x15: 4, 0x17: 5, 0x16: 6, 0x1A: 7, 0x1C: 8, 0x19: 9
+    ]
+
+    func handleKeyDown(event: CGEvent, finderPosition: Int) -> Bool {
+        let keyCode = event.getIntegerValueField(.keyboardEventKeycode)
+        guard event.flags.contains(.maskAlternate),
+              let number = Self.numberKeyCodes[keyCode]
+        else { return false }
+        let position = number == finderPosition ? 1 : (number < finderPosition ? number + 1 : number)
+        launch(position: position)
+        return true
+    }
+
     func launch(position: Int) {
         guard let url = appURL(at: position) else { return }
         let config = NSWorkspace.OpenConfiguration()

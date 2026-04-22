@@ -170,6 +170,9 @@
 "Maps Linux keyboard shortcuts to their Mac equivalents" = "تعيين اختصارات لوحة مفاتيح Linux إلى ما يقابلها في Mac";
 
 /* No comment provided by engineer. */
+"Menu Key → Shortcut Menu" = "مفتاح القائمة → قائمة الاختصارات";
+
+/* No comment provided by engineer. */
 "Middle-Click Paste" = "لصق بالنقر الأوسط";
 
 /* No comment provided by engineer. */
@@ -330,6 +333,9 @@
 
 /* Shortcut category */
 "Text Editing" = "تحرير النص";
+
+/* No comment provided by engineer. */
+"The Menu key on PC keyboards opens a shortcut menu" = "مفتاح القائمة في لوحات مفاتيح PC يفتح قائمة الاختصارات";
 
 /* No comment provided by engineer. */
 "Toggle Bookmarks Bar" = "تبديل شريط الإشارات المرجعية";

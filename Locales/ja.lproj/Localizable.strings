@@ -170,6 +170,9 @@
 "Maps Linux keyboard shortcuts to their Mac equivalents" = "Linuxのキーボードショートカットを対応するMacのショートカットに割り当て";
 
 /* No comment provided by engineer. */
+"Menu Key → Shortcut Menu" = "メニューキー → ショートカットメニュー";
+
+/* No comment provided by engineer. */
 "Middle-Click Paste" = "中クリックでペースト";
 
 /* No comment provided by engineer. */
@@ -331,6 +334,9 @@
 
 /* Shortcut category */
 "Text Editing" = "テキスト編集";
+
+/* No comment provided by engineer. */
+"The Menu key on PC keyboards opens a shortcut menu" = "PCキーボードのメニューキーでショートカットメニューを開く";
 
 /* No comment provided by engineer. */
 "Toggle Bookmarks Bar" = "ブックマークバーの表示/非表示";

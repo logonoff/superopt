@@ -170,6 +170,9 @@
 "Maps Linux keyboard shortcuts to their Mac equivalents" = "Linux 키보드 단축키를 해당 Mac 단축키로 매핑";
 
 /* No comment provided by engineer. */
+"Menu Key → Shortcut Menu" = "메뉴 키 → 단축 메뉴";
+
+/* No comment provided by engineer. */
 "Middle-Click Paste" = "가운데 클릭으로 붙여넣기";
 
 /* No comment provided by engineer. */
@@ -330,6 +333,9 @@
 
 /* Shortcut category */
 "Text Editing" = "텍스트 편집";
+
+/* No comment provided by engineer. */
+"The Menu key on PC keyboards opens a shortcut menu" = "PC 키보드의 메뉴 키로 단축 메뉴 열기";
 
 /* No comment provided by engineer. */
 "Toggle Bookmarks Bar" = "북마크 막대 표시/숨기기";

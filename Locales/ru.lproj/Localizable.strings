@@ -170,6 +170,9 @@
 "Maps Linux keyboard shortcuts to their Mac equivalents" = "Назначает сочетания клавиш Linux на их эквиваленты в Mac";
 
 /* No comment provided by engineer. */
+"Menu Key → Shortcut Menu" = "Клавиша Menu → Контекстное меню";
+
+/* No comment provided by engineer. */
 "Middle-Click Paste" = "Вставка средней кнопкой";
 
 /* No comment provided by engineer. */
@@ -330,6 +333,9 @@
 
 /* Shortcut category */
 "Text Editing" = "Редактирование текста";
+
+/* No comment provided by engineer. */
+"The Menu key on PC keyboards opens a shortcut menu" = "Клавиша Menu на PC-клавиатурах открывает контекстное меню";
 
 /* No comment provided by engineer. */
 "Toggle Bookmarks Bar" = "Показать/скрыть панель закладок";
