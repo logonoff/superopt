@@ -28,6 +28,12 @@ class ScrollZoomHandler {
               !event.flags.contains(.maskCommand)
         else { return false }
 
+        // Only handle mouse wheel, not trackpad (trackpad has phase info)
+        let scrollPhase = event.getIntegerValueField(.scrollWheelEventScrollPhase)
+        let momentumPhase = event.getIntegerValueField(.scrollWheelEventMomentumPhase)
+        let isMouseWheel = scrollPhase == 0 && momentumPhase == 0
+        guard isMouseWheel else { return false }
+
         let delta = event.getIntegerValueField(.scrollWheelEventDeltaAxis1)
         guard delta != 0 else { return false }
 
