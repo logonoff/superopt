@@ -49,19 +49,21 @@ jobs:
           sed -i '' "s/sha256 \".*\"/sha256 \"${SHA}\"/" Casks/superopt.rb
           CONTENT=$(base64 < Casks/superopt.rb)
           MAIN_OID=$(gh api graphql -f query='{ repository(owner:"logonoff", name:"superopt") { ref(qualifiedName:"refs/heads/main") { target { oid } } } }' --jq '.data.repository.ref.target.oid')
-          gh api graphql -f query='
-            mutation($input: CreateCommitOnBranchInput!) {
-              createCommitOnBranch(input: $input) { commit { oid } }
-            }' -f 'variables={
-              "input": {
-                "branch": { "repositoryNameWithOwner": "logonoff/superopt", "branchName": "main" },
-                "expectedHeadOid": "'"$MAIN_OID"'",
-                "message": { "headline": "chore: update cask to ${{ github.ref_name }}" },
-                "fileChanges": {
-                  "additions": [{ "path": "Casks/superopt.rb", "contents": "'"$CONTENT"'" }]
+          jq -n \
+            --arg oid "$MAIN_OID" \
+            --arg content "$CONTENT" \
+            --arg version "${{ github.ref_name }}" \
+            '{
+              query: "mutation($input: CreateCommitOnBranchInput!) { createCommitOnBranch(input: $input) { commit { oid } } }",
+              variables: {
+                input: {
+                  branch: { repositoryNameWithOwner: "logonoff/superopt", branchName: "main" },
+                  expectedHeadOid: $oid,
+                  message: { headline: ("chore: update cask to " + $version) },
+                  fileChanges: { additions: [{ path: "Casks/superopt.rb", contents: $content }] }
                 }
               }
-            }'
+            }' | gh api graphql --input -
           git pull --ff-only origin main
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
