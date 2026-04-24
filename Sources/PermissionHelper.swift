@@ -5,9 +5,9 @@ class PermissionHelper {
     var hasEventTap: () -> Bool = { false }
     var trySetupEventTap: () -> Bool = { false }
 
-    // Private API — IOHIDCheckAccess is not a public Swift symbol. Accessed via dlsym
-    // to check Input Monitoring without requiring an event tap. Falls back to hasEventTap()
-    // if unavailable. Will need replacement if notarizing.
+    // Private: IOHIDCheckAccess queries Input Monitoring permission status directly.
+    // No public API checks Input Monitoring — a CGEvent tap succeeds with only
+    // Accessibility granted, so it can't distinguish the two permissions.
     private static let ioHIDCheck: ((UInt32) -> UInt32)? = {
         guard let ptr = dlsym(dlopen(nil, RTLD_LAZY), "IOHIDCheckAccess") else { return nil }
         return unsafeBitCast(ptr, to: (@convention(c) (UInt32) -> UInt32).self)

@@ -43,16 +43,18 @@ class MissionControlCloseHandler {
     private static let hitPadding: CGFloat = 9
 
     init?() {
-        // Private: CGSGetScreenRectForWindow returns compositor bounds (the scaled
-        // thumbnail position during Mission Control). CGWindowListCopyWindowInfo only
-        // reports logical window frames which don't change during MC.
+        // Private: CGSGetScreenRectForWindow returns the on-screen compositor bounds
+        // of a window (the scaled thumbnail position during Mission Control).
+        // CGWindowListCopyWindowInfo only reports logical frames, which don't update
+        // during MC's scaling transform — no public API exposes compositor geometry.
         guard let cidPtr = dlsym(skylight, "CGSMainConnectionID"),
               let srPtr = dlsym(skylight, "CGSGetScreenRectForWindow")
         else { return nil }
         cid = unsafeBitCast(cidPtr, to: MainConnFn.self)()
         getScreenRect = unsafeBitCast(srPtr, to: ScreenRectFn.self)
-        // Private: maps an AXUIElement to its CGWindowID for exact matching.
-        // Falls back to title matching via public APIs when unavailable.
+        // Private: _AXUIElementGetWindow maps an AXUIElement to its CGWindowID.
+        // No public API bridges AX elements to CGWindowIDs — without this, matching
+        // AX windows to compositor thumbnails requires fragile title-based heuristics.
         axGetWindow = dlsym(appServices, "_AXUIElementGetWindow")
             .map { unsafeBitCast($0, to: AXGetWindowFn.self) }
     }
