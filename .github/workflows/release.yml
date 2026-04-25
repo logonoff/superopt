@@ -69,6 +69,13 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Sync homebrew-bucket
+        run: |
+          gh api repos/logonoff/homebrew-bucket/dispatches \
+            -f event_type=sync
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Check if next branch can be fast-forwarded
         id: check-next
         run: |

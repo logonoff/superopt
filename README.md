@@ -16,7 +16,7 @@ A macOS menu bar app that brings GNOME desktop muscle memory to macOS. Requires 
 ## Install
 
 ```
-brew tap logonoff/superopt https://github.com/logonoff/superopt
+brew tap logonoff/homebrew-bucket
 brew install --cask superopt
 ```
 

@@ -112,16 +112,16 @@ All user-visible strings are localizable. Non-SwiftUI strings (menu items, alert
 
 ## CI
 
-GitHub Actions workflow at `.github/workflows/build.yml` — triggers on `x.y.z` tags, builds on `macos-26`, creates a GitHub release with `SuperOpt.zip` attached. Release notes are generated from `git log` since the previous tag. After the release, the workflow auto-updates the Homebrew cask (`Casks/superopt.rb`) with the new version and SHA, and commits to `main`.
+GitHub Actions workflow at `.github/workflows/release.yml` — triggers on `x.y.z` tags, builds on `macos-26`, creates a GitHub release with `SuperOpt.zip` attached. Release notes are generated from `git log` since the previous tag. After the release, the workflow auto-updates the Homebrew cask (`Casks/superopt.rb`) with the new version and SHA via the GraphQL API (signed commit), then triggers a `repository_dispatch` to `logonoff/homebrew-bucket` to sync the cask there too.
 
 A `Makefile` is also available with targets: `build`, `install`, `run` (kill → clean → install --run), `kill`, `clean`.
 
 ## Homebrew
 
-A cask is hosted in this repo at `Casks/superopt.rb`. Install via:
+A cask is hosted in this repo at `Casks/superopt.rb` and mirrored to `logonoff/homebrew-bucket`. Install via:
 
 ```bash
-brew tap logonoff/superopt https://github.com/logonoff/superopt
+brew tap logonoff/homebrew-bucket
 brew install --cask superopt
 ```
 
