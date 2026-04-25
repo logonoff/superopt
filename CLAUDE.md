@@ -121,8 +121,7 @@ A `Makefile` is also available with targets: `build`, `install`, `run` (kill →
 A cask is hosted in this repo at `Casks/superopt.rb` and mirrored to `logonoff/homebrew-bucket`. Install via:
 
 ```bash
-brew tap logonoff/bucket
-brew install --cask superopt
+brew install --cask logonoff/bucket/superopt
 ```
 
 ## Apple Documentation
