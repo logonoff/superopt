@@ -1,3 +1,5 @@
+// This file getting too long is unavoidable due to the large number of shortcuts
+// swiftlint:disable file_length
 import Cocoa
 
 struct GnomeShortcutDef: Identifiable, Hashable {
@@ -24,7 +26,11 @@ class GnomeShortcutHandler {
         0x25, // L - clear
         0x20, // U - delete to start of line
         0x0D, // W - delete previous word
-        0x06 // Z - suspend
+        0x06, // Z - suspend
+        0x33, // Delete - delete previous word
+        0x75, // Forward Delete - delete next word
+        0x7B, // Left arrow - move cursor left (including by character)
+        0x7C // Right arrow - move cursor right (including by character)
     ]
 
     // Ctrl+Shift+key in terminal apps → Cmd+key (removes both Ctrl and Shift)
