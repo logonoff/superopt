@@ -109,6 +109,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         NSApplication.shared.abortModal(); return .terminateNow
     }
 
+    func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows: Bool) -> Bool {
+        settingsWindow.show()
+        return false
+    }
+
     @objc func handleQuitAppleEvent(_: NSAppleEventDescriptor, withReply _: NSAppleEventDescriptor) {
         NSApplication.shared.terminate(nil)
     }
