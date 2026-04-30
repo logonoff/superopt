@@ -103,6 +103,21 @@ enum KeyboardUtils {
         return (ref as! AXValue) // swiftlint:disable:this force_cast
     }
 
+    private static let appServicesLib = dlopen(
+        "/System/Library/Frameworks/ApplicationServices.framework/ApplicationServices",
+        RTLD_LAZY
+    )
+
+    // Private: _AXUIElementGetWindow maps an AXUIElement to its CGWindowID.
+    // No public API bridges AX elements to CGWindowIDs — without this, matching
+    // AX windows to compositor thumbnails requires fragile title-based heuristics.
+    static let axGetWindow: (
+        @convention(c) (AXUIElement, UnsafeMutablePointer<UInt32>) -> Int32
+    )? = appServicesLib.flatMap { lib in
+        dlsym(lib, "_AXUIElementGetWindow")
+            .map { unsafeBitCast($0, to: (@convention(c) (AXUIElement, UnsafeMutablePointer<UInt32>) -> Int32).self) }
+    }
+
     static let systemWide = AXUIElementCreateSystemWide()
 
     static func primaryScreenHeight() -> CGFloat {
@@ -150,6 +165,25 @@ enum KeyboardUtils {
         return (modValue as? Int) == tilingModifier
     }
 
+    static func pressArrangeMenuItem(pid: pid_t, virtualKey: Int64) -> Bool {
+        pressMenuItem(pid: pid, matching: { element in
+            var vkValue: AnyObject?
+            guard AXUIElementCopyAttributeValue(
+                element, "AXMenuItemCmdVirtualKey" as CFString, &vkValue
+            ) == .success, (vkValue as? Int64) == virtualKey else { return false }
+            return hasArrangeModifier(element)
+        })
+    }
+
+    private static let arrangeModifier = 29
+
+    private static func hasArrangeModifier(_ element: AXUIElement) -> Bool {
+        var modValue: AnyObject?
+        AXUIElementCopyAttributeValue(
+            element, "AXMenuItemCmdModifiers" as CFString, &modValue)
+        return (modValue as? Int) == arrangeModifier
+    }
+
     private static func pressMenuItem(
         pid: pid_t, matching predicate: (AXUIElement) -> Bool
     ) -> Bool {
@@ -183,6 +217,31 @@ enum KeyboardUtils {
             }
         }
         return false
+    }
+
+    static func findAXWindow(pid: pid_t, windowID: UInt32) -> AXUIElement? {
+        let app = AXUIElementCreateApplication(pid)
+        var ref: AnyObject?
+        AXUIElementCopyAttributeValue(app, kAXWindowsAttribute as CFString, &ref)
+        guard let windows = ref as? [AXUIElement] else { return nil }
+        if let getWindow = axGetWindow {
+            for win in windows {
+                var axWID: UInt32 = 0
+                if getWindow(win, &axWID) == 0, axWID == windowID { return win }
+            }
+        }
+        guard let list = CGWindowListCopyWindowInfo(
+            [.optionAll], kCGNullWindowID) as? [[String: Any]],
+              let title = list.first(where: {
+                  $0[kCGWindowNumber as String] as? UInt32 == windowID
+              })?[kCGWindowName as String] as? String
+        else { return nil }
+        for win in windows {
+            var titleRef: AnyObject?
+            AXUIElementCopyAttributeValue(win, kAXTitleAttribute as CFString, &titleRef)
+            if (titleRef as? String) == title { return win }
+        }
+        return nil
     }
 
     static func isFocusedOnTextField() -> Bool {

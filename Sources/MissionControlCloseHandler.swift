@@ -1,19 +1,12 @@
 import Cocoa
 
 private let skylight = dlopen(nil, RTLD_LAZY)
-private let appServices = dlopen(
-    "/System/Library/Frameworks/ApplicationServices.framework/ApplicationServices",
-    RTLD_LAZY
-)
-
 @MainActor
 class MissionControlCloseHandler {
     private typealias MainConnFn = @convention(c) () -> Int32
     private typealias ScreenRectFn = @convention(c) (Int32, UInt32, UnsafeMutablePointer<CGRect>) -> Int32
-    private typealias AXGetWindowFn = @convention(c) (AXUIElement, UnsafeMutablePointer<UInt32>) -> Int32
     private let cid: Int32
     private let getScreenRect: ScreenRectFn
-    private let axGetWindow: AXGetWindowFn?
 
     private var enabled = false
     private(set) var mcActive = false
@@ -52,11 +45,6 @@ class MissionControlCloseHandler {
         else { return nil }
         cid = unsafeBitCast(cidPtr, to: MainConnFn.self)()
         getScreenRect = unsafeBitCast(srPtr, to: ScreenRectFn.self)
-        // Private: _AXUIElementGetWindow maps an AXUIElement to its CGWindowID.
-        // No public API bridges AX elements to CGWindowIDs — without this, matching
-        // AX windows to compositor thumbnails requires fragile title-based heuristics.
-        axGetWindow = dlsym(appServices, "_AXUIElementGetWindow")
-            .map { unsafeBitCast($0, to: AXGetWindowFn.self) }
     }
 
     private var screenObserver: NSObjectProtocol?
@@ -215,7 +203,7 @@ class MissionControlCloseHandler {
             guard getScreenRect(cid, wid, &screenRect) == 0,
                   screenRect.width > 60, screenRect.height > 60 else { continue }
             if !closableWIDs.contains(wid) {
-                guard let axWin = findAXWindow(pid: pid, windowID: wid),
+                guard let axWin = KeyboardUtils.findAXWindow(pid: pid, windowID: wid),
                       let btn = axCloseButton(of: axWin),
                       axIsEnabled(btn)
                 else { unclosableWIDs.insert(wid); continue }
@@ -266,30 +254,6 @@ class MissionControlCloseHandler {
 // MARK: - AX helpers
 
 extension MissionControlCloseHandler {
-    fileprivate func findAXWindow(pid: pid_t, windowID: UInt32) -> AXUIElement? {
-        let app = AXUIElementCreateApplication(pid)
-        var ref: AnyObject?
-        AXUIElementCopyAttributeValue(app, kAXWindowsAttribute as CFString, &ref)
-        guard let windows = ref as? [AXUIElement] else { return nil }
-        if let axGetWindow {
-            for win in windows {
-                var axWID: UInt32 = 0
-                if axGetWindow(win, &axWID) == 0, axWID == windowID { return win }
-            }
-        }
-        guard let list = CGWindowListCopyWindowInfo([.optionAll], kCGNullWindowID) as? [[String: Any]],
-              let title = list.first(where: {
-                  $0[kCGWindowNumber as String] as? UInt32 == windowID
-              })?[kCGWindowName as String] as? String
-        else { return nil }
-        for win in windows {
-            var titleRef: AnyObject?
-            AXUIElementCopyAttributeValue(win, kAXTitleAttribute as CFString, &titleRef)
-            if (titleRef as? String) == title { return win }
-        }
-        return nil
-    }
-
     fileprivate func axCloseButton(of window: AXUIElement) -> AXUIElement? {
         var ref: AnyObject?
         AXUIElementCopyAttributeValue(
@@ -298,7 +262,7 @@ extension MissionControlCloseHandler {
     }
 
     fileprivate func closeWindow(pid: pid_t, windowID: UInt32, cursorLocation: CGPoint = .zero) {
-        guard let win = findAXWindow(pid: pid, windowID: windowID),
+        guard let win = KeyboardUtils.findAXWindow(pid: pid, windowID: windowID),
               let btn = axCloseButton(of: win) else { return }
         var screenRect = CGRect.zero
         _ = getScreenRect(cid, windowID, &screenRect)

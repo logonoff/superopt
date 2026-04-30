@@ -322,6 +322,9 @@
 /* No comment provided by engineer. */
 "Single press Option to open Mission Control" = "Appuyez une fois sur Option pour ouvrir Mission Control";
 
+/* Toggle description */
+"Suggests windows to fill the other half after tiling left or right" = "Suggère des fenêtres pour remplir l'autre moitié après disposition à gauche ou à droite";
+
 /* Alert body when all permissions are granted */
 "SuperOpt already has all required permissions." = "SuperOpt dispose déjà de toutes les autorisations nécessaires.";
 
@@ -342,6 +345,9 @@
 
 /* Toggle description */
 "The Menu key on PC keyboards opens a shortcut menu" = "La touche Menu des claviers PC ouvre un menu contextuel";
+
+/* Toggle label */
+"Tile Assist" = "Assistance de disposition";
 
 /* No comment provided by engineer. */
 "Toggle Bookmarks Bar" = "Afficher/masquer la barre des signets";

@@ -1,3 +1,5 @@
+// This getting long is mostly due to the features needing to be handled in one file
+// swiftlint:disable file_length
 import Cocoa
 import ServiceManagement
 
@@ -52,6 +54,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private let menuKeyHandler = MenuKeyHandler()
     private let menuBarBackground = MenuBarBackground()
     private let mcCloseHandler = MissionControlCloseHandler()
+    private var snapAssistPanel: SnapAssistPanel?
+    private let tileAssistWatcher = TileAssistWatcher()
     private let settingsWindow = SettingsWindowController()
     private let permissionHelper = PermissionHelper()
     private var lastCapsLockState = false
@@ -68,6 +72,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         "menuBarBgEnabled": false,
         "appGridEnabled": true,
         "windowTilingEnabled": false,
+        "snapAssistEnabled": false,
         "gnomeShortcutsEnabled": false,
         "finderCutEnabled": false,
         "middleClickPasteEnabled": false,
@@ -89,9 +94,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if wantsBg { menuBarBackground.start() } else { menuBarBackground.stop() }
         gnomeShortcutHandler.reloadSettings()
         scrollZoomHandler.reloadSettings()
-        if isEnabled("mcCloseEnabled") { mcCloseHandler?.start() } else {
-            mcCloseHandler?.stop()
-        }
+        if isEnabled("mcCloseEnabled") {
+            mcCloseHandler?.start()
+        } else { mcCloseHandler?.stop() }
+        if isEnabled("snapAssistEnabled") {
+            tileAssistWatcher.start()
+        } else { tileAssistWatcher.stop() }
     }
 
     private var dockFinderPosition: Int { UserDefaults.standard.integer(forKey: "dockFinderPosition") }
@@ -125,20 +133,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         lastCapsLockState = NSEvent.modifierFlags.contains(.capsLock)
 
         if isEnabled("mcCloseEnabled") { mcCloseHandler?.start() }
-
-        optionKeyHandler.onSinglePress = { [weak self] in
-            guard let self = self, self.isEnabled("optSingleEnabled") else { return }
-            self.triggerMissionControl()
-        }
-        optionKeyHandler.onDoublePress = { [weak self] in
-            guard let self = self, self.isEnabled("optDoubleEnabled") else { return }
-            self.triggerSpotlight()
-        }
-
-        hotCorner.onTrigger = { [weak self] screen in
-            self?.rippleAnimation.play(onScreen: screen)
-            self?.triggerMissionControl()
-        }
+        setupCallbacks()
         hotCorner.enabled = isEnabled("hotCornersEnabled")
 
         NotificationCenter.default.addObserver(
@@ -219,11 +214,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func tearDownEventTap() {
-        if let tap = eventTap {
-            CGEvent.tapEnable(tap: tap, enable: false)
-            CFMachPortInvalidate(tap)
-            eventTap = nil
-        }
+        guard let tap = eventTap else { return }
+        CGEvent.tapEnable(tap: tap, enable: false)
+        CFMachPortInvalidate(tap)
+        eventTap = nil
     }
     // MARK: - Actions
 
@@ -234,9 +228,42 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         task.terminationHandler = { _ in }
         try? task.run()
     }
+    private func setupCallbacks() {
+        tileAssistWatcher.onTile = { [weak self] dir, screen in
+            self?.showSnapAssist(direction: dir, screen: screen)
+        }
+        tileAssistWatcher.isPanelVisible = { [weak self] in
+            self?.snapAssistPanel != nil
+        }
+        if isEnabled("snapAssistEnabled") { tileAssistWatcher.start() }
+        optionKeyHandler.onSinglePress = { [weak self] in
+            guard let self, isEnabled("optSingleEnabled") else { return }
+            triggerMissionControl()
+        }
+        optionKeyHandler.onDoublePress = { [weak self] in
+            guard let self, isEnabled("optDoubleEnabled") else { return }
+            triggerSpotlight()
+        }
+        hotCorner.onTrigger = { [weak self] screen in
+            self?.rippleAnimation.play(onScreen: screen)
+            self?.triggerMissionControl()
+        }
+    }
+
     fileprivate func triggerSpotlight() {
         guard let url = URL(string: "spotlight://apps") else { return }
         NSWorkspace.shared.open(url)
+    }
+    fileprivate func showSnapAssist(
+        direction: SnapAssistPanel.TileDirection, screen: NSScreen
+    ) {
+        snapAssistPanel?.dismiss()
+        let panel = SnapAssistPanel(
+            direction: direction, screen: screen) { [weak self] in
+                self?.snapAssistPanel = nil
+            }
+        panel?.onWillTile = { [weak self] in self?.tileAssistWatcher.suppress() }
+        snapAssistPanel = panel
     }
 }
 

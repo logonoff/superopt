@@ -44,7 +44,10 @@ private let _extraStrings = [
     NSLocalizedString("Menu Key → Shortcut Menu", comment: "Toggle label"),
     NSLocalizedString("The Menu key on PC keyboards opens a shortcut menu", comment: "Toggle description"),
     NSLocalizedString("Close Windows in Mission Control", comment: "Toggle label"),
-    NSLocalizedString("Adds close buttons to windows in Mission Control", comment: "Toggle description")
+    NSLocalizedString("Adds close buttons to windows in Mission Control", comment: "Toggle description"),
+    NSLocalizedString("Tile Assist", comment: "Toggle label"),
+    NSLocalizedString(
+        "Suggests windows to fill the other half after tiling left or right", comment: "Toggle description")
 ]
 
 struct SettingsView: View {
@@ -57,6 +60,7 @@ struct SettingsView: View {
     @AppStorage("lockKeyOSDEnabled") var lockKeyOSD = true
     @AppStorage("homeEndRemapEnabled") var homeEndRemap = true
     @AppStorage("windowTilingEnabled") var windowTiling = false
+    @AppStorage("snapAssistEnabled") var snapAssist = false
     @AppStorage("zoomButtonEnabled") var zoomButton = false
     @AppStorage("finderCutEnabled") var finderCut = false
     @AppStorage("middleClickPasteEnabled") var middleClickPaste = false
@@ -101,6 +105,11 @@ struct SettingsView: View {
                 Toggle(isOn: $windowTiling) {
                     Text("Window Tiling")
                     Text("⌥+Arrow keys tile, maximize, or restore windows")
+                }
+
+                Toggle(isOn: $snapAssist) {
+                    Text("Tile Assist")
+                    Text("Suggests windows to fill the other half after tiling left or right")
                 }
             }
 
