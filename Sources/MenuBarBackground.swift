@@ -111,9 +111,6 @@ class MenuBarBackground: NSObject {
     }
 
     private func isScreenFilled(_ screen: NSScreen, windowList: [[String: Any]]) -> Bool {
-        let primaryHeight = KeyboardUtils.primaryScreenHeight()
-        guard primaryHeight > 0 else { return false }
-
         let usableArea = screen.visibleFrame
 
         for info in windowList {
@@ -123,13 +120,10 @@ class MenuBarBackground: NSObject {
                   ownerPID != ProcessInfo.processInfo.processIdentifier
             else { continue }
 
-            let cgX = boundsDict["X"] ?? 0
-            let cgY = boundsDict["Y"] ?? 0
-            let cgW = boundsDict["Width"] ?? 0
-            let cgH = boundsDict["Height"] ?? 0
-
-            let nsY = primaryHeight - cgY - cgH
-            let windowFrame = NSRect(x: cgX, y: nsY, width: cgW, height: cgH)
+            let cgRect = CGRect(
+                x: boundsDict["X"] ?? 0, y: boundsDict["Y"] ?? 0,
+                width: boundsDict["Width"] ?? 0, height: boundsDict["Height"] ?? 0)
+            let windowFrame = KeyboardUtils.cgRectToNS(cgRect)
 
             if windowFrame.minX <= usableArea.minX + 2
                 && windowFrame.minY <= usableArea.minY + 2

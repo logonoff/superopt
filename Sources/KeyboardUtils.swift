@@ -124,6 +124,24 @@ enum KeyboardUtils {
         NSScreen.screens.first?.frame.height ?? 0
     }
 
+    static func axWindowFrame(_ window: AXUIElement) -> CGRect {
+        var posRef: AnyObject?
+        var sizeRef: AnyObject?
+        AXUIElementCopyAttributeValue(window, kAXPositionAttribute as CFString, &posRef)
+        AXUIElementCopyAttributeValue(window, kAXSizeAttribute as CFString, &sizeRef)
+        var pos = CGPoint.zero
+        var size = CGSize.zero
+        if let val = posRef.flatMap(toAXValue) { AXValueGetValue(val, .cgPoint, &pos) }
+        if let val = sizeRef.flatMap(toAXValue) { AXValueGetValue(val, .cgSize, &size) }
+        return CGRect(origin: pos, size: size)
+    }
+
+    static func cgRectToNS(_ rect: CGRect) -> NSRect {
+        let height = primaryScreenHeight()
+        return NSRect(x: rect.origin.x, y: height - rect.origin.y - rect.height,
+                      width: rect.width, height: rect.height)
+    }
+
     static func isMissionControlActive(_ windowList: [[String: Any]]) -> Bool {
         let dockOverlays = windowList.filter { info in
             guard let owner = info[kCGWindowOwnerName as String] as? String,

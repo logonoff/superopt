@@ -222,11 +222,8 @@ class MissionControlCloseHandler {
         guard getScreenRect(cid, hoveredWID, &liveRect) == 0,
               liveRect.width > 60, liveRect.height > 60
         else { hideOverlay(); return }
-        let primaryHeight = KeyboardUtils.primaryScreenHeight()
-        guard primaryHeight > 0 else { return }
         let cgBtn = closeButtonCGRect(for: liveRect)
-        let origin = NSPoint(x: cgBtn.origin.x,
-                             y: primaryHeight - cgBtn.origin.y - cgBtn.height)
+        let origin = KeyboardUtils.cgRectToNS(cgBtn).origin
         let moved = abs(origin.x - lastOverlayOrigin.x) > 0.5
             || abs(origin.y - lastOverlayOrigin.y) > 0.5
         lastOverlayOrigin = origin

@@ -59,33 +59,20 @@ class ZoomButtonHandler {
     }
 
     private func isWindowFilled(_ window: AXUIElement, clickPoint: CGPoint) -> Bool {
-        let nsPoint = NSPoint(
-            x: clickPoint.x, y: KeyboardUtils.primaryScreenHeight() - clickPoint.y)
-        guard let screen = NSScreen.screens.first(where: { $0.frame.contains(nsPoint) })
+        let nsClick = KeyboardUtils.cgRectToNS(CGRect(origin: clickPoint, size: .zero)).origin
+        guard let screen = NSScreen.screens.first(where: { $0.frame.contains(nsClick) })
             ?? NSScreen.main else { return false }
 
-        let primaryHeight = KeyboardUtils.primaryScreenHeight()
+        let winFrame = KeyboardUtils.axWindowFrame(window)
         let visible = screen.visibleFrame
         let fillFrame = CGRect(
-            x: visible.origin.x, y: primaryHeight - visible.origin.y - visible.height,
+            x: visible.origin.x,
+            y: KeyboardUtils.primaryScreenHeight() - visible.origin.y - visible.height,
             width: visible.width, height: visible.height)
 
-        var posRef: AnyObject?
-        var sizeRef: AnyObject?
-        AXUIElementCopyAttributeValue(window, kAXPositionAttribute as CFString, &posRef)
-        AXUIElementCopyAttributeValue(window, kAXSizeAttribute as CFString, &sizeRef)
-        var position = CGPoint.zero
-        var size = CGSize.zero
-        if let val = posRef.flatMap(KeyboardUtils.toAXValue) {
-            AXValueGetValue(val, .cgPoint, &position)
-        }
-        if let val = sizeRef.flatMap(KeyboardUtils.toAXValue) {
-            AXValueGetValue(val, .cgSize, &size)
-        }
-
-        return abs(position.x - fillFrame.origin.x) < 10
-            && abs(position.y - fillFrame.origin.y) < 10
-            && abs(size.width - fillFrame.width) < 10
-            && abs(size.height - fillFrame.height) < 10
+        return abs(winFrame.origin.x - fillFrame.origin.x) < 10
+            && abs(winFrame.origin.y - fillFrame.origin.y) < 10
+            && abs(winFrame.width - fillFrame.width) < 10
+            && abs(winFrame.height - fillFrame.height) < 10
     }
 }

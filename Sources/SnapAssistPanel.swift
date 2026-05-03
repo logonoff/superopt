@@ -307,15 +307,7 @@ extension SnapAssistPanel {
 
     fileprivate static func frontWindowFrame(pid: pid_t) -> CGRect {
         guard let win = focusedWindow(pid: pid) else { return .zero }
-        var posRef: AnyObject?
-        var sizeRef: AnyObject?
-        AXUIElementCopyAttributeValue(win, kAXPositionAttribute as CFString, &posRef)
-        AXUIElementCopyAttributeValue(win, kAXSizeAttribute as CFString, &sizeRef)
-        var pos = CGPoint.zero
-        var size = CGSize.zero
-        if let val = posRef.flatMap(KeyboardUtils.toAXValue) { AXValueGetValue(val, .cgPoint, &pos) }
-        if let val = sizeRef.flatMap(KeyboardUtils.toAXValue) { AXValueGetValue(val, .cgSize, &size) }
-        return CGRect(origin: pos, size: size)
+        return KeyboardUtils.axWindowFrame(win)
     }
 
     fileprivate static func freeArea(

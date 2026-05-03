@@ -134,50 +134,31 @@ class TileAssistWatcher {
 
 extension TileAssistWatcher {
     fileprivate static func windowFrame(_ window: AXUIElement) -> CGRect {
-        var posRef: AnyObject?
-        var sizeRef: AnyObject?
-        AXUIElementCopyAttributeValue(
-            window, kAXPositionAttribute as CFString, &posRef)
-        AXUIElementCopyAttributeValue(
-            window, kAXSizeAttribute as CFString, &sizeRef)
-        var pos = CGPoint.zero
-        var size = CGSize.zero
-        if let val = posRef.flatMap(KeyboardUtils.toAXValue) {
-            AXValueGetValue(val, .cgPoint, &pos)
-        }
-        if let val = sizeRef.flatMap(KeyboardUtils.toAXValue) {
-            AXValueGetValue(val, .cgSize, &size)
-        }
-        return CGRect(origin: pos, size: size)
+        KeyboardUtils.axWindowFrame(window)
     }
 
-    fileprivate static func screenForWindow(_ frame: CGRect) -> NSScreen? {
-        let primaryHeight = KeyboardUtils.primaryScreenHeight()
-        let center = NSPoint(
-            x: frame.midX, y: primaryHeight - frame.midY)
-        return NSScreen.screens.first { $0.frame.contains(center) } ?? NSScreen.main
+    fileprivate static func screenForWindow(_ cgFrame: CGRect) -> NSScreen? {
+        let nsFrame = KeyboardUtils.cgRectToNS(cgFrame)
+        return NSScreen.screens.first { $0.frame.contains(
+            NSPoint(x: nsFrame.midX, y: nsFrame.midY)) } ?? NSScreen.main
     }
 
     fileprivate static func tileDirection(
-        _ frame: CGRect, onScreen screen: NSScreen?
+        _ cgFrame: CGRect, onScreen screen: NSScreen?
     ) -> SnapAssistPanel.TileDirection? {
         guard let screen else { return nil }
-        let primaryHeight = KeyboardUtils.primaryScreenHeight()
+        let nsFrame = KeyboardUtils.cgRectToNS(cgFrame)
         let visible = screen.visibleFrame
-        let screenRect = CGRect(
-            x: visible.origin.x,
-            y: primaryHeight - visible.origin.y - visible.height,
-            width: visible.width, height: visible.height)
 
-        guard abs(frame.origin.y - screenRect.origin.y) < tolerance,
-              abs(frame.height - screenRect.height) < tolerance,
-              frame.width < screenRect.width - 50
+        guard nsFrame.minY <= visible.minY + tolerance,
+              nsFrame.maxY >= visible.maxY - tolerance,
+              nsFrame.width < visible.width - 50
         else { return nil }
 
-        if abs(frame.origin.x - screenRect.origin.x) < tolerance {
+        if nsFrame.minX <= visible.minX + tolerance {
             return .left
         }
-        if abs(frame.maxX - screenRect.maxX) < tolerance {
+        if nsFrame.maxX >= visible.maxX - tolerance {
             return .right
         }
         return nil
