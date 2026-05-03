@@ -1,6 +1,6 @@
 cask "superopt" do
-  version "0.5.1"
-  sha256 "d3f705efc7c49de7681a1ff5af3d0df76b39a83ae5b119528571e71464d362bf"
+  version "0.5.2"
+  sha256 "b9fb4516e060b85e6f9a8c9cf2747a396b48d04493c2855b843d67074f5b587a"
 
   url "https://github.com/logonoff/superopt/releases/download/#{version}/SuperOpt.zip",
       verified: "github.com/logonoff/superopt/"
