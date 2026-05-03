@@ -11,12 +11,10 @@
 
 A macOS menu bar app that brings GNOME desktop muscle memory to macOS. Requires **macOS 26 (Tahoe)** or later.
 
-<video src="https://github.com/user-attachments/assets/8d14ad15-434d-4318-a1ab-e16173e018d5" controls muted style="max-width: 100%; border-radius: 8px;"></video>
-
 ## Install
 
 ```
-brew install --cask logonoff/bucket/superopt
+brew install logonoff/bucket/superopt
 ```
 
 Or build from source:
@@ -42,16 +40,17 @@ xattr -d com.apple.quarantine /Applications/SuperOpt.app
 | Single press `⌥` | Open Mission Control |
 | Double press `⌥` | Open Spotlight Apps |
 | `⌥`+`A` | Open Spotlight Apps |
-| `⌥`+`1-9` | Launch the Nth app in the Dock |
+| `⌥`+`1-9` | Launch apps from the Dock by number |
 
 ### Desktop
 
 | Feature | Description |
 |---|---|
-| Hot Corner | Move mouse to top-left corner → Mission Control (with GNOME ripple animation) |
+| Hot Corner | Move the pointer to the top-left corner → Mission Control (with GNOME ripple animation) |
 | Window Tiling | `⌥`+Arrow keys to tile, maximize, or restore windows (off by default) |
-| Green Button Fills | Green button fills window instead of full screen (off by default) |
+| Green Button Fills | Green button expands window to fill screen instead of entering full screen (off by default) |
 | Close in Mission Control | Hover over a window in Mission Control to show a close button |
+| Tile Assist | After tiling a window, a panel suggests other windows to fill the remaining space (off by default) |
 | Dark Menu Bar | Opaque bar behind transparent menu bar when a window fills the screen (off by default) |
 
 ### Keyboard

@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>SuperOpt</title>
+    <title>SuperOpt · GNOME shortcuts and features for macOS</title>
     <link rel="icon" type="image/png" href="favicon.png">
     <meta name="description"
       content="A tiny macOS menu bar app that repurposes the Option key with Mission Control, hot corners, Dock shortcuts, and Linux-style keyboard shortcuts.">
@@ -21,9 +21,6 @@
         gap: var(--shale-v1-font-2);
       }
 
-      #demo-video {
-        padding: 0;
-      }
 
       .screenshot-strip {
         display: flex;
@@ -33,12 +30,51 @@
         gap: var(--shale-v1-font-2);
         padding-bottom: 8px;
 
-        & img {
+        & picture {
           scroll-snap-align: start;
+          flex-shrink: 0;
+        }
+
+        & img {
           border-radius: 8px;
           height: 340px;
-          flex-shrink: 0;
           cursor: pointer;
+        }
+      }
+
+      .feature-slide {
+        display: flex;
+        align-items: center;
+        gap: var(--shale-v1-font-4);
+
+        &:nth-of-type(even) {
+          flex-direction: row-reverse;
+        }
+
+        & .feature-slide-media {
+          flex: 1 1 55%;
+          min-width: 0;
+
+          & video {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+          }
+        }
+
+        & .feature-slide-text {
+          flex: 1 1 40%;
+
+          & h3 {
+            margin-bottom: 0.5em;
+          }
+        }
+      }
+
+      @media (max-width: 600px) {
+        .feature-slide,
+        .feature-slide:nth-of-type(even) {
+          flex-direction: column;
         }
       }
 
@@ -110,79 +146,99 @@
         </div>
       </div>
 
-      <div class="shale-v1-note-warn">
-        <strong>Warning</strong>
-        <p class="shale-v1-note-text">
-          This project is AI slop and the code has not been vetted by a human. Use at your own risk!
-        </p>
-      </div>
-
-      <section id="demo">
-        <div class="shale-v1-flex-center">
-          <h2 class="shale-v1-h2">Quick Demo</h2>
-        </div>
-        <video class="shale-v1-card" id="demo-video" controls playsinline muted width="1600" height="900"
-          poster="https://github.com/user-attachments/assets/2def1e72-71df-41c8-9246-66c57c6ab716"
-          style="max-width: 100%; height: auto; border-radius: 8px">
-          <source src="https://github.com/user-attachments/assets/8d14ad15-434d-4318-a1ab-e16173e018d5"
-            type="video/mp4">
-        </video>
-
-        <div class="shale-v1-flex-center">
-          <h3 class="shale-v1-h3">Screenshots</h3>
-        </div>
-        <div class="screenshot-strip">
-          <img src="https://github.com/user-attachments/assets/91087ca2-b566-4bd9-b297-7fe949dafd42"
-            alt="SuperOpt settings — Desktop section" loading="lazy">
-          <img src="https://github.com/user-attachments/assets/09d0cb8d-77b3-474b-8e69-f727f92484a7"
-            alt="SuperOpt settings — Keyboard section" loading="lazy">
-          <img src="https://github.com/user-attachments/assets/a1331050-691f-4587-b347-39e208bbc4d2"
-            alt="SuperOpt settings — Input section" loading="lazy">
-          <img src="https://github.com/user-attachments/assets/58caf5a6-4c71-4b1d-906c-96393b51a7bc"
-            alt="SuperOpt settings — Shortcut Remapping section" loading="lazy">
-          <img src="https://github.com/user-attachments/assets/49b2e1d2-1e2d-4ba5-a5fb-53d7a67b7f89"
-            alt="SuperOpt settings — Shortcut Remapping expanded" loading="lazy">
-          <img src="https://github.com/user-attachments/assets/fa713e55-bc9e-4062-9765-0399c9e14e60"
-            alt="SuperOpt about panel" loading="lazy">
-        </div>
-      </section>
-
-      <section id="install">
-        <div class="shale-v1-flex-center">
-          <h2 class="shale-v1-h2">Install</h2>
-        </div>
-
-        <div class="shale-v1-note-info">
-          <strong>Permissions</strong>
-          <p class="shale-v1-note-text">
-            SuperOpt requires <strong>Accessibility</strong> and <strong>Input Monitoring</strong> permissions
-            in System Settings &gt; Privacy &amp; Security. The app will prompt you on first launch.
-          </p>
-        </div>
-
-        <div class="shale-v1-card">
-          <p class="shale-v1-p">Install via Homebrew:</p>
-          <div style="position: relative">
-            <pre class="shale-v1-code" id="install-brew">
-brew install --cask logonoff/bucket/superopt</pre>
-            <button class="shale-v1-button" onclick="copyCode(this)"
-              style="position: absolute; top: 0.25em; right: 0.25em; font-size: 0.8em">
-              Copy
-            </button>
-          </div>
-          <p class="shale-v1-p">
-            Or download the latest release directly from
-            <a href="https://github.com/logonoff/superopt/releases/latest" target="_blank" rel="noopener"
-              class="shale-v1-link">GitHub Releases</a>. The app is ad-hoc signed, so you may need to right-click and
-            choose Open on first launch to
-            bypass Gatekeeper.
-          </p>
-        </div>
-      </section>
-
       <section id="features">
         <div class="shale-v1-flex-center">
-          <h2 class="shale-v1-h2">Option Key Shortcuts</h2>
+          <h2 class="shale-v1-h2">Features</h2>
+        </div>
+
+        <div class="shale-v1-card feature-slide">
+          <div class="feature-slide-media">
+            <video controls playsinline muted loop width="1600" height="900">
+              <source src="https://github.com/user-attachments/assets/44721054-5b15-4119-acb7-fa15074b233d"
+                type="video/mp4">
+            </video>
+          </div>
+          <div class="feature-slide-text">
+            <h3 class="shale-v1-h3">Close in Mission Control</h3>
+            <p class="shale-v1-p">Hover over a window thumbnail in Mission Control to reveal a close button, just like
+              GNOME's Activities overview. Click it to close the window without leaving Mission Control.</p>
+          </div>
+        </div>
+
+        <div class="shale-v1-card feature-slide">
+          <div class="feature-slide-media">
+            <video controls playsinline muted loop width="1600" height="900">
+              <source src="https://github.com/user-attachments/assets/e38a84a3-f691-4ee8-bb08-8e5ff24de932"
+                type="video/mp4">
+            </video>
+          </div>
+          <div class="feature-slide-text">
+            <h3 class="shale-v1-h3">Tile Assist</h3>
+            <p class="shale-v1-p">After tiling a window to the left or right half, a panel suggests other windows to fill
+              the remaining space.</p>
+          </div>
+        </div>
+
+        <div class="shale-v1-card feature-slide">
+          <div class="feature-slide-media">
+            <video controls playsinline muted loop width="1600" height="900">
+              <source src="https://github.com/user-attachments/assets/89ac3ade-661d-4742-ab1e-6ed15d027980"
+                type="video/mp4">
+            </video>
+          </div>
+          <div class="feature-slide-text">
+            <h3 class="shale-v1-h3">Hot Corner</h3>
+            <p class="shale-v1-p">Move the pointer to the top-left corner of any screen to trigger Mission Control,
+              complete with a GNOME-style ripple animation.</p>
+          </div>
+        </div>
+
+        <div class="shale-v1-card feature-slide">
+          <div class="feature-slide-media">
+            <video controls playsinline muted loop width="1600" height="900">
+              <source src="https://github.com/user-attachments/assets/f68b6835-b31e-409f-b20a-a39ddb51067a"
+                type="video/mp4">
+            </video>
+          </div>
+          <div class="feature-slide-text">
+            <h3 class="shale-v1-h3">Green Button Fills</h3>
+            <p class="shale-v1-p">The green button expands the window to fill the screen instead of entering
+              full screen. Click again to restore.</p>
+          </div>
+        </div>
+
+        <div class="shale-v1-card feature-slide">
+          <div class="feature-slide-media">
+            <video controls playsinline muted loop width="1600" height="900">
+              <source src="https://github.com/user-attachments/assets/203818e5-b441-4a54-8ad3-3b6490c652d8"
+                type="video/mp4">
+            </video>
+          </div>
+          <div class="feature-slide-text">
+            <h3 class="shale-v1-h3">Dark Menu Bar</h3>
+            <p class="shale-v1-p">Shows a black bar behind the transparent menu bar when a window fills the screen,
+              keeping it readable against any wallpaper.</p>
+          </div>
+        </div>
+
+        <div class="shale-v1-card feature-slide">
+          <div class="feature-slide-media">
+            <video controls playsinline muted loop width="1600" height="900">
+              <source src="https://github.com/user-attachments/assets/f5cb2d8e-37fa-4a9b-a6eb-6f7db534a65a"
+                type="video/mp4">
+            </video>
+          </div>
+          <div class="feature-slide-text">
+            <h3 class="shale-v1-h3">Caps Lock OSD</h3>
+            <p class="shale-v1-p">A centered on-screen notification appears whenever Caps Lock is toggled.</p>
+          </div>
+        </div>
+
+      </section>
+
+      <section id="keyboard-mouse">
+        <div class="shale-v1-flex-center">
+          <h2 class="shale-v1-h2">Keyboard &amp; Mouse</h2>
         </div>
 
         <div class="shale-v1-flex-space-between">
@@ -192,28 +248,27 @@ brew install --cask logonoff/bucket/superopt</pre>
           </div>
           <div class="shale-v1-flex-third shale-v1-card feature-card">
             <h3 class="shale-v1-h3">Double press <kbd class="shale-v1-code">&#x2325;</kbd></h3>
-            <p class="shale-v1-p">Open Spotlight app search with a quick double press.</p>
+            <p class="shale-v1-p">Open Spotlight Apps with a quick double press.</p>
           </div>
           <div class="shale-v1-flex-third shale-v1-card feature-card">
             <h3 class="shale-v1-h3">
               <kbd class="shale-v1-code">&#x2325;</kbd>+<kbd class="shale-v1-code">1-9</kbd>
             </h3>
-            <p class="shale-v1-p">Launch the Nth app in your Dock. The Finder position is configurable.</p>
+            <p class="shale-v1-p">Launch apps from the Dock by number. Finder position is configurable.</p>
           </div>
-        </div>
-      </section>
-
-      <section id="gnome-features">
-        <div class="shale-v1-flex-center">
-          <h2 class="shale-v1-h2">GNOME-Inspired Features</h2>
-        </div>
-
-        <div class="shale-v1-flex-space-between">
           <div class="shale-v1-flex-third shale-v1-card feature-card">
-            <h3 class="shale-v1-h3">Hot Corner</h3>
+            <h3 class="shale-v1-h3">Window Tiling</h3>
             <p class="shale-v1-p">
-              Move your mouse to the top-left corner of any screen to trigger Mission Control, complete
-              with a GNOME-style ripple animation.
+              Press <kbd class="shale-v1-code">⌥</kbd>+Arrow keys to tile windows to the left or right
+              half, maximize, or restore to previous size.
+            </p>
+          </div>
+          <div class="shale-v1-flex-third shale-v1-card feature-card">
+            <h3 class="shale-v1-h3">Cut &amp; Paste Files</h3>
+            <p class="shale-v1-p">
+              <kbd class="shale-v1-code">Control</kbd>+<kbd class="shale-v1-code">X</kbd> then
+              <kbd class="shale-v1-code">Control</kbd>+<kbd class="shale-v1-code">V</kbd> in the Finder
+              moves files instead of duplicating them.
             </p>
           </div>
           <div class="shale-v1-flex-third shale-v1-card feature-card">
@@ -226,27 +281,32 @@ brew install --cask logonoff/bucket/superopt</pre>
             </p>
           </div>
           <div class="shale-v1-flex-third shale-v1-card feature-card">
-            <h3 class="shale-v1-h3">Close in Mission Control</h3>
+            <h3 class="shale-v1-h3">Menu Key</h3>
             <p class="shale-v1-p">
-              Hover over a window in Mission Control to reveal a close button, just
-              like GNOME's Activities overview. Click it to close the window without
-              leaving Mission Control.
+              The Menu key on PC keyboards opens a shortcut menu, even in apps that don't support it natively.
             </p>
           </div>
           <div class="shale-v1-flex-third shale-v1-card feature-card">
             <h3 class="shale-v1-h3">Middle-click Paste</h3>
             <p class="shale-v1-p">
-              Middle-click on a text field pastes at the click position (X11-style).
-              Middle-click on a Dock icon opens a new window. Otherwise passes through
+              Middle-click a text field to paste at the click position (X11-style).
+              Middle-click a Dock icon to open a new window. Other clicks pass through
               for native behavior like open-in-new-tab in browsers.
+            </p>
+          </div>
+          <div class="shale-v1-flex-third shale-v1-card feature-card">
+            <h3 class="shale-v1-h3">Scroll Zoom</h3>
+            <p class="shale-v1-p">
+              <kbd class="shale-v1-code">Control</kbd>+scroll zooms in and out in browsers, with natural
+              or traditional scroll direction support.
             </p>
           </div>
         </div>
       </section>
 
-      <section id="other-features">
+      <section id="general">
         <div class="shale-v1-flex-center">
-          <h2 class="shale-v1-h2">More Features</h2>
+          <h2 class="shale-v1-h2">Built for Control</h2>
         </div>
 
         <div class="shale-v1-flex-space-between">
@@ -258,59 +318,6 @@ brew install --cask logonoff/bucket/superopt</pre>
             </p>
           </div>
           <div class="shale-v1-flex-third shale-v1-card feature-card">
-            <h3 class="shale-v1-h3">Caps Lock Indicator</h3>
-            <p class="shale-v1-p">
-              Onscreen notification when <kbd class="shale-v1-code">Caps Lock</kbd> is toggled, so you
-              always know its state.
-            </p>
-          </div>
-          <div class="shale-v1-flex-third shale-v1-card feature-card">
-            <h3 class="shale-v1-h3">Scroll Zoom</h3>
-            <p class="shale-v1-p">
-              <kbd class="shale-v1-code">Control</kbd>+scroll zooms in and out in browsers, with natural
-              or traditional scroll direction support.
-            </p>
-          </div>
-          <div class="shale-v1-flex-third shale-v1-card feature-card">
-            <h3 class="shale-v1-h3">Cut &amp; Paste Files</h3>
-            <p class="shale-v1-p">
-              <kbd class="shale-v1-code">Control</kbd>+<kbd class="shale-v1-code">X</kbd> then
-              <kbd class="shale-v1-code">Control</kbd>+<kbd class="shale-v1-code">V</kbd> in the Finder
-              moves files instead of duplicating them.
-            </p>
-          </div>
-          <div class="shale-v1-flex-third shale-v1-card feature-card">
-            <h3 class="shale-v1-h3">Window Tiling</h3>
-            <p class="shale-v1-p">
-              <kbd class="shale-v1-code">⌥</kbd>+Arrow keys to tile windows to the left or right
-              half, maximize, or restore to their original size.
-            </p>
-          </div>
-          <div class="shale-v1-flex-third shale-v1-card feature-card">
-            <h3 class="shale-v1-h3">Green Button Fills</h3>
-            <p class="shale-v1-p">
-              The green button fills the window instead of entering full screen. Click again to restore.
-            </p>
-          </div>
-          <div class="shale-v1-flex-third shale-v1-card feature-card">
-            <h3 class="shale-v1-h3">Menu Key</h3>
-            <p class="shale-v1-p">
-              The Menu key on PC keyboards opens a shortcut menu, even in apps that don't support it natively.
-            </p>
-          </div>
-          <div class="shale-v1-flex-third shale-v1-card feature-card">
-            <h3 class="shale-v1-h3">Dark Menu Bar</h3>
-            <p class="shale-v1-p">
-              Shows a black bar behind the transparent menu bar when a window fills the screen.
-            </p>
-          </div>
-          <div class="shale-v1-flex-third shale-v1-card feature-card">
-            <h3 class="shale-v1-h3">Tile Assist</h3>
-            <p class="shale-v1-p">
-              After tiling a window to the left or right, suggests other windows to fill the remaining space.
-            </p>
-          </div>
-          <div class="shale-v1-flex-third shale-v1-card feature-card">
             <h3 class="shale-v1-h3">Fine-Grained Control</h3>
             <p class="shale-v1-p">
               Every feature can be individually toggled on or off in the settings window, down to
@@ -318,11 +325,69 @@ brew install --cask logonoff/bucket/superopt</pre>
             </p>
           </div>
           <div class="shale-v1-flex-third shale-v1-card feature-card">
-            <h3 class="shale-v1-h3">Fully Offline</h3>
+            <h3 class="shale-v1-h3">Fully Offline &amp; Open Source</h3>
             <p class="shale-v1-p">
               No telemetry, no network requests, no data collection. Everything runs locally on your Mac.
+              The full source is on
+              <a href="https://github.com/logonoff/superopt" target="_blank" rel="noopener"
+                class="shale-v1-link">GitHub</a>.
             </p>
           </div>
+        </div>
+        <div class="shale-v1-flex-center">
+          <h3 class="shale-v1-h3">Settings</h3>
+        </div>
+        <div class="screenshot-strip">
+          <picture>
+            <source srcset="https://github.com/user-attachments/assets/99ac6b7d-037d-4622-899d-1fb5ad40f932"
+              media="(prefers-color-scheme: dark)">
+            <img src="https://github.com/user-attachments/assets/83883214-038c-46d0-899c-98de7a5f6856"
+              alt="SuperOpt settings — Page 1" loading="lazy">
+          </picture>
+          <picture>
+            <source srcset="https://github.com/user-attachments/assets/3062890a-b042-4549-a96d-0581d44c830f"
+              media="(prefers-color-scheme: dark)">
+            <img src="https://github.com/user-attachments/assets/c1b5da34-bc42-4373-892b-858d187b8b6b"
+              alt="SuperOpt settings — Page 2" loading="lazy">
+          </picture>
+          <picture>
+            <source srcset="https://github.com/user-attachments/assets/e5916fed-8d38-473e-9350-562d2a22de54"
+              media="(prefers-color-scheme: dark)">
+            <img src="https://github.com/user-attachments/assets/29ffa41b-ff58-40a8-94e2-0d9e5380fd04"
+              alt="SuperOpt settings — Page 3" loading="lazy">
+          </picture>
+        </div>
+      </section>
+
+      <section id="install">
+        <div class="shale-v1-flex-center">
+          <h2 class="shale-v1-h2">Install</h2>
+        </div>
+
+        <div class="shale-v1-card">
+          <p class="shale-v1-p">Install via Homebrew:</p>
+          <pre class="shale-v1-code" style="user-select: all">brew install logonoff/bucket/superopt</pre>
+          <p class="shale-v1-p">
+            Or download the latest release directly from
+            <a href="https://github.com/logonoff/superopt/releases/latest" target="_blank" rel="noopener"
+              class="shale-v1-link">GitHub Releases</a>. The app is ad-hoc signed, so you may need to right-click and
+            choose Open on first launch to bypass Gatekeeper.
+          </p>
+        </div>
+
+        <div class="shale-v1-note-info">
+          <strong>Permissions</strong>
+          <p class="shale-v1-note-text">
+            SuperOpt requires <strong>Accessibility</strong> and <strong>Input Monitoring</strong> permissions
+            in System Settings &gt; Privacy &amp; Security. The app will prompt you on first launch.
+          </p>
+        </div>
+
+        <div class="shale-v1-note-warn">
+          <strong>Warning</strong>
+          <p class="shale-v1-note-text">
+            This project is AI slop and the code has not been vetted by a human. Use at your own risk!
+          </p>
         </div>
       </section>
 
@@ -820,6 +885,7 @@ brew install --cask logonoff/bucket/superopt</pre>
           </details>
         </div>
       </section>
+
     </main>
 
     <dialog id="screenshot-dialog" class="shale-v1-dialog">
@@ -835,7 +901,10 @@ brew install --cask logonoff/bucket/superopt</pre>
         </menu>
       </header>
       <div class="shale-v1-container" style="text-align: center">
-        <img id="screenshot-dialog-img" src="" alt="">
+        <picture>
+          <source id="screenshot-dialog-dark" srcset="" media="(prefers-color-scheme: dark)">
+          <img id="screenshot-dialog-img" src="" alt="">
+        </picture>
       </div>
     </dialog>
 
@@ -878,20 +947,15 @@ brew install --cask logonoff/bucket/superopt</pre>
         Array.from(document.querySelectorAll(".apple-logo")).forEach((el) => (el.textContent = "\uD83C\uDF4E"));
       }
 
-      const copyCode = (btn) => {
-        const text = btn.parentElement.querySelector("pre").textContent;
-        navigator.clipboard.writeText(text).then(() => {
-          btn.textContent = "Copied!";
-          setTimeout(() => (btn.textContent = "Copy"), 2000);
-        });
-      };
-
       const screenshotDialog = document.getElementById("screenshot-dialog");
 
       document.querySelector(".screenshot-strip").addEventListener("click", (e) => {
         if (e.target.tagName !== "IMG") return;
+        const picture = e.target.closest("picture");
+        const darkSource = picture && picture.querySelector("source");
         document.getElementById("screenshot-dialog-img").src = e.target.src;
         document.getElementById("screenshot-dialog-img").alt = e.target.alt;
+        document.getElementById("screenshot-dialog-dark").srcset = darkSource ? darkSource.srcset : "";
         document.getElementById("screenshot-dialog-title").textContent = e.target.alt;
         screenshotDialog.showModal();
       });
