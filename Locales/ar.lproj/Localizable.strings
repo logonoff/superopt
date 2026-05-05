@@ -14,10 +14,10 @@
 "Active only in code editors" = "نشط فقط في محررات الأكواد";
 
 /* Category hint */
-"Active only in Finder" = "نشط فقط في Finder";
+"Active only in terminal apps" = "نشط فقط في تطبيقات الطرفية";
 
 /* Category hint */
-"Active only in terminal apps" = "نشط فقط في تطبيقات الطرفية";
+"Active only in the Finder" = "نشط فقط في Finder";
 
 /* No comment provided by engineer. */
 "Address Bar" = "شريط العنوان";
@@ -38,13 +38,13 @@
 "Cancel" = "إلغاء";
 
 /* No comment provided by engineer. */
-"Caps Lock OSD" = "إشعار Caps Lock";
+"Caps Lock Indicator" = "مؤشر Caps Lock";
 
 /* No comment provided by engineer. */
 "Clear Browsing Data" = "مسح بيانات التصفح";
 
 /* No comment provided by engineer. */
-"Clicking the green button fills the window instead of entering full screen" = "الضغط على الزر الأخضر يملأ النافذة بدلاً من الدخول إلى ملء الشاشة";
+"Clicking the green button maximizes the window instead of entering full screen" = "يؤدي النقر على الزر الأخضر إلى تكبير النافذة بدلاً من الدخول في وضع ملء الشاشة";
 
 /* No comment provided by engineer. */
 "Close Tab" = "إغلاق علامة تبويب";
@@ -61,8 +61,14 @@
 /* No comment provided by engineer. */
 "Command Palette" = "لوحة الأوامر";
 
+/* No comment provided by engineer. */
+"Comment or Uncomment" = "تعليق أو إلغاء التعليق";
+
 /* Button to retry after granting permissions */
 "Continue" = "متابعة";
+
+/* Picker description */
+"Control-scroll zooms in and out in web browsers" = "Control-التمرير يقوم بالتكبير والتصغير في متصفحات الويب";
 
 /* No comment provided by engineer. */
 "Copy" = "نسخ";
@@ -74,7 +80,7 @@
 "Cut" = "قص";
 
 /* No comment provided by engineer. */
-"Cut & Paste Files in Finder" = "قص ولصق الملفات في Finder";
+"Cut and Paste Files in the Finder" = "قص ولصق الملفات في Finder";
 
 /* No comment provided by engineer. */
 "Dark Menu Bar" = "شريط قوائم داكن";
@@ -92,10 +98,7 @@
 "Developer Tools" = "أدوات المطور";
 
 /* No comment provided by engineer. */
-"Dock position assigned to Finder — other apps shift to fill" = "موضع Dock المخصص لـ Finder — التطبيقات الأخرى تتحرك لملء الفراغ";
-
-/* No comment provided by engineer. */
-"Double press Option to open Spotlight Apps" = "اضغط Option مرتين لفتح تطبيقات Spotlight";
+"Dock position assigned to the Finder—other apps shift to fill" = "موضع Dock المخصص لـ Finder — تنتقل التطبيقات الأخرى لملء الفراغ";
 
 /* No comment provided by engineer. */
 "Downloads" = "التنزيلات";
@@ -140,7 +143,7 @@
 "Green Button Fills Window" = "الزر الأخضر يملأ النافذة";
 
 /* No comment provided by engineer. */
-"Home and End keys move the cursor to the start or end of the line" = "مفتاحا Home وEnd ينقلان المؤشر إلى بداية أو نهاية السطر";
+"Home and End keys move the insertion point to the start or end of the line" = "تنقل مفاتيح Home وEnd نقطة الإدراج إلى بداية السطر أو نهايته";
 
 /* No comment provided by engineer. */
 "Hot Corner" = "ركن نشط";
@@ -166,14 +169,11 @@
 /* Section header */
 "Keyboard" = "لوحة المفاتيح";
 
-/* Menu item to toggle start at login */
-"Launch at Login" = "تشغيل عند الدخول";
-
 /* No comment provided by engineer. */
 "Lock Screen" = "قفل الشاشة";
 
 /* No comment provided by engineer. */
-"Maps Linux keyboard shortcuts to their Mac equivalents" = "تعيين اختصارات لوحة مفاتيح Linux إلى ما يقابلها في Mac";
+"Maps Linux keyboard shortcuts to their Mac equivalents" = "يعيّن اختصارات لوحة مفاتيح Linux إلى مكافئاتها على Mac";
 
 /* Toggle label */
 "Menu Key → Shortcut Menu" = "مفتاح القائمة → قائمة الاختصارات";
@@ -191,7 +191,7 @@
 "Move to Trash" = "نقل إلى سلة المهملات";
 
 /* No comment provided by engineer. */
-"Moving the mouse to the top-left corner opens Mission Control" = "تحريك الماوس إلى الركن العلوي الأيسر يفتح Mission Control";
+"Moving the pointer to the top-left corner opens Mission Control" = "يؤدي تحريك المؤشر إلى الزاوية العلوية اليسرى إلى فتح Mission Control";
 
 /* Scroll zoom picker option */
 "Natural" = "طبيعي";
@@ -214,20 +214,26 @@
 /* Scroll zoom picker option */
 "Off" = "إيقاف";
 
-/* Button to open Accessibility preferences */
+/* Button to open Accessibility settings */
 "Open Accessibility" = "فتح تسهيلات الاستخدام";
 
-/* Button to open Input Monitoring preferences */
+/* Menu item for starting the app at login */
+"Open at Login" = "فتح عند تسجيل الدخول";
+
+/* Button to open Input Monitoring settings */
 "Open Input Monitoring" = "فتح مراقبة الإدخال";
 
 /* Button to open login items settings */
 "Open Login Items" = "فتح عناصر الدخول";
 
 /* No comment provided by engineer. */
-"Option plus a number key launches the corresponding Dock app" = "Option مع مفتاح رقم يشغّل تطبيق Dock المقابل";
+"Option plus a number row key opens the corresponding app in the Dock" = "يؤدي الضغط على Option مع مفتاح في صف الأرقام إلى فتح التطبيق المقابل في Dock";
 
 /* No comment provided by engineer. */
-"Option+A opens Spotlight Apps" = "Option+A يفتح تطبيقات Spotlight";
+"Option-A opens Spotlight Apps" = "Option-A يفتح تطبيقات Spotlight";
+
+/* No comment provided by engineer. */
+"Option-arrow keys tile, maximize, or restore windows" = "مفاتيح Option-الأسهم تبلّط النوافذ أو تكبّرها أو تستعيدها";
 
 /* No comment provided by engineer. */
 "Outdent" = "إزالة المسافة البادئة";
@@ -236,13 +242,19 @@
 "Paste" = "لصق";
 
 /* No comment provided by engineer. */
-"Paste with middle-click, or open a new window from the Dock" = "لصق بالنقر الأوسط، أو فتح نافذة جديدة من Dock";
+"Pastes with a middle click or opens a new window from the Dock" = "يلصق بالنقر الأوسط أو يفتح نافذة جديدة من Dock";
 
 /* Alert title when all permissions are granted */
 "Permissions Granted" = "تم منح الأذونات";
 
 /* Alert title for missing permissions */
 "Permissions Required" = "الأذونات مطلوبة";
+
+/* No comment provided by engineer. */
+"Pressing Option opens Mission Control" = "الضغط على Option يفتح Mission Control";
+
+/* No comment provided by engineer. */
+"Pressing Option twice opens Spotlight Apps" = "الضغط على Option مرتين يفتح تطبيقات Spotlight";
 
 /* No comment provided by engineer. */
 "Print" = "طباعة";
@@ -314,13 +326,13 @@
 "Shortcut Remapping" = "إعادة تعيين الاختصارات";
 
 /* No comment provided by engineer. */
+"Show or Hide Bookmarks Bar" = "إظهار أو إخفاء شريط الإشارات المرجعية";
+
+/* No comment provided by engineer. */
 "Shows a black bar behind the menu bar when a window fills the screen" = "يعرض شريطاً أسود خلف شريط القوائم عندما تملأ النافذة الشاشة";
 
 /* No comment provided by engineer. */
-"Shows an on-screen notification when Caps Lock is toggled" = "يعرض إشعاراً على الشاشة عند تبديل Caps Lock";
-
-/* No comment provided by engineer. */
-"Single press Option to open Mission Control" = "اضغط Option مرة واحدة لفتح Mission Control";
+"Shows an onscreen indicator when Caps Lock is turned on or off" = "يعرض مؤشراً على الشاشة عند تشغيل Caps Lock أو إيقافه";
 
 /* Toggle description */
 "Suggests windows to fill the other half after tiling left or right" = "يقترح نوافذ لملء النصف الآخر بعد التبليط يميناً أو يساراً";
@@ -329,7 +341,7 @@
 "SuperOpt already has all required permissions." = "SuperOpt لديه بالفعل جميع الأذونات المطلوبة.";
 
 /* Alert body for missing permissions — %@ is the list of missing permissions */
-"SuperOpt needs the following permissions:\n\n%@\n\nGrant access in System Settings → Privacy & Security, then click Continue.\n\nIf you recently updated SuperOpt, you may need to remove and re-add it in each permission list." = "يحتاج SuperOpt إلى الأذونات التالية:\n\n%@\n\nامنح الوصول في إعدادات النظام ← الخصوصية والأمان، ثم انقر على متابعة.\n\nإذا قمت بتحديث SuperOpt مؤخراً، فقد تحتاج إلى إزالته وإعادة إضافته في كل قائمة أذونات.";
+"SuperOpt needs the following permissions:\n\n%@\n\nGrant access in Privacy & Security settings, and then click Continue.\n\nIf you recently updated SuperOpt, you may need to remove it from each permission list and add it again." = "يحتاج SuperOpt إلى الأذونات التالية:\n\n%@\n\nامنح الوصول في إعدادات الخصوصية والأمن، ثم انقر على متابعة.\n\nإذا قمت بتحديث SuperOpt مؤخراً، فقد تحتاج إلى إزالته من كل قائمة أذونات وإعادة إضافته.";
 
 /* Category hint */
 "Tab and window management" = "إدارة علامات التبويب والنوافذ";
@@ -349,17 +361,11 @@
 /* Toggle label */
 "Tile Assist" = "مساعد التبليط";
 
-/* No comment provided by engineer. */
-"Toggle Bookmarks Bar" = "تبديل شريط الإشارات المرجعية";
-
-/* No comment provided by engineer. */
-"Toggle Comment" = "تبديل التعليق";
-
 /* Scroll zoom picker option */
 "Traditional" = "تقليدي";
 
 /* No comment provided by engineer. */
-"Turn off Show Menu Bar Background in System Settings to use this" = "أوقف إظهار خلفية شريط القوائم في إعدادات النظام لاستخدام هذا";
+"Turn off Show Menu Bar Background in System Settings to use this feature" = "أوقف 'إظهار خلفية شريط القوائم' في إعدادات النظام لاستخدام هذه الميزة";
 
 /* Alert title when login item registration fails */
 "Unable to Update Login Item" = "تعذّر تحديث عنصر الدخول";
@@ -392,7 +398,7 @@
 "Word-level navigation, deletion, and formatting" = "التنقل والحذف والتنسيق على مستوى الكلمة";
 
 /* Alert body directing user to login items settings */
-"You can manage login items in System Settings → General → Login Items." = "يمكنك إدارة عناصر الدخول في إعدادات النظام ← عام ← عناصر الدخول.";
+"You can manage login items in System Settings > General > Login Items." = "يمكنك إدارة عناصر الدخول في إعدادات النظام > عام > عناصر الدخول.";
 
 /* Category hint */
 "Zoom and full screen" = "تكبير وملء الشاشة";
@@ -406,26 +412,20 @@
 /* No comment provided by engineer. */
 "↖/↘ → Line Start/End" = "↖/↘ → بداية/نهاية السطر";
 
-/* OSD text when Caps Lock is disabled */
+/* OSD text when Caps Lock is turned off */
 "⇪ Caps Lock Off" = "⇪ Caps Lock متوقف";
 
-/* OSD text when Caps Lock is enabled */
+/* OSD text when Caps Lock is turned on */
 "⇪ Caps Lock On" = "⇪ Caps Lock مفعّل";
 
-/* Picker description */
-"⌃Scroll zooms in and out in browser apps" = "⌃التمرير يكبّر ويصغّر في تطبيقات المتصفح";
-
 /* No comment provided by engineer. */
-"⌃X copies files for moving, ⌃V moves them to the current folder" = "⌃X ينسخ الملفات للنقل، ⌃V ينقلها إلى المجلد الحالي";
+"⌃X copies files for moving; ⌃V moves them to the current folder" = "⌃X ينسخ الملفات للنقل؛ ⌃V ينقلها إلى المجلد الحالي";
 
 /* Toggle label */
 "⌥ → Mission Control" = "⌥ → Mission Control";
 
-/* No comment provided by engineer. */
-"⌥+Arrow keys tile, maximize, or restore windows" = "⌥+مفاتيح الأسهم تبلّط أو تكبّر أو تستعيد النوافذ";
-
 /* Toggle label */
-"⌥+N → Dock App" = "⌥+N → تطبيق Dock";
+"⌥1–9 → Dock App" = "⌥1–9 → تطبيق Dock";
 
 /* No comment provided by engineer. */
 "⌥A → Apps" = "⌥A → التطبيقات";

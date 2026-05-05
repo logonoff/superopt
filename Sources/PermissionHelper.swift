@@ -23,10 +23,10 @@ class PermissionHelper {
         "x-apple.systempreferences:com.apple.preference.security?Privacy_ListenEvent"
 
     private static var openAccessibilityTitle: String {
-        NSLocalizedString("Open Accessibility", comment: "Button to open Accessibility preferences")
+        NSLocalizedString("Open Accessibility", comment: "Button to open Accessibility settings")
     }
     private static var openInputMonitoringTitle: String {
-        NSLocalizedString("Open Input Monitoring", comment: "Button to open Input Monitoring preferences")
+        NSLocalizedString("Open Input Monitoring", comment: "Button to open Input Monitoring settings")
     }
     private static var permissionsRequiredTitle: String {
         NSLocalizedString("Permissions Required", comment: "Alert title for missing permissions")
@@ -48,9 +48,9 @@ class PermissionHelper {
     private func formatPermissionsMessage(_ missing: [String]) -> String {
         let format = NSLocalizedString(
             "SuperOpt needs the following permissions:\n\n%@\n\n"
-            + "Grant access in System Settings → Privacy & Security, then click Continue.\n\n"
-            + "If you recently updated SuperOpt, you may need to remove and re-add it "
-            + "in each permission list.",
+            + "Grant access in Privacy & Security settings, and then click Continue.\n\n"
+            + "If you recently updated SuperOpt, you may need to remove it "
+            + "from each permission list and add it again.",
             comment: "Alert body for missing permissions — %@ is the list of missing permissions")
         return String(format: format, missing.joined(separator: ", "))
     }

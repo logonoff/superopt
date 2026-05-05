@@ -14,10 +14,10 @@
 "Active only in code editors" = "仅在代码编辑器中生效";
 
 /* Category hint */
-"Active only in Finder" = "仅在访达中生效";
+"Active only in terminal apps" = "仅在终端应用中生效";
 
 /* Category hint */
-"Active only in terminal apps" = "仅在终端应用中生效";
+"Active only in the Finder" = "仅在访达中可用";
 
 /* No comment provided by engineer. */
 "Address Bar" = "地址栏";
@@ -38,13 +38,13 @@
 "Cancel" = "取消";
 
 /* No comment provided by engineer. */
-"Caps Lock OSD" = "Caps Lock 屏显";
+"Caps Lock Indicator" = "Caps Lock 指示器";
 
 /* No comment provided by engineer. */
 "Clear Browsing Data" = "清除浏览数据";
 
 /* No comment provided by engineer. */
-"Clicking the green button fills the window instead of entering full screen" = "点击绿色按钮将窗口铺满屏幕，而非进入全屏";
+"Clicking the green button maximizes the window instead of entering full screen" = "点击绿色按钮会最大化窗口，而不是进入全屏模式";
 
 /* No comment provided by engineer. */
 "Close Tab" = "关闭标签页";
@@ -61,8 +61,14 @@
 /* No comment provided by engineer. */
 "Command Palette" = "命令面板";
 
+/* No comment provided by engineer. */
+"Comment or Uncomment" = "注释或取消注释";
+
 /* Button to retry after granting permissions */
 "Continue" = "继续";
+
+/* Picker description */
+"Control-scroll zooms in and out in web browsers" = "在网页浏览器中使用 Control-滚动进行放大和缩小";
 
 /* No comment provided by engineer. */
 "Copy" = "拷贝";
@@ -74,7 +80,7 @@
 "Cut" = "剪切";
 
 /* No comment provided by engineer. */
-"Cut & Paste Files in Finder" = "在访达中剪切和粘贴文件";
+"Cut and Paste Files in the Finder" = "在访达中剪切和粘贴文件";
 
 /* No comment provided by engineer. */
 "Dark Menu Bar" = "深色菜单栏";
@@ -92,10 +98,7 @@
 "Developer Tools" = "开发者工具";
 
 /* No comment provided by engineer. */
-"Dock position assigned to Finder — other apps shift to fill" = "分配给访达的 Dock 位置——其他应用顺移填充";
-
-/* No comment provided by engineer. */
-"Double press Option to open Spotlight Apps" = "双击 Option 打开聚焦应用";
+"Dock position assigned to the Finder—other apps shift to fill" = "分配给访达的程序坞位置——其他应用自动顺移填充";
 
 /* No comment provided by engineer. */
 "Downloads" = "下载";
@@ -140,7 +143,7 @@
 "Green Button Fills Window" = "绿色按钮铺满窗口";
 
 /* No comment provided by engineer. */
-"Home and End keys move the cursor to the start or end of the line" = "Home 和 End 键将光标移至行首或行尾";
+"Home and End keys move the insertion point to the start or end of the line" = "Home和End键将插入点移至行首或行尾";
 
 /* No comment provided by engineer. */
 "Hot Corner" = "触发角";
@@ -166,9 +169,6 @@
 /* Section header */
 "Keyboard" = "键盘";
 
-/* Menu item to toggle start at login */
-"Launch at Login" = "登录时启动";
-
 /* No comment provided by engineer. */
 "Lock Screen" = "锁定屏幕";
 
@@ -191,7 +191,7 @@
 "Move to Trash" = "移到废纸篓";
 
 /* No comment provided by engineer. */
-"Moving the mouse to the top-left corner opens Mission Control" = "将鼠标移至左上角打开调度中心";
+"Moving the pointer to the top-left corner opens Mission Control" = "将指针移到左上角可打开调度中心";
 
 /* Scroll zoom picker option */
 "Natural" = "自然";
@@ -214,20 +214,26 @@
 /* Scroll zoom picker option */
 "Off" = "关闭";
 
-/* Button to open Accessibility preferences */
+/* Button to open Accessibility settings */
 "Open Accessibility" = "打开辅助功能";
 
-/* Button to open Input Monitoring preferences */
+/* Menu item for starting the app at login */
+"Open at Login" = "登录时打开";
+
+/* Button to open Input Monitoring settings */
 "Open Input Monitoring" = "打开输入监控";
 
 /* Button to open login items settings */
 "Open Login Items" = "打开登录项";
 
 /* No comment provided by engineer. */
-"Option plus a number key launches the corresponding Dock app" = "Option 加数字键启动对应的 Dock 应用";
+"Option plus a number row key opens the corresponding app in the Dock" = "按住Option键加数字行按键可打开程序坞中对应的应用";
 
 /* No comment provided by engineer. */
-"Option+A opens Spotlight Apps" = "Option+A 打开聚焦应用";
+"Option-A opens Spotlight Apps" = "Option-A 打开 Spotlight 应用";
+
+/* No comment provided by engineer. */
+"Option-arrow keys tile, maximize, or restore windows" = "Option-方向键可平铺、最大化或恢复窗口";
 
 /* No comment provided by engineer. */
 "Outdent" = "减少缩进";
@@ -236,13 +242,19 @@
 "Paste" = "粘贴";
 
 /* No comment provided by engineer. */
-"Paste with middle-click, or open a new window from the Dock" = "中键点击粘贴，或从 Dock 打开新窗口";
+"Pastes with a middle click or opens a new window from the Dock" = "中键点击粘贴，或从程序坞打开新窗口";
 
 /* Alert title when all permissions are granted */
 "Permissions Granted" = "权限已授予";
 
 /* Alert title for missing permissions */
 "Permissions Required" = "需要权限";
+
+/* No comment provided by engineer. */
+"Pressing Option opens Mission Control" = "按下 Option 即可打开调度中心";
+
+/* No comment provided by engineer. */
+"Pressing Option twice opens Spotlight Apps" = "按两次 Option 即可打开 Spotlight 应用";
 
 /* No comment provided by engineer. */
 "Print" = "打印";
@@ -314,13 +326,13 @@
 "Shortcut Remapping" = "快捷键重映射";
 
 /* No comment provided by engineer. */
+"Show or Hide Bookmarks Bar" = "显示或隐藏书签栏";
+
+/* No comment provided by engineer. */
 "Shows a black bar behind the menu bar when a window fills the screen" = "窗口铺满屏幕时在菜单栏后方显示黑色条";
 
 /* No comment provided by engineer. */
-"Shows an on-screen notification when Caps Lock is toggled" = "切换 Caps Lock 时显示屏幕提示";
-
-/* No comment provided by engineer. */
-"Single press Option to open Mission Control" = "单击 Option 打开调度中心";
+"Shows an onscreen indicator when Caps Lock is turned on or off" = "开启或关闭大写锁定时在屏幕上显示指示器";
 
 /* Toggle description */
 "Suggests windows to fill the other half after tiling left or right" = "左右平铺后建议窗口以填充另一半";
@@ -329,7 +341,7 @@
 "SuperOpt already has all required permissions." = "SuperOpt 已拥有所有所需权限。";
 
 /* Alert body for missing permissions — %@ is the list of missing permissions */
-"SuperOpt needs the following permissions:\n\n%@\n\nGrant access in System Settings → Privacy & Security, then click Continue.\n\nIf you recently updated SuperOpt, you may need to remove and re-add it in each permission list." = "SuperOpt 需要以下权限：\n\n%@\n\n请在系统设置 → 隐私和安全性中授予访问权限，然后点击继续。\n\n如果您最近更新了 SuperOpt，可能需要在每个权限列表中移除并重新添加。";
+"SuperOpt needs the following permissions:\n\n%@\n\nGrant access in Privacy & Security settings, and then click Continue.\n\nIf you recently updated SuperOpt, you may need to remove it from each permission list and add it again." = "SuperOpt 需要以下权限：\n\n%@\n\n请在隐私与安全性设置中授予访问权限，然后点按「继续」。\n\n如果您最近更新了 SuperOpt，可能需要在每个权限列表中将其移除后重新添加。";
 
 /* Category hint */
 "Tab and window management" = "标签页和窗口管理";
@@ -349,17 +361,11 @@
 /* Toggle label */
 "Tile Assist" = "平铺助手";
 
-/* No comment provided by engineer. */
-"Toggle Bookmarks Bar" = "切换书签栏";
-
-/* No comment provided by engineer. */
-"Toggle Comment" = "切换注释";
-
 /* Scroll zoom picker option */
 "Traditional" = "传统";
 
 /* No comment provided by engineer. */
-"Turn off Show Menu Bar Background in System Settings to use this" = "请在系统设置中关闭「显示菜单栏背景」以使用此功能";
+"Turn off Show Menu Bar Background in System Settings to use this feature" = "请在系统设置中关闭「显示菜单栏背景」以使用此功能";
 
 /* Alert title when login item registration fails */
 "Unable to Update Login Item" = "无法更新登录项";
@@ -392,7 +398,7 @@
 "Word-level navigation, deletion, and formatting" = "单词级别的导航、删除和格式设置";
 
 /* Alert body directing user to login items settings */
-"You can manage login items in System Settings → General → Login Items." = "您可以在系统设置 → 通用 → 登录项中管理登录项。";
+"You can manage login items in System Settings > General > Login Items." = "你可以在系统设置 > 通用 > 登录项中管理登录项。";
 
 /* Category hint */
 "Zoom and full screen" = "缩放和全屏";
@@ -406,26 +412,20 @@
 /* No comment provided by engineer. */
 "↖/↘ → Line Start/End" = "↖/↘ → 行首/行尾";
 
-/* OSD text when Caps Lock is disabled */
+/* OSD text when Caps Lock is turned off */
 "⇪ Caps Lock Off" = "⇪ Caps Lock 已关闭";
 
-/* OSD text when Caps Lock is enabled */
+/* OSD text when Caps Lock is turned on */
 "⇪ Caps Lock On" = "⇪ Caps Lock 已开启";
 
-/* Picker description */
-"⌃Scroll zooms in and out in browser apps" = "⌃滚动在浏览器应用中放大和缩小";
-
 /* No comment provided by engineer. */
-"⌃X copies files for moving, ⌃V moves them to the current folder" = "⌃X 拷贝文件以便移动，⌃V 将其移至当前文件夹";
+"⌃X copies files for moving; ⌃V moves them to the current folder" = "⌃X 拷贝文件以供移动；⌃V 将其移至当前文件夹";
 
 /* Toggle label */
 "⌥ → Mission Control" = "⌥ → 调度中心";
 
-/* No comment provided by engineer. */
-"⌥+Arrow keys tile, maximize, or restore windows" = "⌥+方向键平铺、最大化或恢复窗口";
-
 /* Toggle label */
-"⌥+N → Dock App" = "⌥+N → Dock 应用";
+"⌥1–9 → Dock App" = "⌥1–9 → 程序坞应用";
 
 /* No comment provided by engineer. */
 "⌥A → Apps" = "⌥A → 应用";

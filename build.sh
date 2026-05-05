@@ -73,11 +73,11 @@ for LPROJ in Locales/*.lproj; do
     EXTRA=$(comm -13 <(echo "$EN_KEYS") <(echo "$LANG_KEYS"))
 
     if [ -n "$MISSING" ]; then
-        echo "Warning: $LANG is missing $(echo "$MISSING" | wc -l | tr -d ' ') key(s):"
+        echo "Warning: $LANG — added $(echo "$MISSING" | wc -l | tr -d ' ') key(s) with English placeholder text (translate these):"
         echo "$MISSING" | sed "s/^/  /"
     fi
     if [ -n "$EXTRA" ]; then
-        echo "Warning: $LANG has $(echo "$EXTRA" | wc -l | tr -d ' ') extra key(s):"
+        echo "Warning: $LANG — removed $(echo "$EXTRA" | wc -l | tr -d ' ') stale key(s):"
         echo "$EXTRA" | sed "s/^/  /"
     fi
 

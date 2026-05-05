@@ -26,12 +26,12 @@ private let _extraStrings = [
     NSLocalizedString("⌥ → Mission Control", comment: "Toggle label"),
     NSLocalizedString("⌥⌥ → Apps", comment: "Toggle label"),
     NSLocalizedString("Window Tiling", comment: "Toggle label"),
-    NSLocalizedString("⌥+N → Dock App", comment: "Toggle label"),
+    NSLocalizedString("⌥1–9 → Dock App", comment: "Toggle label"),
     NSLocalizedString("Copy, paste, undo, find, and other essentials", comment: "Category hint"),
     NSLocalizedString("New, save, print, and quit", comment: "Category hint"),
     NSLocalizedString("Zoom and full screen", comment: "Category hint"),
     NSLocalizedString("Word-level navigation, deletion, and formatting", comment: "Category hint"),
-    NSLocalizedString("Active only in Finder", comment: "Category hint"),
+    NSLocalizedString("Active only in the Finder", comment: "Category hint"),
     NSLocalizedString("Tab and window management", comment: "Category hint"),
     NSLocalizedString("Active only in browsers", comment: "Category hint"),
     NSLocalizedString("Active only in terminal apps", comment: "Category hint"),
@@ -40,7 +40,7 @@ private let _extraStrings = [
     NSLocalizedString("Natural", comment: "Scroll zoom picker option"),
     NSLocalizedString("Traditional", comment: "Scroll zoom picker option"),
     NSLocalizedString("Scroll Zoom in Browsers", comment: "Picker label"),
-    NSLocalizedString("⌃Scroll zooms in and out in browser apps", comment: "Picker description"),
+    NSLocalizedString("Control-scroll zooms in and out in web browsers", comment: "Picker description"),
     NSLocalizedString("Menu Key → Shortcut Menu", comment: "Toggle label"),
     NSLocalizedString("The Menu key on PC keyboards opens a shortcut menu", comment: "Toggle description"),
     NSLocalizedString("Close Windows in Mission Control", comment: "Toggle label"),
@@ -79,13 +79,13 @@ struct SettingsView: View {
             Section("Desktop") {
                 Toggle(isOn: $hotCorners) {
                     Text("Hot Corner")
-                    Text("Moving the mouse to the top-left corner opens Mission Control")
+                    Text("Moving the pointer to the top-left corner opens Mission Control")
                 }
 
                 Toggle(isOn: $menuBarBg) {
                     Text("Dark Menu Bar")
                     if systemMenuBarBgOn {
-                        Text("Turn off Show Menu Bar Background in System Settings to use this")
+                        Text("Turn off Show Menu Bar Background in System Settings to use this feature")
                     } else {
                         Text("Shows a black bar behind the menu bar when a window fills the screen")
                     }
@@ -94,7 +94,7 @@ struct SettingsView: View {
 
                 Toggle(isOn: $zoomButton) {
                     Text("Green Button Fills Window")
-                    Text("Clicking the green button fills the window instead of entering full screen")
+                    Text("Clicking the green button maximizes the window instead of entering full screen")
                 }
 
                 Toggle(isOn: $mcClose) {
@@ -104,7 +104,7 @@ struct SettingsView: View {
 
                 Toggle(isOn: $windowTiling) {
                     Text("Window Tiling")
-                    Text("⌥+Arrow keys tile, maximize, or restore windows")
+                    Text("Option-arrow keys tile, maximize, or restore windows")
                 }
 
                 Toggle(isOn: $snapAssist) {
@@ -115,50 +115,50 @@ struct SettingsView: View {
 
             Section("Keyboard") {
                 Toggle(isOn: $lockKeyOSD) {
-                    Text("Caps Lock OSD")
-                    Text("Shows an on-screen notification when Caps Lock is toggled")
+                    Text("Caps Lock Indicator")
+                    Text("Shows an onscreen indicator when Caps Lock is turned on or off")
                 }
 
                 Toggle(isOn: $homeEndRemap) {
                     Text("↖/↘ → Line Start/End")
-                    Text("Home and End keys move the cursor to the start or end of the line")
+                    Text("Home and End keys move the insertion point to the start or end of the line")
                 }
             }
 
             Section("Input") {
                 Toggle(isOn: $optSingle) {
                     Text("⌥ → Mission Control")
-                    Text("Single press Option to open Mission Control")
+                    Text("Pressing Option opens Mission Control")
                 }
                 Toggle(isOn: $optDouble) {
                     Text("⌥⌥ → Apps")
-                    Text("Double press Option to open Spotlight Apps")
+                    Text("Pressing Option twice opens Spotlight Apps")
                 }
 
                 Toggle(isOn: $appGrid) {
                     Text("⌥A → Apps")
-                    Text("Option+A opens Spotlight Apps")
+                    Text("Option-A opens Spotlight Apps")
                 }
 
                 Toggle(isOn: $dockShortcuts) {
-                    Text("⌥+N → Dock App")
-                    Text("Option plus a number key launches the corresponding Dock app")
+                    Text("⌥1–9 → Dock App")
+                    Text("Option plus a number row key opens the corresponding app in the Dock")
                 }
                 Picker(selection: $finderPosition) {
                     ForEach(1...9, id: \.self) { Text("\($0)").tag($0) }
                 } label: {
                     Text("Finder Position")
-                    Text("Dock position assigned to Finder — other apps shift to fill")
+                    Text("Dock position assigned to the Finder—other apps shift to fill")
                 }
 
                 Toggle(isOn: $finderCut) {
-                    Text("Cut & Paste Files in Finder")
-                    Text("⌃X copies files for moving, ⌃V moves them to the current folder")
+                    Text("Cut and Paste Files in the Finder")
+                    Text("⌃X copies files for moving; ⌃V moves them to the current folder")
                 }
 
                 Toggle(isOn: $middleClickPaste) {
                     Text("Middle-Click Paste")
-                    Text("Paste with middle-click, or open a new window from the Dock")
+                    Text("Pastes with a middle click or opens a new window from the Dock")
                 }
 
                 Toggle(isOn: $menuKeyRightClick) {
@@ -172,7 +172,7 @@ struct SettingsView: View {
                     Text("Traditional").tag(ScrollZoomMode.traditional.rawValue)
                 } label: {
                     Text("Scroll Zoom in Browsers")
-                    Text("⌃Scroll zooms in and out in browser apps")
+                    Text("Control-scroll zooms in and out in web browsers")
                 }
             }
 
@@ -246,7 +246,7 @@ struct SettingsView: View {
         NSLocalizedString("Text Editing", comment: "Shortcut category"):
             NSLocalizedString("Word-level navigation, deletion, and formatting", comment: "Category hint"),
         NSLocalizedString("Finder", comment: "Shortcut category"):
-            NSLocalizedString("Active only in Finder", comment: "Category hint"),
+            NSLocalizedString("Active only in the Finder", comment: "Category hint"),
         NSLocalizedString("Tabs & Windows", comment: "Shortcut category"):
             NSLocalizedString("Tab and window management", comment: "Category hint"),
         NSLocalizedString("Browsers", comment: "Shortcut category"):

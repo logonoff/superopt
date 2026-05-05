@@ -14,10 +14,10 @@
 "Active only in code editors" = "Активно только в редакторах кода";
 
 /* Category hint */
-"Active only in Finder" = "Активно только в Finder";
+"Active only in terminal apps" = "Активно только в терминальных приложениях";
 
 /* Category hint */
-"Active only in terminal apps" = "Активно только в терминальных приложениях";
+"Active only in the Finder" = "Активно только в Finder";
 
 /* No comment provided by engineer. */
 "Address Bar" = "Адресная строка";
@@ -38,13 +38,13 @@
 "Cancel" = "Отмена";
 
 /* No comment provided by engineer. */
-"Caps Lock OSD" = "Уведомление Caps Lock";
+"Caps Lock Indicator" = "Индикатор Caps Lock";
 
 /* No comment provided by engineer. */
 "Clear Browsing Data" = "Очистить данные браузера";
 
 /* No comment provided by engineer. */
-"Clicking the green button fills the window instead of entering full screen" = "Нажатие зелёной кнопки разворачивает окно вместо перехода в полноэкранный режим";
+"Clicking the green button maximizes the window instead of entering full screen" = "Нажатие зелёной кнопки разворачивает окно вместо перехода в полноэкранный режим";
 
 /* No comment provided by engineer. */
 "Close Tab" = "Закрыть вкладку";
@@ -61,8 +61,14 @@
 /* No comment provided by engineer. */
 "Command Palette" = "Палитра команд";
 
+/* No comment provided by engineer. */
+"Comment or Uncomment" = "Закомментировать или раскомментировать";
+
 /* Button to retry after granting permissions */
 "Continue" = "Продолжить";
+
+/* Picker description */
+"Control-scroll zooms in and out in web browsers" = "Control-прокрутка увеличивает и уменьшает масштаб в веб-браузерах";
 
 /* No comment provided by engineer. */
 "Copy" = "Копировать";
@@ -74,7 +80,7 @@
 "Cut" = "Вырезать";
 
 /* No comment provided by engineer. */
-"Cut & Paste Files in Finder" = "Вырезание и вставка файлов в Finder";
+"Cut and Paste Files in the Finder" = "Вырезание и вставка файлов в Finder";
 
 /* No comment provided by engineer. */
 "Dark Menu Bar" = "Тёмная строка меню";
@@ -92,10 +98,7 @@
 "Developer Tools" = "Инструменты разработчика";
 
 /* No comment provided by engineer. */
-"Dock position assigned to Finder — other apps shift to fill" = "Позиция в Dock закреплена за Finder — остальные приложения сдвигаются";
-
-/* No comment provided by engineer. */
-"Double press Option to open Spotlight Apps" = "Дважды нажмите Option, чтобы открыть приложения Spotlight";
+"Dock position assigned to the Finder—other apps shift to fill" = "Позиция в Dock, назначенная для Finder — остальные приложения сдвигаются автоматически";
 
 /* No comment provided by engineer. */
 "Downloads" = "Загрузки";
@@ -140,7 +143,7 @@
 "Green Button Fills Window" = "Зелёная кнопка разворачивает окно";
 
 /* No comment provided by engineer. */
-"Home and End keys move the cursor to the start or end of the line" = "Клавиши Home и End перемещают курсор в начало или конец строки";
+"Home and End keys move the insertion point to the start or end of the line" = "Клавиши Home и End перемещают точку вставки в начало или конец строки";
 
 /* No comment provided by engineer. */
 "Hot Corner" = "Активный угол";
@@ -166,14 +169,11 @@
 /* Section header */
 "Keyboard" = "Клавиатура";
 
-/* Menu item to toggle start at login */
-"Launch at Login" = "Запускать при входе";
-
 /* No comment provided by engineer. */
 "Lock Screen" = "Заблокировать экран";
 
 /* No comment provided by engineer. */
-"Maps Linux keyboard shortcuts to their Mac equivalents" = "Назначает сочетания клавиш Linux на их эквиваленты в Mac";
+"Maps Linux keyboard shortcuts to their Mac equivalents" = "Сопоставляет сочетания клавиш Linux с их аналогами на Mac";
 
 /* Toggle label */
 "Menu Key → Shortcut Menu" = "Клавиша Menu → Контекстное меню";
@@ -191,7 +191,7 @@
 "Move to Trash" = "Переместить в Корзину";
 
 /* No comment provided by engineer. */
-"Moving the mouse to the top-left corner opens Mission Control" = "Перемещение мыши в верхний левый угол открывает Mission Control";
+"Moving the pointer to the top-left corner opens Mission Control" = "Перемещение указателя в верхний левый угол открывает Mission Control";
 
 /* Scroll zoom picker option */
 "Natural" = "Естественная";
@@ -214,20 +214,26 @@
 /* Scroll zoom picker option */
 "Off" = "Выкл.";
 
-/* Button to open Accessibility preferences */
+/* Button to open Accessibility settings */
 "Open Accessibility" = "Открыть Универсальный доступ";
 
-/* Button to open Input Monitoring preferences */
+/* Menu item for starting the app at login */
+"Open at Login" = "Открывать при входе";
+
+/* Button to open Input Monitoring settings */
 "Open Input Monitoring" = "Открыть Мониторинг ввода";
 
 /* Button to open login items settings */
 "Open Login Items" = "Открыть объекты входа";
 
 /* No comment provided by engineer. */
-"Option plus a number key launches the corresponding Dock app" = "Option и цифровая клавиша запускают соответствующее приложение из Dock";
+"Option plus a number row key opens the corresponding app in the Dock" = "Option и клавиша цифрового ряда открывают соответствующее приложение в Dock";
 
 /* No comment provided by engineer. */
-"Option+A opens Spotlight Apps" = "Option+A открывает приложения Spotlight";
+"Option-A opens Spotlight Apps" = "Option-A открывает приложения Spotlight";
+
+/* No comment provided by engineer. */
+"Option-arrow keys tile, maximize, or restore windows" = "Клавиши Option-стрелки размещают, разворачивают или восстанавливают окна";
 
 /* No comment provided by engineer. */
 "Outdent" = "Уменьшить отступ";
@@ -236,13 +242,19 @@
 "Paste" = "Вставить";
 
 /* No comment provided by engineer. */
-"Paste with middle-click, or open a new window from the Dock" = "Вставка средней кнопкой мыши или открытие нового окна из Dock";
+"Pastes with a middle click or opens a new window from the Dock" = "Вставляет по нажатию средней кнопки или открывает новое окно из Dock";
 
 /* Alert title when all permissions are granted */
 "Permissions Granted" = "Разрешения предоставлены";
 
 /* Alert title for missing permissions */
 "Permissions Required" = "Требуются разрешения";
+
+/* No comment provided by engineer. */
+"Pressing Option opens Mission Control" = "Нажатие Option открывает Mission Control";
+
+/* No comment provided by engineer. */
+"Pressing Option twice opens Spotlight Apps" = "Двойное нажатие Option открывает приложения Spotlight";
 
 /* No comment provided by engineer. */
 "Print" = "Печать";
@@ -314,13 +326,13 @@
 "Shortcut Remapping" = "Переназначение сочетаний";
 
 /* No comment provided by engineer. */
+"Show or Hide Bookmarks Bar" = "Показать или скрыть панель закладок";
+
+/* No comment provided by engineer. */
 "Shows a black bar behind the menu bar when a window fills the screen" = "Показывает чёрную полосу за строкой меню, когда окно заполняет экран";
 
 /* No comment provided by engineer. */
-"Shows an on-screen notification when Caps Lock is toggled" = "Показывает уведомление на экране при переключении Caps Lock";
-
-/* No comment provided by engineer. */
-"Single press Option to open Mission Control" = "Нажмите Option один раз, чтобы открыть Mission Control";
+"Shows an onscreen indicator when Caps Lock is turned on or off" = "Показывает индикатор на экране при включении или выключении Caps Lock";
 
 /* Toggle description */
 "Suggests windows to fill the other half after tiling left or right" = "Предлагает окна для заполнения другой половины после размещения влево или вправо";
@@ -329,7 +341,7 @@
 "SuperOpt already has all required permissions." = "SuperOpt уже имеет все необходимые разрешения.";
 
 /* Alert body for missing permissions — %@ is the list of missing permissions */
-"SuperOpt needs the following permissions:\n\n%@\n\nGrant access in System Settings → Privacy & Security, then click Continue.\n\nIf you recently updated SuperOpt, you may need to remove and re-add it in each permission list." = "SuperOpt требуются следующие разрешения:\n\n%@\n\nПредоставьте доступ в Системных настройках → Конфиденциальность и безопасность, затем нажмите «Продолжить».\n\nЕсли вы недавно обновили SuperOpt, возможно, потребуется удалить и снова добавить его в каждый список разрешений.";
+"SuperOpt needs the following permissions:\n\n%@\n\nGrant access in Privacy & Security settings, and then click Continue.\n\nIf you recently updated SuperOpt, you may need to remove it from each permission list and add it again." = "SuperOpt требуются следующие разрешения:\n\n%@\n\nПредоставьте доступ в настройках Конфиденциальность и безопасность, затем нажмите Продолжить.\n\nЕсли вы недавно обновили SuperOpt, возможно, потребуется удалить его из каждого списка разрешений и добавить снова.";
 
 /* Category hint */
 "Tab and window management" = "Управление вкладками и окнами";
@@ -349,17 +361,11 @@
 /* Toggle label */
 "Tile Assist" = "Помощник размещения";
 
-/* No comment provided by engineer. */
-"Toggle Bookmarks Bar" = "Показать/скрыть панель закладок";
-
-/* No comment provided by engineer. */
-"Toggle Comment" = "Закомментировать/раскомментировать";
-
 /* Scroll zoom picker option */
 "Traditional" = "Традиционная";
 
 /* No comment provided by engineer. */
-"Turn off Show Menu Bar Background in System Settings to use this" = "Отключите «Показывать фон строки меню» в Системных настройках для использования этой функции";
+"Turn off Show Menu Bar Background in System Settings to use this feature" = "Отключите 'Показывать фон строки меню' в Системных настройках, чтобы использовать эту функцию";
 
 /* Alert title when login item registration fails */
 "Unable to Update Login Item" = "Не удалось обновить объект входа";
@@ -392,7 +398,7 @@
 "Word-level navigation, deletion, and formatting" = "Навигация, удаление и форматирование на уровне слов";
 
 /* Alert body directing user to login items settings */
-"You can manage login items in System Settings → General → Login Items." = "Вы можете управлять объектами входа в Системных настройках → Основные → Объекты входа.";
+"You can manage login items in System Settings > General > Login Items." = "Вы можете управлять объектами входа в Системные настройки > Основные > Объекты входа.";
 
 /* Category hint */
 "Zoom and full screen" = "Масштабирование и полный экран";
@@ -406,26 +412,20 @@
 /* No comment provided by engineer. */
 "↖/↘ → Line Start/End" = "↖/↘ → Начало/конец строки";
 
-/* OSD text when Caps Lock is disabled */
+/* OSD text when Caps Lock is turned off */
 "⇪ Caps Lock Off" = "⇪ Caps Lock выключен";
 
-/* OSD text when Caps Lock is enabled */
+/* OSD text when Caps Lock is turned on */
 "⇪ Caps Lock On" = "⇪ Caps Lock включён";
 
-/* Picker description */
-"⌃Scroll zooms in and out in browser apps" = "⌃Прокрутка увеличивает и уменьшает масштаб в браузерах";
-
 /* No comment provided by engineer. */
-"⌃X copies files for moving, ⌃V moves them to the current folder" = "⌃X копирует файлы для перемещения, ⌃V перемещает их в текущую папку";
+"⌃X copies files for moving; ⌃V moves them to the current folder" = "⌃X копирует файлы для перемещения; ⌃V перемещает их в текущую папку";
 
 /* Toggle label */
 "⌥ → Mission Control" = "⌥ → Mission Control";
 
-/* No comment provided by engineer. */
-"⌥+Arrow keys tile, maximize, or restore windows" = "⌥+клавиши со стрелками размещают, разворачивают или восстанавливают окна";
-
 /* Toggle label */
-"⌥+N → Dock App" = "⌥+N → Приложение Dock";
+"⌥1–9 → Dock App" = "⌥1–9 → Приложение Dock";
 
 /* No comment provided by engineer. */
 "⌥A → Apps" = "⌥A → Приложения";

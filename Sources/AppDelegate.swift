@@ -290,7 +290,7 @@ extension AppDelegate {
         menu.addItem(NSMenuItem(
             title: permTitle, action: #selector(requestPermissions), keyEquivalent: ""))
 
-        let launchTitle = NSLocalizedString("Launch at Login", comment: "Menu item to toggle start at login")
+        let launchTitle = NSLocalizedString("Open at Login", comment: "Menu item for starting the app at login")
         let launchItem = NSMenuItem(title: launchTitle, action: #selector(toggleLaunchAtLogin), keyEquivalent: "")
         launchItem.state = SMAppService.mainApp.status == .enabled ? .on : .off
         menu.addItem(launchItem)
@@ -339,7 +339,7 @@ extension AppDelegate {
             alert.messageText = NSLocalizedString(
                 "Unable to Update Login Item", comment: "Alert title when login item registration fails")
             alert.informativeText = NSLocalizedString(
-                "You can manage login items in System Settings → General → Login Items.",
+                "You can manage login items in System Settings > General > Login Items.",
                 comment: "Alert body directing user to login items settings")
             alert.alertStyle = .warning
             let openTitle = NSLocalizedString("Open Login Items", comment: "Button to open login items settings")
@@ -395,8 +395,8 @@ extension AppDelegate {
         let capsLockOn = event.flags.contains(.maskAlphaShift)
         guard capsLockOn != lastCapsLockState else { return }
         lastCapsLockState = capsLockOn
-        let onText = NSLocalizedString("⇪ Caps Lock On", comment: "OSD text when Caps Lock is enabled")
-        let offText = NSLocalizedString("⇪ Caps Lock Off", comment: "OSD text when Caps Lock is disabled")
+        let onText = NSLocalizedString("⇪ Caps Lock On", comment: "OSD text when Caps Lock is turned on")
+        let offText = NSLocalizedString("⇪ Caps Lock Off", comment: "OSD text when Caps Lock is turned off")
         lockKeyOSD.show(text: capsLockOn ? onText : offText, active: capsLockOn)
     }
 

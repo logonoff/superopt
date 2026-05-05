@@ -14,10 +14,10 @@
 "Active only in code editors" = "Attivo solo negli editor di codice";
 
 /* Category hint */
-"Active only in Finder" = "Attivo solo nel Finder";
+"Active only in terminal apps" = "Attivo solo nelle app terminale";
 
 /* Category hint */
-"Active only in terminal apps" = "Attivo solo nelle app terminale";
+"Active only in the Finder" = "Attivo solo nel Finder";
 
 /* No comment provided by engineer. */
 "Address Bar" = "Barra degli indirizzi";
@@ -38,13 +38,13 @@
 "Cancel" = "Annulla";
 
 /* No comment provided by engineer. */
-"Caps Lock OSD" = "Notifica Bloc Maiusc";
+"Caps Lock Indicator" = "Indicatore Bloc Maiusc";
 
 /* No comment provided by engineer. */
 "Clear Browsing Data" = "Cancella dati di navigazione";
 
 /* No comment provided by engineer. */
-"Clicking the green button fills the window instead of entering full screen" = "Facendo clic sul pulsante verde la finestra si espande anziché passare a schermo intero";
+"Clicking the green button maximizes the window instead of entering full screen" = "Facendo clic sul pulsante verde la finestra viene ingrandita invece di entrare a schermo intero";
 
 /* No comment provided by engineer. */
 "Close Tab" = "Chiudi pannello";
@@ -61,8 +61,14 @@
 /* No comment provided by engineer. */
 "Command Palette" = "Tavolozza dei comandi";
 
+/* No comment provided by engineer. */
+"Comment or Uncomment" = "Commenta o Decommenta";
+
 /* Button to retry after granting permissions */
 "Continue" = "Continua";
+
+/* Picker description */
+"Control-scroll zooms in and out in web browsers" = "Control-scorrimento ingrandisce e rimpicciolisce nei browser web";
 
 /* No comment provided by engineer. */
 "Copy" = "Copia";
@@ -74,7 +80,7 @@
 "Cut" = "Taglia";
 
 /* No comment provided by engineer. */
-"Cut & Paste Files in Finder" = "Taglia e incolla file nel Finder";
+"Cut and Paste Files in the Finder" = "Taglia e incolla file nel Finder";
 
 /* No comment provided by engineer. */
 "Dark Menu Bar" = "Barra dei menu scura";
@@ -92,10 +98,7 @@
 "Developer Tools" = "Strumenti sviluppatore";
 
 /* No comment provided by engineer. */
-"Dock position assigned to Finder — other apps shift to fill" = "Posizione nel Dock assegnata al Finder — le altre app si spostano";
-
-/* No comment provided by engineer. */
-"Double press Option to open Spotlight Apps" = "Premi Option due volte per aprire le app Spotlight";
+"Dock position assigned to the Finder—other apps shift to fill" = "Posizione del Dock assegnata al Finder — le altre app si spostano per riempire";
 
 /* No comment provided by engineer. */
 "Downloads" = "Download";
@@ -140,7 +143,7 @@
 "Green Button Fills Window" = "Il pulsante verde espande la finestra";
 
 /* No comment provided by engineer. */
-"Home and End keys move the cursor to the start or end of the line" = "I tasti Home e Fine spostano il cursore all'inizio o alla fine della riga";
+"Home and End keys move the insertion point to the start or end of the line" = "I tasti Home e Fine spostano il punto di inserimento all'inizio o alla fine della riga";
 
 /* No comment provided by engineer. */
 "Hot Corner" = "Angolo attivo";
@@ -166,14 +169,11 @@
 /* Section header */
 "Keyboard" = "Tastiera";
 
-/* Menu item to toggle start at login */
-"Launch at Login" = "Apri al login";
-
 /* No comment provided by engineer. */
 "Lock Screen" = "Blocca schermo";
 
 /* No comment provided by engineer. */
-"Maps Linux keyboard shortcuts to their Mac equivalents" = "Associa le scorciatoie da tastiera Linux ai corrispondenti Mac";
+"Maps Linux keyboard shortcuts to their Mac equivalents" = "Associa le scorciatoie da tastiera di Linux ai corrispondenti Mac";
 
 /* Toggle label */
 "Menu Key → Shortcut Menu" = "Tasto Menu → Menu abbreviazioni";
@@ -191,7 +191,7 @@
 "Move to Trash" = "Sposta nel Cestino";
 
 /* No comment provided by engineer. */
-"Moving the mouse to the top-left corner opens Mission Control" = "Spostando il mouse nell'angolo in alto a sinistra si apre Mission Control";
+"Moving the pointer to the top-left corner opens Mission Control" = "Spostando il puntatore nell'angolo in alto a sinistra si apre Mission Control";
 
 /* Scroll zoom picker option */
 "Natural" = "Naturale";
@@ -214,20 +214,26 @@
 /* Scroll zoom picker option */
 "Off" = "Disattivato";
 
-/* Button to open Accessibility preferences */
+/* Button to open Accessibility settings */
 "Open Accessibility" = "Apri Accessibilità";
 
-/* Button to open Input Monitoring preferences */
+/* Menu item for starting the app at login */
+"Open at Login" = "Apri al login";
+
+/* Button to open Input Monitoring settings */
 "Open Input Monitoring" = "Apri Monitoraggio input";
 
 /* Button to open login items settings */
 "Open Login Items" = "Apri elementi login";
 
 /* No comment provided by engineer. */
-"Option plus a number key launches the corresponding Dock app" = "Option più un tasto numerico avvia l'app corrispondente nel Dock";
+"Option plus a number row key opens the corresponding app in the Dock" = "Option più un tasto nella fila dei numeri apre l'app corrispondente nel Dock";
 
 /* No comment provided by engineer. */
-"Option+A opens Spotlight Apps" = "Option+A apre le app Spotlight";
+"Option-A opens Spotlight Apps" = "Option-A apre le app di Spotlight";
+
+/* No comment provided by engineer. */
+"Option-arrow keys tile, maximize, or restore windows" = "I tasti Option-freccia dispongono, ingrandiscono o ripristinano le finestre";
 
 /* No comment provided by engineer. */
 "Outdent" = "Riduci rientro";
@@ -236,13 +242,19 @@
 "Paste" = "Incolla";
 
 /* No comment provided by engineer. */
-"Paste with middle-click, or open a new window from the Dock" = "Incolla con clic centrale o apri una nuova finestra dal Dock";
+"Pastes with a middle click or opens a new window from the Dock" = "Incolla con un clic centrale o apre una nuova finestra dal Dock";
 
 /* Alert title when all permissions are granted */
 "Permissions Granted" = "Permessi concessi";
 
 /* Alert title for missing permissions */
 "Permissions Required" = "Permessi necessari";
+
+/* No comment provided by engineer. */
+"Pressing Option opens Mission Control" = "Premendo Option si apre Mission Control";
+
+/* No comment provided by engineer. */
+"Pressing Option twice opens Spotlight Apps" = "Premendo Option due volte si aprono le app di Spotlight";
 
 /* No comment provided by engineer. */
 "Print" = "Stampa";
@@ -314,13 +326,13 @@
 "Shortcut Remapping" = "Riassegnazione scorciatoie";
 
 /* No comment provided by engineer. */
+"Show or Hide Bookmarks Bar" = "Mostra o nascondi la barra dei segnalibri";
+
+/* No comment provided by engineer. */
 "Shows a black bar behind the menu bar when a window fills the screen" = "Mostra una barra nera dietro la barra dei menu quando una finestra riempie lo schermo";
 
 /* No comment provided by engineer. */
-"Shows an on-screen notification when Caps Lock is toggled" = "Mostra una notifica sullo schermo quando si attiva o disattiva il Bloc Maiusc";
-
-/* No comment provided by engineer. */
-"Single press Option to open Mission Control" = "Premi Option una volta per aprire Mission Control";
+"Shows an onscreen indicator when Caps Lock is turned on or off" = "Mostra un indicatore sullo schermo quando Bloc Maiusc viene attivato o disattivato";
 
 /* Toggle description */
 "Suggests windows to fill the other half after tiling left or right" = "Suggerisce finestre per riempire l'altra metà dopo la disposizione a sinistra o a destra";
@@ -329,7 +341,7 @@
 "SuperOpt already has all required permissions." = "SuperOpt ha già tutti i permessi necessari.";
 
 /* Alert body for missing permissions — %@ is the list of missing permissions */
-"SuperOpt needs the following permissions:\n\n%@\n\nGrant access in System Settings → Privacy & Security, then click Continue.\n\nIf you recently updated SuperOpt, you may need to remove and re-add it in each permission list." = "SuperOpt necessita dei seguenti permessi:\n\n%@\n\nConcedi l'accesso in Impostazioni di Sistema → Privacy e Sicurezza, quindi fai clic su Continua.\n\nSe hai aggiornato SuperOpt di recente, potrebbe essere necessario rimuoverlo e aggiungerlo nuovamente in ogni elenco di permessi.";
+"SuperOpt needs the following permissions:\n\n%@\n\nGrant access in Privacy & Security settings, and then click Continue.\n\nIf you recently updated SuperOpt, you may need to remove it from each permission list and add it again." = "SuperOpt necessita dei seguenti permessi:\n\n%@\n\nConcedi l'accesso nelle impostazioni Privacy e sicurezza, poi fai clic su Continua.\n\nSe hai aggiornato SuperOpt di recente, potrebbe essere necessario rimuoverlo da ogni elenco dei permessi e aggiungerlo nuovamente.";
 
 /* Category hint */
 "Tab and window management" = "Gestione pannelli e finestre";
@@ -349,17 +361,11 @@
 /* Toggle label */
 "Tile Assist" = "Assistente disposizione";
 
-/* No comment provided by engineer. */
-"Toggle Bookmarks Bar" = "Mostra/nascondi barra dei segnalibri";
-
-/* No comment provided by engineer. */
-"Toggle Comment" = "Attiva/disattiva commento";
-
 /* Scroll zoom picker option */
 "Traditional" = "Tradizionale";
 
 /* No comment provided by engineer. */
-"Turn off Show Menu Bar Background in System Settings to use this" = "Disattiva Mostra sfondo barra dei menu nelle Impostazioni di Sistema per usare questa funzione";
+"Turn off Show Menu Bar Background in System Settings to use this feature" = "Disattiva 'Mostra sfondo barra dei menu' in Impostazioni di Sistema per utilizzare questa funzione";
 
 /* Alert title when login item registration fails */
 "Unable to Update Login Item" = "Impossibile aggiornare l'elemento di login";
@@ -392,7 +398,7 @@
 "Word-level navigation, deletion, and formatting" = "Navigazione, eliminazione e formattazione a livello di parola";
 
 /* Alert body directing user to login items settings */
-"You can manage login items in System Settings → General → Login Items." = "Puoi gestire gli elementi di login in Impostazioni di Sistema → Generali → Elementi login.";
+"You can manage login items in System Settings > General > Login Items." = "Puoi gestire gli elementi login in Impostazioni di Sistema > Generali > Elementi login.";
 
 /* Category hint */
 "Zoom and full screen" = "Zoom e schermo intero";
@@ -406,26 +412,20 @@
 /* No comment provided by engineer. */
 "↖/↘ → Line Start/End" = "↖/↘ → Inizio/Fine riga";
 
-/* OSD text when Caps Lock is disabled */
+/* OSD text when Caps Lock is turned off */
 "⇪ Caps Lock Off" = "⇪ Bloc Maiusc disattivato";
 
-/* OSD text when Caps Lock is enabled */
+/* OSD text when Caps Lock is turned on */
 "⇪ Caps Lock On" = "⇪ Bloc Maiusc attivato";
 
-/* Picker description */
-"⌃Scroll zooms in and out in browser apps" = "⌃Scorrimento per ingrandire e rimpicciolire nelle app browser";
-
 /* No comment provided by engineer. */
-"⌃X copies files for moving, ⌃V moves them to the current folder" = "⌃X copia i file per lo spostamento, ⌃V li sposta nella cartella attuale";
+"⌃X copies files for moving; ⌃V moves them to the current folder" = "⌃X copia i file per spostarli; ⌃V li sposta nella cartella attuale";
 
 /* Toggle label */
 "⌥ → Mission Control" = "⌥ → Mission Control";
 
-/* No comment provided by engineer. */
-"⌥+Arrow keys tile, maximize, or restore windows" = "⌥+Tasti freccia dispongono, massimizzano o ripristinano le finestre";
-
 /* Toggle label */
-"⌥+N → Dock App" = "⌥+N → App del Dock";
+"⌥1–9 → Dock App" = "⌥1–9 → App del Dock";
 
 /* No comment provided by engineer. */
 "⌥A → Apps" = "⌥A → App";

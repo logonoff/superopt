@@ -14,10 +14,10 @@
 "Active only in code editors" = "コードエディタでのみ有効";
 
 /* Category hint */
-"Active only in Finder" = "Finderでのみ有効";
+"Active only in terminal apps" = "ターミナルアプリでのみ有効";
 
 /* Category hint */
-"Active only in terminal apps" = "ターミナルアプリでのみ有効";
+"Active only in the Finder" = "Finderでのみ有効";
 
 /* No comment provided by engineer. */
 "Address Bar" = "アドレスバー";
@@ -38,13 +38,13 @@
 "Cancel" = "キャンセル";
 
 /* No comment provided by engineer. */
-"Caps Lock OSD" = "Caps Lock通知";
+"Caps Lock Indicator" = "Caps Lockインジケータ";
 
 /* No comment provided by engineer. */
 "Clear Browsing Data" = "閲覧データを消去";
 
 /* No comment provided by engineer. */
-"Clicking the green button fills the window instead of entering full screen" = "緑のボタンをクリックするとフルスクリーンではなくウインドウを画面いっぱいに広げます";
+"Clicking the green button maximizes the window instead of entering full screen" = "緑ボタンをクリックすると、フルスクリーンにならずにウインドウが最大化されます";
 
 /* No comment provided by engineer. */
 "Close Tab" = "タブを閉じる";
@@ -61,8 +61,14 @@
 /* No comment provided by engineer. */
 "Command Palette" = "コマンドパレット";
 
+/* No comment provided by engineer. */
+"Comment or Uncomment" = "コメント/コメント解除";
+
 /* Button to retry after granting permissions */
 "Continue" = "続ける";
+
+/* Picker description */
+"Control-scroll zooms in and out in web browsers" = "Control-スクロールでWebブラウザの拡大・縮小を行います";
 
 /* No comment provided by engineer. */
 "Copy" = "コピー";
@@ -74,7 +80,7 @@
 "Cut" = "カット";
 
 /* No comment provided by engineer. */
-"Cut & Paste Files in Finder" = "Finderでファイルをカット＆ペースト";
+"Cut and Paste Files in the Finder" = "Finderでファイルをカット&ペースト";
 
 /* No comment provided by engineer. */
 "Dark Menu Bar" = "ダークメニューバー";
@@ -92,10 +98,7 @@
 "Developer Tools" = "デベロッパツール";
 
 /* No comment provided by engineer. */
-"Dock position assigned to Finder — other apps shift to fill" = "FinderのDock位置 — 他のアプリは詰めて配置";
-
-/* No comment provided by engineer. */
-"Double press Option to open Spotlight Apps" = "Optionを2回押してSpotlightアプリを開く";
+"Dock position assigned to the Finder—other apps shift to fill" = "Finderに割り当てるDockの位置 — 他のアプリはずれて埋まります";
 
 /* No comment provided by engineer. */
 "Downloads" = "ダウンロード";
@@ -140,7 +143,7 @@
 "Green Button Fills Window" = "緑ボタンでウインドウを最大化";
 
 /* No comment provided by engineer. */
-"Home and End keys move the cursor to the start or end of the line" = "HomeキーとEndキーでカーソルを行頭または行末に移動";
+"Home and End keys move the insertion point to the start or end of the line" = "HomeキーとEndキーで挿入ポイントを行の先頭または末尾に移動します";
 
 /* No comment provided by engineer. */
 "Hot Corner" = "ホットコーナー";
@@ -166,14 +169,11 @@
 /* Section header */
 "Keyboard" = "キーボード";
 
-/* Menu item to toggle start at login */
-"Launch at Login" = "ログイン時に起動";
-
 /* No comment provided by engineer. */
 "Lock Screen" = "画面をロック";
 
 /* No comment provided by engineer. */
-"Maps Linux keyboard shortcuts to their Mac equivalents" = "Linuxのキーボードショートカットを対応するMacのショートカットに割り当て";
+"Maps Linux keyboard shortcuts to their Mac equivalents" = "Linuxのキーボードショートカットを対応するMacのショートカットに割り当てます";
 
 /* Toggle label */
 "Menu Key → Shortcut Menu" = "メニューキー → ショートカットメニュー";
@@ -191,7 +191,7 @@
 "Move to Trash" = "ゴミ箱に入れる";
 
 /* No comment provided by engineer. */
-"Moving the mouse to the top-left corner opens Mission Control" = "マウスを左上隅に移動するとMission Controlが開きます";
+"Moving the pointer to the top-left corner opens Mission Control" = "ポインタを左上の角に移動するとMission Controlが開きます";
 
 /* Scroll zoom picker option */
 "Natural" = "ナチュラル";
@@ -214,20 +214,26 @@
 /* Scroll zoom picker option */
 "Off" = "オフ";
 
-/* Button to open Accessibility preferences */
+/* Button to open Accessibility settings */
 "Open Accessibility" = "アクセシビリティを開く";
 
-/* Button to open Input Monitoring preferences */
+/* Menu item for starting the app at login */
+"Open at Login" = "ログイン時に開く";
+
+/* Button to open Input Monitoring settings */
 "Open Input Monitoring" = "入力監視を開く";
 
 /* Button to open login items settings */
 "Open Login Items" = "ログイン項目を開く";
 
 /* No comment provided by engineer. */
-"Option plus a number key launches the corresponding Dock app" = "Optionと数字キーで対応するDockアプリを起動";
+"Option plus a number row key opens the corresponding app in the Dock" = "Optionキーと数字行のキーでDock内の対応するアプリを開きます";
 
 /* No comment provided by engineer. */
-"Option+A opens Spotlight Apps" = "Option+AでSpotlightアプリを開く";
+"Option-A opens Spotlight Apps" = "Option-AでSpotlightのアプリを開きます";
+
+/* No comment provided by engineer. */
+"Option-arrow keys tile, maximize, or restore windows" = "Option-矢印キーでウインドウをタイル表示、最大化、または復元します";
 
 /* No comment provided by engineer. */
 "Outdent" = "インデント解除";
@@ -236,13 +242,19 @@
 "Paste" = "ペースト";
 
 /* No comment provided by engineer. */
-"Paste with middle-click, or open a new window from the Dock" = "中クリックでペースト、またはDockから新規ウインドウを開く";
+"Pastes with a middle click or opens a new window from the Dock" = "中クリックでペースト、またはDockから新規ウインドウを開きます";
 
 /* Alert title when all permissions are granted */
 "Permissions Granted" = "権限が付与されました";
 
 /* Alert title for missing permissions */
 "Permissions Required" = "権限が必要です";
+
+/* No comment provided by engineer. */
+"Pressing Option opens Mission Control" = "Optionを押すとMission Controlが開きます";
+
+/* No comment provided by engineer. */
+"Pressing Option twice opens Spotlight Apps" = "Optionを2回押すとSpotlightのアプリが開きます";
 
 /* No comment provided by engineer. */
 "Print" = "プリント";
@@ -314,13 +326,13 @@
 "Shortcut Remapping" = "ショートカットの再割り当て";
 
 /* No comment provided by engineer. */
+"Show or Hide Bookmarks Bar" = "ブックマークバーの表示/非表示";
+
+/* No comment provided by engineer. */
 "Shows a black bar behind the menu bar when a window fills the screen" = "ウインドウが画面いっぱいのとき、メニューバーの背後に黒いバーを表示";
 
 /* No comment provided by engineer. */
-"Shows an on-screen notification when Caps Lock is toggled" = "Caps Lockの切り替え時に画面上に通知を表示";
-
-/* No comment provided by engineer. */
-"Single press Option to open Mission Control" = "Optionを1回押してMission Controlを開く";
+"Shows an onscreen indicator when Caps Lock is turned on or off" = "Caps Lockのオン・オフ時に画面上にインジケータを表示します";
 
 /* Toggle description */
 "Suggests windows to fill the other half after tiling left or right" = "左右にタイル表示した後、残りの半分を埋めるウインドウを提案";
@@ -329,7 +341,7 @@
 "SuperOpt already has all required permissions." = "SuperOptは必要な権限をすべて持っています。";
 
 /* Alert body for missing permissions — %@ is the list of missing permissions */
-"SuperOpt needs the following permissions:\n\n%@\n\nGrant access in System Settings → Privacy & Security, then click Continue.\n\nIf you recently updated SuperOpt, you may need to remove and re-add it in each permission list." = "SuperOptには以下の権限が必要です:\n\n%@\n\nシステム設定 → プライバシーとセキュリティでアクセスを許可し、「続ける」をクリックしてください。\n\nSuperOptを最近アップデートした場合は、各権限リストから削除して再度追加する必要がある場合があります。";
+"SuperOpt needs the following permissions:\n\n%@\n\nGrant access in Privacy & Security settings, and then click Continue.\n\nIf you recently updated SuperOpt, you may need to remove it from each permission list and add it again." = "SuperOptには以下の権限が必要です:\n\n%@\n\nプライバシーとセキュリティ設定でアクセスを許可してから、「続ける」をクリックしてください。\n\nSuperOptを最近アップデートした場合は、各権限リストから削除して再度追加する必要があるかもしれません。";
 
 /* Category hint */
 "Tab and window management" = "タブとウインドウの管理";
@@ -349,17 +361,11 @@
 /* Toggle label */
 "Tile Assist" = "タイルアシスト";
 
-/* No comment provided by engineer. */
-"Toggle Bookmarks Bar" = "ブックマークバーの表示/非表示";
-
-/* No comment provided by engineer. */
-"Toggle Comment" = "コメントの切り替え";
-
 /* Scroll zoom picker option */
 "Traditional" = "トラディショナル";
 
 /* No comment provided by engineer. */
-"Turn off Show Menu Bar Background in System Settings to use this" = "この機能を使用するにはシステム設定で「メニューバーの背景を表示」をオフにしてください";
+"Turn off Show Menu Bar Background in System Settings to use this feature" = "この機能を使用するには、システム設定で「メニューバーの背景を表示」をオフにしてください";
 
 /* Alert title when login item registration fails */
 "Unable to Update Login Item" = "ログイン項目を更新できません";
@@ -392,7 +398,7 @@
 "Word-level navigation, deletion, and formatting" = "単語単位のナビゲーション、削除、書式設定";
 
 /* Alert body directing user to login items settings */
-"You can manage login items in System Settings → General → Login Items." = "ログイン項目はシステム設定 → 一般 → ログイン項目で管理できます。";
+"You can manage login items in System Settings > General > Login Items." = "ログイン項目はシステム設定 > 一般 > ログイン項目で管理できます。";
 
 /* Category hint */
 "Zoom and full screen" = "ズームとフルスクリーン";
@@ -406,26 +412,20 @@
 /* No comment provided by engineer. */
 "↖/↘ → Line Start/End" = "↖/↘ → 行頭/行末";
 
-/* OSD text when Caps Lock is disabled */
+/* OSD text when Caps Lock is turned off */
 "⇪ Caps Lock Off" = "⇪ Caps Lockオフ";
 
-/* OSD text when Caps Lock is enabled */
+/* OSD text when Caps Lock is turned on */
 "⇪ Caps Lock On" = "⇪ Caps Lockオン";
 
-/* Picker description */
-"⌃Scroll zooms in and out in browser apps" = "⌃スクロールでブラウザアプリの拡大/縮小";
-
 /* No comment provided by engineer. */
-"⌃X copies files for moving, ⌃V moves them to the current folder" = "⌃Xでファイルをコピーして移動準備、⌃Vで現在のフォルダに移動";
+"⌃X copies files for moving; ⌃V moves them to the current folder" = "⌃Xでファイルを移動用にコピー、⌃Vで現在のフォルダに移動します";
 
 /* Toggle label */
 "⌥ → Mission Control" = "⌥ → Mission Control";
 
-/* No comment provided by engineer. */
-"⌥+Arrow keys tile, maximize, or restore windows" = "⌥+矢印キーでウインドウのタイル表示、最大化、復元";
-
 /* Toggle label */
-"⌥+N → Dock App" = "⌥+N → Dockアプリ";
+"⌥1–9 → Dock App" = "⌥1–9 → Dockアプリ";
 
 /* No comment provided by engineer. */
 "⌥A → Apps" = "⌥A → アプリ";
