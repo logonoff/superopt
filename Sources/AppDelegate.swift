@@ -324,6 +324,7 @@ extension AppDelegate {
             .font: font, .link: githubURL, .paragraphStyle: style
         ]))
         NSApplication.shared.orderFrontStandardAboutPanel(options: [.version: "", .credits: credits])
+        NSApp.keyWindow?.orderFrontRegardless()
     }
 
     @objc private func toggleLaunchAtLogin(_ sender: NSMenuItem) {

@@ -300,7 +300,8 @@ class SettingsWindowController: NSObject, NSWindowDelegate {
 
     func show() {
         if let existing = window {
-            existing.makeKeyAndOrderFront(nil)
+            existing.orderFrontRegardless()
+            existing.makeKey()
             NSApplication.shared.activate()
             return
         }
