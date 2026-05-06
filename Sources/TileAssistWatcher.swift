@@ -114,7 +114,8 @@ class TileAssistWatcher {
         let wasTiled = previousWasTiled
         previousWasTiled = dir != nil
 
-        if !wasTiled, let dir, let screen, !isPanelVisible() {
+        if !wasTiled, let dir, let screen, !isPanelVisible(),
+           !Self.isOtherHalfOccupied(direction: dir, screen: screen) {
             onTile?(dir, screen)
         }
     }
@@ -141,6 +142,31 @@ extension TileAssistWatcher {
         let nsFrame = KeyboardUtils.cgRectToNS(cgFrame)
         return NSScreen.screens.first { $0.frame.contains(
             NSPoint(x: nsFrame.midX, y: nsFrame.midY)) } ?? NSScreen.main
+    }
+
+    fileprivate static func isOtherHalfOccupied(
+        direction: SnapAssistPanel.TileDirection, screen: NSScreen
+    ) -> Bool {
+        guard let windowList = CGWindowListCopyWindowInfo(
+            [.optionOnScreenOnly, .excludeDesktopElements],
+            kCGNullWindowID) as? [[String: Any]]
+        else { return false }
+        let opposite: SnapAssistPanel.TileDirection = direction == .left ? .right : .left
+        let myPID = ProcessInfo.processInfo.processIdentifier
+        for info in windowList {
+            guard let layer = info[kCGWindowLayer as String] as? Int, layer == 0,
+                  let pid = info[kCGWindowOwnerPID as String] as? pid_t, pid != myPID,
+                  let bounds = info[kCGWindowBounds as String] as? [String: CGFloat],
+                  let originX = bounds["X"], let originY = bounds["Y"],
+                  let width = bounds["Width"], let height = bounds["Height"],
+                  width > 100, height > 100
+            else { continue }
+            let cgFrame = CGRect(x: originX, y: originY, width: width, height: height)
+            guard let winScreen = screenForWindow(cgFrame),
+                  winScreen.frame == screen.frame else { continue }
+            if tileDirection(cgFrame, onScreen: screen) == opposite { return true }
+        }
+        return false
     }
 
     fileprivate static func tileDirection(
