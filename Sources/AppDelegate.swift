@@ -381,11 +381,17 @@ extension AppDelegate {
 
     private func handleMouseDown(type: CGEventType, event: CGEvent) -> Bool {
         if type == .leftMouseDown {
-            if isEnabled("mcCloseEnabled") && mcCloseHandler?.handleClick(event: event) == true { return true }
-            if isEnabled("zoomButtonEnabled") && zoomButtonHandler.handleClick(event: event) { return true }
+            if isEnabled("mcCloseEnabled") && mcCloseHandler?.handleClick(event: event) == true {
+                optionKeyHandler.markOtherInput(); return true
+            }
+            if isEnabled("zoomButtonEnabled") && zoomButtonHandler.handleClick(event: event) {
+                optionKeyHandler.markOtherInput(); return true
+            }
         }
         if type == .otherMouseDown && isEnabled("middleClickPasteEnabled")
-            && middleClickPasteHandler.handleMouseDown(event: event) { return true }
+            && middleClickPasteHandler.handleMouseDown(event: event) {
+            optionKeyHandler.markOtherInput(); return true
+        }
         optionKeyHandler.markOtherInput()
         return false
     }
