@@ -277,12 +277,13 @@ extension SnapAssistPanel {
             NSWorkspace.shared.notificationCenter.removeObserver(obs)
             appActivationObserver = nil
         }
+        let panelWindow = panel
         NSAnimationContext.runAnimationGroup({ ctx in
             ctx.duration = 0.15
-            panel.animator().alphaValue = 0
+            panelWindow.animator().alphaValue = 0
         }, completionHandler: { [weak self] in
             MainActor.assumeIsolated {
-                self?.panel.orderOut(nil)
+                panelWindow.orderOut(nil)
                 self?.onDismiss?()
                 self?.onDismiss = nil
             }
