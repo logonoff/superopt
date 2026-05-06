@@ -36,6 +36,9 @@ class DockLauncher {
     func handleKeyDown(event: CGEvent, finderPosition: Int) -> Bool {
         let keyCode = event.getIntegerValueField(.keyboardEventKeycode)
         guard event.flags.contains(.maskAlternate),
+              !event.flags.contains(.maskCommand),
+              !event.flags.contains(.maskControl),
+              !event.flags.contains(.maskShift),
               let number = Self.numberKeyCodes[keyCode]
         else { return false }
         let position = number == finderPosition ? 1 : (number < finderPosition ? number + 1 : number)
