@@ -293,8 +293,8 @@ extension MissionControlCloseHandler {
 
         let offset: CGFloat = 20
         var nudged = point
-        let rightNudge = (point.x < rect.midX ? rect.maxX : rect.maxX) + offset
-        let leftNudge = (point.x < rect.midX ? rect.minX : rect.minX) - offset
+        let rightNudge = rect.maxX + offset
+        let leftNudge = rect.minX - offset
         if rightNudge <= screenCG.maxX {
             nudged.x = rect.maxX + offset
         } else if leftNudge >= screenCG.minX {
