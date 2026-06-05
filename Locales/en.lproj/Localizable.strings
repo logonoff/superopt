@@ -79,8 +79,11 @@
 /* No comment provided by engineer. */
 "Cut" = "Cut";
 
-/* No comment provided by engineer. */
+/* Picker label */
 "Cut and Paste Files in the Finder" = "Cut and Paste Files in the Finder";
+
+/* Picker description */
+"Cut copies files for moving; paste moves them to the current folder" = "Cut copies files for moving; paste moves them to the current folder";
 
 /* No comment provided by engineer. */
 "Dark Menu Bar" = "Dark Menu Bar";
@@ -211,7 +214,7 @@
 /* Category hint */
 "New, save, print, and quit" = "New, save, print, and quit";
 
-/* Scroll zoom picker option */
+/* Picker option */
 "Off" = "Off";
 
 /* Button to open Accessibility settings */
@@ -418,8 +421,11 @@
 /* OSD text when Caps Lock is turned on */
 "⇪ Caps Lock On" = "⇪ Caps Lock On";
 
-/* No comment provided by engineer. */
-"⌃X copies files for moving; ⌃V moves them to the current folder" = "⌃X copies files for moving; ⌃V moves them to the current folder";
+/* Finder cut picker option */
+"⌃X and ⌃V" = "⌃X and ⌃V";
+
+/* Finder cut picker option */
+"⌘X and ⌘V" = "⌘X and ⌘V";
 
 /* Toggle label */
 "⌥ → Mission Control" = "⌥ → Mission Control";

@@ -74,7 +74,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         "windowTilingEnabled": false,
         "snapAssistEnabled": false,
         "gnomeShortcutsEnabled": false,
-        "finderCutEnabled": false,
+        "finderCutMode": FinderCutMode.off.rawValue,
         "middleClickPasteEnabled": false,
         "zoomButtonEnabled": false,
         "menuKeyRightClickEnabled": false,
@@ -94,6 +94,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if wantsBg { menuBarBackground.start() } else { menuBarBackground.stop() }
         gnomeShortcutHandler.reloadSettings()
         scrollZoomHandler.reloadSettings()
+        finderCutHandler.reloadSettings()
         if isEnabled("mcCloseEnabled") {
             mcCloseHandler?.start()
         } else { mcCloseHandler?.stop() }
@@ -415,7 +416,7 @@ extension AppDelegate {
         }
         if isEnabled("menuKeyRightClickEnabled") && menuKeyHandler.handleKeyDown(event: event) { return true }
         if isEnabled("homeEndRemapEnabled") && homeEndHandler.handleKeyDown(event: event) { return true }
-        if isEnabled("finderCutEnabled") && finderCutHandler.handleKeyDown(event: event) {
+        if finderCutHandler.handleKeyDown(event: event) {
             optionKeyHandler.markOtherInput(); return true
         }
         if isEnabled("appGridEnabled") && event.flags.contains(.maskAlternate)

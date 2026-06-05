@@ -36,11 +36,16 @@ private let _extraStrings = [
     NSLocalizedString("Active only in browsers", comment: "Category hint"),
     NSLocalizedString("Active only in terminal apps", comment: "Category hint"),
     NSLocalizedString("Active only in code editors", comment: "Category hint"),
-    NSLocalizedString("Off", comment: "Scroll zoom picker option"),
+    NSLocalizedString("Off", comment: "Picker option"),
     NSLocalizedString("Natural", comment: "Scroll zoom picker option"),
     NSLocalizedString("Traditional", comment: "Scroll zoom picker option"),
     NSLocalizedString("Scroll Zoom in Browsers", comment: "Picker label"),
     NSLocalizedString("Control-scroll zooms in and out in web browsers", comment: "Picker description"),
+    NSLocalizedString("Cut and Paste Files in the Finder", comment: "Picker label"),
+    NSLocalizedString(
+        "Cut copies files for moving; paste moves them to the current folder", comment: "Picker description"),
+    NSLocalizedString("⌘X and ⌘V", comment: "Finder cut picker option"),
+    NSLocalizedString("⌃X and ⌃V", comment: "Finder cut picker option"),
     NSLocalizedString("Menu Key → Shortcut Menu", comment: "Toggle label"),
     NSLocalizedString("The Menu key on PC keyboards opens a shortcut menu", comment: "Toggle description"),
     NSLocalizedString("Close Windows in Mission Control", comment: "Toggle label"),
@@ -62,7 +67,7 @@ struct SettingsView: View {
     @AppStorage("windowTilingEnabled") var windowTiling = false
     @AppStorage("snapAssistEnabled") var snapAssist = false
     @AppStorage("zoomButtonEnabled") var zoomButton = false
-    @AppStorage("finderCutEnabled") var finderCut = false
+    @AppStorage("finderCutMode") var finderCutMode = FinderCutMode.off.rawValue
     @AppStorage("middleClickPasteEnabled") var middleClickPaste = false
     @AppStorage("scrollZoomMode") var scrollZoomMode = ScrollZoomMode.off.rawValue
     @AppStorage("menuKeyRightClickEnabled") var menuKeyRightClick = false
@@ -151,9 +156,13 @@ struct SettingsView: View {
                     Text("Dock position assigned to the Finder—other apps shift to fill")
                 }
 
-                Toggle(isOn: $finderCut) {
+                Picker(selection: $finderCutMode) {
+                    Text("Off").tag(FinderCutMode.off.rawValue)
+                    Text("⌘X and ⌘V").tag(FinderCutMode.command.rawValue)
+                    Text("⌃X and ⌃V").tag(FinderCutMode.control.rawValue)
+                } label: {
                     Text("Cut and Paste Files in the Finder")
-                    Text("⌃X copies files for moving; ⌃V moves them to the current folder")
+                    Text("Cut copies files for moving; paste moves them to the current folder")
                 }
 
                 Toggle(isOn: $middleClickPaste) {

@@ -79,8 +79,11 @@
 /* No comment provided by engineer. */
 "Cut" = "剪切";
 
-/* No comment provided by engineer. */
+/* Picker label */
 "Cut and Paste Files in the Finder" = "在访达中剪切和粘贴文件";
+
+/* Picker description */
+"Cut copies files for moving; paste moves them to the current folder" = "剪切会复制文件以便移动；粘贴会将文件移动到当前文件夹";
 
 /* No comment provided by engineer. */
 "Dark Menu Bar" = "深色菜单栏";
@@ -211,7 +214,7 @@
 /* Category hint */
 "New, save, print, and quit" = "新建、保存、打印和退出";
 
-/* Scroll zoom picker option */
+/* Picker option */
 "Off" = "关闭";
 
 /* Button to open Accessibility settings */
@@ -418,8 +421,11 @@
 /* OSD text when Caps Lock is turned on */
 "⇪ Caps Lock On" = "⇪ Caps Lock 已开启";
 
-/* No comment provided by engineer. */
-"⌃X copies files for moving; ⌃V moves them to the current folder" = "⌃X 拷贝文件以供移动；⌃V 将其移至当前文件夹";
+/* Finder cut picker option */
+"⌃X and ⌃V" = "⌃X和⌃V";
+
+/* Finder cut picker option */
+"⌘X and ⌘V" = "⌘X和⌘V";
 
 /* Toggle label */
 "⌥ → Mission Control" = "⌥ → 调度中心";

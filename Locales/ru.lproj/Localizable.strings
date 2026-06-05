@@ -79,8 +79,11 @@
 /* No comment provided by engineer. */
 "Cut" = "Вырезать";
 
-/* No comment provided by engineer. */
+/* Picker label */
 "Cut and Paste Files in the Finder" = "Вырезание и вставка файлов в Finder";
+
+/* Picker description */
+"Cut copies files for moving; paste moves them to the current folder" = "Вырезание копирует файлы для перемещения; вставка перемещает их в текущую папку";
 
 /* No comment provided by engineer. */
 "Dark Menu Bar" = "Тёмная строка меню";
@@ -211,7 +214,7 @@
 /* Category hint */
 "New, save, print, and quit" = "Создание, сохранение, печать и выход";
 
-/* Scroll zoom picker option */
+/* Picker option */
 "Off" = "Выкл.";
 
 /* Button to open Accessibility settings */
@@ -418,8 +421,11 @@
 /* OSD text when Caps Lock is turned on */
 "⇪ Caps Lock On" = "⇪ Caps Lock включён";
 
-/* No comment provided by engineer. */
-"⌃X copies files for moving; ⌃V moves them to the current folder" = "⌃X копирует файлы для перемещения; ⌃V перемещает их в текущую папку";
+/* Finder cut picker option */
+"⌃X and ⌃V" = "⌃X и ⌃V";
+
+/* Finder cut picker option */
+"⌘X and ⌘V" = "⌘X и ⌘V";
 
 /* Toggle label */
 "⌥ → Mission Control" = "⌥ → Mission Control";

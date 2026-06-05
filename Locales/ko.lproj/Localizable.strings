@@ -79,8 +79,11 @@
 /* No comment provided by engineer. */
 "Cut" = "오려두기";
 
-/* No comment provided by engineer. */
+/* Picker label */
 "Cut and Paste Files in the Finder" = "Finder에서 파일 잘라내기 및 붙여넣기";
+
+/* Picker description */
+"Cut copies files for moving; paste moves them to the current folder" = "오려두기는 파일을 이동용으로 복사하고, 붙여넣기는 현재 폴더로 이동합니다";
 
 /* No comment provided by engineer. */
 "Dark Menu Bar" = "어두운 메뉴 막대";
@@ -211,7 +214,7 @@
 /* Category hint */
 "New, save, print, and quit" = "새로 만들기, 저장, 프린트, 종료";
 
-/* Scroll zoom picker option */
+/* Picker option */
 "Off" = "끔";
 
 /* Button to open Accessibility settings */
@@ -418,8 +421,11 @@
 /* OSD text when Caps Lock is turned on */
 "⇪ Caps Lock On" = "⇪ Caps Lock 켜짐";
 
-/* No comment provided by engineer. */
-"⌃X copies files for moving; ⌃V moves them to the current folder" = "⌃X로 파일을 이동용으로 복사하고, ⌃V로 현재 폴더로 이동합니다";
+/* Finder cut picker option */
+"⌃X and ⌃V" = "⌃X 및 ⌃V";
+
+/* Finder cut picker option */
+"⌘X and ⌘V" = "⌘X 및 ⌘V";
 
 /* Toggle label */
 "⌥ → Mission Control" = "⌥ → Mission Control";

@@ -79,8 +79,11 @@
 /* No comment provided by engineer. */
 "Cut" = "カット";
 
-/* No comment provided by engineer. */
+/* Picker label */
 "Cut and Paste Files in the Finder" = "Finderでファイルをカット&ペースト";
+
+/* Picker description */
+"Cut copies files for moving; paste moves them to the current folder" = "カットでファイルを移動用にコピーし、ペーストで現在のフォルダに移動します";
 
 /* No comment provided by engineer. */
 "Dark Menu Bar" = "ダークメニューバー";
@@ -211,7 +214,7 @@
 /* Category hint */
 "New, save, print, and quit" = "新規、保存、プリント、終了";
 
-/* Scroll zoom picker option */
+/* Picker option */
 "Off" = "オフ";
 
 /* Button to open Accessibility settings */
@@ -418,8 +421,11 @@
 /* OSD text when Caps Lock is turned on */
 "⇪ Caps Lock On" = "⇪ Caps Lockオン";
 
-/* No comment provided by engineer. */
-"⌃X copies files for moving; ⌃V moves them to the current folder" = "⌃Xでファイルを移動用にコピー、⌃Vで現在のフォルダに移動します";
+/* Finder cut picker option */
+"⌃X and ⌃V" = "⌃Xと⌃V";
+
+/* Finder cut picker option */
+"⌘X and ⌘V" = "⌘Xと⌘V";
 
 /* Toggle label */
 "⌥ → Mission Control" = "⌥ → Mission Control";
