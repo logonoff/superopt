@@ -372,24 +372,41 @@
           <p class="shale-v1-p">
             Or download the latest release directly from
             <a href="https://github.com/logonoff/superopt/releases/latest" target="_blank" rel="noopener"
-              class="shale-v1-link">GitHub Releases</a>. The app uses ad hoc signing, so you may need to Control-click
-            the app, choose Open from the shortcut menu, and then click Open to bypass Gatekeeper.
+              class="shale-v1-link">GitHub Releases</a>. The app is self-signed (not notarized), so you may need to
+            Control-click the app, choose Open from the shortcut menu, and then click Open to bypass Gatekeeper.
           </p>
         </div>
 
-        <div class="shale-v1-note-info">
-          <strong>Permissions</strong>
-          <p class="shale-v1-note-text">
-            SuperOpt requires <strong>Accessibility</strong> and <strong>Input Monitoring</strong> permissions
-            in System Settings &gt; Privacy &amp; Security. The app asks for permissions the first time you open it.
-          </p>
-        </div>
-
-        <div class="shale-v1-note-warn">
-          <strong>Warning</strong>
-          <p class="shale-v1-note-text">
-            This project is AI slop and the code has not been vetted by a human. Use at your own risk!
-          </p>
+        <div class="shale-v1-flex-space-between">
+          <div class="shale-v1-flex-third shale-v1-card feature-card shale-v1-note-info">
+            <strong>Permissions</strong>
+            <p class="shale-v1-note-text">
+              SuperOpt requires <strong>Accessibility</strong> and <strong>Input Monitoring</strong> permissions
+              in System Settings &gt; Privacy &amp; Security. The app asks for permissions the first time you open it.
+            </p>
+          </div>
+          <div class="shale-v1-flex-third shale-v1-card feature-card shale-v1-note-info">
+            <strong>Trust &amp; Verification</strong>
+            <p class="shale-v1-note-text">
+              SuperOpt is not notarized (no Apple Developer Program membership). To verify authenticity:
+              every release has a
+              <a href="https://github.com/logonoff/superopt/attestations" target="_blank" rel="noopener"
+                class="shale-v1-link">GitHub build attestation</a>
+              linking the artifact to its source commit and workflow run. Verify locally with:
+            </p>
+            <pre class="shale-v1-code" style="user-select: all">gh attestation verify SuperOpt.zip --repo logonoff/superopt</pre>
+            <p class="shale-v1-note-text">
+              Releases are immutable (tags and assets are never replaced), the Homebrew cask pins a SHA-256 hash,
+              and all commits are GPG-signed. The code signing
+              <a href="codesign.pem" class="shale-v1-link" download>public key</a> is available for verification.
+            </p>
+          </div>
+          <div class="shale-v1-flex-third shale-v1-card feature-card shale-v1-note-warn">
+            <strong>Warning</strong>
+            <p class="shale-v1-note-text">
+              This project is AI slop and the code has not been vetted by a human. Use at your own risk!
+            </p>
+          </div>
         </div>
       </section>
 

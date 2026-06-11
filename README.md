@@ -31,6 +31,16 @@ The app is not notarized. Control-click and choose "Open" the first time you ope
 xattr -d com.apple.quarantine /Applications/SuperOpt.app
 ```
 
+### Trust & Verification
+
+Releases are signed with a self-signed certificate (RSA-2048, CN=SuperOpt). The app is not notarized (no Apple Developer Program membership). To compensate:
+
+- **[Build attestations](https://github.com/logonoff/superopt/attestations)** — every release zip has a GitHub build provenance attestation linking the artifact to the exact source commit and workflow run. Verify with `gh attestation verify SuperOpt.zip --repo logonoff/superopt`.
+- **Immutable releases** — tags are never moved or deleted, and release assets are never replaced. The Homebrew cask pins a SHA-256 hash.
+- **Signed commits** — all commits to `main` are GPG-signed.
+
+Code signing public key ([`codesign.pem`](https://logonoff.github.io/superopt/codesign.pem), RSA-2048, SHA-256 `4fbb60bb36dee64f`).
+
 ## Features
 
 ### Option Key Shortcuts

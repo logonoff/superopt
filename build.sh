@@ -5,6 +5,12 @@ APP_NAME="SuperOpt"
 BUILD_DIR="build"
 APP_BUNDLE="$BUILD_DIR/$APP_NAME.app"
 
+# Load signing identity from .env if present (CODESIGN_IDENTITY="Your Certificate Name")
+if [ -f .env ]; then
+    source .env
+fi
+CODESIGN_IDENTITY="${CODESIGN_IDENTITY:--}"
+
 VERSION=$(git describe --tags --dirty --always 2>/dev/null || echo "unknown")
 
 echo "Building $APP_NAME ($VERSION)..."
@@ -131,7 +137,8 @@ else
     echo "Skipping icon (actool not available or Icon.icon not found)"
 fi
 
-# Codesign the app bundle with an ad-hoc signature to allow it to run without Gatekeeper blocking it
-codesign --force --sign - --options runtime --entitlements OptWin.entitlements "$APP_BUNDLE"
+# Codesign the app bundle to allow it to run without Gatekeeper blocking it
+# Uses CODESIGN_IDENTITY from .env if set, otherwise falls back to ad-hoc signing
+codesign --force --sign "$CODESIGN_IDENTITY" --options runtime --entitlements OptWin.entitlements "$APP_BUNDLE"
 
 echo "Build complete: $APP_BUNDLE"

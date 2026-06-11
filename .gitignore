@@ -70,3 +70,6 @@ fastlane/test_output
 
 # Claude Code
 .claude/settings.local.json
+
+# Local environment (signing identity, etc.)
+.env
