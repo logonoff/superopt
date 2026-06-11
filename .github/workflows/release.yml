@@ -27,7 +27,7 @@ jobs:
           fetch-tags: true
 
       - name: Import signing certificate
-        if: secrets.CODESIGN_P12 != ''
+        if: ${{ secrets.CODESIGN_P12 != '' }}
         env:
           CODESIGN_P12: ${{ secrets.CODESIGN_P12 }}
           CODESIGN_P12_PASSWORD: ${{ secrets.CODESIGN_P12_PASSWORD }}
