@@ -344,7 +344,7 @@
 "SuperOpt already has all required permissions." = "SuperOpt ha già tutti i permessi necessari.";
 
 /* Alert body for missing permissions — %@ is the list of missing permissions */
-"SuperOpt needs the following permissions:\n\n%@\n\nGrant access in Privacy & Security settings, and then click Continue.\n\nIf you recently updated SuperOpt, you may need to remove it from each permission list and add it again." = "SuperOpt necessita dei seguenti permessi:\n\n%@\n\nConcedi l'accesso nelle impostazioni Privacy e sicurezza, poi fai clic su Continua.\n\nSe hai aggiornato SuperOpt di recente, potrebbe essere necessario rimuoverlo da ogni elenco dei permessi e aggiungerlo nuovamente.";
+"SuperOpt needs the following permissions:\n\n%@\n\nGrant access in Privacy & Security settings, and then click Continue." = "SuperOpt needs the following permissions:\n\n%@\n\nGrant access in Privacy & Security settings, and then click Continue.";
 
 /* Category hint */
 "Tab and window management" = "Gestione pannelli e finestre";

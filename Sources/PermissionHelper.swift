@@ -48,9 +48,7 @@ class PermissionHelper {
     private func formatPermissionsMessage(_ missing: [String]) -> String {
         let format = NSLocalizedString(
             "SuperOpt needs the following permissions:\n\n%@\n\n"
-            + "Grant access in Privacy & Security settings, and then click Continue.\n\n"
-            + "If you recently updated SuperOpt, you may need to remove it "
-            + "from each permission list and add it again.",
+            + "Grant access in Privacy & Security settings, and then click Continue.",
             comment: "Alert body for missing permissions — %@ is the list of missing permissions")
         return String(format: format, missing.joined(separator: ", "))
     }
