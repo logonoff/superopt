@@ -344,7 +344,7 @@
 "SuperOpt already has all required permissions." = "SuperOptは必要な権限をすべて持っています。";
 
 /* Alert body for missing permissions — %@ is the list of missing permissions */
-"SuperOpt needs the following permissions:\n\n%@\n\nGrant access in Privacy & Security settings, and then click Continue." = "SuperOpt needs the following permissions:\n\n%@\n\nGrant access in Privacy & Security settings, and then click Continue.";
+"SuperOpt needs the following permissions:\n\n%@\n\nGrant access in Privacy & Security settings, and then click Continue." = "SuperOptには以下の権限が必要です:\n\n%@\n\nプライバシーとセキュリティ設定でアクセスを許可してから、「続ける」をクリックしてください。";
 
 /* Category hint */
 "Tab and window management" = "タブとウインドウの管理";

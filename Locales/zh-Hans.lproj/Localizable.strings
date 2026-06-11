@@ -344,7 +344,7 @@
 "SuperOpt already has all required permissions." = "SuperOpt 已拥有所有所需权限。";
 
 /* Alert body for missing permissions — %@ is the list of missing permissions */
-"SuperOpt needs the following permissions:\n\n%@\n\nGrant access in Privacy & Security settings, and then click Continue." = "SuperOpt needs the following permissions:\n\n%@\n\nGrant access in Privacy & Security settings, and then click Continue.";
+"SuperOpt needs the following permissions:\n\n%@\n\nGrant access in Privacy & Security settings, and then click Continue." = "SuperOpt 需要以下权限：\n\n%@\n\n请在隐私与安全性设置中授予访问权限，然后点按「继续」。";
 
 /* Category hint */
 "Tab and window management" = "标签页和窗口管理";
