@@ -21,6 +21,9 @@
         gap: var(--shale-v1-font-2);
       }
 
+      .snippet {
+        user-select: all;
+      }
 
       .screenshot-strip {
         display: flex;
@@ -72,6 +75,7 @@
       }
 
       @media (max-width: 600px) {
+
         .feature-slide,
         .feature-slide:nth-of-type(even) {
           flex-direction: column;
@@ -175,7 +179,8 @@
           </div>
           <div class="feature-slide-text">
             <h3 class="shale-v1-h3">Tile Assist</h3>
-            <p class="shale-v1-p">After tiling a window to the left or right half, a list of other windows appears to fill
+            <p class="shale-v1-p">After tiling a window to the left or right half, a list of other windows appears to
+              fill
               the remaining space.</p>
           </div>
         </div>
@@ -253,7 +258,8 @@
           </div>
           <div class="shale-v1-flex-third shale-v1-card feature-card">
             <h3 class="shale-v1-h3">
-              <kbd class="shale-v1-code">&#x2325;</kbd>-<kbd class="shale-v1-code">1</kbd> through <kbd class="shale-v1-code">&#x2325;</kbd>-<kbd class="shale-v1-code">9</kbd>
+              <kbd class="shale-v1-code">&#x2325;</kbd>-<kbd class="shale-v1-code">1</kbd> through <kbd
+                class="shale-v1-code">&#x2325;</kbd>-<kbd class="shale-v1-code">9</kbd>
             </h3>
             <p class="shale-v1-p">Open apps in the Dock by number. The Finder position is configurable.</p>
           </div>
@@ -368,7 +374,7 @@
 
         <div class="shale-v1-card">
           <p class="shale-v1-p">Install using Homebrew:</p>
-          <pre class="shale-v1-code" style="user-select: all">brew install logonoff/bucket/superopt</pre>
+          <pre class="shale-v1-code snippet">brew install logonoff/bucket/superopt</pre>
           <p class="shale-v1-p">
             Or download the latest release directly from
             <a href="https://github.com/logonoff/superopt/releases/latest" target="_blank" rel="noopener"
@@ -378,36 +384,39 @@
         </div>
 
         <div class="shale-v1-flex-space-between">
-          <div class="shale-v1-flex-third shale-v1-card feature-card shale-v1-note-info">
+          <div class="shale-v1-flex-half shale-v1-card feature-card shale-v1-note-info">
             <strong>Permissions</strong>
             <p class="shale-v1-note-text">
               SuperOpt requires <strong>Accessibility</strong> and <strong>Input Monitoring</strong> permissions
               in System Settings &gt; Privacy &amp; Security. The app asks for permissions the first time you open it.
             </p>
           </div>
-          <div class="shale-v1-flex-third shale-v1-card feature-card shale-v1-note-info">
-            <strong>Trust &amp; Verification</strong>
-            <p class="shale-v1-note-text">
-              SuperOpt is not notarized (no Apple Developer Program membership). To verify authenticity:
-              every release has a
-              <a href="https://github.com/logonoff/superopt/attestations" target="_blank" rel="noopener"
-                class="shale-v1-link">GitHub build attestation</a>
-              linking the artifact to its source commit and workflow run. Verify locally with:
-            </p>
-            <pre class="shale-v1-code" style="user-select: all">gh attestation verify SuperOpt.zip --repo logonoff/superopt</pre>
-            <p class="shale-v1-note-text">
-              Releases are immutable (tags and assets are never replaced), the Homebrew cask pins a SHA-256 hash,
-              and all commits are GPG-signed. The code signing
-              <a href="codesign.pem" class="shale-v1-link" download>public key</a> is available for verification.
-            </p>
-          </div>
-          <div class="shale-v1-flex-third shale-v1-card feature-card shale-v1-note-warn">
+          <div class="shale-v1-flex-half shale-v1-card feature-card shale-v1-note-warn">
             <strong>Warning</strong>
             <p class="shale-v1-note-text">
-              This project is AI slop and the code has not been vetted by a human. Use at your own risk!
+              This project is AI slop and the code has not been thoroughly vetted by a human. Use at your own risk!
             </p>
           </div>
         </div>
+        <div class="shale-v1-flex-center">
+          <h3 class="shale-v1-h3">Verification</h3>
+        </div>
+        <p class="shale-v1-p">
+          SuperOpt is not notarized (I refuse to pay for the Apple Developer Program).
+          <br><br>
+          Instead, every release has a <a href="https://github.com/logonoff/superopt/attestations" target="_blank"
+            rel="noopener" class="shale-v1-link">GitHub build attestation</a> linking the artifact to its source commit
+          and workflow
+          run, ensuring the binary was built from the published source code and not tampered with after the fact. Verify
+          with <code class="shale-v1-code snippet">gh attestation verify SuperOpt.zip --repo logonoff/superopt</code>.
+          <br><br>
+          <a href="https://docs.github.com/en/code-security/concepts/supply-chain-security/immutable-releases"
+            target="_blank" rel="noopener" class="shale-v1-link">Releases are immutable</a>, the Homebrew cask pins a
+          SHA-256 hash, and all commits are GPG-signed.
+          <br><br>
+          The code signing <a href="codesign.pem" class="shale-v1-link" target="_blank" rel="noopener" download>public
+            key</a> is also available.
+        </p>
       </section>
 
       <section id="shortcut-mapping">
@@ -418,7 +427,8 @@
           Maps Linux/GNOME keyboard shortcuts to their macOS equivalents — <kbd class="shale-v1-code">Control</kbd>-<kbd
             class="shale-v1-code">C</kbd>/<kbd class="shale-v1-code">V</kbd>/<kbd class="shale-v1-code">X</kbd>/<kbd
             class="shale-v1-code">Z</kbd>,
-          browser shortcuts, terminal shortcuts, and more. Each shortcut can be individually turned on or off in settings.
+          browser shortcuts, terminal shortcuts, and more. Each shortcut can be individually turned on or off in
+          settings.
         </p>
 
         <div class="shale-v1-card" style="padding: 0">

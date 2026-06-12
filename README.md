@@ -7,7 +7,7 @@
 [![WTFPL](http://www.wtfpl.net/wp-content/uploads/2012/12/wtfpl-badge-4.png)](http://www.wtfpl.net/)
 
 > [!WARNING]
-> This is AI slop and I have not vetted the code. Use at your own risk!
+> This is AI slop and I have not thoroughly vetted the code. Use at your own risk!
 
 A macOS menu bar app that brings GNOME desktop muscle memory to macOS. Requires **macOS Tahoe 26** or later.
 
@@ -31,12 +31,12 @@ The app is not notarized. Control-click and choose "Open" the first time you ope
 xattr -d com.apple.quarantine /Applications/SuperOpt.app
 ```
 
-### Trust & Verification
+### Verification
 
-Releases are signed with a self-signed certificate (RSA-2048, CN=SuperOpt). The app is not notarized (no Apple Developer Program membership). To compensate:
+Releases are signed with a self-signed certificate (RSA-2048, CN=SuperOpt). The app is not notarized (I refuse to pay for the Apple Developer Program). To compensate:
 
-- **[Build attestations](https://github.com/logonoff/superopt/attestations)** — every release zip has a GitHub build provenance attestation linking the artifact to the exact source commit and workflow run. Verify with `gh attestation verify SuperOpt.zip --repo logonoff/superopt`.
-- **Immutable releases** — tags are never moved or deleted, and release assets are never replaced. The Homebrew cask pins a SHA-256 hash.
+- **[Build attestations](https://github.com/logonoff/superopt/attestations)**: every release zip has a GitHub build provenance attestation linking the artifact to the exact source commit and workflow run, ensuring the binary was built from the published source code and not tampered with after the fact. Verify with `gh attestation verify SuperOpt.zip --repo logonoff/superopt`.
+- **[Immutable releases](https://docs.github.com/en/code-security/concepts/supply-chain-security/immutable-releases)**: tags with releases are never moved, and release assets are never replaced. The Homebrew cask pins a SHA-256 hash.
 - **Signed commits** — all commits to `main` are GPG-signed.
 
 Code signing public key ([`codesign.pem`](https://logonoff.github.io/superopt/codesign.pem), RSA-2048, SHA-256 `4fbb60bb36dee64f`).
