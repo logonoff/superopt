@@ -38,7 +38,7 @@
 "Cancel" = "Cancelar";
 
 /* No comment provided by engineer. */
-"Caps Lock Indicator" = "Indicador de Bloq Mayús";
+"Caps Lock Indicator" = "Indicador de Bloqueo mayúsculas";
 
 /* No comment provided by engineer. */
 "Clear Browsing Data" = "Borrar datos de navegación";
@@ -335,7 +335,7 @@
 "Shows a black bar behind the menu bar when a window fills the screen" = "Muestra una barra negra detrás de la barra de menús cuando una ventana llena la pantalla";
 
 /* No comment provided by engineer. */
-"Shows an onscreen indicator when Caps Lock is turned on or off" = "Muestra un indicador en pantalla cuando se activa o desactiva Bloq Mayús";
+"Shows an onscreen indicator when Caps Lock is turned on or off" = "Muestra un indicador en pantalla cuando se activa o desactiva Bloqueo mayúsculas";
 
 /* Toggle description */
 "Suggests windows to fill the other half after tiling left or right" = "Sugiere ventanas para llenar la otra mitad tras organizar a la izquierda o derecha";
@@ -416,10 +416,10 @@
 "↖/↘ → Line Start/End" = "↖/↘ → Inicio/Fin de línea";
 
 /* OSD text when Caps Lock is turned off */
-"⇪ Caps Lock Off" = "⇪ Bloq Mayús desactivado";
+"⇪ Caps Lock Off" = "⇪ Bloqueo mayúsculas desactivado";
 
 /* OSD text when Caps Lock is turned on */
-"⇪ Caps Lock On" = "⇪ Bloq Mayús activado";
+"⇪ Caps Lock On" = "⇪ Bloqueo mayúsculas activado";
 
 /* Finder cut picker option */
 "⌃X and ⌃V" = "⌃X y ⌃V";

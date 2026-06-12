@@ -194,7 +194,7 @@
 "Move to Trash" = "نقل إلى سلة المهملات";
 
 /* No comment provided by engineer. */
-"Moving the pointer to the top-left corner opens Mission Control" = "يؤدي تحريك المؤشر إلى الزاوية العلوية اليسرى إلى فتح Mission Control";
+"Moving the pointer to the top-left corner opens Mission Control" = "يؤدي تحريك المؤشر إلى الزاوية العلوية اليسرى إلى فتح إدارة المهام";
 
 /* Scroll zoom picker option */
 "Natural" = "طبيعي";
@@ -233,7 +233,7 @@
 "Option plus a number row key opens the corresponding app in the Dock" = "يؤدي الضغط على Option مع مفتاح في صف الأرقام إلى فتح التطبيق المقابل في Dock";
 
 /* No comment provided by engineer. */
-"Option-A opens Spotlight Apps" = "Option-A يفتح تطبيقات Spotlight";
+"Option-A opens Spotlight Apps" = "Option-A يفتح تطبيقات الباحث";
 
 /* No comment provided by engineer. */
 "Option-arrow keys tile, maximize, or restore windows" = "مفاتيح Option-الأسهم تبلّط النوافذ أو تكبّرها أو تستعيدها";
@@ -254,10 +254,10 @@
 "Permissions Required" = "الأذونات مطلوبة";
 
 /* No comment provided by engineer. */
-"Pressing Option opens Mission Control" = "الضغط على Option يفتح Mission Control";
+"Pressing Option opens Mission Control" = "الضغط على Option يفتح إدارة المهام";
 
 /* No comment provided by engineer. */
-"Pressing Option twice opens Spotlight Apps" = "الضغط على Option مرتين يفتح تطبيقات Spotlight";
+"Pressing Option twice opens Spotlight Apps" = "الضغط على Option مرتين يفتح تطبيقات الباحث";
 
 /* No comment provided by engineer. */
 "Print" = "طباعة";
@@ -428,7 +428,7 @@
 "⌘X and ⌘V" = "⌘X و ⌘V";
 
 /* Toggle label */
-"⌥ → Mission Control" = "⌥ → Mission Control";
+"⌥ → Mission Control" = "⌥ → إدارة المهام";
 
 /* Toggle label */
 "⌥1–9 → Dock App" = "⌥1–9 → تطبيق Dock";

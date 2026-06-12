@@ -108,6 +108,28 @@ for LPROJ in Locales/*.lproj; do
     }
     ' "$STRINGS" "$LPROJ_SRC/Localizable.strings" > "${STRINGS}.tmp"
     mv "${STRINGS}.tmp" "$STRINGS"
+
+    # Fail if any translation value equals the English source (untranslated).
+    # Excludes: single-word keys, and shortcut labels (starting with ⌥/⌃/⇧/⌘).
+    UNTRANSLATED=$(awk '
+    NR == FNR {
+        if (/^"/) en[NR] = $0
+        next
+    }
+    /^"/ {
+        key = $0; sub(/^"/, "", key); sub(/".*/, "", key)
+        if (key !~ / /) next
+        if (key ~ /^[⌥⌃⇧⌘⇪]/) next
+        for (i in en) {
+            if (en[i] == $0) { print key; break }
+        }
+    }
+    ' "$LPROJ_SRC/Localizable.strings" "$STRINGS")
+    if [ -n "$UNTRANSLATED" ]; then
+        echo "Error: $LANG has untranslated strings (value = English source):"
+        echo "$UNTRANSLATED" | sed "s/^/  /"
+        exit 1
+    fi
 done
 
 cp -R Locales/*.lproj "$APP_BUNDLE/Contents/Resources/"

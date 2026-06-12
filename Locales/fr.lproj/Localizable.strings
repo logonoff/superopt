@@ -38,7 +38,7 @@
 "Cancel" = "Annuler";
 
 /* No comment provided by engineer. */
-"Caps Lock Indicator" = "Indicateur Caps Lock";
+"Caps Lock Indicator" = "Indicateur Verrouillage majuscule";
 
 /* No comment provided by engineer. */
 "Clear Browsing Data" = "Effacer les données de navigation";
@@ -335,7 +335,7 @@
 "Shows a black bar behind the menu bar when a window fills the screen" = "Affiche une barre noire derrière la barre de menus quand une fenêtre remplit l'écran";
 
 /* No comment provided by engineer. */
-"Shows an onscreen indicator when Caps Lock is turned on or off" = "Affiche un indicateur à l'écran lorsque Caps Lock est activé ou désactivé";
+"Shows an onscreen indicator when Caps Lock is turned on or off" = "Affiche un indicateur à l'écran lorsque Verrouillage majuscule est activé ou désactivé";
 
 /* Toggle description */
 "Suggests windows to fill the other half after tiling left or right" = "Suggère des fenêtres pour remplir l'autre moitié après disposition à gauche ou à droite";
@@ -368,7 +368,7 @@
 "Traditional" = "Traditionnel";
 
 /* No comment provided by engineer. */
-"Turn off Show Menu Bar Background in System Settings to use this feature" = "Désactivez 'Afficher l'arrière-plan de la barre des menus' dans Réglages du système pour utiliser cette fonctionnalité";
+"Turn off Show Menu Bar Background in System Settings to use this feature" = "Désactivez 'Afficher l'arrière-plan de la barre des menus' dans Réglages Système pour utiliser cette fonctionnalité";
 
 /* Alert title when login item registration fails */
 "Unable to Update Login Item" = "Impossible de mettre à jour l'élément d'ouverture de session";
@@ -401,7 +401,7 @@
 "Word-level navigation, deletion, and formatting" = "Navigation, suppression et mise en forme au niveau du mot";
 
 /* Alert body directing user to login items settings */
-"You can manage login items in System Settings > General > Login Items." = "Vous pouvez gérer les éléments d'ouverture dans Réglages du système > Général > Éléments de connexion.";
+"You can manage login items in System Settings > General > Login Items." = "Vous pouvez gérer les éléments d'ouverture dans Réglages Système > Général > Éléments de connexion.";
 
 /* Category hint */
 "Zoom and full screen" = "Zoom et plein écran";
@@ -416,10 +416,10 @@
 "↖/↘ → Line Start/End" = "↖/↘ → Début/Fin de ligne";
 
 /* OSD text when Caps Lock is turned off */
-"⇪ Caps Lock Off" = "⇪ Caps Lock désactivé";
+"⇪ Caps Lock Off" = "⇪ Verrouillage majuscule désactivé";
 
 /* OSD text when Caps Lock is turned on */
-"⇪ Caps Lock On" = "⇪ Caps Lock activé";
+"⇪ Caps Lock On" = "⇪ Verrouillage majuscule activé";
 
 /* Finder cut picker option */
 "⌃X and ⌃V" = "⌃X et ⌃V";

@@ -38,7 +38,7 @@
 "Cancel" = "取消";
 
 /* No comment provided by engineer. */
-"Caps Lock Indicator" = "Caps Lock 指示器";
+"Caps Lock Indicator" = "大写锁定指示器";
 
 /* No comment provided by engineer. */
 "Clear Browsing Data" = "清除浏览数据";
@@ -233,7 +233,7 @@
 "Option plus a number row key opens the corresponding app in the Dock" = "按住Option键加数字行按键可打开程序坞中对应的应用";
 
 /* No comment provided by engineer. */
-"Option-A opens Spotlight Apps" = "Option-A 打开 Spotlight 应用";
+"Option-A opens Spotlight Apps" = "Option-A 打开聚焦应用";
 
 /* No comment provided by engineer. */
 "Option-arrow keys tile, maximize, or restore windows" = "Option-方向键可平铺、最大化或恢复窗口";
@@ -257,7 +257,7 @@
 "Pressing Option opens Mission Control" = "按下 Option 即可打开调度中心";
 
 /* No comment provided by engineer. */
-"Pressing Option twice opens Spotlight Apps" = "按两次 Option 即可打开 Spotlight 应用";
+"Pressing Option twice opens Spotlight Apps" = "按两次 Option 即可打开聚焦应用";
 
 /* No comment provided by engineer. */
 "Print" = "打印";
@@ -416,10 +416,10 @@
 "↖/↘ → Line Start/End" = "↖/↘ → 行首/行尾";
 
 /* OSD text when Caps Lock is turned off */
-"⇪ Caps Lock Off" = "⇪ Caps Lock 已关闭";
+"⇪ Caps Lock Off" = "⇪ 大写锁定 已关闭";
 
 /* OSD text when Caps Lock is turned on */
-"⇪ Caps Lock On" = "⇪ Caps Lock 已开启";
+"⇪ Caps Lock On" = "⇪ 大写锁定 已开启";
 
 /* Finder cut picker option */
 "⌃X and ⌃V" = "⌃X和⌃V";
