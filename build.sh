@@ -155,6 +155,8 @@ if [ -d "Icon.icon" ] && actool --version &>/dev/null; then
     if [ -f "$ICNS" ]; then
         sips -s format png -z 256 256 "$ICNS" --out docs/favicon.png &>/dev/null
     fi
+    # actool spawns ibtoold as a background daemon that outlives the build
+    pkill -9 ibtoold 2>/dev/null || true
 else
     echo "Skipping icon (actool not available or Icon.icon not found)"
 fi
