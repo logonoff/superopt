@@ -9,7 +9,7 @@
 > [!WARNING]
 > This is AI slop and I have not thoroughly vetted the code. Use at your own risk!
 
-A macOS menu bar app that brings GNOME desktop muscle memory to macOS. Requires **macOS Tahoe 26** or later.
+A macOS menu bar app that brings GNOME desktop muscle memory to macOS. Requires **macOS Golden Gate 27** or later.
 
 ## Install
 

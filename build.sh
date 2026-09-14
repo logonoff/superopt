@@ -5,6 +5,10 @@ APP_NAME="SuperOpt"
 BUILD_DIR="build"
 APP_BUNDLE="$BUILD_DIR/$APP_NAME.app"
 
+# Must match LSMinimumSystemVersion in Info.plist and actool's
+# --minimum-deployment-target below.
+DEPLOYMENT_TARGET="27.0"
+
 # Load signing identity from .env if present (CODESIGN_IDENTITY="Your Certificate Name")
 if [ -f .env ]; then
     source .env
@@ -26,8 +30,13 @@ fi
 # Compile the app bundle
 mkdir -p "$BUILD_DIR"
 
+# swiftc defaults the deployment target to a version newer than the running OS
+# (minos 28.0 on macOS 27), which makes LaunchServices refuse to launch the app
+# with kLSIncompatibleSystemVersionErr (-10825). MACOSX_DEPLOYMENT_TARGET is
+# ignored here, so the target has to be passed explicitly.
 swiftc Sources/*.swift \
     -o "$BUILD_DIR/$APP_NAME" \
+    -target "$(uname -m)-apple-macos$DEPLOYMENT_TARGET" \
     -framework Cocoa \
     -O
 
@@ -146,7 +155,7 @@ if [ -d "Icon.icon" ] && actool --version &>/dev/null; then
         --enable-on-demand-resources NO \
         --development-region en \
         --target-device mac \
-        --minimum-deployment-target 26.0 \
+        --minimum-deployment-target "$DEPLOYMENT_TARGET" \
         --platform macosx 2>&1) || { echo "$ACTOOL_OUT"; exit 1; }
     /usr/libexec/PlistBuddy -c "Add :CFBundleIconName string Icon" "$APP_BUNDLE/Contents/Info.plist" 2>/dev/null || \
     /usr/libexec/PlistBuddy -c "Set :CFBundleIconName Icon" "$APP_BUNDLE/Contents/Info.plist"

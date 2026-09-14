@@ -4,6 +4,6 @@ import PackageDescription
 
 let package = Package(
     name: "SuperOpt",
-    platforms: [.macOS("26.0")],
+    platforms: [.macOS("27.0")],
     targets: [.executableTarget(name: "SuperOpt", path: "Sources")]
 )
