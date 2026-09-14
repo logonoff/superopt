@@ -20,15 +20,19 @@ enum ElectronTerminalDetector {
         "com.todesktop.230313mzl4w4u92" // Cursor
     ]
 
-    /// VS Code labels the terminal's input "Terminal 3, zsh …" while the editor is an
-    /// `AXTextArea` described as "The editor is not accessible at this time …", and
-    /// other text fields (command palette, find) carry no such prefix. Matching the
-    /// role and this prefix picks out the terminal and nothing else.
+    /// Class on the hidden textarea that xterm.js gives keyboard focus to. Chromium
+    /// exposes an element's DOM classes through the private `AXDOMClassList`
+    /// attribute, and nothing else in the editor carries this one: the command
+    /// palette and quick open are `input`, the chat box is a hashed CSS-module name,
+    /// and list rows are `monaco-list-row`.
     ///
-    /// The label comes from VS Code's own localisation, so this only matches an
-    /// English VS Code UI. Failing to match just means the terminal is treated as a
-    /// normal text field, which is the old behaviour.
-    private static let terminalLabelPrefix = "Terminal "
+    /// Matched in preference to the accessibility label, which is localised — VS Code
+    /// renders `"Terminal {0}, {1}"` as `"终端 1，zsh"` in Chinese — and which also
+    /// varies by state, with separate strings for a stale environment and for a
+    /// terminal with no title. A DOM class is neither translated nor user visible.
+    /// It comes from xterm.js rather than VS Code, so it holds for any editor that
+    /// embeds xterm.js.
+    private static let terminalClassName = "xterm-helper-textarea"
 
     /// Only ever touched from the CGEvent tap callback, which runs on the main run
     /// loop, so no synchronisation is needed. Matches how the other KeyboardUtils
@@ -52,15 +56,12 @@ enum ElectronTerminalDetector {
               let focused = focusedRef.flatMap(KeyboardUtils.toAXElement)
         else { return false }
 
-        var roleRef: AnyObject?
-        AXUIElementCopyAttributeValue(focused, kAXRoleAttribute as CFString, &roleRef)
-        guard roleRef as? String == kAXTextFieldRole else { return false }
-
-        var descriptionRef: AnyObject?
-        AXUIElementCopyAttributeValue(
-            focused, kAXDescriptionAttribute as CFString, &descriptionRef)
-        guard let label = descriptionRef as? String else { return false }
-        return label.hasPrefix(terminalLabelPrefix)
+        var classListRef: AnyObject?
+        guard AXUIElementCopyAttributeValue(
+            focused, "AXDOMClassList" as CFString, &classListRef) == .success,
+              let classList = classListRef as? [String]
+        else { return false }
+        return classList.contains(terminalClassName)
     }
 
     /// Chromium apps build no accessibility tree until an assistive client asks for
