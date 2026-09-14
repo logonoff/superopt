@@ -27,10 +27,8 @@ class MissionControlCloseHandler {
     }
 
     private var windowRects: [WindowEntry] = []
-    private var ghostRects: [WindowEntry] = []
     private var unclosableWIDs: Set<UInt32> = []
     private var closableWIDs: Set<UInt32> = []
-    private var recentlyClosedWIDs: Set<UInt32> = []
 
     private static let buttonSize: CGFloat = 26
     private static let hitPadding: CGFloat = 9
@@ -120,12 +118,11 @@ class MissionControlCloseHandler {
     func handleClick(event: CGEvent) -> Bool {
         guard mcActive else { return false }
         let loc = event.location
-        if ghostRects.contains(where: { $0.rect.contains(loc) }) { return true }
         guard hoveredWID != 0,
               let entry = windowRects.first(where: { $0.wid == hoveredWID }),
               hitTestCGRect(for: entry.rect).contains(loc)
         else { return false }
-        closeWindow(pid: entry.pid, windowID: entry.wid, cursorLocation: loc)
+        closeWindow(pid: entry.pid, windowID: entry.wid)
         return true
     }
 
@@ -140,8 +137,6 @@ class MissionControlCloseHandler {
             if checkMCState() { return false }
         }
         guard mcActive else { return false }
-
-        if ghostRects.contains(where: { $0.rect.contains(loc) }) { return true }
 
         let hitWID = windowRects.first(where: { $0.rect.contains(loc) })?.wid ?? 0
         let overButton: Bool
@@ -184,9 +179,8 @@ class MissionControlCloseHandler {
     private func deactivateMC() {
         mcActive = false; hoveredWID = 0; buttonHovered = false
         stopPositionTimer(); hideOverlay()
-        windowRects.removeAll(); ghostRects.removeAll()
+        windowRects.removeAll()
         unclosableWIDs.removeAll(); closableWIDs.removeAll()
-        recentlyClosedWIDs.removeAll()
     }
 
     private func refreshWindowRects(from windowList: [[String: Any]]) {
@@ -196,8 +190,7 @@ class MissionControlCloseHandler {
             guard let wid = info[kCGWindowNumber as String] as? UInt32,
                   let layer = info[kCGWindowLayer as String] as? Int, layer == 0,
                   let pid = info[kCGWindowOwnerPID as String] as? pid_t,
-                  pid != myPID, !unclosableWIDs.contains(wid),
-                  !recentlyClosedWIDs.contains(wid)
+                  pid != myPID, !unclosableWIDs.contains(wid)
             else { continue }
             var screenRect = CGRect.zero
             guard getScreenRect(cid, wid, &screenRect) == 0,
@@ -258,55 +251,13 @@ extension MissionControlCloseHandler {
         return ref.flatMap(KeyboardUtils.toAXElement)
     }
 
-    fileprivate func closeWindow(pid: pid_t, windowID: UInt32, cursorLocation: CGPoint = .zero) {
+    fileprivate func closeWindow(pid: pid_t, windowID: UInt32) {
         guard let win = KeyboardUtils.findAXWindow(pid: pid, windowID: windowID),
               let btn = axCloseButton(of: win) else { return }
-        var screenRect = CGRect.zero
-        _ = getScreenRect(cid, windowID, &screenRect)
         AXUIElementPerformAction(btn, kAXPressAction as CFString)
         hoveredWID = 0; hideOverlay()
         closableWIDs.remove(windowID)
-        recentlyClosedWIDs.insert(windowID)
         windowRects.removeAll(where: { $0.wid == windowID })
-        if screenRect.width > 0 {
-            ghostRects.append(WindowEntry(wid: windowID, pid: pid, rect: screenRect))
-            nudgeMouseOff(screenRect, from: cursorLocation)
-        }
-    }
-
-    private func warpAndPost(_ point: CGPoint) {
-        CGWarpMouseCursorPosition(point)
-        CGEvent(mouseEventSource: nil, mouseType: .mouseMoved,
-                mouseCursorPosition: point, mouseButton: .left)?
-            .post(tap: .cghidEventTap)
-    }
-
-    private func nudgeMouseOff(_ rect: CGRect, from point: CGPoint) {
-        let primaryHeight = KeyboardUtils.primaryScreenHeight()
-        let nsPoint = NSPoint(x: point.x, y: primaryHeight - point.y)
-        let screenFrame = NSScreen.screens.first(where: {
-            $0.frame.contains(nsPoint)
-        })?.frame ?? NSScreen.main?.frame ?? .zero
-        let screenCG = CGRect(
-            x: screenFrame.origin.x, y: primaryHeight - screenFrame.maxY,
-            width: screenFrame.width, height: screenFrame.height)
-
-        let offset: CGFloat = 20
-        var nudged = point
-        let rightNudge = rect.maxX + offset
-        let leftNudge = rect.minX - offset
-        if rightNudge <= screenCG.maxX {
-            nudged.x = rect.maxX + offset
-        } else if leftNudge >= screenCG.minX {
-            nudged.x = rect.minX - offset
-        } else {
-            nudged.y = rect.maxY + offset <= screenCG.maxY
-                ? rect.maxY + offset : rect.minY - offset
-        }
-        warpAndPost(nudged)
-        DispatchQueue.main.asyncAfter(deadline: .now()) {
-            MainActor.assumeIsolated { self.warpAndPost(point) }
-        }
     }
 
     fileprivate func axIsEnabled(_ element: AXUIElement) -> Bool {
