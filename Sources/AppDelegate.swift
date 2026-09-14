@@ -256,9 +256,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
+    /// Virtual key code emitted by the Launchpad/Apps key (F4) on Apple keyboards.
+    /// macOS routes it to the Spotlight Apps view now that Launchpad is gone.
+    private static let launchPanelKeyCode: Int64 = 131
+
     fileprivate func triggerSpotlight() {
-        guard let url = URL(string: "spotlight://apps") else { return }
-        NSWorkspace.shared.open(url)
+        // Emulate the F4 key rather than opening spotlight://apps: on macOS 27 the
+        // Spotlight UI moved into Siri AI, whose spotlight: LaunchServices claim is
+        // flagged apple-internal, so NSWorkspace.open(_:) fails with
+        // kLSApplicationNotFoundErr. F4 emits key code 131 with the Fn flag set —
+        // without Fn the key does nothing. Like the real key, this toggles.
+        KeyboardUtils.postKey(Self.launchPanelKeyCode, flags: .maskSecondaryFn)
     }
     fileprivate func showSnapAssist(
         direction: SnapAssistPanel.TileDirection, screen: NSScreen

@@ -9,7 +9,7 @@ A macOS menu bar app that repurposes the Option key and adds GNOME-style hot cor
 ## Features
 
 - **Single press `⌥`** → Opens Mission Control
-- **Double press `⌥`** → Opens Spotlight Applications section (via `spotlight://apps` URL)
+- **Double press `⌥`** → Toggles the Spotlight Applications section (by emulating the F4 key)
 - **Hot corner** → Slamming mouse to top-left corner of any screen opens Mission Control with a GNOME-style ripple animation
 - **Opt+1–9** → Launches the Nth app in the Dock (position 1 = Finder, then persistent-apps from `com.apple.dock.plist`). Consumes the keypress so no special character is typed. "Finder Position" submenu lets you place Finder at any slot 1–9 (default 1), shifting other apps to fill the gap. Disabled when parent feature is off.
 - **Caps Lock OSD** → Shows a centered on-screen notification ("⇪ Caps Lock On/Off") when Caps Lock is toggled, inspired by gnome-shell-extension-lockkeys
@@ -90,7 +90,8 @@ All user-visible strings are localizable. Non-SwiftUI strings (menu items, alert
 - **Dock shortcuts**: Reads `~/Library/Preferences/com.apple.dock.plist` → `persistent-apps` array. Finder is always position 1. Virtual key codes 0x12–0x19 map to number keys 1–9.
 - **Option key "clean press"**: A press is dirty (ignored) if any other key, mouse button, or modifier is used while Option is held. This prevents triggering on Opt+Tab, Cmd+Opt, Opt+Click, etc.
 - **Double press timing**: 300ms threshold between two clean Option releases.
-- **Spotlight trigger**: Opens `spotlight://apps` URL which opens the Spotlight Applications section on macOS 26.
+- **Spotlight trigger**: Emulates the F4 (Launchpad/Apps) key by posting key code `131` with `.maskSecondaryFn` via `KeyboardUtils.postKey`. The Fn flag is required — key code 131 without it does nothing. macOS routes this key to the Spotlight Apps view now that Launchpad is gone, so this toggles the panel exactly like the hardware key does. The old `spotlight://apps` URL no longer works on macOS 27: the Spotlight UI moved into `/System/Applications/Siri AI.app` (`com.apple.campo`) and its `spotlight:` LaunchServices claim is flagged `apple-internal`, so `NSWorkspace.open(_:)` fails with `kLSApplicationNotFoundErr` ("no application set to open the URL"). Opening the URL with `open(_:withApplicationAt:)` against `com.apple.campo` also works, but depends on both the private URL scheme and the bundle ID, so key emulation is preferred.
+- **Special keys are not `systemDefined` events**: F4 emits an ordinary `keyDown`/`keyUp` with key code `131` and `maskSecondaryFn`, visible at both the HID and session taps — not an `NX_SUBTYPE_AUX_CONTROL_BUTTONS` event. Synthesizing `NX_KEYTYPE_LAUNCH_PANEL` (13) as a `systemDefined` event is correctly formed and reaches the session tap, but macOS ignores it. Verify what a special key actually emits with a listen-only tap before trying to synthesize it.
 - **Mission Control trigger**: Runs `/usr/bin/open -a "Mission Control"`.
 - **Hot corner detection**: Uses velocity-based triggering inspired by GNOME's `PressureBarrier`. GNOME accumulates cursor pressure (100px threshold in a 1000ms window) against pointer barriers. Since macOS pointer barriers are private API, we approximate by measuring cursor speed — only triggers when the cursor enters the 2px corner zone at ≥500 pts/sec, filtering out slow drifts. Resets when cursor leaves the zone.
 - **Hot corner coordinate math**: CGEvent uses flipped coordinates (0,0 = top-left of primary display). NSScreen uses bottom-left origin. Conversion via `KeyboardUtils.cgRectToNS`.
