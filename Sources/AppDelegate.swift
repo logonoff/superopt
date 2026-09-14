@@ -227,12 +227,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     // MARK: - Actions
 
+    /// Virtual key code emitted by the Mission Control key (F3) on Apple keyboards.
+    private static let missionControlKeyCode: Int64 = 160
+
     fileprivate func triggerMissionControl() {
-        let task = Process()
-        task.executableURL = URL(fileURLWithPath: "/usr/bin/open")
-        task.arguments = ["-a", "Mission Control"]
-        task.terminationHandler = { _ in }
-        try? task.run()
+        // Emulate the F3 key rather than spawning `open -a "Mission Control"`:
+        // no subprocess, and it does exactly what the hardware key does. Key code
+        // 160 needs the Fn flag set — without it the key does nothing. Like the
+        // real key, this toggles.
+        KeyboardUtils.postKey(Self.missionControlKeyCode, flags: .maskSecondaryFn)
     }
     private func setupCallbacks() {
         tileAssistWatcher.onTile = { [weak self] dir, screen in
