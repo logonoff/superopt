@@ -142,14 +142,35 @@ enum KeyboardUtils {
                       width: rect.width, height: rect.height)
     }
 
+    private static let missionControlTolerance: CGFloat = 1
+
+    /// Mission Control is drawn by the `WindowManager` process, which puts a
+    /// full-screen "Expose shield" above the normal window layer on every display
+    /// (plus a Spaces Bar strip and transient highlight overlays). No
+    /// `WindowManager` window is on screen when Mission Control is closed.
+    ///
+    /// Matched structurally — owner, layer and size — rather than by the
+    /// `ExposeShieldWindow` window name, because `kCGWindowName` is only populated
+    /// for other processes when the caller holds Screen Recording permission, which
+    /// this app never requests. The Spaces Bar is a short strip, so requiring a
+    /// full display's worth of both dimensions excludes it.
+    ///
+    /// Counting Dock windows does not work: the Dock is a single full-screen window
+    /// that is identical whether or not Mission Control is open, and it has no
+    /// on-screen window at all while the Dock is set to auto-hide.
     static func isMissionControlActive(_ windowList: [[String: Any]]) -> Bool {
-        let dockOverlays = windowList.filter { info in
-            guard let owner = info[kCGWindowOwnerName as String] as? String,
-                  let layer = info[kCGWindowLayer as String] as? Int
+        let screenSizes = NSScreen.screens.map(\.frame.size)
+        return windowList.contains { info in
+            guard info[kCGWindowOwnerName as String] as? String == "WindowManager",
+                  let layer = info[kCGWindowLayer as String] as? Int, layer > 0,
+                  let bounds = info[kCGWindowBounds as String] as? NSDictionary,
+                  let rect = CGRect(dictionaryRepresentation: bounds)
             else { return false }
-            return owner == "Dock" && layer > 0
-        }.count
-        return dockOverlays > 1
+            return screenSizes.contains { size in
+                rect.width >= size.width - missionControlTolerance
+                    && rect.height >= size.height - missionControlTolerance
+            }
+        }
     }
 
     // MARK: - AX menu item search
