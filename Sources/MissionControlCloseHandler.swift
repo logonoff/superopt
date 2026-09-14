@@ -19,6 +19,7 @@ class MissionControlCloseHandler {
     private var positionTimer: Timer?
     private var lastOverlayOrigin = NSPoint.zero
     private var stableFrames = 0
+    private var graceDeadline: TimeInterval = 0
 
     private struct WindowEntry {
         let wid: UInt32
@@ -32,6 +33,9 @@ class MissionControlCloseHandler {
 
     private static let buttonSize: CGFloat = 26
     private static let hitPadding: CGFloat = 9
+    private static let slowInterval: TimeInterval = 0.25
+    /// How long to keep polling after a trigger before giving up on Mission Control.
+    private static let graceWindow: TimeInterval = 2.0
 
     init?() {
         // Private: CGSGetScreenRectForWindow returns the on-screen compositor bounds
@@ -82,8 +86,30 @@ class MissionControlCloseHandler {
         cachedRefreshRate = maxRate
     }
 
-    private func setTimerRate(fast: Bool) {
-        let interval: TimeInterval = fast ? 1.0 / cachedRefreshRate : 0.25
+    private enum TickRate {
+        case slow // Mission Control up, nothing animating
+        case fast // thumbnails animating, follow them at the display's rate
+    }
+
+    /// Called when something that might open Mission Control happens — the app
+    /// triggering it, or an F3 seen by the event tap. Entering or leaving Mission
+    /// Control with the pointer held still produces no mouse-moved event, so without
+    /// this the tap hook would neither raise the button on the way in nor clear it on
+    /// the way out. Polling starts here rather than running all the time so nothing
+    /// ticks while Mission Control is closed.
+    func noteMissionControlTrigger() {
+        guard enabled, !mcActive else { return }
+        graceDeadline = ProcessInfo.processInfo.systemUptime + Self.graceWindow
+        lastCheckTime = 0 // check on the very next tick rather than waiting out the throttle
+        setTickRate(.slow)
+    }
+
+    private func setTickRate(_ rate: TickRate) {
+        let interval: TimeInterval
+        switch rate {
+        case .slow: interval = Self.slowInterval
+        case .fast: interval = 1.0 / cachedRefreshRate
+        }
         if let existing = positionTimer, abs(existing.timeInterval - interval) < 0.01 {
             return
         }
@@ -91,11 +117,32 @@ class MissionControlCloseHandler {
         positionTimer = Timer.scheduledTimer(
             withTimeInterval: interval, repeats: true
         ) { [weak self] _ in
-            MainActor.assumeIsolated { self?.updateOverlay() }
+            MainActor.assumeIsolated { self?.onTick() }
         }
     }
 
-    private func stopPositionTimer() {
+    private func onTick() {
+        if checkMCStateIfDue() { return } // deactivateMC already hid the overlay
+        guard mcActive else {
+            // Mission Control never appeared after the trigger — stop ticking.
+            if ProcessInfo.processInfo.systemUptime > graceDeadline { stopTimer() }
+            return
+        }
+        // Derive hover from where the pointer is now rather than from a move event.
+        updateHover(at: CGEvent(source: nil)?.location ?? .zero)
+        if hoveredWID != 0 { updateOverlay() }
+    }
+
+    /// Throttled so the position timer, which runs at the display refresh rate while
+    /// thumbnails animate, doesn't walk the whole window list every frame.
+    private func checkMCStateIfDue() -> Bool {
+        let now = ProcessInfo.processInfo.systemUptime
+        guard now - lastCheckTime >= checkInterval else { return false }
+        lastCheckTime = now
+        return checkMCState()
+    }
+
+    private func stopTimer() {
         positionTimer?.invalidate()
         positionTimer = nil
         stableFrames = 0
@@ -131,33 +178,27 @@ class MissionControlCloseHandler {
         guard enabled, !KeyboardUtils.isSynthetic(event) else { return false }
         let loc = event.location
 
-        let now = ProcessInfo.processInfo.systemUptime
-        if now - lastCheckTime >= checkInterval {
-            lastCheckTime = now
-            if checkMCState() { return false }
-        }
+        if checkMCStateIfDue() { return false }
         guard mcActive else { return false }
+        updateHover(at: loc)
+        return false
+    }
 
+    private func updateHover(at loc: CGPoint) {
         let hitWID = windowRects.first(where: { $0.rect.contains(loc) })?.wid ?? 0
-        let overButton: Bool
+        var overButton = false
         if hitWID != 0, let entry = windowRects.first(where: { $0.wid == hitWID }) {
             overButton = hitTestCGRect(for: entry.rect).contains(loc)
-        } else {
-            overButton = false
         }
-
-        let changed = hitWID != hoveredWID || overButton != buttonHovered
+        guard hitWID != hoveredWID || overButton != buttonHovered else { return }
         hoveredWID = hitWID
         buttonHovered = overButton
-        if changed {
-            updateOverlay()
-            if hoveredWID != 0 {
-                stableFrames = 0; setTimerRate(fast: true)
-            } else {
-                stopPositionTimer()
-            }
+        if hoveredWID != 0 {
+            stableFrames = 0; setTickRate(.fast)
+        } else {
+            setTickRate(.slow)
         }
-        return false
+        updateOverlay()
     }
 
     private func checkMCState() -> Bool {
@@ -166,8 +207,11 @@ class MissionControlCloseHandler {
             kCGNullWindowID) as? [[String: Any]]
         else { return false }
         if KeyboardUtils.isMissionControlActive(windowList) {
+            let wasActive = mcActive
             mcActive = true
             refreshWindowRects(from: windowList)
+            // A mouse move can be what discovers Mission Control; start following it.
+            if !wasActive { setTickRate(.slow) }
             return false
         } else if mcActive {
             deactivateMC()
@@ -178,9 +222,10 @@ class MissionControlCloseHandler {
 
     private func deactivateMC() {
         mcActive = false; hoveredWID = 0; buttonHovered = false
-        stopPositionTimer(); hideOverlay()
+        hideOverlay()
         windowRects.removeAll()
         unclosableWIDs.removeAll(); closableWIDs.removeAll()
+        stopTimer()
     }
 
     private func refreshWindowRects(from windowList: [[String: Any]]) {
@@ -223,10 +268,10 @@ class MissionControlCloseHandler {
 
         if moved {
             stableFrames = 0
-            setTimerRate(fast: true)
+            setTickRate(.fast)
         } else {
             stableFrames += 1
-            if stableFrames > Int(cachedRefreshRate * 2) { setTimerRate(fast: false) }
+            if stableFrames > Int(cachedRefreshRate * 2) { setTickRate(.slow) }
         }
 
         if let existing = overlay {

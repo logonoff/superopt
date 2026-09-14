@@ -236,6 +236,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // 160 needs the Fn flag set — without it the key does nothing. Like the
         // real key, this toggles.
         KeyboardUtils.postKey(Self.missionControlKeyCode, flags: .maskSecondaryFn)
+        // The synthetic key is skipped by handleKeyDown, so flag it from here.
+        mcCloseHandler?.noteMissionControlTrigger()
     }
     private func setupCallbacks() {
         tileAssistWatcher.onTile = { [weak self] dir, screen in
@@ -421,6 +423,11 @@ extension AppDelegate {
 
     private func handleKeyDown(event: CGEvent) -> Bool {
         if KeyboardUtils.isSynthetic(event) { return false }
+        // Not consumed — just tells the close-button handler to start looking for
+        // Mission Control, since opening it from the keyboard moves no mouse.
+        if event.getIntegerValueField(.keyboardEventKeycode) == Self.missionControlKeyCode {
+            mcCloseHandler?.noteMissionControlTrigger()
+        }
         if isEnabled("dockShortcutsEnabled")
             && dockLauncher.handleKeyDown(event: event, finderPosition: dockFinderPosition) {
             optionKeyHandler.markOtherInput(); return true
