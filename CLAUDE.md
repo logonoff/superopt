@@ -125,7 +125,7 @@ The signing identity is read from `CODESIGN_IDENTITY` in `.env` (local) or envir
 
 ## CI
 
-GitHub Actions workflow at `.github/workflows/release.yml` — triggers on `x.y.z` tags, builds on `macos-27`, creates a GitHub release with `SuperOpt.zip` attached. Release notes are generated from `git log` since the previous tag. The CI imports a signing certificate from repository secrets (`CODESIGN_P12`, `CODESIGN_P12_PASSWORD`, `CODESIGN_IDENTITY`) into a temporary keychain for code signing. After the release, the workflow auto-updates the Homebrew cask (`Casks/superopt.rb`) with the new version and SHA via the GraphQL API (signed commit), then triggers a `repository_dispatch` to `logonoff/homebrew-bucket` to sync the cask there too.
+GitHub Actions workflow at `.github/workflows/release.yml` — triggers on `x.y.z` tags, builds on `xcode-27`, creates a GitHub release with `SuperOpt.zip` attached. Release notes are generated from `git log` since the previous tag. The CI imports a signing certificate from repository secrets (`CODESIGN_P12`, `CODESIGN_P12_PASSWORD`, `CODESIGN_IDENTITY`) into a temporary keychain for code signing. After the release, the workflow auto-updates the Homebrew cask (`Casks/superopt.rb`) with the new version and SHA via the GraphQL API (signed commit), then triggers a `repository_dispatch` to `logonoff/homebrew-bucket` to sync the cask there too.
 
 A `Makefile` is also available with targets: `build`, `install`, `run` (kill → clean → install --run), `kill`, `clean`.
 
