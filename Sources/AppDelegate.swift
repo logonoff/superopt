@@ -74,6 +74,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         "windowTilingEnabled": false,
         "snapAssistEnabled": false,
         "gnomeShortcutsEnabled": false,
+        "vscodeTerminalEnabled": false,
         "finderCutMode": FinderCutMode.off.rawValue,
         "middleClickPasteEnabled": false,
         "zoomButtonEnabled": false,

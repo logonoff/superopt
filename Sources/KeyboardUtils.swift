@@ -40,7 +40,8 @@ enum KeyboardUtils {
         guard let bundleID = NSWorkspace.shared.frontmostApplication?.bundleIdentifier else {
             return false
         }
-        return terminalBundleIDs.contains(bundleID)
+        if terminalBundleIDs.contains(bundleID) { return true }
+        return ElectronTerminalDetector.isFocusedOnIntegratedTerminal()
     }
 
     static let browserBundleIDs: Set<String> = [
@@ -86,7 +87,10 @@ enum KeyboardUtils {
         guard let bundleID = NSWorkspace.shared.frontmostApplication?.bundleIdentifier else {
             return false
         }
-        return codeEditorBundleIDs.contains(bundleID)
+        // The integrated terminal is not the editor: editor shortcuts like Ctrl+/
+        // (comment) mean nothing at a shell prompt.
+        guard codeEditorBundleIDs.contains(bundleID) else { return false }
+        return !ElectronTerminalDetector.isFocusedOnIntegratedTerminal()
     }
 
     static func isFinderApp() -> Bool {

@@ -72,6 +72,7 @@ struct SettingsView: View {
     @AppStorage("scrollZoomMode") var scrollZoomMode = ScrollZoomMode.off.rawValue
     @AppStorage("menuKeyRightClickEnabled") var menuKeyRightClick = false
     @AppStorage("gnomeShortcutsEnabled") var gnomeShortcuts = false
+    @AppStorage("vscodeTerminalEnabled") var vscodeTerminal = false
     @AppStorage("mcCloseEnabled") var mcClose = true
     @AppStorage("menuBarBgEnabled") var menuBarBg = false
     @AppStorage("SLSMenuBarUseBlurredAppearance") var systemMenuBarBgOn = false
@@ -192,6 +193,14 @@ struct SettingsView: View {
                 }
 
                 if gnomeShortcuts {
+                    Toggle(isOn: $vscodeTerminal) {
+                        Text("Detect VS Code Integrated Terminal")
+                        Text("""
+                            Treats the terminal panel in VS Code and Cursor as a terminal, \
+                            so Control-C and similar shortcuts pass through unchanged
+                            """)
+                    }
+
                     ForEach(GnomeShortcutHandler.categories, id: \.self) { category in
                         DisclosureGroup(
                             isExpanded: Binding(

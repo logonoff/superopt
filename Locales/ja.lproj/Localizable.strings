@@ -98,6 +98,9 @@
 "Desktop" = "デスクトップ";
 
 /* No comment provided by engineer. */
+"Detect VS Code Integrated Terminal" = "VS Code の統合ターミナルを検出";
+
+/* No comment provided by engineer. */
 "Developer Tools" = "デベロッパツール";
 
 /* No comment provided by engineer. */
@@ -366,6 +369,9 @@
 
 /* Scroll zoom picker option */
 "Traditional" = "トラディショナル";
+
+/* No comment provided by engineer. */
+"Treats the terminal panel in VS Code and Cursor as a terminal, so Control-C and similar shortcuts pass through unchanged" = "VS Code と Cursor のターミナルパネルをターミナルとして扱い、Control-C などのショートカットをそのまま渡します";
 
 /* No comment provided by engineer. */
 "Turn off Show Menu Bar Background in System Settings to use this feature" = "この機能を使用するには、システム設定で「メニューバーの背景を表示」をオフにしてください";

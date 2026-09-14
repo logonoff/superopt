@@ -98,6 +98,9 @@
 "Desktop" = "Bureau";
 
 /* No comment provided by engineer. */
+"Detect VS Code Integrated Terminal" = "Détecter le terminal intégré de VS Code";
+
+/* No comment provided by engineer. */
 "Developer Tools" = "Outils de développement";
 
 /* No comment provided by engineer. */
@@ -366,6 +369,9 @@
 
 /* Scroll zoom picker option */
 "Traditional" = "Traditionnel";
+
+/* No comment provided by engineer. */
+"Treats the terminal panel in VS Code and Cursor as a terminal, so Control-C and similar shortcuts pass through unchanged" = "Traite le panneau de terminal de VS Code et Cursor comme un terminal, afin que Control-C et les raccourcis similaires soient transmis sans modification";
 
 /* No comment provided by engineer. */
 "Turn off Show Menu Bar Background in System Settings to use this feature" = "Désactivez 'Afficher l'arrière-plan de la barre des menus' dans Réglages Système pour utiliser cette fonctionnalité";

@@ -98,6 +98,9 @@
 "Desktop" = "Рабочий стол";
 
 /* No comment provided by engineer. */
+"Detect VS Code Integrated Terminal" = "Определять встроенный терминал VS Code";
+
+/* No comment provided by engineer. */
 "Developer Tools" = "Инструменты разработчика";
 
 /* No comment provided by engineer. */
@@ -366,6 +369,9 @@
 
 /* Scroll zoom picker option */
 "Traditional" = "Традиционная";
+
+/* No comment provided by engineer. */
+"Treats the terminal panel in VS Code and Cursor as a terminal, so Control-C and similar shortcuts pass through unchanged" = "Обрабатывает панель терминала в VS Code и Cursor как терминал, чтобы Control-C и похожие сочетания клавиш передавались без изменений";
 
 /* No comment provided by engineer. */
 "Turn off Show Menu Bar Background in System Settings to use this feature" = "Отключите 'Показывать фон строки меню' в Системных настройках, чтобы использовать эту функцию";
