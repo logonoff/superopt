@@ -3,11 +3,11 @@ import Cocoa
 /// Tracks whether Mission Control is on screen, for the features that need to know.
 ///
 /// Nothing polls while Mission Control is closed. Polling starts from a trigger —
-/// the app opening Mission Control itself, or the event tap seeing an F3 — and stops
-/// again when Mission Control goes away, or when it never showed up within
-/// `graceWindow`. Opening Mission Control some other way (a trackpad swipe, the Dock
-/// icon) produces no trigger, so callers that are doing work anyway and can afford a
-/// window list walk use `check()` to find it that way instead.
+/// the app opening Mission Control itself, or the event tap seeing the Mission Control
+/// key — and stops again when Mission Control goes away, or when it never showed up
+/// within `graceWindow`. Opening Mission Control some other way (a trackpad swipe,
+/// the Dock icon) produces no trigger, so callers that are doing work anyway and can
+/// afford a window list walk use `check()` to find it that way instead.
 @MainActor
 final class MissionControlMonitor {
     private(set) var isActive = false

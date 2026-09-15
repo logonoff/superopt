@@ -18,9 +18,12 @@ enum MissionControlSearchMode: Int {
 /// started closing and they would otherwise land in whatever it uncovers.
 @MainActor
 class MissionControlSearchHandler {
-    /// Virtual key code emitted by the Spotlight key (F4 on current Apple keyboards).
+    /// Virtual key code emitted by the Spotlight key — a dedicated feature key, not a
+    /// function key, so it is not F4 and its code is nothing like F4's (118). Which
+    /// F-position it shares differs per keyboard model; the code does not.
     private static let spotlightKeyCode: Int64 = 177
     /// Virtual key code emitted by the Apps key, which opens the Spotlight Apps view.
+    /// It opened Launchpad before macOS 26 removed it.
     private static let appsKeyCode: Int64 = 131
     /// On macOS 27 the Spotlight UI lives in Siri AI.app.
     private static let spotlightBundleID = "com.apple.campo"
@@ -49,7 +52,7 @@ class MissionControlSearchHandler {
     private var deadline: TimeInterval = 0
     private var timer: Timer?
 
-    /// Closes Mission Control. Supplied by `AppDelegate`, which owns the F3 trigger.
+    /// Closes Mission Control. Supplied by `AppDelegate`, which owns the Mission Control key posting.
     var dismissMissionControl: (() -> Void)?
 
     var isEnabled: Bool { mode != .off }
@@ -94,8 +97,8 @@ class MissionControlSearchHandler {
     }
 
     /// The monitor already knows whenever Mission Control was opened a way SuperOpt
-    /// can see — F3, the Option press, the hot corner — which makes the common case
-    /// free and exact, with no throttle to miss keystrokes behind.
+    /// can see — the Mission Control key, the Option press, the hot corner — which
+    /// makes the common case free and exact, with no throttle to miss keystrokes behind.
     ///
     /// The window list walk is the fallback, and costs about 1.2 ms when it has gone
     /// cold, so it is not something to do on every keystroke. It is worth it when a

@@ -246,11 +246,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     // MARK: - Actions
 
-    /// Virtual key code emitted by the Mission Control key (F3) on Apple keyboards.
+    /// Virtual key code emitted by the Mission Control key — a dedicated feature key,
+    /// not the F3 function key, which is code 99. Which F-position it shares varies by
+    /// keyboard model, so the code is the only stable way to name it.
     private static let missionControlKeyCode: Int64 = 160
 
     fileprivate func triggerMissionControl() {
-        // Emulate the F3 key rather than spawning `open -a "Mission Control"`:
+        // Emulate the Mission Control key rather than spawning `open -a "Mission Control"`:
         // no subprocess, and it does exactly what the hardware key does. Key code
         // 160 needs the Fn flag set — without it the key does nothing. Like the
         // real key, this toggles.
@@ -278,22 +280,23 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             self?.rippleAnimation.play(onScreen: screen)
             self?.triggerMissionControl()
         }
-        // F3 toggles, so the same key that opens Mission Control closes it. The
-        // close-button handler is already polling and notices on its next tick.
+        // The Mission Control key toggles, so the same key that opens Mission Control closes it.
+        // The close-button handler is already polling and notices on its next tick.
         mcSearchHandler.dismissMissionControl = {
             KeyboardUtils.postKey(Self.missionControlKeyCode, flags: .maskSecondaryFn)
         }
     }
 
-    /// Virtual key code emitted by the Launchpad/Apps key (F4) on Apple keyboards.
-    /// macOS routes it to the Spotlight Apps view now that Launchpad is gone.
+    /// Virtual key code emitted by the Apps key (formerly Launchpad) on Apple keyboards.
+    /// macOS routes it to the Spotlight Apps view now that Launchpad is gone. A
+    /// dedicated feature key, not the F4 function key, which is code 118.
     private static let launchPanelKeyCode: Int64 = 131
 
     fileprivate func triggerSpotlight() {
-        // Emulate the F4 key rather than opening spotlight://apps: on macOS 27 the
+        // Emulate the Apps key rather than opening spotlight://apps: on macOS 27 the
         // Spotlight UI moved into Siri AI, whose spotlight: LaunchServices claim is
         // flagged apple-internal, so NSWorkspace.open(_:) fails with
-        // kLSApplicationNotFoundErr. F4 emits key code 131 with the Fn flag set —
+        // kLSApplicationNotFoundErr. The Apps key emits key code 131 with the Fn flag set —
         // without Fn the key does nothing. Like the real key, this toggles.
         KeyboardUtils.postKey(Self.launchPanelKeyCode, flags: .maskSecondaryFn)
     }
