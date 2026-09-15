@@ -50,6 +50,10 @@ private let _extraStrings = [
     NSLocalizedString("The Menu key on PC keyboards opens a shortcut menu", comment: "Toggle description"),
     NSLocalizedString("Close Windows in Mission Control", comment: "Toggle label"),
     NSLocalizedString("Adds close buttons to windows in Mission Control", comment: "Toggle description"),
+    NSLocalizedString("Click-Through Focus", comment: "Toggle label"),
+    NSLocalizedString(
+        "Clicking an inactive window brings it forward and clicks what is under the pointer",
+        comment: "Toggle description"),
     NSLocalizedString("Tile Assist", comment: "Toggle label"),
     NSLocalizedString(
         "Suggests windows to fill the other half after tiling left or right", comment: "Toggle description")
@@ -69,6 +73,7 @@ struct SettingsView: View {
     @AppStorage("zoomButtonEnabled") var zoomButton = false
     @AppStorage("finderCutMode") var finderCutMode = FinderCutMode.off.rawValue
     @AppStorage("middleClickPasteEnabled") var middleClickPaste = false
+    @AppStorage("clickThroughFocusEnabled") var clickThroughFocus = false
     @AppStorage("scrollZoomMode") var scrollZoomMode = ScrollZoomMode.off.rawValue
     @AppStorage("menuKeyRightClickEnabled") var menuKeyRightClick = false
     @AppStorage("gnomeShortcutsEnabled") var gnomeShortcuts = false
@@ -174,6 +179,11 @@ struct SettingsView: View {
                 Toggle(isOn: $menuKeyRightClick) {
                     Text("Menu Key → Shortcut Menu")
                     Text("The Menu key on PC keyboards opens a shortcut menu")
+                }
+
+                Toggle(isOn: $clickThroughFocus) {
+                    Text("Click-Through Focus")
+                    Text("Clicking an inactive window brings it forward and clicks what is under the pointer")
                 }
 
                 Picker(selection: $scrollZoomMode) {

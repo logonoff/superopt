@@ -43,6 +43,12 @@
 /* No comment provided by engineer. */
 "Clear Browsing Data" = "Borrar datos de navegación";
 
+/* Toggle label */
+"Click-Through Focus" = "Enfoque con clic directo";
+
+/* Toggle description */
+"Clicking an inactive window brings it forward and clicks what is under the pointer" = "Hacer clic en una ventana inactiva la trae al frente y hace clic en lo que esté bajo el puntero";
+
 /* No comment provided by engineer. */
 "Clicking the green button maximizes the window instead of entering full screen" = "Al hacer clic en el botón verde se maximiza la ventana en lugar de entrar en pantalla completa";
 

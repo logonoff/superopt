@@ -77,6 +77,7 @@ Code signing public key ([`codesign.pem`](https://logonoff.github.io/superopt/co
 |---|---|
 | Menu Key | The Menu key on PC keyboards opens a shortcut menu (off by default) |
 | Scroll Zoom | Ctrl+scroll zooms in browsers, with natural or traditional direction (off by default) |
+| Click-Through Focus | Activate and interact with inactive windows in one click, like Windows/Linux (off by default) |
 | Cut and Paste Files | Cut then paste in the Finder to move files — choose ⌘X/⌘V or ⌃X/⌃V (off by default) |
 | Middle-Click Paste | Paste on text fields (X11-style), new window from the Dock, native behavior elsewhere (off by default) |
 

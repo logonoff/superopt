@@ -43,6 +43,12 @@
 /* No comment provided by engineer. */
 "Clear Browsing Data" = "Очистить данные браузера";
 
+/* Toggle label */
+"Click-Through Focus" = "Фокус сквозным нажатием";
+
+/* Toggle description */
+"Clicking an inactive window brings it forward and clicks what is under the pointer" = "Нажатие на неактивное окно выводит его вперед и нажимает элемент под указателем";
+
 /* No comment provided by engineer. */
 "Clicking the green button maximizes the window instead of entering full screen" = "Нажатие зелёной кнопки разворачивает окно вместо перехода в полноэкранный режим";
 

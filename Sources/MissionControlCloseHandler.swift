@@ -12,7 +12,6 @@ class MissionControlCloseHandler {
     private(set) var mcActive = false
     private var lastCheckTime: TimeInterval = 0
     private let checkInterval: TimeInterval = 0.25
-    private var cachedRefreshRate: Double = 60.0
     private var overlay: CloseOverlay?
     private var hoveredWID: UInt32 = 0
     private var buttonHovered = false
@@ -49,41 +48,13 @@ class MissionControlCloseHandler {
         getScreenRect = unsafeBitCast(srPtr, to: ScreenRectFn.self)
     }
 
-    private var screenObserver: NSObjectProtocol?
-
     func start() {
         enabled = true
-        updateCachedRefreshRate()
-        if screenObserver == nil {
-            screenObserver = NotificationCenter.default.addObserver(
-                forName: NSApplication.didChangeScreenParametersNotification,
-                object: nil, queue: .main
-            ) { [weak self] _ in
-                MainActor.assumeIsolated { self?.updateCachedRefreshRate() }
-            }
-        }
+        DisplayRefreshRate.startTracking()
     }
 
     func stop() {
         enabled = false; deactivateMC()
-        if let obs = screenObserver {
-            NotificationCenter.default.removeObserver(obs)
-            screenObserver = nil
-        }
-    }
-
-    private func updateCachedRefreshRate() {
-        var maxRate = 60.0
-        var displayCount: UInt32 = 0
-        CGGetActiveDisplayList(0, nil, &displayCount)
-        var displays = [CGDirectDisplayID](repeating: 0, count: Int(displayCount))
-        CGGetActiveDisplayList(displayCount, &displays, &displayCount)
-        for display in displays {
-            if let mode = CGDisplayCopyDisplayMode(display) {
-                maxRate = max(maxRate, mode.refreshRate)
-            }
-        }
-        cachedRefreshRate = maxRate
     }
 
     private enum TickRate {
@@ -108,7 +79,7 @@ class MissionControlCloseHandler {
         let interval: TimeInterval
         switch rate {
         case .slow: interval = Self.slowInterval
-        case .fast: interval = 1.0 / cachedRefreshRate
+        case .fast: interval = DisplayRefreshRate.frameInterval
         }
         if let existing = positionTimer, abs(existing.timeInterval - interval) < 0.01 {
             return
@@ -271,7 +242,7 @@ class MissionControlCloseHandler {
             setTickRate(.fast)
         } else {
             stableFrames += 1
-            if stableFrames > Int(cachedRefreshRate * 2) { setTickRate(.slow) }
+            if stableFrames > Int(DisplayRefreshRate.current * 2) { setTickRate(.slow) }
         }
 
         if let existing = overlay {

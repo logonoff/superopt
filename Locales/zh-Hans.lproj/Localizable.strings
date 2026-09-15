@@ -43,6 +43,12 @@
 /* No comment provided by engineer. */
 "Clear Browsing Data" = "清除浏览数据";
 
+/* Toggle label */
+"Click-Through Focus" = "点击穿透聚焦";
+
+/* Toggle description */
+"Clicking an inactive window brings it forward and clicks what is under the pointer" = "点按非活跃窗口会将其前置，同时点按指针下方的项目";
+
 /* No comment provided by engineer. */
 "Clicking the green button maximizes the window instead of entering full screen" = "点击绿色按钮会最大化窗口，而不是进入全屏模式";
 

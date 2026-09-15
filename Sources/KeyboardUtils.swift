@@ -177,91 +177,6 @@ enum KeyboardUtils {
         }
     }
 
-    // MARK: - AX menu item search
-
-    private static let tilingModifier = 28
-
-    static func pressTilingMenuItem(pid: pid_t, char: String) -> Bool {
-        pressMenuItem(pid: pid, matching: { element in
-            var charValue: AnyObject?
-            guard AXUIElementCopyAttributeValue(
-                element, "AXMenuItemCmdChar" as CFString, &charValue
-            ) == .success, (charValue as? String) == char else { return false }
-            return hasTilingModifier(element)
-        })
-    }
-
-    static func pressTilingMenuItem(pid: pid_t, virtualKey: Int64) -> Bool {
-        pressMenuItem(pid: pid, matching: { element in
-            var vkValue: AnyObject?
-            guard AXUIElementCopyAttributeValue(
-                element, "AXMenuItemCmdVirtualKey" as CFString, &vkValue
-            ) == .success, (vkValue as? Int64) == virtualKey else { return false }
-            return hasTilingModifier(element)
-        })
-    }
-
-    private static func hasTilingModifier(_ element: AXUIElement) -> Bool {
-        var modValue: AnyObject?
-        AXUIElementCopyAttributeValue(
-            element, "AXMenuItemCmdModifiers" as CFString, &modValue)
-        return (modValue as? Int) == tilingModifier
-    }
-
-    static func pressArrangeMenuItem(pid: pid_t, virtualKey: Int64) -> Bool {
-        pressMenuItem(pid: pid, matching: { element in
-            var vkValue: AnyObject?
-            guard AXUIElementCopyAttributeValue(
-                element, "AXMenuItemCmdVirtualKey" as CFString, &vkValue
-            ) == .success, (vkValue as? Int64) == virtualKey else { return false }
-            return hasArrangeModifier(element)
-        })
-    }
-
-    private static let arrangeModifier = 29
-
-    private static func hasArrangeModifier(_ element: AXUIElement) -> Bool {
-        var modValue: AnyObject?
-        AXUIElementCopyAttributeValue(
-            element, "AXMenuItemCmdModifiers" as CFString, &modValue)
-        return (modValue as? Int) == arrangeModifier
-    }
-
-    private static func pressMenuItem(
-        pid: pid_t, matching predicate: (AXUIElement) -> Bool
-    ) -> Bool {
-        let axApp = AXUIElementCreateApplication(pid)
-        var menuBarRef: AnyObject?
-        guard AXUIElementCopyAttributeValue(
-            axApp, kAXMenuBarAttribute as CFString, &menuBarRef
-        ) == .success,
-              let menuBar = menuBarRef.flatMap(toAXElement)
-        else { return false }
-        return searchMenu(in: menuBar, matching: predicate, depth: 5)
-    }
-
-    private static func searchMenu(
-        in element: AXUIElement,
-        matching predicate: (AXUIElement) -> Bool, depth: Int
-    ) -> Bool {
-        guard depth > 0 else { return false }
-        var childrenRef: AnyObject?
-        guard AXUIElementCopyAttributeValue(
-            element, kAXChildrenAttribute as CFString, &childrenRef
-        ) == .success,
-              let children = childrenRef as? [AXUIElement] else { return false }
-        for child in children {
-            if predicate(child) {
-                AXUIElementPerformAction(child, kAXPressAction as CFString)
-                return true
-            }
-            if searchMenu(in: child, matching: predicate, depth: depth - 1) {
-                return true
-            }
-        }
-        return false
-    }
-
     static func findAXWindow(pid: pid_t, windowID: UInt32) -> AXUIElement? {
         let app = AXUIElementCreateApplication(pid)
         var ref: AnyObject?
@@ -285,6 +200,15 @@ enum KeyboardUtils {
             if (titleRef as? String) == title { return win }
         }
         return nil
+    }
+
+    /// Brings a window to the front of its app and makes it the focused one.
+    /// Does not activate the app — the caller decides whether to do that.
+    static func raiseWindow(pid: pid_t, windowID: UInt32) {
+        guard let window = findAXWindow(pid: pid, windowID: windowID) else { return }
+        AXUIElementPerformAction(window, kAXRaiseAction as CFString)
+        AXUIElementSetAttributeValue(
+            AXUIElementCreateApplication(pid), kAXFocusedWindowAttribute as CFString, window)
     }
 
     static func isFocusedOnTextField() -> Bool {

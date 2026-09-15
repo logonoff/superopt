@@ -13,12 +13,7 @@ extension SnapAssistPanel {
     private func tileWindow(_ item: SnapWindowItem) {
         onWillTile?()
         guard let app = NSRunningApplication(processIdentifier: item.pid) else { return }
-        let axApp = AXUIElementCreateApplication(item.pid)
-        if let axWin = KeyboardUtils.findAXWindow(pid: item.pid, windowID: item.windowID) {
-            AXUIElementPerformAction(axWin, kAXRaiseAction as CFString)
-            AXUIElementSetAttributeValue(
-                axApp, kAXFocusedWindowAttribute as CFString, axWin)
-        }
+        KeyboardUtils.raiseWindow(pid: item.pid, windowID: item.windowID)
         app.activate()
         let arrangeKey: Int64 = direction == .left ? 0x7C : 0x7B
         Self.waitForActivation(
@@ -29,12 +24,7 @@ extension SnapAssistPanel {
         pid: pid_t, windowID: UInt32, arrangeKey: Int64, attempts: Int = 0
     ) {
         if NSWorkspace.shared.frontmostApplication?.processIdentifier == pid || attempts >= 10 {
-            if let axWin = KeyboardUtils.findAXWindow(pid: pid, windowID: windowID) {
-                let axApp = AXUIElementCreateApplication(pid)
-                AXUIElementPerformAction(axWin, kAXRaiseAction as CFString)
-                AXUIElementSetAttributeValue(
-                    axApp, kAXFocusedWindowAttribute as CFString, axWin)
-            }
+            KeyboardUtils.raiseWindow(pid: pid, windowID: windowID)
             _ = KeyboardUtils.pressArrangeMenuItem(pid: pid, virtualKey: arrangeKey)
             return
         }

@@ -48,6 +48,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private let gnomeShortcutHandler = GnomeShortcutHandler()
     private let finderCutHandler = FinderCutHandler()
     private let middleClickPasteHandler = MiddleClickPasteHandler()
+    private let clickThroughFocusHandler = ClickThroughFocusHandler()
     private let zoomButtonHandler = ZoomButtonHandler()
     private let windowTilingHandler = WindowTilingHandler()
     private let scrollZoomHandler = ScrollZoomHandler()
@@ -77,6 +78,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         "vscodeTerminalEnabled": false,
         "finderCutMode": FinderCutMode.off.rawValue,
         "middleClickPasteEnabled": false,
+        "clickThroughFocusEnabled": false,
         "zoomButtonEnabled": false,
         "menuKeyRightClickEnabled": false,
         "mcCloseEnabled": true,
@@ -102,6 +104,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if isEnabled("snapAssistEnabled") {
             tileAssistWatcher.start()
         } else { tileAssistWatcher.stop() }
+        if !isEnabled("clickThroughFocusEnabled") { clickThroughFocusHandler.reset() }
     }
 
     private var dockFinderPosition: Int { UserDefaults.standard.integer(forKey: "dockFinderPosition") }
@@ -179,6 +182,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             (1 << CGEventType.flagsChanged.rawValue)
             | (1 << CGEventType.keyDown.rawValue)
             | (1 << CGEventType.leftMouseDown.rawValue)
+            | (1 << CGEventType.leftMouseUp.rawValue)
             | (1 << CGEventType.rightMouseDown.rawValue)
             | (1 << CGEventType.otherMouseDown.rawValue)
             | (1 << CGEventType.mouseMoved.rawValue)
@@ -378,20 +382,28 @@ extension AppDelegate {
     func handleEvent(type: CGEventType, event: CGEvent) -> Bool {
         switch type {
         case .flagsChanged: handleFlagsChanged(event: event)
-        case .keyDown: if handleKeyDown(event: event) { return true }
+        case .keyDown: return handleKeyDown(event: event)
         case .leftMouseDown, .rightMouseDown, .otherMouseDown:
-            if handleMouseDown(type: type, event: event) { return true }
-        case .mouseMoved:
-            hotCorner.handleMouseMoved(event: event)
-            if isEnabled("mcCloseEnabled") && mcCloseHandler?.handleMouseMoved(event: event) == true {
-                return true
-            }
-        case .scrollWheel:
-            if KeyboardUtils.isBrowserApp()
-                && scrollZoomHandler.handleScroll(event: event) { return true }
+            return handleMouseDown(type: type, event: event)
+        case .leftMouseUp: return handleMouseUp(event: event)
+        case .mouseMoved: return handleMouseMoved(event: event)
+        case .scrollWheel: return handleScroll(event: event)
         default: break
         }
         return false
+    }
+
+    private func handleMouseUp(event: CGEvent) -> Bool {
+        isEnabled("clickThroughFocusEnabled") && clickThroughFocusHandler.handleMouseUp(event: event)
+    }
+
+    private func handleScroll(event: CGEvent) -> Bool {
+        KeyboardUtils.isBrowserApp() && scrollZoomHandler.handleScroll(event: event)
+    }
+
+    private func handleMouseMoved(event: CGEvent) -> Bool {
+        hotCorner.handleMouseMoved(event: event)
+        return isEnabled("mcCloseEnabled") && mcCloseHandler?.handleMouseMoved(event: event) == true
     }
 
     private func handleMouseDown(type: CGEventType, event: CGEvent) -> Bool {
@@ -400,6 +412,10 @@ extension AppDelegate {
                 optionKeyHandler.markOtherInput(); return true
             }
             if isEnabled("zoomButtonEnabled") && zoomButtonHandler.handleClick(event: event) {
+                optionKeyHandler.markOtherInput(); return true
+            }
+            if isEnabled("clickThroughFocusEnabled")
+                && clickThroughFocusHandler.handleMouseDown(event: event) {
                 optionKeyHandler.markOtherInput(); return true
             }
         }
