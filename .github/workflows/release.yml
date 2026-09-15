@@ -46,9 +46,13 @@ jobs:
           security find-identity -v -p codesigning "$KEYCHAIN_PATH"
 
       - name: Build
-        run: ./build.sh
+        # Never cut a release against an SDK older than DEPLOYMENT_TARGET: macOS
+        # applies behaviour changes based on the linked SDK, so that would ship a
+        # binary behaving unlike the one the deployment target promises.
         env:
           CODESIGN_IDENTITY: ${{ secrets.CODESIGN_IDENTITY }}
+          STRICT_SDK: "1"
+        run: ./build.sh
 
       - name: Package zip
         run: cd build && ditto -c -k --keepParent SuperOpt.app SuperOpt.zip

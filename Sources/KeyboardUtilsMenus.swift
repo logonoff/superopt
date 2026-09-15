@@ -62,8 +62,15 @@ extension KeyboardUtils {
         ) == .success,
               let menuBar = menuBarRef.flatMap(toAXElement)
         else { return false }
-        return searchMenu(in: menuBar, matching: predicate, depth: 5)
+        return searchMenu(in: menuBar, matching: predicate, depth: searchDepth)
     }
+
+    /// How deep to recurse from the menu bar. macOS 27 nests the half-screen items
+    /// under Window > Move & Resize, which puts them at exactly depth 5 — the old
+    /// limit, so tiling worked with no margin at all and one more level of nesting
+    /// would have broken it silently. The search stops at the first match, so a
+    /// larger limit costs nothing on the common path.
+    private static let searchDepth = 8
 
     private static func searchMenu(
         in element: AXUIElement,

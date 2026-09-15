@@ -19,6 +19,69 @@ VERSION=$(git describe --tags --dirty --always 2>/dev/null || echo "unknown")
 
 echo "Building $APP_NAME ($VERSION)..."
 
+# Pin the toolchain. macOS gates behaviour changes on the SDK a binary was linked
+# against, not on its deployment target, so building against an SDK older than
+# DEPLOYMENT_TARGET makes a local build behave differently from the CI release —
+# on macOS 27 that includes NSMenu hiding menu item images. Honour an explicit
+# DEVELOPER_DIR, otherwise pick the newest installed Xcode that has a matching
+# SDK, otherwise leave the selected toolchain alone and warn.
+sdk_major() { echo "${1%%.*}"; }
+TARGET_MAJOR=$(sdk_major "$DEPLOYMENT_TARGET")
+
+current_sdk() { xcrun --sdk macosx --show-sdk-version 2>/dev/null | tail -1; }
+
+# xcrun fails while Xcode is mid-upgrade or its licence is unaccepted, and returns
+# an empty version. Comparing that numerically errors out, which would make the
+# check below silently pass — the one failure mode it exists to catch.
+is_number() { [ -n "$1" ] && [ "$1" -eq "$1" ] 2>/dev/null; }
+sdk_too_old() {
+    local major
+    major=$(sdk_major "$1")
+    is_number "$major" && [ "$major" -lt "$TARGET_MAJOR" ]
+}
+
+# Only full Xcode installs are candidates. The Command Line Tools can ship a newer
+# SDK than the selected Xcode, but they provide neither the sourcekitd SwiftLint
+# loads nor actool, so selecting them trades one broken build step for another.
+if [ -z "$DEVELOPER_DIR" ] && sdk_too_old "$(current_sdk)"; then
+    BEST_DIR=""
+    BEST_SDK=""
+    for CANDIDATE in /Applications/Xcode*.app/Contents/Developer; do
+        [ -d "$CANDIDATE" ] || continue
+        CANDIDATE_SDK=$(DEVELOPER_DIR="$CANDIDATE" xcrun --sdk macosx --show-sdk-version 2>/dev/null | tail -1)
+        [ -n "$CANDIDATE_SDK" ] || continue
+        if [ -z "$BEST_SDK" ] || [ "$(printf '%s\n%s\n' "$BEST_SDK" "$CANDIDATE_SDK" | sort -V | tail -1)" = "$CANDIDATE_SDK" ]; then
+            BEST_DIR="$CANDIDATE"
+            BEST_SDK="$CANDIDATE_SDK"
+        fi
+    done
+    if [ -n "$BEST_DIR" ] && ! sdk_too_old "$BEST_SDK"; then
+        export DEVELOPER_DIR="$BEST_DIR"
+        echo "Selected Xcode with the macOS $BEST_SDK SDK: $BEST_DIR"
+    fi
+fi
+
+SDK_VERSION=$(current_sdk)
+if ! is_number "$(sdk_major "$SDK_VERSION")"; then
+    echo "Warning: could not determine the macOS SDK version."
+    echo "  'xcrun --sdk macosx --show-sdk-version' returned nothing, which usually means Xcode is"
+    echo "  mid-upgrade or its licence has not been accepted (sudo xcodebuild -license)."
+    if [ -n "$STRICT_SDK" ]; then
+        echo "Error: STRICT_SDK is set and the SDK version could not be verified"
+        exit 1
+    fi
+elif sdk_too_old "$SDK_VERSION"; then
+    echo "Warning: building against the macOS $SDK_VERSION SDK but targeting $DEPLOYMENT_TARGET."
+    echo "  macOS applies behaviour changes based on the linked SDK, so this build will not"
+    echo "  match a release built against the macOS $TARGET_MAJOR SDK. Install Xcode $TARGET_MAJOR,"
+    echo "  or set DEVELOPER_DIR to a toolchain that ships the macOS $TARGET_MAJOR SDK."
+    # CI sets STRICT_SDK=1 so a release is never cut against the wrong SDK.
+    if [ -n "$STRICT_SDK" ]; then
+        echo "Error: STRICT_SDK is set and the SDK is older than the deployment target"
+        exit 1
+    fi
+fi
+
 # Lint sources if SwiftLint is available, but don't fail the build if it's not installed (e.g., in CI)
 if command -v swiftlint &>/dev/null; then
     swiftlint lint --strict --quiet Sources/
