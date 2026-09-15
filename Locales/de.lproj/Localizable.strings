@@ -25,6 +25,9 @@
 /* Toggle description */
 "Adds close buttons to windows in Mission Control" = "Fügt Schließen-Tasten zu Fenstern in Mission Control hinzu";
 
+/* Type to search picker option */
+"Apps" = "Apps";
+
 /* No comment provided by engineer. */
 "Bold" = "Fett";
 
@@ -346,6 +349,9 @@
 /* No comment provided by engineer. */
 "Shows an onscreen indicator when Caps Lock is turned on or off" = "Zeigt eine Bildschirmanzeige, wenn die Feststelltaste ein- oder ausgeschaltet wird";
 
+/* Type to search picker option */
+"Spotlight" = "Spotlight";
+
 /* Toggle description */
 "Suggests windows to fill the other half after tiling left or right" = "Schlägt Fenster vor, um die andere Hälfte nach dem Anordnen zu füllen";
 
@@ -381,6 +387,12 @@
 
 /* No comment provided by engineer. */
 "Turn off Show Menu Bar Background in System Settings to use this feature" = "Deaktiviere 'Hintergrund der Menüleiste anzeigen' in den Systemeinstellungen, um diese Funktion zu nutzen";
+
+/* Picker label */
+"Type to Search in Mission Control" = "Suche durch Tippen in Mission Control";
+
+/* Picker description */
+"Typing in Mission Control closes it and searches what you typed" = "Tippen in Mission Control schließt dieses und sucht nach dem Eingegebenen";
 
 /* Alert title when login item registration fails */
 "Unable to Update Login Item" = "Anmeldeobjekt kann nicht aktualisiert werden";

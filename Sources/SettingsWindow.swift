@@ -50,6 +50,11 @@ private let _extraStrings = [
     NSLocalizedString("The Menu key on PC keyboards opens a shortcut menu", comment: "Toggle description"),
     NSLocalizedString("Close Windows in Mission Control", comment: "Toggle label"),
     NSLocalizedString("Adds close buttons to windows in Mission Control", comment: "Toggle description"),
+    NSLocalizedString("Type to Search in Mission Control", comment: "Picker label"),
+    NSLocalizedString(
+        "Typing in Mission Control closes it and searches what you typed", comment: "Picker description"),
+    NSLocalizedString("Spotlight", comment: "Type to search picker option"),
+    NSLocalizedString("Apps", comment: "Type to search picker option"),
     NSLocalizedString("Click-Through Focus", comment: "Toggle label"),
     NSLocalizedString(
         "Clicking an inactive window brings it forward and clicks what is under the pointer",
@@ -79,6 +84,7 @@ struct SettingsView: View {
     @AppStorage("gnomeShortcutsEnabled") var gnomeShortcuts = false
     @AppStorage("vscodeTerminalEnabled") var vscodeTerminal = false
     @AppStorage("mcCloseEnabled") var mcClose = true
+    @AppStorage("mcTypeToSearchMode") var mcTypeToSearchMode = MissionControlSearchMode.off.rawValue
     @AppStorage("menuBarBgEnabled") var menuBarBg = false
     @AppStorage("SLSMenuBarUseBlurredAppearance") var systemMenuBarBgOn = false
 
@@ -111,6 +117,15 @@ struct SettingsView: View {
                 Toggle(isOn: $mcClose) {
                     Text("Close Windows in Mission Control")
                     Text("Adds close buttons to windows in Mission Control")
+                }
+
+                Picker(selection: $mcTypeToSearchMode) {
+                    Text("Off").tag(MissionControlSearchMode.off.rawValue)
+                    Text("Spotlight").tag(MissionControlSearchMode.search.rawValue)
+                    Text("Apps").tag(MissionControlSearchMode.apps.rawValue)
+                } label: {
+                    Text("Type to Search in Mission Control")
+                    Text("Typing in Mission Control closes it and searches what you typed")
                 }
 
                 Toggle(isOn: $windowTiling) {

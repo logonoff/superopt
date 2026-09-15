@@ -25,6 +25,9 @@
 /* Toggle description */
 "Adds close buttons to windows in Mission Control" = "Aggiunge pulsanti Chiudi alle finestre in Mission Control";
 
+/* Type to search picker option */
+"Apps" = "App";
+
 /* No comment provided by engineer. */
 "Bold" = "Grassetto";
 
@@ -346,6 +349,9 @@
 /* No comment provided by engineer. */
 "Shows an onscreen indicator when Caps Lock is turned on or off" = "Mostra un indicatore sullo schermo quando Blocco maiuscole viene attivato o disattivato";
 
+/* Type to search picker option */
+"Spotlight" = "Spotlight";
+
 /* Toggle description */
 "Suggests windows to fill the other half after tiling left or right" = "Suggerisce finestre per riempire l'altra metà dopo la disposizione a sinistra o a destra";
 
@@ -381,6 +387,12 @@
 
 /* No comment provided by engineer. */
 "Turn off Show Menu Bar Background in System Settings to use this feature" = "Disattiva 'Mostra sfondo barra dei menu' in Impostazioni di Sistema per utilizzare questa funzione";
+
+/* Picker label */
+"Type to Search in Mission Control" = "Digitare per cercare in Mission Control";
+
+/* Picker description */
+"Typing in Mission Control closes it and searches what you typed" = "Digitare in Mission Control lo chiude e cerca ciò che è stato digitato";
 
 /* Alert title when login item registration fails */
 "Unable to Update Login Item" = "Impossibile aggiornare l'elemento di login";

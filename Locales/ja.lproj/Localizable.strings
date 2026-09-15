@@ -25,6 +25,9 @@
 /* Toggle description */
 "Adds close buttons to windows in Mission Control" = "Mission Controlのウインドウに「閉じる」ボタンを追加します";
 
+/* Type to search picker option */
+"Apps" = "アプリ";
+
 /* No comment provided by engineer. */
 "Bold" = "太字";
 
@@ -346,6 +349,9 @@
 /* No comment provided by engineer. */
 "Shows an onscreen indicator when Caps Lock is turned on or off" = "Caps Lockのオン・オフ時に画面上にインジケータを表示します";
 
+/* Type to search picker option */
+"Spotlight" = "Spotlight";
+
 /* Toggle description */
 "Suggests windows to fill the other half after tiling left or right" = "左右にタイル表示した後、残りの半分を埋めるウインドウを提案";
 
@@ -381,6 +387,12 @@
 
 /* No comment provided by engineer. */
 "Turn off Show Menu Bar Background in System Settings to use this feature" = "この機能を使用するには、システム設定で「メニューバーの背景を表示」をオフにしてください";
+
+/* Picker label */
+"Type to Search in Mission Control" = "Mission Controlで入力して検索";
+
+/* Picker description */
+"Typing in Mission Control closes it and searches what you typed" = "Mission Controlで入力すると閉じて、入力内容を検索します";
 
 /* Alert title when login item registration fails */
 "Unable to Update Login Item" = "ログイン項目を更新できません";

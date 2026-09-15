@@ -8,17 +8,14 @@ class MissionControlCloseHandler {
     private let cid: Int32
     private let getScreenRect: ScreenRectFn
 
+    private let monitor: MissionControlMonitor
     private var enabled = false
-    private(set) var mcActive = false
-    private var lastCheckTime: TimeInterval = 0
-    private let checkInterval: TimeInterval = 0.25
     private var overlay: CloseOverlay?
     private var hoveredWID: UInt32 = 0
     private var buttonHovered = false
     private var positionTimer: Timer?
     private var lastOverlayOrigin = NSPoint.zero
     private var stableFrames = 0
-    private var graceDeadline: TimeInterval = 0
 
     private struct WindowEntry {
         let wid: UInt32
@@ -33,10 +30,9 @@ class MissionControlCloseHandler {
     private static let buttonSize: CGFloat = 26
     private static let hitPadding: CGFloat = 9
     private static let slowInterval: TimeInterval = 0.25
-    /// How long to keep polling after a trigger before giving up on Mission Control.
-    private static let graceWindow: TimeInterval = 2.0
 
-    init?() {
+    init?(monitor: MissionControlMonitor) {
+        self.monitor = monitor
         // Private: CGSGetScreenRectForWindow returns the on-screen compositor bounds
         // of a window (the scaled thumbnail position during Mission Control).
         // CGWindowListCopyWindowInfo only reports logical frames, which don't update
@@ -51,6 +47,10 @@ class MissionControlCloseHandler {
     func start() {
         enabled = true
         DisplayRefreshRate.startTracking()
+        // The monitor owns Mission Control detection and is shared, so the callbacks
+        // check `enabled` rather than being torn down when this feature is off.
+        monitor.onActive = { [weak self] list in self?.missionControlDidTick(list) }
+        monitor.onInactive = { [weak self] in self?.deactivateMC() }
     }
 
     func stop() {
@@ -62,17 +62,14 @@ class MissionControlCloseHandler {
         case fast // thumbnails animating, follow them at the display's rate
     }
 
-    /// Called when something that might open Mission Control happens — the app
-    /// triggering it, or an F3 seen by the event tap. Entering or leaving Mission
-    /// Control with the pointer held still produces no mouse-moved event, so without
-    /// this the tap hook would neither raise the button on the way in nor clear it on
-    /// the way out. Polling starts here rather than running all the time so nothing
-    /// ticks while Mission Control is closed.
-    func noteMissionControlTrigger() {
-        guard enabled, !mcActive else { return }
-        graceDeadline = ProcessInfo.processInfo.systemUptime + Self.graceWindow
-        lastCheckTime = 0 // check on the very next tick rather than waiting out the throttle
-        setTickRate(.slow)
+    /// Runs on each of the monitor's polls while Mission Control is up, off the window
+    /// list it already fetched. Starting the position timer here is what gets the
+    /// close button on screen when Mission Control was opened with the pointer held
+    /// still, which produces no mouse-moved event of its own.
+    private func missionControlDidTick(_ windowList: [[String: Any]]) {
+        guard enabled else { return }
+        refreshWindowRects(from: windowList)
+        if positionTimer == nil { setTickRate(.slow) }
     }
 
     private func setTickRate(_ rate: TickRate) {
@@ -93,24 +90,10 @@ class MissionControlCloseHandler {
     }
 
     private func onTick() {
-        if checkMCStateIfDue() { return } // deactivateMC already hid the overlay
-        guard mcActive else {
-            // Mission Control never appeared after the trigger — stop ticking.
-            if ProcessInfo.processInfo.systemUptime > graceDeadline { stopTimer() }
-            return
-        }
+        guard monitor.isActive else { return }
         // Derive hover from where the pointer is now rather than from a move event.
         updateHover(at: CGEvent(source: nil)?.location ?? .zero)
         if hoveredWID != 0 { updateOverlay() }
-    }
-
-    /// Throttled so the position timer, which runs at the display refresh rate while
-    /// thumbnails animate, doesn't walk the whole window list every frame.
-    private func checkMCStateIfDue() -> Bool {
-        let now = ProcessInfo.processInfo.systemUptime
-        guard now - lastCheckTime >= checkInterval else { return false }
-        lastCheckTime = now
-        return checkMCState()
     }
 
     private func stopTimer() {
@@ -134,7 +117,7 @@ class MissionControlCloseHandler {
     // MARK: - Event tap hooks
 
     func handleClick(event: CGEvent) -> Bool {
-        guard mcActive else { return false }
+        guard monitor.isActive else { return false }
         let loc = event.location
         guard hoveredWID != 0,
               let entry = windowRects.first(where: { $0.wid == hoveredWID }),
@@ -149,8 +132,10 @@ class MissionControlCloseHandler {
         guard enabled, !KeyboardUtils.isSynthetic(event) else { return false }
         let loc = event.location
 
-        if checkMCStateIfDue() { return false }
-        guard mcActive else { return false }
+        // A mouse move is how Mission Control opened by a trackpad swipe — which
+        // fires no trigger — gets noticed.
+        monitor.checkIfDue()
+        guard monitor.isActive else { return false }
         updateHover(at: loc)
         return false
     }
@@ -172,27 +157,8 @@ class MissionControlCloseHandler {
         updateOverlay()
     }
 
-    private func checkMCState() -> Bool {
-        guard let windowList = CGWindowListCopyWindowInfo(
-            [.optionOnScreenOnly, .excludeDesktopElements],
-            kCGNullWindowID) as? [[String: Any]]
-        else { return false }
-        if KeyboardUtils.isMissionControlActive(windowList) {
-            let wasActive = mcActive
-            mcActive = true
-            refreshWindowRects(from: windowList)
-            // A mouse move can be what discovers Mission Control; start following it.
-            if !wasActive { setTickRate(.slow) }
-            return false
-        } else if mcActive {
-            deactivateMC()
-            return true
-        }
-        return false
-    }
-
     private func deactivateMC() {
-        mcActive = false; hoveredWID = 0; buttonHovered = false
+        hoveredWID = 0; buttonHovered = false
         hideOverlay()
         windowRects.removeAll()
         unclosableWIDs.removeAll(); closableWIDs.removeAll()

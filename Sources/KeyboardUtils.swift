@@ -36,6 +36,24 @@ enum KeyboardUtils {
         keyUp.post(tap: .cgSessionEventTap)
     }
 
+    /// Types a string as one keystroke carrying a Unicode payload. Used when the
+    /// text to insert is known but the keys that would produce it are not — the
+    /// buffered characters come from a keyboard layout that may not be the current
+    /// one, so replaying key codes would mangle them.
+    static func postText(_ text: String) {
+        guard !text.isEmpty else { return }
+        let src = CGEventSource(stateID: .hidSystemState)
+        var utf16 = Array(text.utf16)
+        for isDown in [true, false] {
+            guard let event = CGEvent(
+                keyboardEventSource: src, virtualKey: 0, keyDown: isDown) else { return }
+            event.keyboardSetUnicodeString(
+                stringLength: utf16.count, unicodeString: &utf16)
+            event.setIntegerValueField(.eventSourceUserData, value: syntheticTag)
+            event.post(tap: .cgSessionEventTap)
+        }
+    }
+
     static func isTerminalApp() -> Bool {
         guard let bundleID = NSWorkspace.shared.frontmostApplication?.bundleIdentifier else {
             return false

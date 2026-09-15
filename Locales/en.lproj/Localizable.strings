@@ -25,6 +25,9 @@
 /* Toggle description */
 "Adds close buttons to windows in Mission Control" = "Adds close buttons to windows in Mission Control";
 
+/* Type to search picker option */
+"Apps" = "Apps";
+
 /* No comment provided by engineer. */
 "Bold" = "Bold";
 
@@ -346,6 +349,9 @@
 /* No comment provided by engineer. */
 "Shows an onscreen indicator when Caps Lock is turned on or off" = "Shows an onscreen indicator when Caps Lock is turned on or off";
 
+/* Type to search picker option */
+"Spotlight" = "Spotlight";
+
 /* Toggle description */
 "Suggests windows to fill the other half after tiling left or right" = "Suggests windows to fill the other half after tiling left or right";
 
@@ -381,6 +387,12 @@
 
 /* No comment provided by engineer. */
 "Turn off Show Menu Bar Background in System Settings to use this feature" = "Turn off Show Menu Bar Background in System Settings to use this feature";
+
+/* Picker label */
+"Type to Search in Mission Control" = "Type to Search in Mission Control";
+
+/* Picker description */
+"Typing in Mission Control closes it and searches what you typed" = "Typing in Mission Control closes it and searches what you typed";
 
 /* Alert title when login item registration fails */
 "Unable to Update Login Item" = "Unable to Update Login Item";

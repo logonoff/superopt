@@ -25,6 +25,9 @@
 /* Toggle description */
 "Adds close buttons to windows in Mission Control" = "Добавляет кнопки «Закрыть» к окнам в Mission Control";
 
+/* Type to search picker option */
+"Apps" = "Приложения";
+
 /* No comment provided by engineer. */
 "Bold" = "Жирный";
 
@@ -346,6 +349,9 @@
 /* No comment provided by engineer. */
 "Shows an onscreen indicator when Caps Lock is turned on or off" = "Показывает индикатор на экране при включении или выключении Caps Lock";
 
+/* Type to search picker option */
+"Spotlight" = "Spotlight";
+
 /* Toggle description */
 "Suggests windows to fill the other half after tiling left or right" = "Предлагает окна для заполнения другой половины после размещения влево или вправо";
 
@@ -381,6 +387,12 @@
 
 /* No comment provided by engineer. */
 "Turn off Show Menu Bar Background in System Settings to use this feature" = "Отключите 'Показывать фон строки меню' в Системных настройках, чтобы использовать эту функцию";
+
+/* Picker label */
+"Type to Search in Mission Control" = "Ввод текста для поиска в Mission Control";
+
+/* Picker description */
+"Typing in Mission Control closes it and searches what you typed" = "Ввод текста в Mission Control закрывает его и ищет введённое";
 
 /* Alert title when login item registration fails */
 "Unable to Update Login Item" = "Не удалось обновить объект входа";

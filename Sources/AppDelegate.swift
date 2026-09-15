@@ -54,7 +54,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private let scrollZoomHandler = ScrollZoomHandler()
     private let menuKeyHandler = MenuKeyHandler()
     private let menuBarBackground = MenuBarBackground()
-    private let mcCloseHandler = MissionControlCloseHandler()
+    private let mcMonitor = MissionControlMonitor()
+    private lazy var mcCloseHandler = MissionControlCloseHandler(monitor: mcMonitor)
+    private lazy var mcSearchHandler = MissionControlSearchHandler(monitor: mcMonitor)
     private var snapAssistPanel: SnapAssistPanel?
     private let tileAssistWatcher = TileAssistWatcher()
     private let settingsWindow = SettingsWindowController()
@@ -82,6 +84,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         "zoomButtonEnabled": false,
         "menuKeyRightClickEnabled": false,
         "mcCloseEnabled": true,
+        "mcTypeToSearchMode": MissionControlSearchMode.off.rawValue,
         "scrollZoomMode": ScrollZoomMode.off.rawValue,
         "dockFinderPosition": 1
     ]
@@ -98,13 +101,23 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         gnomeShortcutHandler.reloadSettings()
         scrollZoomHandler.reloadSettings()
         finderCutHandler.reloadSettings()
+        mcSearchHandler.reloadSettings()
         if isEnabled("mcCloseEnabled") {
             mcCloseHandler?.start()
         } else { mcCloseHandler?.stop() }
+        updateMissionControlMonitor()
         if isEnabled("snapAssistEnabled") {
             tileAssistWatcher.start()
         } else { tileAssistWatcher.stop() }
         if !isEnabled("clickThroughFocusEnabled") { clickThroughFocusHandler.reset() }
+    }
+
+    /// The monitor is shared, so it runs whenever any feature that needs to know
+    /// about Mission Control is on, and not at all otherwise.
+    private func updateMissionControlMonitor() {
+        if isEnabled("mcCloseEnabled") || mcSearchHandler.isEnabled {
+            mcMonitor.start()
+        } else { mcMonitor.stop() }
     }
 
     private var dockFinderPosition: Int { UserDefaults.standard.integer(forKey: "dockFinderPosition") }
@@ -143,6 +156,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         lastCapsLockState = NSEvent.modifierFlags.contains(.capsLock)
 
         if isEnabled("mcCloseEnabled") { mcCloseHandler?.start() }
+        updateMissionControlMonitor()
         setupCallbacks()
         hotCorner.enabled = isEnabled("hotCornersEnabled")
 
@@ -173,7 +187,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func applicationWillTerminate(_: Notification) {
-        safetyTimer?.invalidate(); tearDownEventTap(); mcCloseHandler?.stop()
+        safetyTimer?.invalidate(); tearDownEventTap(); mcCloseHandler?.stop(); mcMonitor.stop()
         DistributedNotificationCenter.default().removeObserver(self)
     }
     // MARK: - Event Tap
@@ -242,7 +256,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // real key, this toggles.
         KeyboardUtils.postKey(Self.missionControlKeyCode, flags: .maskSecondaryFn)
         // The synthetic key is skipped by handleKeyDown, so flag it from here.
-        mcCloseHandler?.noteMissionControlTrigger()
+        mcMonitor.noteTrigger()
     }
     private func setupCallbacks() {
         tileAssistWatcher.onTile = { [weak self] dir, screen in
@@ -263,6 +277,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         hotCorner.onTrigger = { [weak self] screen in
             self?.rippleAnimation.play(onScreen: screen)
             self?.triggerMissionControl()
+        }
+        // F3 toggles, so the same key that opens Mission Control closes it. The
+        // close-button handler is already polling and notices on its next tick.
+        mcSearchHandler.dismissMissionControl = {
+            KeyboardUtils.postKey(Self.missionControlKeyCode, flags: .maskSecondaryFn)
         }
     }
 
@@ -438,12 +457,27 @@ extension AppDelegate {
         lockKeyOSD.show(text: capsLockOn ? onText : offText, active: capsLockOn)
     }
 
+    /// ⌥A → Spotlight Apps. Its own feature toggle, separate from shortcut remapping.
+    private func handleAppGridKey(event: CGEvent) -> Bool {
+        guard isEnabled("appGridEnabled"),
+              event.flags.contains(.maskAlternate),
+              !event.flags.contains(.maskCommand),
+              !event.flags.contains(.maskControl),
+              event.getIntegerValueField(.keyboardEventKeycode) == 0x00
+        else { return false }
+        triggerSpotlight()
+        return true
+    }
+
     private func handleKeyDown(event: CGEvent) -> Bool {
         if KeyboardUtils.isSynthetic(event) { return false }
         // Not consumed — just tells the close-button handler to start looking for
         // Mission Control, since opening it from the keyboard moves no mouse.
         if event.getIntegerValueField(.keyboardEventKeycode) == Self.missionControlKeyCode {
-            mcCloseHandler?.noteMissionControlTrigger()
+            mcMonitor.noteTrigger()
+        }
+        if mcSearchHandler.handleKeyDown(event: event) {
+            optionKeyHandler.markOtherInput(); return true
         }
         if isEnabled("dockShortcutsEnabled")
             && dockLauncher.handleKeyDown(event: event, finderPosition: dockFinderPosition) {
@@ -454,14 +488,8 @@ extension AppDelegate {
         if finderCutHandler.handleKeyDown(event: event) {
             optionKeyHandler.markOtherInput(); return true
         }
-        if isEnabled("appGridEnabled") && event.flags.contains(.maskAlternate)
-            && !event.flags.contains(.maskCommand) && !event.flags.contains(.maskControl) {
-            let keyCode = event.getIntegerValueField(.keyboardEventKeycode)
-            if keyCode == 0x00 { // Option+A → Spotlight Apps
-                optionKeyHandler.markOtherInput()
-                triggerSpotlight()
-                return true
-            }
+        if handleAppGridKey(event: event) {
+            optionKeyHandler.markOtherInput(); return true
         }
         if isEnabled("windowTilingEnabled") && windowTilingHandler.handleKeyDown(event: event) {
             optionKeyHandler.markOtherInput(); return true

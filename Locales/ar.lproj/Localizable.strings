@@ -25,6 +25,9 @@
 /* Toggle description */
 "Adds close buttons to windows in Mission Control" = "يضيف أزرار إغلاق للنوافذ في إدارة المهام";
 
+/* Type to search picker option */
+"Apps" = "التطبيقات";
+
 /* No comment provided by engineer. */
 "Bold" = "غامق";
 
@@ -346,6 +349,9 @@
 /* No comment provided by engineer. */
 "Shows an onscreen indicator when Caps Lock is turned on or off" = "يعرض مؤشراً على الشاشة عند تشغيل Caps Lock أو إيقافه";
 
+/* Type to search picker option */
+"Spotlight" = "الباحث";
+
 /* Toggle description */
 "Suggests windows to fill the other half after tiling left or right" = "يقترح نوافذ لملء النصف الآخر بعد التبليط يميناً أو يساراً";
 
@@ -381,6 +387,12 @@
 
 /* No comment provided by engineer. */
 "Turn off Show Menu Bar Background in System Settings to use this feature" = "أوقف 'إظهار خلفية شريط القوائم' في إعدادات النظام لاستخدام هذه الميزة";
+
+/* Picker label */
+"Type to Search in Mission Control" = "الكتابة للبحث في إدارة المهام";
+
+/* Picker description */
+"Typing in Mission Control closes it and searches what you typed" = "الكتابة في إدارة المهام تُغلقها وتبحث عمّا كتبته";
 
 /* Alert title when login item registration fails */
 "Unable to Update Login Item" = "تعذّر تحديث عنصر الدخول";

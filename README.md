@@ -60,6 +60,7 @@ Code signing public key ([`codesign.pem`](https://logonoff.github.io/superopt/co
 | Window Tiling | `⌥`+arrow keys to tile, maximize, or restore windows (off by default) |
 | Green Button Fills | The maximize button expands the window to fill the screen instead of entering full screen (off by default) |
 | Close in Mission Control | Hold the pointer over a window in Mission Control to show a close button |
+| Type to Search | Typing in Mission Control closes it and hands what you typed to Spotlight or the Apps view (off by default) |
 | Tile Assist | After tiling a window, a panel suggests other windows to fill the remaining space (off by default) |
 | Dark Menu Bar | Opaque bar behind transparent menu bar when a window fills the screen (off by default) |
 

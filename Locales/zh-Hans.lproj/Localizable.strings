@@ -25,6 +25,9 @@
 /* Toggle description */
 "Adds close buttons to windows in Mission Control" = "在调度中心的窗口上添加关闭按钮";
 
+/* Type to search picker option */
+"Apps" = "应用";
+
 /* No comment provided by engineer. */
 "Bold" = "粗体";
 
@@ -346,6 +349,9 @@
 /* No comment provided by engineer. */
 "Shows an onscreen indicator when Caps Lock is turned on or off" = "开启或关闭大写锁定时在屏幕上显示指示器";
 
+/* Type to search picker option */
+"Spotlight" = "聚焦";
+
 /* Toggle description */
 "Suggests windows to fill the other half after tiling left or right" = "左右平铺后建议窗口以填充另一半";
 
@@ -381,6 +387,12 @@
 
 /* No comment provided by engineer. */
 "Turn off Show Menu Bar Background in System Settings to use this feature" = "请在系统设置中关闭「显示菜单栏背景」以使用此功能";
+
+/* Picker label */
+"Type to Search in Mission Control" = "在调度中心输入以搜索";
+
+/* Picker description */
+"Typing in Mission Control closes it and searches what you typed" = "在调度中心输入会将其关闭并搜索输入的内容";
 
 /* Alert title when login item registration fails */
 "Unable to Update Login Item" = "无法更新登录项";
