@@ -235,6 +235,6 @@ fi
 
 # Codesign the app bundle to allow it to run without Gatekeeper blocking it
 # Uses CODESIGN_IDENTITY from .env if set, otherwise falls back to ad-hoc signing
-codesign --force --sign "$CODESIGN_IDENTITY" --options runtime --entitlements OptWin.entitlements "$APP_BUNDLE"
+codesign --force --sign "$CODESIGN_IDENTITY" --options runtime --entitlements SuperOpt.entitlements "$APP_BUNDLE"
 
 echo "Build complete: $APP_BUNDLE"
