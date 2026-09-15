@@ -12,7 +12,7 @@ cask "superopt" do
     strategy :github_latest
   end
 
-  depends_on macos: :tahoe
+  depends_on macos: :golden_gate
 
   app "SuperOpt.app"
 
