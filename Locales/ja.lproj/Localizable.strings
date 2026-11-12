@@ -356,7 +356,13 @@
 "Shows a black bar behind the menu bar when a window fills the screen" = "ウインドウが画面いっぱいのとき、メニューバーの背後に黒いバーを表示";
 
 /* No comment provided by engineer. */
+"Shows a popup of dots when a display changes space, however it was switched" = "ディスプレイのスペースが切り替わったときに、切り替え方法を問わずドットを表示します";
+
+/* No comment provided by engineer. */
 "Shows an onscreen indicator when Caps Lock is turned on or off" = "Caps Lockのオン・オフ時に画面上にインジケータを表示します";
+
+/* No comment provided by engineer. */
+"Space Indicator" = "スペースインジケータ";
 
 /* Type to search picker option */
 "Spotlight" = "Spotlight";

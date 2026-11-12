@@ -356,7 +356,13 @@
 "Shows a black bar behind the menu bar when a window fills the screen" = "يعرض شريطاً أسود خلف شريط القوائم عندما تملأ النافذة الشاشة";
 
 /* No comment provided by engineer. */
+"Shows a popup of dots when a display changes space, however it was switched" = "يعرض نقاطًا منبثقة عند تغيير مساحة الشاشة، أيًا كانت طريقة التبديل";
+
+/* No comment provided by engineer. */
 "Shows an onscreen indicator when Caps Lock is turned on or off" = "يعرض مؤشراً على الشاشة عند تشغيل Caps Lock أو إيقافه";
+
+/* No comment provided by engineer. */
+"Space Indicator" = "مؤشر المساحات";
 
 /* Type to search picker option */
 "Spotlight" = "الباحث";

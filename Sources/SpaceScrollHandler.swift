@@ -1,8 +1,12 @@
 import Cocoa
 
 /// Scrolling the Apple menu switches space, the way scrolling GNOME's panel switches
-/// workspace. The display under the pointer is the one that moves, and a popup says
-/// which space it landed on.
+/// workspace. The display under the pointer is the one that moves, because that is the
+/// display the system's own shortcut acts on.
+///
+/// Showing where it landed is not this class's job: a space change is worth reporting
+/// however it was made, so `SpaceChangeWatcher` does it. The exception is scrolling
+/// past either end of the row, which changes nothing and so goes unreported.
 @MainActor
 final class SpaceScrollHandler {
     /// How far a gesture travels before it counts as one space.
@@ -21,16 +25,14 @@ final class SpaceScrollHandler {
     /// reports no menu bar at all but one can still be pulled down and scrolled.
     private static let hiddenMenuBarHeight: CGFloat = 40
 
-    /// How long the space animation runs before a window put on the new space stays
-    /// put — measured at about a second on a 2560-wide display, where a panel shown
-    /// any earlier was still being dragged by the transition.
-    private static let settleDelay: TimeInterval = 1.0
-
-    private var pendingShow: DispatchWorkItem?
     private var travel: CGFloat = 0
     private var lastScrollAt: TimeInterval = 0
     private var lastSwitchAt: TimeInterval = 0
-    private let osd = SpaceSwitcherOSD()
+
+    /// Called when the scroll lands on a space that is already showing, with the space
+    /// count, the index, and the screens it applies to. Every other case is a real
+    /// space change, which `SpaceChangeWatcher` reports on its own.
+    var onEdge: ((Int, Int, [NSScreen]) -> Void)?
 
     /// Returns true if the event was consumed.
     func handleScroll(event: CGEvent) -> Bool {
@@ -75,33 +77,13 @@ final class SpaceScrollHandler {
         let index = min(max(display.currentIndex + direction, 0), display.spaceIDs.count - 1)
 
         guard index != display.currentIndex else {
-            // Either end of the row: nothing is going to move, so this is the whole
-            // answer, and it is the answer to "did that do anything". GNOME shows the
-            // popup here too.
-            show(on: target.screens, count: display.spaceIDs.count, index: index)
+            // Either end of the row. Nothing will move, so no space change is coming
+            // for `SpaceChangeWatcher` to report, and this is the only chance to answer
+            // "did that do anything" — which GNOME answers here too.
+            onEdge?(display.spaceIDs.count, index, target.screens)
             return
         }
-        guard SpaceShortcut.post(direction > 0 ? .right : .left) else { return }
-
-        // The popup waits for the switch rather than riding it. The window server
-        // composites every window on the display into the space animation, this one
-        // included: shown during the switch it slides away with the space it was put
-        // on and is gone by the time anyone could read it.
-        // The index is the one worked out above, not a fresh reading: this process's
-        // own view of the current space lags the switch by longer than the wait, and
-        // asking again produced a popup pointing at the space just left.
-        pendingShow?.cancel()
-        let work = DispatchWorkItem { [weak self] in
-            MainActor.assumeIsolated {
-                self?.show(on: target.screens, count: display.spaceIDs.count, index: index)
-            }
-        }
-        pendingShow = work
-        DispatchQueue.main.asyncAfter(deadline: .now() + Self.settleDelay, execute: work)
-    }
-
-    private func show(on screens: [NSScreen], count: Int, index: Int) {
-        osd.show(spaceCount: count, activeIndex: index, on: screens)
+        SpaceShortcut.post(direction > 0 ? .right : .left)
     }
 
     // MARK: - Hit testing

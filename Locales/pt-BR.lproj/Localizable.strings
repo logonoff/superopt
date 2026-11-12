@@ -356,7 +356,13 @@
 "Shows a black bar behind the menu bar when a window fills the screen" = "Mostra uma barra preta atrás da barra de menus quando uma janela preenche a tela";
 
 /* No comment provided by engineer. */
+"Shows a popup of dots when a display changes space, however it was switched" = "Mostra pontos quando uma tela muda de Espaço, seja qual for a forma de alternar";
+
+/* No comment provided by engineer. */
 "Shows an onscreen indicator when Caps Lock is turned on or off" = "Mostra um indicador na tela quando o Caps Lock é ativado ou desativado";
+
+/* No comment provided by engineer. */
+"Space Indicator" = "Indicador de Espaços";
 
 /* Type to search picker option */
 "Spotlight" = "Spotlight";

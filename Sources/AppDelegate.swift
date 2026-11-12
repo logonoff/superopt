@@ -53,6 +53,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private let windowTilingHandler = WindowTilingHandler()
     private let scrollZoomHandler = ScrollZoomHandler()
     private let spaceScrollHandler = SpaceScrollHandler()
+    private let spaceIndicator = SpaceSwitcherOSD()
+    private let spaceChangeWatcher = SpaceChangeWatcher()
     private let menuKeyHandler = MenuKeyHandler()
     private let menuBarBackground = MenuBarBackground()
     private let mcMonitor = MissionControlMonitor()
@@ -88,6 +90,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         "mcTypeToSearchMode": MissionControlSearchMode.off.rawValue,
         "scrollZoomMode": ScrollZoomMode.off.rawValue,
         "spaceScrollEnabled": false,
+        "spaceIndicatorEnabled": false,
         "dockFinderPosition": 1
     ]
 
@@ -111,6 +114,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if isEnabled("snapAssistEnabled") {
             tileAssistWatcher.start()
         } else { tileAssistWatcher.stop() }
+        if isEnabled("spaceIndicatorEnabled") {
+            spaceChangeWatcher.start()
+        } else { spaceChangeWatcher.stop() }
         if !isEnabled("clickThroughFocusEnabled") { clickThroughFocusHandler.reset() }
     }
 
@@ -270,6 +276,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             self?.snapAssistPanel != nil
         }
         if isEnabled("snapAssistEnabled") { tileAssistWatcher.start() }
+        spaceChangeWatcher.onChange = { [weak self] display, screens in
+            guard let self, isEnabled("spaceIndicatorEnabled") else { return }
+            spaceIndicator.show(spaceCount: display.spaceIDs.count,
+                                activeIndex: display.currentIndex, on: screens)
+        }
+        // Scrolling past either end of the row changes nothing, so it produces no
+        // space change for the watcher to report, and the popup has to come from here.
+        spaceScrollHandler.onEdge = { [weak self] count, index, screens in
+            guard let self, isEnabled("spaceIndicatorEnabled") else { return }
+            spaceIndicator.show(spaceCount: count, activeIndex: index, on: screens)
+        }
+        if isEnabled("spaceIndicatorEnabled") { spaceChangeWatcher.start() }
         optionKeyHandler.onSinglePress = { [weak self] in
             guard let self, isEnabled("optSingleEnabled") else { return }
             triggerMissionControl()

@@ -356,7 +356,13 @@
 "Shows a black bar behind the menu bar when a window fills the screen" = "窗口铺满屏幕时在菜单栏后方显示黑色条";
 
 /* No comment provided by engineer. */
+"Shows a popup of dots when a display changes space, however it was switched" = "当显示器切换空间时显示圆点提示，无论以何种方式切换";
+
+/* No comment provided by engineer. */
 "Shows an onscreen indicator when Caps Lock is turned on or off" = "开启或关闭大写锁定时在屏幕上显示指示器";
+
+/* No comment provided by engineer. */
+"Space Indicator" = "空间指示器";
 
 /* Type to search picker option */
 "Spotlight" = "聚焦";

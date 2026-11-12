@@ -69,6 +69,15 @@ enum SpaceSwitcher {
         return (shared, NSScreen.screens)
     }
 
+    /// The screens that show a given entry's spaces: the one display it names, or every
+    /// screen when the displays share a single set of spaces between them.
+    static func screens(showing display: ManagedDisplay) -> [NSScreen] {
+        if let match = NSScreen.screens.first(where: { identifier(for: $0) == display.identifier }) {
+            return [match]
+        }
+        return NSScreen.screens
+    }
+
     /// The window server names displays by UUID, which is what `CGDisplayCreateUUID`
     /// produces from the display ID `NSScreen` carries.
     static func identifier(for screen: NSScreen) -> String? {

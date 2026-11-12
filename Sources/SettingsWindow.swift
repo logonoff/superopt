@@ -81,6 +81,7 @@ struct SettingsView: View {
     @AppStorage("clickThroughFocusEnabled") var clickThroughFocus = false
     @AppStorage("scrollZoomMode") var scrollZoomMode = ScrollZoomMode.off.rawValue
     @AppStorage("spaceScrollEnabled") var spaceScroll = false
+    @AppStorage("spaceIndicatorEnabled") var spaceIndicator = false
     @AppStorage("menuKeyRightClickEnabled") var menuKeyRightClick = false
     @AppStorage("gnomeShortcutsEnabled") var gnomeShortcuts = false
     @AppStorage("vscodeTerminalEnabled") var vscodeTerminal = false
@@ -118,6 +119,11 @@ struct SettingsView: View {
                 Toggle(isOn: $spaceScroll) {
                     Text("Scroll the Apple Menu to Switch Spaces")
                     Text("Scrolling the Apple menu moves that display to the next or previous space")
+                }
+
+                Toggle(isOn: $spaceIndicator) {
+                    Text("Space Indicator")
+                    Text("Shows a popup of dots when a display changes space, however it was switched")
                 }
 
                 Toggle(isOn: $mcClose) {

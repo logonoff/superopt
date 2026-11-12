@@ -356,7 +356,13 @@
 "Shows a black bar behind the menu bar when a window fills the screen" = "Показывает чёрную полосу за строкой меню, когда окно заполняет экран";
 
 /* No comment provided by engineer. */
+"Shows a popup of dots when a display changes space, however it was switched" = "Показывает точки при смене пространства на дисплее, каким бы способом она ни была сделана";
+
+/* No comment provided by engineer. */
 "Shows an onscreen indicator when Caps Lock is turned on or off" = "Показывает индикатор на экране при включении или выключении Caps Lock";
+
+/* No comment provided by engineer. */
+"Space Indicator" = "Индикатор пространств";
 
 /* Type to search picker option */
 "Spotlight" = "Spotlight";

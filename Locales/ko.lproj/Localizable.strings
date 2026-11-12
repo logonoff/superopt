@@ -356,7 +356,13 @@
 "Shows a black bar behind the menu bar when a window fills the screen" = "윈도우가 화면을 채울 때 메뉴 막대 뒤에 검은 막대를 표시";
 
 /* No comment provided by engineer. */
+"Shows a popup of dots when a display changes space, however it was switched" = "디스플레이의 공간이 바뀔 때 전환 방법과 관계없이 점을 표시합니다";
+
+/* No comment provided by engineer. */
 "Shows an onscreen indicator when Caps Lock is turned on or off" = "Caps Lock을 켜거나 끌 때 화면에 표시기를 보여줍니다";
+
+/* No comment provided by engineer. */
+"Space Indicator" = "공간 표시기";
 
 /* Type to search picker option */
 "Spotlight" = "Spotlight";
