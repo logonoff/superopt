@@ -106,6 +106,9 @@
 /* Section header */
 "Desktop" = "Schreibtisch";
 
+/* Spoken when the space changes */
+"Desktop %1$d of %2$d" = "Schreibtisch %1$d von %2$d";
+
 /* No comment provided by engineer. */
 "Detect VS Code Integrated Terminal" = "Integriertes Terminal in VS Code erkennen";
 
@@ -310,8 +313,14 @@
 /* No comment provided by engineer. */
 "Save" = "Sichern";
 
+/* No comment provided by engineer. */
+"Scroll the Apple Menu to Switch Spaces" = "Mit dem Apple-Menü Spaces wechseln";
+
 /* Picker label */
 "Scroll Zoom in Browsers" = "Scrollzoom in Browsern";
+
+/* No comment provided by engineer. */
+"Scrolling the Apple menu moves that display to the next or previous space" = "Scrollen über dem Apple-Menü bewegt dieses Display zum nächsten oder vorherigen Space";
 
 /* No comment provided by engineer. */
 "Search Selection" = "Auswahl suchen";

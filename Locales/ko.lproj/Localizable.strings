@@ -106,6 +106,9 @@
 /* Section header */
 "Desktop" = "데스크탑";
 
+/* Spoken when the space changes */
+"Desktop %1$d of %2$d" = "데스크탑 %1$d/%2$d";
+
 /* No comment provided by engineer. */
 "Detect VS Code Integrated Terminal" = "VS Code 통합 터미널 감지";
 
@@ -310,8 +313,14 @@
 /* No comment provided by engineer. */
 "Save" = "저장";
 
+/* No comment provided by engineer. */
+"Scroll the Apple Menu to Switch Spaces" = "Apple 메뉴를 스크롤하여 공간 전환";
+
 /* Picker label */
 "Scroll Zoom in Browsers" = "브라우저에서 스크롤 확대/축소";
+
+/* No comment provided by engineer. */
+"Scrolling the Apple menu moves that display to the next or previous space" = "Apple 메뉴 위에서 스크롤하면 해당 디스플레이가 다음 또는 이전 공간으로 이동합니다";
 
 /* No comment provided by engineer. */
 "Search Selection" = "선택 항목 검색";

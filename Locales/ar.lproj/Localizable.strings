@@ -106,6 +106,9 @@
 /* Section header */
 "Desktop" = "سطح المكتب";
 
+/* Spoken when the space changes */
+"Desktop %1$d of %2$d" = "سطح المكتب %1$d من %2$d";
+
 /* No comment provided by engineer. */
 "Detect VS Code Integrated Terminal" = "اكتشاف الطرفية المدمجة في VS Code";
 
@@ -310,8 +313,14 @@
 /* No comment provided by engineer. */
 "Save" = "حفظ";
 
+/* No comment provided by engineer. */
+"Scroll the Apple Menu to Switch Spaces" = "التمرير على قائمة Apple لتبديل المساحات";
+
 /* Picker label */
 "Scroll Zoom in Browsers" = "تكبير بالتمرير في المتصفحات";
+
+/* No comment provided by engineer. */
+"Scrolling the Apple menu moves that display to the next or previous space" = "التمرير فوق قائمة Apple ينقل تلك الشاشة إلى المساحة التالية أو السابقة";
 
 /* No comment provided by engineer. */
 "Search Selection" = "بحث في التحديد";

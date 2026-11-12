@@ -52,6 +52,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private let zoomButtonHandler = ZoomButtonHandler()
     private let windowTilingHandler = WindowTilingHandler()
     private let scrollZoomHandler = ScrollZoomHandler()
+    private let spaceScrollHandler = SpaceScrollHandler()
     private let menuKeyHandler = MenuKeyHandler()
     private let menuBarBackground = MenuBarBackground()
     private let mcMonitor = MissionControlMonitor()
@@ -86,6 +87,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         "mcCloseEnabled": true,
         "mcTypeToSearchMode": MissionControlSearchMode.off.rawValue,
         "scrollZoomMode": ScrollZoomMode.off.rawValue,
+        "spaceScrollEnabled": false,
         "dockFinderPosition": 1
     ]
 
@@ -420,7 +422,10 @@ extension AppDelegate {
     }
 
     private func handleScroll(event: CGEvent) -> Bool {
-        KeyboardUtils.isBrowserApp() && scrollZoomHandler.handleScroll(event: event)
+        if isEnabled("spaceScrollEnabled") && spaceScrollHandler.handleScroll(event: event) {
+            return true
+        }
+        return KeyboardUtils.isBrowserApp() && scrollZoomHandler.handleScroll(event: event)
     }
 
     private func handleMouseMoved(event: CGEvent) -> Bool {
