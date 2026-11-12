@@ -35,13 +35,27 @@ class ClickThroughFocusHandler {
     /// How long to wait for the target window to take focus before giving up.
     private static let focusTimeout: TimeInterval = 0.25
 
+    /// What to do with the release of a press that is no longer withheld. The window
+    /// should see a matched press and release or neither, never one without the other.
+    private enum AfterPress {
+        /// The press was replayed and no release has followed it, so the window still
+        /// has the button down. The release has to be sent on behind it.
+        case replayed(PendingClick)
+        /// The press was dropped because focus never landed. Its release is not the
+        /// window's to see either.
+        case dropped
+    }
+
     private var pending: PendingClick?
+    private var afterPress: AfterPress?
     private var pollTimer: Timer?
 
     /// Returns true if the event was consumed.
     func handleMouseDown(event: CGEvent) -> Bool {
         // Our own replayed press must reach the window, not be withheld again.
         guard !KeyboardUtils.isSynthetic(event), pending == nil else { return false }
+        // A new press means the last one is over, whatever became of its release.
+        afterPress = nil
         guard let target = frontWindow(at: event.location), needsFocus(target) else { return false }
         guard event.location.y - target.frame.minY > Self.titleBarBand else { return false }
 
@@ -59,18 +73,39 @@ class ClickThroughFocusHandler {
 
     /// Returns true if the event was consumed.
     func handleMouseUp(event: CGEvent) -> Bool {
-        guard !KeyboardUtils.isSynthetic(event), pending != nil else { return false }
-        // The press is still withheld, so the release has to be too: on its own it
-        // would reach the target as a mouse up with no matching mouse down.
-        pending?.releasedAt = event.location
-        return true
+        guard !KeyboardUtils.isSynthetic(event) else { return false }
+        if pending != nil {
+            // The press is still withheld, so the release has to be too: on its own it
+            // would reach the target as a mouse up with no matching mouse down.
+            pending?.releasedAt = event.location
+            return true
+        }
+        // This release belongs to a press that is no longer withheld.
+        switch afterPress {
+        case .replayed(let click):
+            // Letting it through as it stands would race the replay: the system holds
+            // input while the target app activates, so the release can arrive after
+            // the press was posted but before the window has it, leaving the window
+            // with the button down for good. Sending it again puts it behind the
+            // press in the queue.
+            afterPress = nil
+            post(.leftMouseUp, click, at: event.location)
+            return true
+        case .dropped:
+            afterPress = nil
+            return true
+        case nil:
+            return false
+        }
     }
 
-    /// Drops any withheld press, e.g. when the feature is switched off.
+    /// Drops any withheld press, e.g. when the feature is switched off. Runs just
+    /// before a replay, which then records its own release to wait for.
     func reset() {
         pollTimer?.invalidate()
         pollTimer = nil
         pending = nil
+        afterPress = nil
     }
 
     // MARK: - Hit testing
@@ -146,7 +181,13 @@ class ClickThroughFocusHandler {
                 let active = NSWorkspace.shared.frontmostApplication?.processIdentifier == target.pid
                 guard (onTop && active) || Date() >= deadline else { return }
                 self.reset()
-                if onTop { self.replay(pending) }
+                if onTop {
+                    self.replay(pending)
+                } else if pending.releasedAt == nil {
+                    // The press is being dropped. Its release is still to come, and
+                    // on its own it would reach the window unmatched.
+                    self.afterPress = .dropped
+                }
             }
         }
         // Common modes so the replay still happens while a menu or a resize is
@@ -160,7 +201,12 @@ class ClickThroughFocusHandler {
         // The pointer can travel while the press is withheld — a click and drag
         // started on an inactive window. Releasing where the press began would
         // collapse that into a click on the spot the drag started from.
-        if let releasedAt = click.releasedAt { post(.leftMouseUp, click, at: releasedAt) }
+        if let releasedAt = click.releasedAt {
+            post(.leftMouseUp, click, at: releasedAt)
+        } else {
+            // Still held, or released into the gap this replay just raced through.
+            afterPress = .replayed(click)
+        }
     }
 
     private func post(_ type: CGEventType, _ click: PendingClick, at location: CGPoint) {
