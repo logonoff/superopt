@@ -6,16 +6,24 @@ private class UnconstrainedWindow: NSWindow {
     }
 }
 
+private struct Overlay {
+    let window: NSWindow
+    let screenFrame: NSRect
+
+    /// Bottom edge of the menu bar strip, in NSScreen coordinates.
+    var menuBarBottom: CGFloat { window.frame.minY }
+}
+
 @MainActor
 class MenuBarBackground: NSObject {
-    private var windows: [NSWindow] = []
+    private var overlays: [Overlay] = []
     private var timer: Timer?
     private var active = false
 
     func start() {
         active = true
         if timer == nil {
-            if windows.isEmpty { createWindows() }
+            if overlays.isEmpty { createWindows() }
             timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [weak self] _ in
                 MainActor.assumeIsolated { self?.update() }
             }
@@ -28,8 +36,8 @@ class MenuBarBackground: NSObject {
     }
 
     @objc private func screenChanged() {
-        for win in windows { win.orderOut(nil) }
-        windows.removeAll()
+        for overlay in overlays { overlay.window.orderOut(nil) }
+        overlays.removeAll()
         createWindows()
         update()
     }
@@ -40,8 +48,8 @@ class MenuBarBackground: NSObject {
         timer = nil
         NotificationCenter.default.removeObserver(
             self, name: NSApplication.didChangeScreenParametersNotification, object: nil)
-        for win in windows {
-            win.alphaValue = 0
+        for overlay in overlays {
+            overlay.window.alphaValue = 0
         }
     }
 
@@ -75,13 +83,13 @@ class MenuBarBackground: NSObject {
             window.setFrame(frame, display: true)
             window.setFrameOrigin(NSPoint(x: screen.frame.origin.x, y: screen.visibleFrame.maxY))
 
-            windows.append(window)
+            overlays.append(Overlay(window: window, screenFrame: screen.frame))
         }
     }
 
     private func update() {
         if !active {
-            for win in windows { win.alphaValue = 0 }
+            for overlay in overlays { overlay.window.alphaValue = 0 }
             return
         }
 
@@ -91,17 +99,19 @@ class MenuBarBackground: NSObject {
         ) as? [[String: Any]] ?? []
 
         if KeyboardUtils.isMissionControlActive(windowList) {
-            for win in windows { win.alphaValue = 0 }
+            for overlay in overlays { overlay.window.alphaValue = 0 }
             return
         }
 
-        let screens = NSScreen.screens
-        for (idx, screen) in screens.enumerated() {
-            guard idx < windows.count else { break }
-            let filled = isScreenFilled(screen, windowList: windowList)
+        for screen in NSScreen.screens {
+            guard let overlay = overlays.first(where: { $0.screenFrame == screen.frame }) else {
+                continue
+            }
+            let filled = isScreenFilled(
+                screen, menuBarBottom: overlay.menuBarBottom, windowList: windowList)
             let target: CGFloat = filled ? 1 : 0
-            if windows[idx].alphaValue != target {
-                let win = windows[idx]
+            let win = overlay.window
+            if win.alphaValue != target {
                 NSAnimationContext.runAnimationGroup { ctx in
                     ctx.duration = 0.3
                     win.animator().alphaValue = target
@@ -110,7 +120,9 @@ class MenuBarBackground: NSObject {
         }
     }
 
-    private func isScreenFilled(_ screen: NSScreen, windowList: [[String: Any]]) -> Bool {
+    private func isScreenFilled(
+        _ screen: NSScreen, menuBarBottom: CGFloat, windowList: [[String: Any]]
+    ) -> Bool {
         let usableArea = screen.visibleFrame
 
         for info in windowList {
@@ -124,6 +136,12 @@ class MenuBarBackground: NSObject {
                 x: boundsDict["X"] ?? 0, y: boundsDict["Y"] ?? 0,
                 width: boundsDict["Width"] ?? 0, height: boundsDict["Height"] ?? 0)
             let windowFrame = KeyboardUtils.cgRectToNS(cgRect)
+
+            // A window reaching into the menu bar strip is in full screen, or is hiding the
+            // menu bar some other way, and draws those pixels itself — a bar there would
+            // cover its content. The strip is the overlay's own frame, so the test is
+            // against the rect actually being painted.
+            guard windowFrame.maxY <= menuBarBottom + 2 else { continue }
 
             if windowFrame.minX <= usableArea.minX + 2
                 && windowFrame.minY <= usableArea.minY + 2
