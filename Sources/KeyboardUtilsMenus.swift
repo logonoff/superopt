@@ -72,6 +72,18 @@ extension KeyboardUtils {
     /// larger limit costs nothing on the common path.
     private static let searchDepth = 8
 
+    /// Whether the app will act on this item. A greyed-out item — Fill while the window is
+    /// in full screen, Return to Previous Size on a window that was never tiled — does
+    /// nothing when pressed, so the caller must report no match and leave the key alone.
+    /// Items that don't expose the attribute are pressed as before.
+    private static func isEnabled(_ element: AXUIElement) -> Bool {
+        var value: AnyObject?
+        guard AXUIElementCopyAttributeValue(
+            element, kAXEnabledAttribute as CFString, &value) == .success
+        else { return true }
+        return value as? Bool ?? true
+    }
+
     private static func searchMenu(
         in element: AXUIElement,
         matching predicate: (AXUIElement) -> Bool, depth: Int
@@ -84,6 +96,7 @@ extension KeyboardUtils {
               let children = childrenRef as? [AXUIElement] else { return false }
         for child in children {
             if predicate(child) {
+                guard isEnabled(child) else { continue }
                 AXUIElementPerformAction(child, kAXPressAction as CFString)
                 return true
             }
