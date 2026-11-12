@@ -11,6 +11,10 @@ class ZoomButtonHandler {
               let window = windowForButton(button)
         else { return false }
 
+        // A full-screen window has no previous size to fill or restore to, and the only
+        // thing its green button does is leave full screen. Let the click through.
+        if isFullScreen(window) { return false }
+
         var pid: pid_t = 0
         AXUIElementGetPid(window, &pid)
         guard pid != 0 else { return false }
@@ -56,6 +60,18 @@ class ZoomButtonHandler {
             current = parentElement
         }
         return nil
+    }
+
+    /// `AXFullScreen` is an undocumented AX attribute on window elements, true while the window
+    /// occupies a full-screen space. No public API reports that for another app's window:
+    /// `NSWindow.isZoomed` and the full-screen style mask cover this process only, and a
+    /// full-screen window is indistinguishable from a display-sized one in the window list.
+    private func isFullScreen(_ window: AXUIElement) -> Bool {
+        var value: AnyObject?
+        guard AXUIElementCopyAttributeValue(
+            window, "AXFullScreen" as CFString, &value) == .success
+        else { return false }
+        return value as? Bool ?? false
     }
 
     private func isWindowFilled(_ window: AXUIElement, clickPoint: CGPoint) -> Bool {
