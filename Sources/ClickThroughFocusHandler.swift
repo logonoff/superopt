@@ -17,9 +17,9 @@ class ClickThroughFocusHandler {
         let location: CGPoint
         let clickState: Int64
         let flags: CGEventFlags
-        /// Set when the release arrives before the press has been replayed, so
-        /// the replay knows to send a release of its own.
-        var released = false
+        /// Where the release arrived, if it beat the replay — the replay sends a
+        /// release of its own, and the pointer may have moved since the press.
+        var releasedAt: CGPoint?
     }
 
     private struct TargetWindow {
@@ -62,7 +62,7 @@ class ClickThroughFocusHandler {
         guard !KeyboardUtils.isSynthetic(event), pending != nil else { return false }
         // The press is still withheld, so the release has to be too: on its own it
         // would reach the target as a mouse up with no matching mouse down.
-        pending?.released = true
+        pending?.releasedAt = event.location
         return true
     }
 
@@ -156,14 +156,17 @@ class ClickThroughFocusHandler {
     }
 
     private func replay(_ click: PendingClick) {
-        post(.leftMouseDown, click)
-        if click.released { post(.leftMouseUp, click) }
+        post(.leftMouseDown, click, at: click.location)
+        // The pointer can travel while the press is withheld — a click and drag
+        // started on an inactive window. Releasing where the press began would
+        // collapse that into a click on the spot the drag started from.
+        if let releasedAt = click.releasedAt { post(.leftMouseUp, click, at: releasedAt) }
     }
 
-    private func post(_ type: CGEventType, _ click: PendingClick) {
+    private func post(_ type: CGEventType, _ click: PendingClick, at location: CGPoint) {
         guard let event = CGEvent(
             mouseEventSource: CGEventSource(stateID: .hidSystemState),
-            mouseType: type, mouseCursorPosition: click.location, mouseButton: .left
+            mouseType: type, mouseCursorPosition: location, mouseButton: .left
         ) else { return }
         event.flags = click.flags
         event.setIntegerValueField(.mouseEventClickState, value: click.clickState)
