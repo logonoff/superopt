@@ -466,6 +466,8 @@ extension AppDelegate {
               event.flags.contains(.maskAlternate),
               !event.flags.contains(.maskCommand),
               !event.flags.contains(.maskControl),
+              // ⌥⇧A is a different chord, and on a US layout it types Å.
+              !event.flags.contains(.maskShift),
               event.getIntegerValueField(.keyboardEventKeycode) == 0x00
         else { return false }
         triggerSpotlight()
