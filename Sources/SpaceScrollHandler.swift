@@ -21,6 +21,12 @@ final class SpaceScrollHandler {
     /// reports no menu bar at all but one can still be pulled down and scrolled.
     private static let hiddenMenuBarHeight: CGFloat = 40
 
+    /// How long the space animation runs before a window put on the new space stays
+    /// put — measured at about a second on a 2560-wide display, where a panel shown
+    /// any earlier was still being dragged by the transition.
+    private static let settleDelay: TimeInterval = 1.0
+
+    private var pendingShow: DispatchWorkItem?
     private var travel: CGFloat = 0
     private var lastScrollAt: TimeInterval = 0
     private var lastSwitchAt: TimeInterval = 0
@@ -67,12 +73,35 @@ final class SpaceScrollHandler {
         guard let target = SpaceSwitcher.target(for: screen) else { return }
         let display = target.display
         let index = min(max(display.currentIndex + direction, 0), display.spaceIDs.count - 1)
-        if index != display.currentIndex {
-            SpaceSwitcher.setCurrentSpace(display.spaceIDs[index], on: display.identifier)
+
+        guard index != display.currentIndex else {
+            // Either end of the row: nothing is going to move, so this is the whole
+            // answer, and it is the answer to "did that do anything". GNOME shows the
+            // popup here too.
+            show(on: target.screens, count: display.spaceIDs.count, index: index)
+            return
         }
-        // Shown even when the space did not change. At either end of the row the popup
-        // is the answer to "did that do anything", and GNOME shows it there too.
-        osd.show(spaceCount: display.spaceIDs.count, activeIndex: index, on: target.screens)
+        guard SpaceShortcut.post(direction > 0 ? .right : .left) else { return }
+
+        // The popup waits for the switch rather than riding it. The window server
+        // composites every window on the display into the space animation, this one
+        // included: shown during the switch it slides away with the space it was put
+        // on and is gone by the time anyone could read it.
+        // The index is the one worked out above, not a fresh reading: this process's
+        // own view of the current space lags the switch by longer than the wait, and
+        // asking again produced a popup pointing at the space just left.
+        pendingShow?.cancel()
+        let work = DispatchWorkItem { [weak self] in
+            MainActor.assumeIsolated {
+                self?.show(on: target.screens, count: display.spaceIDs.count, index: index)
+            }
+        }
+        pendingShow = work
+        DispatchQueue.main.asyncAfter(deadline: .now() + Self.settleDelay, execute: work)
+    }
+
+    private func show(on screens: [NSScreen], count: Int, index: Int) {
+        osd.show(spaceCount: count, activeIndex: index, on: screens)
     }
 
     // MARK: - Hit testing

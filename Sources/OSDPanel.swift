@@ -69,7 +69,9 @@ final class OSDPanel {
             contentRect: frame, styleMask: .borderless, backing: .buffered, defer: false)
         window.isOpaque = false
         window.backgroundColor = .clear
-        window.level = .floating
+        // Above the menu bar, as the ripple is: an OSD that a full-screen window or the
+        // menu bar can cover is not doing its job.
+        window.level = .screenSaver
         window.ignoresMouseEvents = true
         window.hasShadow = false
         // A panel reporting on a space switch has to outlive the switch.

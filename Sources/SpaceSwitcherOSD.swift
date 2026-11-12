@@ -16,6 +16,7 @@ final class SpaceSwitcherOSD {
     private static let activeDot: CGFloat = slot / 3
     private static let inactiveDot: CGFloat = slot / 6
 
+    /// gnome-shell's own timings, from `workspaceSwitcherPopup.js`.
     private let panel = OSDPanel(displayDuration: 0.6, fadeDuration: 0.1)
 
     func show(spaceCount: Int, activeIndex: Int, on screens: [NSScreen]) {

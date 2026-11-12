@@ -9,22 +9,21 @@ struct ManagedDisplay {
     let currentIndex: Int
 }
 
-/// Reads which space each display is showing, and changes it.
+/// Reads which space each display is showing.
 ///
-/// Spaces have no public API at all. AppKit lets a window say which spaces it joins
-/// (`NSWindow.CollectionBehavior`) and stops there: a process cannot ask how many
-/// spaces exist, which one is current, or move to another. These three SkyLight
-/// symbols are what the window server itself uses. `SLSMainConnectionID` returns this
-/// process's connection to it. `SLSCopyManagedDisplaySpaces` returns, per display, the
-/// ordered list of spaces and which is current. `SLSManagedDisplaySetCurrentSpace`
-/// moves one named display to one of its spaces, animating as a Control-arrow switch
-/// does — and, unlike posting that shortcut, it picks the display rather than leaving
-/// the choice to wherever the keyboard focus happens to be.
+/// Spaces have no public API at all: AppKit lets a window say which spaces it joins
+/// (`NSWindow.CollectionBehavior`) and stops there, so a process cannot ask how many
+/// spaces exist or which one is current. `SLSMainConnectionID` returns this process's
+/// connection to the window server and `SLSCopyManagedDisplaySpaces` returns, per
+/// display, the ordered list of spaces and which is current — in strip order, left to
+/// right, as `SpaceShortcut` moves through them.
+///
+/// Reading only. Changing the space goes through `SpaceShortcut`, because the matching
+/// setter here leaves the menu bar drawing two apps at once.
 @MainActor
 enum SpaceSwitcher {
     private typealias MainConnectionFn = @convention(c) () -> UInt32
     private typealias CopyDisplaySpacesFn = @convention(c) (UInt32) -> CFArray?
-    private typealias SetCurrentSpaceFn = @convention(c) (UInt32, CFString, UInt64) -> Void
 
     private static let skyLight = dlopen(
         "/System/Library/PrivateFrameworks/SkyLight.framework/SkyLight", RTLD_LAZY)
@@ -38,12 +37,6 @@ enum SpaceSwitcher {
         guard let skyLight,
               let symbol = dlsym(skyLight, "SLSCopyManagedDisplaySpaces") else { return nil }
         return unsafeBitCast(symbol, to: CopyDisplaySpacesFn.self)
-    }()
-
-    private static let setSpace: SetCurrentSpaceFn? = {
-        guard let skyLight,
-              let symbol = dlsym(skyLight, "SLSManagedDisplaySetCurrentSpace") else { return nil }
-        return unsafeBitCast(symbol, to: SetCurrentSpaceFn.self)
     }()
 
     static func displays() -> [ManagedDisplay] {
@@ -60,11 +53,6 @@ enum SpaceSwitcher {
             guard let index = ids.firstIndex(of: current) else { return nil }
             return ManagedDisplay(identifier: identifier, spaceIDs: ids, currentIndex: index)
         }
-    }
-
-    static func setCurrentSpace(_ spaceID: UInt64, on display: String) {
-        guard let connection, let setSpace else { return }
-        setSpace(connection, display as CFString, spaceID)
     }
 
     /// The spaces a given screen's menu bar controls, and every screen that moves with
