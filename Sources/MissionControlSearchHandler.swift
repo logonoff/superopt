@@ -45,6 +45,9 @@ class MissionControlSearchHandler {
 
     private var mode: MissionControlSearchMode = .off
     private var buffer = ""
+    /// Backspaces typed after the buffer went out, which can only be applied to what
+    /// Spotlight already has.
+    private var pendingDeletes = 0
     private var pending = false
     private var injected = false
     private var lastTypedAt: TimeInterval = 0
@@ -153,8 +156,14 @@ class MissionControlSearchHandler {
         } else if !buffer.isEmpty {
             flushBuffer()
         } else {
+            flushDeletes()
             finish()
         }
+    }
+
+    private func flushDeletes() {
+        for _ in 0..<pendingDeletes { KeyboardUtils.postKey(Self.keyDelete, flags: []) }
+        pendingDeletes = 0
     }
 
     private func flushBuffer() {
@@ -174,6 +183,7 @@ class MissionControlSearchHandler {
         pending = false
         injected = false
         buffer = ""
+        pendingDeletes = 0
         timer?.invalidate()
         timer = nil
     }
@@ -189,7 +199,14 @@ class MissionControlSearchHandler {
         case Self.keyEscape:
             finish()
         case Self.keyDelete:
-            if !buffer.isEmpty { buffer.removeLast() }
+            if !buffer.isEmpty {
+                buffer.removeLast()
+            } else if injected {
+                // Nothing left to edit here, so this one belongs to the text already
+                // in Spotlight's field. It is replayed there once the field is known
+                // to hold it, rather than let through now and arrive ahead of it.
+                pendingDeletes += 1
+            }
         default:
             if let text = Self.typedText(event) { buffer += text }
         }
