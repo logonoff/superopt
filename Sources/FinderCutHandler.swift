@@ -9,6 +9,8 @@ enum FinderCutMode: Int {
 @MainActor
 class FinderCutHandler {
     private var cutPending = false
+    /// Pasteboard change count as it was when the cut was taken.
+    private var cutChangeCount = 0
     private var mode: FinderCutMode = .off
 
     private static let keyC: Int64 = 0x08
@@ -54,12 +56,11 @@ class FinderCutHandler {
             var newFlags = flags
             newFlags.remove(.maskControl)
             newFlags.insert(.maskCommand)
-            KeyboardUtils.postKey(Self.keyC, flags: newFlags)
-            cutPending = true
+            beginCut { KeyboardUtils.postKey(Self.keyC, flags: newFlags) }
             return true
         }
 
-        if keyCode == Self.keyV && cutPending {
+        if keyCode == Self.keyV && cutIsOnPasteboard() {
             var newFlags = flags
             newFlags.remove(.maskControl)
             newFlags.insert([.maskCommand, .maskAlternate])
@@ -80,12 +81,11 @@ class FinderCutHandler {
         else { return false }
 
         if keyCode == Self.keyX {
-            KeyboardUtils.postKey(Self.keyC, flags: flags)
-            cutPending = true
+            beginCut { KeyboardUtils.postKey(Self.keyC, flags: flags) }
             return true
         }
 
-        if keyCode == Self.keyV && cutPending {
+        if keyCode == Self.keyV && cutIsOnPasteboard() {
             var newFlags = flags
             newFlags.insert(.maskAlternate)
             KeyboardUtils.postKey(Self.keyV, flags: newFlags)
@@ -95,5 +95,28 @@ class FinderCutHandler {
 
         if keyCode == Self.keyC { cutPending = false }
         return false
+    }
+
+    /// Marks files as cut and runs `copy`, which hands the files to Finder's own copy.
+    private func beginCut(_ copy: () -> Void) {
+        cutChangeCount = NSPasteboard.general.changeCount
+        copy()
+        cutPending = true
+    }
+
+    /// Whether the files marked as cut are still the ones on the pasteboard.
+    ///
+    /// Finder's copy bumps the change count exactly once — measured for a single file
+    /// and for a multiple selection alike — so anything past that is a copy made
+    /// somewhere this handler cannot see: the Edit menu, a context menu, another app.
+    /// Pasting then has to copy like any other paste, because moving files the user
+    /// only copied takes them out of the folder they are looking at.
+    private func cutIsOnPasteboard() -> Bool {
+        guard cutPending else { return false }
+        guard NSPasteboard.general.changeCount <= cutChangeCount + 1 else {
+            cutPending = false
+            return false
+        }
+        return true
     }
 }
