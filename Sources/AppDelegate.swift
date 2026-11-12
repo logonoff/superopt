@@ -488,8 +488,12 @@ extension AppDelegate {
             && dockLauncher.handleKeyDown(event: event, finderPosition: dockFinderPosition) {
             optionKeyHandler.markOtherInput(); return true
         }
-        if isEnabled("menuKeyRightClickEnabled") && menuKeyHandler.handleKeyDown(event: event) { return true }
-        if isEnabled("homeEndRemapEnabled") && homeEndHandler.handleKeyDown(event: event) { return true }
+        if isEnabled("menuKeyRightClickEnabled") && menuKeyHandler.handleKeyDown(event: event) {
+            optionKeyHandler.markOtherInput(); return true
+        }
+        if isEnabled("homeEndRemapEnabled") && homeEndHandler.handleKeyDown(event: event) {
+            optionKeyHandler.markOtherInput(); return true
+        }
         if finderCutHandler.handleKeyDown(event: event) {
             optionKeyHandler.markOtherInput(); return true
         }
