@@ -107,7 +107,7 @@
 "Desktop" = "데스크탑";
 
 /* Spoken when the space changes */
-"Desktop %1$d of %2$d" = "데스크탑 %1$d/%2$d";
+"Desktop %1$d of %2$d" = "총 %2$d개 중 %1$d번째 데스크탑";
 
 /* No comment provided by engineer. */
 "Detect VS Code Integrated Terminal" = "VS Code 통합 터미널 감지";
@@ -314,13 +314,13 @@
 "Save" = "저장";
 
 /* No comment provided by engineer. */
-"Scroll the Apple Menu to Switch Spaces" = "Apple 메뉴를 스크롤하여 공간 전환";
+"Scroll over the Apple Menu to Switch Spaces" = "Apple 메뉴를 스크롤하여 공간 전환";
 
 /* Picker label */
 "Scroll Zoom in Browsers" = "브라우저에서 스크롤 확대/축소";
 
 /* No comment provided by engineer. */
-"Scrolling the Apple menu moves that display to the next or previous space" = "Apple 메뉴 위에서 스크롤하면 해당 디스플레이가 다음 또는 이전 공간으로 이동합니다";
+"Scrolling over the Apple menu switches the display you scrolled on to the next or previous space" = "Apple 메뉴 위에서 스크롤하면 해당 디스플레이가 다음 또는 이전 공간으로 이동합니다";
 
 /* No comment provided by engineer. */
 "Search Selection" = "선택 항목 검색";
@@ -356,10 +356,10 @@
 "Shows a black bar behind the menu bar when a window fills the screen" = "윈도우가 화면을 채울 때 메뉴 막대 뒤에 검은 막대를 표시";
 
 /* No comment provided by engineer. */
-"Shows a popup of dots when a display changes space, however it was switched" = "디스플레이의 공간이 바뀔 때 전환 방법과 관계없이 점을 표시합니다";
+"Shows an onscreen indicator when Caps Lock is turned on or off" = "Caps Lock을 켜거나 끌 때 화면에 표시기를 보여줍니다";
 
 /* No comment provided by engineer. */
-"Shows an onscreen indicator when Caps Lock is turned on or off" = "Caps Lock을 켜거나 끌 때 화면에 표시기를 보여줍니다";
+"Shows an onscreen row of dots when a display switches spaces, no matter how you switched" = "디스플레이의 공간이 바뀔 때 전환 방법과 관계없이 화면에 점을 표시합니다";
 
 /* No comment provided by engineer. */
 "Space Indicator" = "공간 표시기";

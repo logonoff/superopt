@@ -314,13 +314,13 @@
 "Save" = "Guardar";
 
 /* No comment provided by engineer. */
-"Scroll the Apple Menu to Switch Spaces" = "Desplazarse por el menú Apple para cambiar de espacio";
+"Scroll over the Apple Menu to Switch Spaces" = "Desplazarse sobre el menú Apple para cambiar de espacio";
 
 /* Picker label */
 "Scroll Zoom in Browsers" = "Zoom con desplazamiento en navegadores";
 
 /* No comment provided by engineer. */
-"Scrolling the Apple menu moves that display to the next or previous space" = "Desplazarse sobre el menú Apple lleva esa pantalla al espacio siguiente o anterior";
+"Scrolling over the Apple menu switches the display you scrolled on to the next or previous space" = "Desplazarse sobre el menú Apple lleva esa pantalla al espacio siguiente o anterior";
 
 /* No comment provided by engineer. */
 "Search Selection" = "Buscar selección";
@@ -356,10 +356,10 @@
 "Shows a black bar behind the menu bar when a window fills the screen" = "Muestra una barra negra detrás de la barra de menús cuando una ventana llena la pantalla";
 
 /* No comment provided by engineer. */
-"Shows a popup of dots when a display changes space, however it was switched" = "Muestra unos puntos cuando una pantalla cambia de espacio, sea cual sea la forma de cambiarlo";
+"Shows an onscreen indicator when Caps Lock is turned on or off" = "Muestra un indicador en pantalla cuando se activa o desactiva Bloqueo mayúsculas";
 
 /* No comment provided by engineer. */
-"Shows an onscreen indicator when Caps Lock is turned on or off" = "Muestra un indicador en pantalla cuando se activa o desactiva Bloqueo mayúsculas";
+"Shows an onscreen row of dots when a display switches spaces, no matter how you switched" = "Muestra una fila de puntos cuando una pantalla cambia de espacio, sea cual sea la forma de hacerlo";
 
 /* No comment provided by engineer. */
 "Space Indicator" = "Indicador de espacios";

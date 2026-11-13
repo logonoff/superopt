@@ -107,7 +107,7 @@
 "Desktop" = "デスクトップ";
 
 /* Spoken when the space changes */
-"Desktop %1$d of %2$d" = "デスクトップ %1$d/%2$d";
+"Desktop %1$d of %2$d" = "デスクトップ%2$d個中%1$d個目";
 
 /* No comment provided by engineer. */
 "Detect VS Code Integrated Terminal" = "VS Code の統合ターミナルを検出";
@@ -314,13 +314,13 @@
 "Save" = "保存";
 
 /* No comment provided by engineer. */
-"Scroll the Apple Menu to Switch Spaces" = "Appleメニューのスクロールでスペースを切り替える";
+"Scroll over the Apple Menu to Switch Spaces" = "アップルメニューのスクロールで操作スペースを切り替える";
 
 /* Picker label */
 "Scroll Zoom in Browsers" = "ブラウザでスクロールズーム";
 
 /* No comment provided by engineer. */
-"Scrolling the Apple menu moves that display to the next or previous space" = "Appleメニュー上でスクロールすると、そのディスプレイが次または前のスペースに切り替わります";
+"Scrolling over the Apple menu switches the display you scrolled on to the next or previous space" = "アップルメニュー上でスクロールすると、そのディスプレイが次または前の操作スペースに切り替わります";
 
 /* No comment provided by engineer. */
 "Search Selection" = "選択部分を検索";
@@ -356,10 +356,10 @@
 "Shows a black bar behind the menu bar when a window fills the screen" = "ウインドウが画面いっぱいのとき、メニューバーの背後に黒いバーを表示";
 
 /* No comment provided by engineer. */
-"Shows a popup of dots when a display changes space, however it was switched" = "ディスプレイのスペースが切り替わったときに、切り替え方法を問わずドットを表示します";
+"Shows an onscreen indicator when Caps Lock is turned on or off" = "Caps Lockのオン・オフ時に画面上にインジケータを表示します";
 
 /* No comment provided by engineer. */
-"Shows an onscreen indicator when Caps Lock is turned on or off" = "Caps Lockのオン・オフ時に画面上にインジケータを表示します";
+"Shows an onscreen row of dots when a display switches spaces, no matter how you switched" = "ディスプレイの操作スペースが切り替わったときに、切り替え方法に関係なく画面上にドットを1列に並べて表示します";
 
 /* No comment provided by engineer. */
 "Space Indicator" = "スペースインジケータ";

@@ -117,13 +117,13 @@ struct SettingsView: View {
                 }
 
                 Toggle(isOn: $spaceScroll) {
-                    Text("Scroll the Apple Menu to Switch Spaces")
-                    Text("Scrolling the Apple menu moves that display to the next or previous space")
+                    Text("Scroll over the Apple Menu to Switch Spaces")
+                    Text("Scrolling over the Apple menu switches the display you scrolled on to the next or previous space")
                 }
 
                 Toggle(isOn: $spaceIndicator) {
                     Text("Space Indicator")
-                    Text("Shows a popup of dots when a display changes space, however it was switched")
+                    Text("Shows an onscreen row of dots when a display switches spaces, no matter how you switched")
                 }
 
                 Toggle(isOn: $mcClose) {

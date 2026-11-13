@@ -107,7 +107,7 @@
 "Desktop" = "桌面";
 
 /* Spoken when the space changes */
-"Desktop %1$d of %2$d" = "桌面 %1$d/%2$d";
+"Desktop %1$d of %2$d" = "桌面 %1$d（共 %2$d 个）";
 
 /* No comment provided by engineer. */
 "Detect VS Code Integrated Terminal" = "检测 VS Code 集成终端";
@@ -314,13 +314,13 @@
 "Save" = "保存";
 
 /* No comment provided by engineer. */
-"Scroll the Apple Menu to Switch Spaces" = "滚动苹果菜单以切换空间";
+"Scroll over the Apple Menu to Switch Spaces" = "滚动苹果菜单以切换空间";
 
 /* Picker label */
 "Scroll Zoom in Browsers" = "浏览器中滚动缩放";
 
 /* No comment provided by engineer. */
-"Scrolling the Apple menu moves that display to the next or previous space" = "在苹果菜单上滚动可将该显示器切换到下一个或上一个空间";
+"Scrolling over the Apple menu switches the display you scrolled on to the next or previous space" = "在苹果菜单上滚动可将该显示器切换到下一个或上一个空间";
 
 /* No comment provided by engineer. */
 "Search Selection" = "搜索所选内容";
@@ -356,10 +356,10 @@
 "Shows a black bar behind the menu bar when a window fills the screen" = "窗口铺满屏幕时在菜单栏后方显示黑色条";
 
 /* No comment provided by engineer. */
-"Shows a popup of dots when a display changes space, however it was switched" = "当显示器切换空间时显示圆点提示，无论以何种方式切换";
+"Shows an onscreen indicator when Caps Lock is turned on or off" = "开启或关闭大写锁定时在屏幕上显示指示器";
 
 /* No comment provided by engineer. */
-"Shows an onscreen indicator when Caps Lock is turned on or off" = "开启或关闭大写锁定时在屏幕上显示指示器";
+"Shows an onscreen row of dots when a display switches spaces, no matter how you switched" = "当显示器切换空间时显示圆点提示，无论以何种方式切换";
 
 /* No comment provided by engineer. */
 "Space Indicator" = "空间指示器";

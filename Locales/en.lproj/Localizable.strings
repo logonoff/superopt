@@ -314,13 +314,13 @@
 "Save" = "Save";
 
 /* No comment provided by engineer. */
-"Scroll the Apple Menu to Switch Spaces" = "Scroll the Apple Menu to Switch Spaces";
+"Scroll over the Apple Menu to Switch Spaces" = "Scroll over the Apple Menu to Switch Spaces";
 
 /* Picker label */
 "Scroll Zoom in Browsers" = "Scroll Zoom in Browsers";
 
 /* No comment provided by engineer. */
-"Scrolling the Apple menu moves that display to the next or previous space" = "Scrolling the Apple menu moves that display to the next or previous space";
+"Scrolling over the Apple menu switches the display you scrolled on to the next or previous space" = "Scrolling over the Apple menu switches the display you scrolled on to the next or previous space";
 
 /* No comment provided by engineer. */
 "Search Selection" = "Search Selection";
@@ -356,10 +356,10 @@
 "Shows a black bar behind the menu bar when a window fills the screen" = "Shows a black bar behind the menu bar when a window fills the screen";
 
 /* No comment provided by engineer. */
-"Shows a popup of dots when a display changes space, however it was switched" = "Shows a popup of dots when a display changes space, however it was switched";
+"Shows an onscreen indicator when Caps Lock is turned on or off" = "Shows an onscreen indicator when Caps Lock is turned on or off";
 
 /* No comment provided by engineer. */
-"Shows an onscreen indicator when Caps Lock is turned on or off" = "Shows an onscreen indicator when Caps Lock is turned on or off";
+"Shows an onscreen row of dots when a display switches spaces, no matter how you switched" = "Shows an onscreen row of dots when a display switches spaces, no matter how you switched";
 
 /* No comment provided by engineer. */
 "Space Indicator" = "Space Indicator";

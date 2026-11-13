@@ -314,13 +314,13 @@
 "Save" = "Сохранить";
 
 /* No comment provided by engineer. */
-"Scroll the Apple Menu to Switch Spaces" = "Прокрутка меню Apple для переключения пространств";
+"Scroll over the Apple Menu to Switch Spaces" = "Прокрутка над меню Apple переключает пространства";
 
 /* Picker label */
 "Scroll Zoom in Browsers" = "Масштабирование прокруткой в браузерах";
 
 /* No comment provided by engineer. */
-"Scrolling the Apple menu moves that display to the next or previous space" = "Прокрутка над меню Apple переводит этот дисплей в следующее или предыдущее пространство";
+"Scrolling over the Apple menu switches the display you scrolled on to the next or previous space" = "Прокрутка над меню Apple переключает этот дисплей на следующее или предыдущее пространство";
 
 /* No comment provided by engineer. */
 "Search Selection" = "Искать выделенное";
@@ -356,10 +356,10 @@
 "Shows a black bar behind the menu bar when a window fills the screen" = "Показывает чёрную полосу за строкой меню, когда окно заполняет экран";
 
 /* No comment provided by engineer. */
-"Shows a popup of dots when a display changes space, however it was switched" = "Показывает точки при смене пространства на дисплее, каким бы способом она ни была сделана";
+"Shows an onscreen indicator when Caps Lock is turned on or off" = "Показывает индикатор на экране при включении или выключении Caps Lock";
 
 /* No comment provided by engineer. */
-"Shows an onscreen indicator when Caps Lock is turned on or off" = "Показывает индикатор на экране при включении или выключении Caps Lock";
+"Shows an onscreen row of dots when a display switches spaces, no matter how you switched" = "Показывает ряд точек на экране, когда дисплей меняет пространство, независимо от способа переключения";
 
 /* No comment provided by engineer. */
 "Space Indicator" = "Индикатор пространств";
