@@ -9,11 +9,8 @@ import Cocoa
 /// past either end of the row, which changes nothing and so goes unreported.
 @MainActor
 final class SpaceScrollHandler {
-    /// How far a gesture travels before it counts as one space.
+    /// How far a trackpad gesture travels before it counts as one space.
     private static let threshold: CGFloat = 40
-    /// A wheel reports lines where a trackpad reports points. One line per space keeps
-    /// a single detent of a wheel worth one space.
-    private static let pointsPerLine: CGFloat = threshold
     /// Idle time after which travel is forgotten, so two flicks don't add up.
     private static let gestureGap: TimeInterval = 0.3
     /// Floor on the time between switches, so one long swipe doesn't run the whole row.
@@ -45,30 +42,39 @@ final class SpaceScrollHandler {
         else { return false }
 
         let now = ProcessInfo.processInfo.systemUptime
-        if now - lastScrollAt > Self.gestureGap { travel = 0 }
-        lastScrollAt = now
-        travel += scrollDelta(of: event)
+        guard now - lastSwitchAt >= Self.cooldown else { return true }
 
-        guard abs(travel) >= Self.threshold, now - lastSwitchAt >= Self.cooldown else { return true }
-        // Scrolling up goes to the space on the left, as scrolling up goes to the top
-        // of anything else.
-        let direction = travel > 0 ? -1 : 1
+        guard let direction = direction(of: event, at: now) else { return true }
         travel = 0
         lastSwitchAt = now
         switchSpace(by: direction, on: screen)
         return true
     }
 
-    /// How far the gesture has moved, in points.
+    /// Which way this scroll goes, or nil if it has not asked for a space yet.
     ///
-    /// Trackpads report points; a wheel reports lines and leaves the point fields at 0.
+    /// A wheel and a trackpad are read differently. A wheel reports whole notches, and
+    /// one notch is one space, as it is in GNOME: its point delta carries the system's
+    /// scroll acceleration — around 10pt for an unhurried notch — so measuring distance
+    /// there made a slow wheel take four notches to move one space. A trackpad has no
+    /// notches to count, so its travel is added up until it amounts to a gesture.
+    ///
     /// The sign is taken as the system reports it, after natural scrolling has had its
-    /// say, so the gesture reads the same way round as scrolling anything else on the
-    /// machine — which is also what GNOME does with the setting.
-    private func scrollDelta(of event: CGEvent) -> CGFloat {
-        let points = event.getDoubleValueField(.scrollWheelEventPointDeltaAxis1)
-        if points != 0 { return CGFloat(points) }
-        return CGFloat(event.getDoubleValueField(.scrollWheelEventDeltaAxis1)) * Self.pointsPerLine
+    /// say, so this reads the same way round as scrolling anything else on the machine —
+    /// which is what GNOME does with that setting too. Scrolling up goes to the space on
+    /// the left, as scrolling up goes to the top of anything else.
+    private func direction(of event: CGEvent, at now: TimeInterval) -> Int? {
+        guard event.getIntegerValueField(.scrollWheelEventIsContinuous) != 0 else {
+            let lines = event.getDoubleValueField(.scrollWheelEventDeltaAxis1)
+            guard lines != 0 else { return nil }
+            return lines > 0 ? -1 : 1
+        }
+
+        if now - lastScrollAt > Self.gestureGap { travel = 0 }
+        lastScrollAt = now
+        travel += CGFloat(event.getDoubleValueField(.scrollWheelEventPointDeltaAxis1))
+        guard abs(travel) >= Self.threshold else { return nil }
+        return travel > 0 ? -1 : 1
     }
 
     private func switchSpace(by direction: Int, on screen: NSScreen) {
