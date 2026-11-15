@@ -101,6 +101,7 @@ swiftc Sources/*.swift \
     -o "$BUILD_DIR/$APP_NAME" \
     -target "$(uname -m)-apple-macos$DEPLOYMENT_TARGET" \
     -framework Cocoa \
+    -warnings-as-errors \
     -O
 
 mkdir -p "$APP_BUNDLE/Contents/MacOS"
