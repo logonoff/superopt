@@ -26,6 +26,8 @@ class MenuBarBackground: NSObject {
 
     /// Which displays were last seen with a menu bar drawing light text, by display ID.
     private var lightText: [CGDirectDisplayID: Bool] = [:]
+    /// When the wallpaper was last changed, as far as the readings above are concerned.
+    private var wallpaperChangedAt: Date?
 
     func start() {
         active = true
@@ -137,10 +139,33 @@ class MenuBarBackground: NSObject {
     /// active one. The others are remembered from when they were last active, which
     /// holds while their wallpaper and their windows do.
     private func recordMenuBarAppearance() {
+        forgetReadingsIfWallpaperChanged()
         guard let appearance = menuBarAppearance?(),
               let screen = NSScreen.main, let display = Self.displayID(of: screen)
         else { return }
         lightText[display] = appearance.bestMatch(from: [.aqua, .darkAqua]) == .darkAqua
+    }
+
+    /// Where macOS keeps the current wallpaper, including the picture a slideshow is
+    /// on. Its modification date moves whenever the wallpaper does.
+    private static let wallpaperStore =
+        ("~/Library/Application Support/com.apple.wallpaper/Store/Index.plist" as NSString)
+        .expandingTildeInPath
+
+    /// Drops the readings for displays that are not in use when the wallpaper changes,
+    /// since that is what the menu bar takes its colour from. The display in use is
+    /// read again on the next tick either way, so only the others go stale, and a
+    /// display with no reading is one the bar is not drawn on.
+    ///
+    /// The date of the file is the signal because there is nothing better to ask:
+    /// `NSWorkspace.desktopImageURL(for:)` went on naming the previous picture after
+    /// the wallpaper had been changed, on every display.
+    private func forgetReadingsIfWallpaperChanged() {
+        let attributes = try? FileManager.default.attributesOfItem(atPath: Self.wallpaperStore)
+        guard let changedAt = attributes?[.modificationDate] as? Date else { return }
+        defer { wallpaperChangedAt = changedAt }
+        guard let wallpaperChangedAt, wallpaperChangedAt != changedAt else { return }
+        lightText.removeAll()
     }
 
     /// Whether a bar on this display would leave the menu bar's text readable.
@@ -150,10 +175,14 @@ class MenuBarBackground: NSObject {
     /// it considers to fill the display. Nothing drawn there changes that choice: a
     /// bar at any window level, down to the desktop, leaves it as it was. So over a
     /// light wallpaper the text is dark, and a black bar behind it would swallow it.
-    /// A display that has not been read yet is left alone for the same reason.
+    /// A display that has not been read yet goes by the ones that have: where every
+    /// reading says light text the wallpaper is dark all round and the bar is safe,
+    /// and one light menu bar anywhere is enough to give the text the benefit of the
+    /// doubt until that display has been read for itself.
     private func textStaysLegible(on screen: NSScreen) -> Bool {
         guard let display = Self.displayID(of: screen) else { return false }
-        return lightText[display] ?? false
+        if let reading = lightText[display] { return reading }
+        return !lightText.isEmpty && lightText.values.allSatisfy { $0 }
     }
 
     private static func displayID(of screen: NSScreen) -> CGDirectDisplayID? {
