@@ -118,7 +118,10 @@ struct SettingsView: View {
 
                 Toggle(isOn: $spaceScroll) {
                     Text("Scroll over the Apple Menu to Switch Spaces")
-                    Text("Scrolling over the Apple menu switches the display you scrolled on to the next or previous space")
+                    Text("""
+                        Scrolling over the Apple menu switches the display you scrolled on \
+                        to the next or previous space
+                        """)
                 }
 
                 Toggle(isOn: $spaceIndicator) {
