@@ -49,6 +49,12 @@
 /* No comment provided by engineer. */
 "Caps Lock Indicator" = "Caps Lock 표시기";
 
+/* OSD text when Caps Lock is turned off */
+"Caps Lock Off" = "Caps Lock 꺼짐";
+
+/* OSD text when Caps Lock is turned on */
+"Caps Lock On" = "Caps Lock 켜짐";
+
 /* No comment provided by engineer. */
 "Clear Browsing Data" = "인터넷 사용 기록 삭제";
 
@@ -477,12 +483,6 @@
 
 /* No comment provided by engineer. */
 "↖/↘ → Line Start/End" = "↖/↘ → 줄 처음/끝";
-
-/* OSD text when Caps Lock is turned off */
-"⇪ Caps Lock Off" = "⇪ Caps Lock 꺼짐";
-
-/* OSD text when Caps Lock is turned on */
-"⇪ Caps Lock On" = "⇪ Caps Lock 켜짐";
 
 /* Finder cut picker option */
 "⌃X and ⌃V" = "⌃X 및 ⌃V";

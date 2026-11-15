@@ -1,23 +1,14 @@
 import Cocoa
 
-/// GNOME's workspace switcher popup: a pill holding one dot per space, the current
+/// A workspace switcher popup: a pill holding one dot per space, the current
 /// one filled in and larger.
-///
-/// The sizes are gnome-shell's, from `widgets/_workspace-switcher.scss`: each dot sits
-/// in a 32pt slot, slots are 12pt apart, the panel is padded 12pt by 18pt, the active
-/// dot is a third of a slot across and the inactive ones a sixth, drawn at half
-/// opacity. The timings are from `workspaceSwitcherPopup.js`.
 @MainActor
 final class SpaceSwitcherOSD {
-    private static let slot: CGFloat = 32
     private static let spacing: CGFloat = 12
-    private static let paddingX: CGFloat = 18
-    private static let paddingY: CGFloat = 12
-    private static let activeDot: CGFloat = slot / 3
-    private static let inactiveDot: CGFloat = slot / 6
+    private static let activeDot: CGFloat = OSDMetrics.slot / 3
+    private static let inactiveDot: CGFloat = OSDMetrics.slot / 6
 
-    /// gnome-shell's own timings, from `workspaceSwitcherPopup.js`.
-    private let panel = OSDPanel(displayDuration: 0.6, fadeDuration: 0.1)
+    private let panel = OSDPanel(displayDuration: 0.6, fadeDuration: OSDMetrics.fadeDuration)
 
     func show(spaceCount: Int, activeIndex: Int, on screens: [NSScreen]) {
         guard spaceCount > 0 else { return }
@@ -35,8 +26,8 @@ final class SpaceSwitcherOSD {
     private static func size(spaceCount: Int) -> NSSize {
         let count = CGFloat(spaceCount)
         return NSSize(
-            width: count * slot + max(count - 1, 0) * spacing + paddingX * 2,
-            height: slot + paddingY * 2)
+            width: count * OSDMetrics.slot + max(count - 1, 0) * spacing + OSDMetrics.paddingX * 2,
+            height: OSDMetrics.slot + OSDMetrics.paddingY * 2)
     }
 
     private static func layoutDots(in container: NSView, count: Int, activeIndex: Int) {
@@ -44,10 +35,10 @@ final class SpaceSwitcherOSD {
         for index in 0..<count {
             let isActive = index == activeIndex
             let diameter = isActive ? activeDot : inactiveDot
-            let slotOrigin = paddingX + CGFloat(index) * (slot + spacing)
+            let slotOrigin = OSDMetrics.paddingX + CGFloat(index) * (OSDMetrics.slot + spacing)
             let dot = NSView(frame: NSRect(
-                x: slotOrigin + (slot - diameter) / 2,
-                y: paddingY + (slot - diameter) / 2,
+                x: slotOrigin + (OSDMetrics.slot - diameter) / 2,
+                y: OSDMetrics.paddingY + (OSDMetrics.slot - diameter) / 2,
                 width: diameter, height: diameter))
             dot.wantsLayer = true
             dot.layer?.cornerRadius = diameter / 2

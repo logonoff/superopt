@@ -49,6 +49,12 @@
 /* No comment provided by engineer. */
 "Caps Lock Indicator" = "大写锁定指示器";
 
+/* OSD text when Caps Lock is turned off */
+"Caps Lock Off" = "大写锁定 已关闭";
+
+/* OSD text when Caps Lock is turned on */
+"Caps Lock On" = "大写锁定 已开启";
+
 /* No comment provided by engineer. */
 "Clear Browsing Data" = "清除浏览数据";
 
@@ -477,12 +483,6 @@
 
 /* No comment provided by engineer. */
 "↖/↘ → Line Start/End" = "↖/↘ → 行首/行尾";
-
-/* OSD text when Caps Lock is turned off */
-"⇪ Caps Lock Off" = "⇪ 大写锁定 已关闭";
-
-/* OSD text when Caps Lock is turned on */
-"⇪ Caps Lock On" = "⇪ 大写锁定 已开启";
 
 /* Finder cut picker option */
 "⌃X and ⌃V" = "⌃X和⌃V";

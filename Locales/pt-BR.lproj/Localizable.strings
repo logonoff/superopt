@@ -49,6 +49,12 @@
 /* No comment provided by engineer. */
 "Caps Lock Indicator" = "Indicador de Caps Lock";
 
+/* OSD text when Caps Lock is turned off */
+"Caps Lock Off" = "Caps Lock desativado";
+
+/* OSD text when Caps Lock is turned on */
+"Caps Lock On" = "Caps Lock ativado";
+
 /* No comment provided by engineer. */
 "Clear Browsing Data" = "Limpar dados de navegação";
 
@@ -477,12 +483,6 @@
 
 /* No comment provided by engineer. */
 "↖/↘ → Line Start/End" = "↖/↘ → Início/Fim da linha";
-
-/* OSD text when Caps Lock is turned off */
-"⇪ Caps Lock Off" = "⇪ Caps Lock desativado";
-
-/* OSD text when Caps Lock is turned on */
-"⇪ Caps Lock On" = "⇪ Caps Lock ativado";
 
 /* Finder cut picker option */
 "⌃X and ⌃V" = "⌃X e ⌃V";

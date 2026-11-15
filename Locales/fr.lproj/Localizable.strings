@@ -49,6 +49,12 @@
 /* No comment provided by engineer. */
 "Caps Lock Indicator" = "Indicateur Verrouillage majuscule";
 
+/* OSD text when Caps Lock is turned off */
+"Caps Lock Off" = "Verrouillage majuscule désactivé";
+
+/* OSD text when Caps Lock is turned on */
+"Caps Lock On" = "Verrouillage majuscule activé";
+
 /* No comment provided by engineer. */
 "Clear Browsing Data" = "Effacer les données de navigation";
 
@@ -477,12 +483,6 @@
 
 /* No comment provided by engineer. */
 "↖/↘ → Line Start/End" = "↖/↘ → Début/Fin de ligne";
-
-/* OSD text when Caps Lock is turned off */
-"⇪ Caps Lock Off" = "⇪ Verrouillage majuscule désactivé";
-
-/* OSD text when Caps Lock is turned on */
-"⇪ Caps Lock On" = "⇪ Verrouillage majuscule activé";
 
 /* Finder cut picker option */
 "⌃X and ⌃V" = "⌃X et ⌃V";

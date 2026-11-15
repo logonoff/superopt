@@ -510,8 +510,8 @@ extension AppDelegate {
         let capsLockOn = event.flags.contains(.maskAlphaShift)
         guard capsLockOn != lastCapsLockState else { return }
         lastCapsLockState = capsLockOn
-        let onText = NSLocalizedString("⇪ Caps Lock On", comment: "OSD text when Caps Lock is turned on")
-        let offText = NSLocalizedString("⇪ Caps Lock Off", comment: "OSD text when Caps Lock is turned off")
+        let onText = NSLocalizedString("Caps Lock On", comment: "OSD text when Caps Lock is turned on")
+        let offText = NSLocalizedString("Caps Lock Off", comment: "OSD text when Caps Lock is turned off")
         lockKeyOSD.show(text: capsLockOn ? onText : offText, active: capsLockOn)
     }
 

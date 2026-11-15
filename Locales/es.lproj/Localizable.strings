@@ -49,6 +49,12 @@
 /* No comment provided by engineer. */
 "Caps Lock Indicator" = "Indicador de Bloqueo mayúsculas";
 
+/* OSD text when Caps Lock is turned off */
+"Caps Lock Off" = "Bloqueo mayúsculas desactivado";
+
+/* OSD text when Caps Lock is turned on */
+"Caps Lock On" = "Bloqueo mayúsculas activado";
+
 /* No comment provided by engineer. */
 "Clear Browsing Data" = "Borrar datos de navegación";
 
@@ -477,12 +483,6 @@
 
 /* No comment provided by engineer. */
 "↖/↘ → Line Start/End" = "↖/↘ → Inicio/Fin de línea";
-
-/* OSD text when Caps Lock is turned off */
-"⇪ Caps Lock Off" = "⇪ Bloqueo mayúsculas desactivado";
-
-/* OSD text when Caps Lock is turned on */
-"⇪ Caps Lock On" = "⇪ Bloqueo mayúsculas activado";
 
 /* Finder cut picker option */
 "⌃X and ⌃V" = "⌃X y ⌃V";

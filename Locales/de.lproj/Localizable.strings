@@ -49,6 +49,12 @@
 /* No comment provided by engineer. */
 "Caps Lock Indicator" = "Feststelltastenanzeige";
 
+/* OSD text when Caps Lock is turned off */
+"Caps Lock Off" = "Feststelltaste aus";
+
+/* OSD text when Caps Lock is turned on */
+"Caps Lock On" = "Feststelltaste ein";
+
 /* No comment provided by engineer. */
 "Clear Browsing Data" = "Browserdaten löschen";
 
@@ -477,12 +483,6 @@
 
 /* No comment provided by engineer. */
 "↖/↘ → Line Start/End" = "↖/↘ → Zeilenanfang/-ende";
-
-/* OSD text when Caps Lock is turned off */
-"⇪ Caps Lock Off" = "⇪ Feststelltaste aus";
-
-/* OSD text when Caps Lock is turned on */
-"⇪ Caps Lock On" = "⇪ Feststelltaste ein";
 
 /* Finder cut picker option */
 "⌃X and ⌃V" = "⌃X und ⌃V";

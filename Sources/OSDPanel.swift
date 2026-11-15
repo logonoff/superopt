@@ -108,3 +108,13 @@ final class OSDPanel {
         shownFrames = []
     }
 }
+
+/// Metrics shared by the OSDs so their pills read as one family: GNOME's
+/// workspace-switcher slot and padding give every pill the same height and
+/// padding, and one fade duration drives every show and hide.
+enum OSDMetrics {
+    static let slot: CGFloat = 32
+    static let paddingX: CGFloat = 18
+    static let paddingY: CGFloat = 12
+    static let fadeDuration: TimeInterval = 0.2
+}
