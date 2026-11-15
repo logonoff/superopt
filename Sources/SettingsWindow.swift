@@ -287,6 +287,8 @@ struct SettingsView: View {
                     }
                 }
             }
+
+            ExcludedAppsSection()
         }
         .formStyle(.grouped)
         .frame(width: 420)

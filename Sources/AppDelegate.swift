@@ -64,6 +64,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private let tileAssistWatcher = TileAssistWatcher()
     private let settingsWindow = SettingsWindowController()
     private let permissionHelper = PermissionHelper()
+    private let excludedApps = ExcludedApps()
     private var lastCapsLockState = false
 
     // MARK: - Preferences
@@ -91,14 +92,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         "scrollZoomMode": ScrollZoomMode.off.rawValue,
         "spaceScrollEnabled": false,
         "spaceIndicatorEnabled": false,
+        "excludedAppsEnabled": false,
         "dockFinderPosition": 1
     ]
 
+    /// A feature is on when the user turned it on and the active app is not one of the
+    /// apps they excluded.
     private func isEnabled(_ key: String) -> Bool {
-        UserDefaults.standard.bool(forKey: key)
+        !excludedApps.isSuspended && UserDefaults.standard.bool(forKey: key)
     }
 
     @objc private func defaultsChanged() {
+        excludedApps.reload()
         hotCorner.enabled = isEnabled("hotCornersEnabled")
         let wantsBg = isEnabled("menuBarBgEnabled")
             && !UserDefaults.standard.bool(forKey: "SLSMenuBarUseBlurredAppearance")
@@ -117,15 +122,29 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if isEnabled("spaceIndicatorEnabled") {
             spaceChangeWatcher.start()
         } else { spaceChangeWatcher.stop() }
-        if !isEnabled("clickThroughFocusEnabled") { clickThroughFocusHandler.reset() }
+        // The setting itself, not `isEnabled`: a press withheld on the way into an
+        // excluded app has to be replayed even though arriving there suspends the
+        // feature, or the click that brought the app forward is swallowed.
+        if !UserDefaults.standard.bool(forKey: "clickThroughFocusEnabled") {
+            clickThroughFocusHandler.reset()
+        }
     }
 
     /// The monitor is shared, so it runs whenever any feature that needs to know
     /// about Mission Control is on, and not at all otherwise.
     private func updateMissionControlMonitor() {
-        if isEnabled("mcCloseEnabled") || mcSearchHandler.isEnabled {
+        if !excludedApps.isSuspended && (isEnabled("mcCloseEnabled") || mcSearchHandler.isEnabled) {
             mcMonitor.start()
         } else { mcMonitor.stop() }
+    }
+
+    /// Switching into or out of an excluded app. The menu bar icon dims, anything
+    /// already on screen goes away, and the timers and observers behind the features
+    /// are stopped or started by `defaultsChanged`, which reads `isEnabled`.
+    private func applyExclusion() {
+        statusItem?.button?.alphaValue = excludedApps.isSuspended ? 0.5 : 1
+        if excludedApps.isSuspended { snapAssistPanel?.dismiss() }
+        defaultsChanged()
     }
 
     private var dockFinderPosition: Int { UserDefaults.standard.integer(forKey: "dockFinderPosition") }
@@ -174,6 +193,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         )
 
         setupStatusItem()
+
+        excludedApps.onChange = { [weak self] in self?.applyExclusion() }
+        excludedApps.start()
 
         permissionHelper.hasEventTap = { [weak self] in self?.eventTap != nil }
         permissionHelper.trySetupEventTap = { [weak self] in self?.setupEventTap() ?? false }
@@ -422,6 +444,9 @@ extension AppDelegate {
     /// Returns true if the event should be consumed.
     @discardableResult
     func handleEvent(type: CGEventType, event: CGEvent) -> Bool {
+        // Every handler below is off in an excluded app, including the ones that read
+        // their own setting rather than going through `isEnabled`.
+        guard !excludedApps.isSuspended else { return false }
         switch type {
         case .flagsChanged: handleFlagsChanged(event: event)
         case .keyDown: return handleKeyDown(event: event)

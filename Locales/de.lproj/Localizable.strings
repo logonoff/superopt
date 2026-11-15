@@ -19,6 +19,12 @@
 /* Category hint */
 "Active only in the Finder" = "Nur im Finder aktiv";
 
+/* Open panel button for adding an app */
+"Add" = "Hinzufügen";
+
+/* No comment provided by engineer. */
+"Add app" = "App hinzufügen";
+
 /* No comment provided by engineer. */
 "Address Bar" = "Adressleiste";
 
@@ -123,6 +129,9 @@
 
 /* No comment provided by engineer. */
 "Duplicate" = "Duplizieren";
+
+/* Section header */
+"Excluded Apps" = "Ausgeschlossene Apps";
 
 /* Shortcut category */
 "File" = "Ablage";
@@ -229,6 +238,9 @@
 /* Category hint */
 "New, save, print, and quit" = "Neu, Sichern, Drucken und Beenden";
 
+/* Shown in place of an empty list of apps */
+"No apps are excluded." = "Keine Apps ausgeschlossen.";
+
 /* Picker option */
 "Off" = "Aus";
 
@@ -296,6 +308,9 @@
 "Remap Shortcuts" = "Kurzbefehle neu zuordnen";
 
 /* No comment provided by engineer. */
+"Remove app" = "App entfernen";
+
+/* No comment provided by engineer. */
 "Rename" = "Umbenennen";
 
 /* No comment provided by engineer. */
@@ -330,6 +345,9 @@
 
 /* No comment provided by engineer. */
 "Select Down" = "Nach unten auswählen";
+
+/* Open panel message */
+"Select the apps you want to exclude." = "Wähle die Apps aus, die ausgeschlossen werden sollen.";
 
 /* No comment provided by engineer. */
 "Select Up" = "Nach oben auswählen";
@@ -403,6 +421,9 @@
 /* No comment provided by engineer. */
 "Turn off Show Menu Bar Background in System Settings to use this feature" = "Deaktiviere 'Hintergrund der Menüleiste anzeigen' in den Systemeinstellungen, um diese Funktion zu nutzen";
 
+/* Toggle label */
+"Turn off SuperOpt in these apps" = "SuperOpt in diesen Apps deaktivieren";
+
 /* Picker label */
 "Type to Search in Mission Control" = "Suche durch Tippen in Mission Control";
 
@@ -426,6 +447,9 @@
 
 /* No comment provided by engineer. */
 "View Source" = "Quelltext anzeigen";
+
+/* Toggle description */
+"While you’re using an app in this list, SuperOpt turns off all of its features and its menu bar icon appears dimmed" = "Solange du eine App aus dieser Liste verwendest, deaktiviert SuperOpt alle seine Funktionen und sein Symbol in der Menüleiste wird abgeblendet";
 
 /* Toggle label */
 "Window Tiling" = "Fensteranordnung";

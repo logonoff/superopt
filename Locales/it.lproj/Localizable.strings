@@ -19,6 +19,12 @@
 /* Category hint */
 "Active only in the Finder" = "Attivo solo nel Finder";
 
+/* Open panel button for adding an app */
+"Add" = "Aggiungi";
+
+/* No comment provided by engineer. */
+"Add app" = "Aggiungi app";
+
 /* No comment provided by engineer. */
 "Address Bar" = "Barra degli indirizzi";
 
@@ -123,6 +129,9 @@
 
 /* No comment provided by engineer. */
 "Duplicate" = "Duplica";
+
+/* Section header */
+"Excluded Apps" = "App escluse";
 
 /* Shortcut category */
 "File" = "File";
@@ -229,6 +238,9 @@
 /* Category hint */
 "New, save, print, and quit" = "Nuovo, salva, stampa e esci";
 
+/* Shown in place of an empty list of apps */
+"No apps are excluded." = "Nessuna app esclusa.";
+
 /* Picker option */
 "Off" = "Disattivato";
 
@@ -296,6 +308,9 @@
 "Remap Shortcuts" = "Riassegna scorciatoie";
 
 /* No comment provided by engineer. */
+"Remove app" = "Rimuovi app";
+
+/* No comment provided by engineer. */
 "Rename" = "Rinomina";
 
 /* No comment provided by engineer. */
@@ -330,6 +345,9 @@
 
 /* No comment provided by engineer. */
 "Select Down" = "Seleziona in basso";
+
+/* Open panel message */
+"Select the apps you want to exclude." = "Seleziona le app che vuoi escludere.";
 
 /* No comment provided by engineer. */
 "Select Up" = "Seleziona in alto";
@@ -403,6 +421,9 @@
 /* No comment provided by engineer. */
 "Turn off Show Menu Bar Background in System Settings to use this feature" = "Disattiva 'Mostra sfondo barra dei menu' in Impostazioni di Sistema per utilizzare questa funzione";
 
+/* Toggle label */
+"Turn off SuperOpt in these apps" = "Disattiva SuperOpt in queste app";
+
 /* Picker label */
 "Type to Search in Mission Control" = "Digitare per cercare in Mission Control";
 
@@ -426,6 +447,9 @@
 
 /* No comment provided by engineer. */
 "View Source" = "Visualizza sorgente";
+
+/* Toggle description */
+"While you’re using an app in this list, SuperOpt turns off all of its features and its menu bar icon appears dimmed" = "Mentre usi un’app di questo elenco, SuperOpt disattiva tutte le sue funzionalità e la sua icona nella barra dei menu appare attenuata";
 
 /* Toggle label */
 "Window Tiling" = "Disposizione finestre";

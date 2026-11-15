@@ -19,6 +19,12 @@
 /* Category hint */
 "Active only in the Finder" = "Activo solo en el Finder";
 
+/* Open panel button for adding an app */
+"Add" = "Añadir";
+
+/* No comment provided by engineer. */
+"Add app" = "Añadir app";
+
 /* No comment provided by engineer. */
 "Address Bar" = "Barra de direcciones";
 
@@ -123,6 +129,9 @@
 
 /* No comment provided by engineer. */
 "Duplicate" = "Duplicar";
+
+/* Section header */
+"Excluded Apps" = "Apps excluidas";
 
 /* Shortcut category */
 "File" = "Archivo";
@@ -229,6 +238,9 @@
 /* Category hint */
 "New, save, print, and quit" = "Nuevo, guardar, imprimir y salir";
 
+/* Shown in place of an empty list of apps */
+"No apps are excluded." = "No hay apps excluidas.";
+
 /* Picker option */
 "Off" = "Desactivado";
 
@@ -296,6 +308,9 @@
 "Remap Shortcuts" = "Reasignar atajos";
 
 /* No comment provided by engineer. */
+"Remove app" = "Eliminar app";
+
+/* No comment provided by engineer. */
 "Rename" = "Cambiar nombre";
 
 /* No comment provided by engineer. */
@@ -330,6 +345,9 @@
 
 /* No comment provided by engineer. */
 "Select Down" = "Seleccionar abajo";
+
+/* Open panel message */
+"Select the apps you want to exclude." = "Selecciona las apps que quieres excluir.";
 
 /* No comment provided by engineer. */
 "Select Up" = "Seleccionar arriba";
@@ -403,6 +421,9 @@
 /* No comment provided by engineer. */
 "Turn off Show Menu Bar Background in System Settings to use this feature" = "Desactiva 'Mostrar fondo de la barra de menús' en Ajustes del Sistema para usar esta función";
 
+/* Toggle label */
+"Turn off SuperOpt in these apps" = "Desactivar SuperOpt en estas apps";
+
 /* Picker label */
 "Type to Search in Mission Control" = "Escribir para buscar en Mission Control";
 
@@ -426,6 +447,9 @@
 
 /* No comment provided by engineer. */
 "View Source" = "Ver código fuente";
+
+/* Toggle description */
+"While you’re using an app in this list, SuperOpt turns off all of its features and its menu bar icon appears dimmed" = "Mientras usas una app de esta lista, SuperOpt desactiva todas sus funciones y su icono en la barra de menús aparece atenuado";
 
 /* Toggle label */
 "Window Tiling" = "Mosaico de ventanas";

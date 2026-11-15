@@ -19,6 +19,12 @@
 /* Category hint */
 "Active only in the Finder" = "Активно только в Finder";
 
+/* Open panel button for adding an app */
+"Add" = "Добавить";
+
+/* No comment provided by engineer. */
+"Add app" = "Добавить приложение";
+
 /* No comment provided by engineer. */
 "Address Bar" = "Адресная строка";
 
@@ -123,6 +129,9 @@
 
 /* No comment provided by engineer. */
 "Duplicate" = "Дублировать";
+
+/* Section header */
+"Excluded Apps" = "Исключенные приложения";
 
 /* Shortcut category */
 "File" = "Файл";
@@ -229,6 +238,9 @@
 /* Category hint */
 "New, save, print, and quit" = "Создание, сохранение, печать и выход";
 
+/* Shown in place of an empty list of apps */
+"No apps are excluded." = "Нет исключенных приложений.";
+
 /* Picker option */
 "Off" = "Выкл.";
 
@@ -296,6 +308,9 @@
 "Remap Shortcuts" = "Переназначить сочетания";
 
 /* No comment provided by engineer. */
+"Remove app" = "Удалить приложение";
+
+/* No comment provided by engineer. */
 "Rename" = "Переименовать";
 
 /* No comment provided by engineer. */
@@ -330,6 +345,9 @@
 
 /* No comment provided by engineer. */
 "Select Down" = "Выделить вниз";
+
+/* Open panel message */
+"Select the apps you want to exclude." = "Выберите приложения, которые нужно исключить.";
 
 /* No comment provided by engineer. */
 "Select Up" = "Выделить вверх";
@@ -403,6 +421,9 @@
 /* No comment provided by engineer. */
 "Turn off Show Menu Bar Background in System Settings to use this feature" = "Отключите 'Показывать фон строки меню' в Системных настройках, чтобы использовать эту функцию";
 
+/* Toggle label */
+"Turn off SuperOpt in these apps" = "Выключить SuperOpt в этих приложениях";
+
 /* Picker label */
 "Type to Search in Mission Control" = "Ввод текста для поиска в Mission Control";
 
@@ -426,6 +447,9 @@
 
 /* No comment provided by engineer. */
 "View Source" = "Просмотр исходного кода";
+
+/* Toggle description */
+"While you’re using an app in this list, SuperOpt turns off all of its features and its menu bar icon appears dimmed" = "Пока Вы работаете в приложении из этого списка, SuperOpt выключает все свои функции, а его значок в строке меню отображается тусклым";
 
 /* Toggle label */
 "Window Tiling" = "Мозаичное размещение окон";

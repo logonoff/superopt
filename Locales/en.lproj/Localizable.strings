@@ -19,6 +19,12 @@
 /* Category hint */
 "Active only in the Finder" = "Active only in the Finder";
 
+/* Open panel button for adding an app */
+"Add" = "Add";
+
+/* No comment provided by engineer. */
+"Add app" = "Add app";
+
 /* No comment provided by engineer. */
 "Address Bar" = "Address Bar";
 
@@ -123,6 +129,9 @@
 
 /* No comment provided by engineer. */
 "Duplicate" = "Duplicate";
+
+/* Section header */
+"Excluded Apps" = "Excluded Apps";
 
 /* Shortcut category */
 "File" = "File";
@@ -229,6 +238,9 @@
 /* Category hint */
 "New, save, print, and quit" = "New, save, print, and quit";
 
+/* Shown in place of an empty list of apps */
+"No apps are excluded." = "No apps are excluded.";
+
 /* Picker option */
 "Off" = "Off";
 
@@ -296,6 +308,9 @@
 "Remap Shortcuts" = "Remap Shortcuts";
 
 /* No comment provided by engineer. */
+"Remove app" = "Remove app";
+
+/* No comment provided by engineer. */
 "Rename" = "Rename";
 
 /* No comment provided by engineer. */
@@ -330,6 +345,9 @@
 
 /* No comment provided by engineer. */
 "Select Down" = "Select Down";
+
+/* Open panel message */
+"Select the apps you want to exclude." = "Select the apps you want to exclude.";
 
 /* No comment provided by engineer. */
 "Select Up" = "Select Up";
@@ -403,6 +421,9 @@
 /* No comment provided by engineer. */
 "Turn off Show Menu Bar Background in System Settings to use this feature" = "Turn off Show Menu Bar Background in System Settings to use this feature";
 
+/* Toggle label */
+"Turn off SuperOpt in these apps" = "Turn off SuperOpt in these apps";
+
 /* Picker label */
 "Type to Search in Mission Control" = "Type to Search in Mission Control";
 
@@ -426,6 +447,9 @@
 
 /* No comment provided by engineer. */
 "View Source" = "View Source";
+
+/* Toggle description */
+"While you’re using an app in this list, SuperOpt turns off all of its features and its menu bar icon appears dimmed" = "While you’re using an app in this list, SuperOpt turns off all of its features and its menu bar icon appears dimmed";
 
 /* Toggle label */
 "Window Tiling" = "Window Tiling";

@@ -19,6 +19,12 @@
 /* Category hint */
 "Active only in the Finder" = "Actif uniquement dans le Finder";
 
+/* Open panel button for adding an app */
+"Add" = "Ajouter";
+
+/* No comment provided by engineer. */
+"Add app" = "Ajouter une app";
+
 /* No comment provided by engineer. */
 "Address Bar" = "Barre d'adresse";
 
@@ -123,6 +129,9 @@
 
 /* No comment provided by engineer. */
 "Duplicate" = "Dupliquer";
+
+/* Section header */
+"Excluded Apps" = "Apps exclues";
 
 /* Shortcut category */
 "File" = "Fichier";
@@ -229,6 +238,9 @@
 /* Category hint */
 "New, save, print, and quit" = "Nouveau, enregistrer, imprimer et quitter";
 
+/* Shown in place of an empty list of apps */
+"No apps are excluded." = "Aucune app exclue.";
+
 /* Picker option */
 "Off" = "Désactivé";
 
@@ -296,6 +308,9 @@
 "Remap Shortcuts" = "Réassigner les raccourcis";
 
 /* No comment provided by engineer. */
+"Remove app" = "Supprimer l’app";
+
+/* No comment provided by engineer. */
 "Rename" = "Renommer";
 
 /* No comment provided by engineer. */
@@ -330,6 +345,9 @@
 
 /* No comment provided by engineer. */
 "Select Down" = "Sélectionner vers le bas";
+
+/* Open panel message */
+"Select the apps you want to exclude." = "Sélectionnez les apps que vous souhaitez exclure.";
 
 /* No comment provided by engineer. */
 "Select Up" = "Sélectionner vers le haut";
@@ -403,6 +421,9 @@
 /* No comment provided by engineer. */
 "Turn off Show Menu Bar Background in System Settings to use this feature" = "Désactivez 'Afficher l'arrière-plan de la barre des menus' dans Réglages Système pour utiliser cette fonctionnalité";
 
+/* Toggle label */
+"Turn off SuperOpt in these apps" = "Désactiver SuperOpt dans ces apps";
+
 /* Picker label */
 "Type to Search in Mission Control" = "Saisie pour rechercher dans Mission Control";
 
@@ -426,6 +447,9 @@
 
 /* No comment provided by engineer. */
 "View Source" = "Afficher la source";
+
+/* Toggle description */
+"While you’re using an app in this list, SuperOpt turns off all of its features and its menu bar icon appears dimmed" = "Lorsque vous utilisez une app de cette liste, SuperOpt désactive toutes ses fonctionnalités et son icône dans la barre des menus est estompée";
 
 /* Toggle label */
 "Window Tiling" = "Disposition des fenêtres";

@@ -19,6 +19,12 @@
 /* Category hint */
 "Active only in the Finder" = "نشط فقط في Finder";
 
+/* Open panel button for adding an app */
+"Add" = "إضافة";
+
+/* No comment provided by engineer. */
+"Add app" = "إضافة تطبيق";
+
 /* No comment provided by engineer. */
 "Address Bar" = "شريط العنوان";
 
@@ -123,6 +129,9 @@
 
 /* No comment provided by engineer. */
 "Duplicate" = "تكرار";
+
+/* Section header */
+"Excluded Apps" = "التطبيقات المستثناة";
 
 /* Shortcut category */
 "File" = "ملف";
@@ -229,6 +238,9 @@
 /* Category hint */
 "New, save, print, and quit" = "جديد، حفظ، طباعة، وإنهاء";
 
+/* Shown in place of an empty list of apps */
+"No apps are excluded." = "لا توجد تطبيقات مستثناة.";
+
 /* Picker option */
 "Off" = "إيقاف";
 
@@ -296,6 +308,9 @@
 "Remap Shortcuts" = "إعادة تعيين الاختصارات";
 
 /* No comment provided by engineer. */
+"Remove app" = "إزالة تطبيق";
+
+/* No comment provided by engineer. */
 "Rename" = "إعادة تسمية";
 
 /* No comment provided by engineer. */
@@ -330,6 +345,9 @@
 
 /* No comment provided by engineer. */
 "Select Down" = "تحديد للأسفل";
+
+/* Open panel message */
+"Select the apps you want to exclude." = "حدد التطبيقات التي تريد استثناءها.";
 
 /* No comment provided by engineer. */
 "Select Up" = "تحديد للأعلى";
@@ -403,6 +421,9 @@
 /* No comment provided by engineer. */
 "Turn off Show Menu Bar Background in System Settings to use this feature" = "أوقف 'إظهار خلفية شريط القوائم' في إعدادات النظام لاستخدام هذه الميزة";
 
+/* Toggle label */
+"Turn off SuperOpt in these apps" = "إيقاف SuperOpt في هذه التطبيقات";
+
 /* Picker label */
 "Type to Search in Mission Control" = "الكتابة للبحث في إدارة المهام";
 
@@ -426,6 +447,9 @@
 
 /* No comment provided by engineer. */
 "View Source" = "عرض المصدر";
+
+/* Toggle description */
+"While you’re using an app in this list, SuperOpt turns off all of its features and its menu bar icon appears dimmed" = "أثناء استخدام تطبيق موجود في هذه القائمة، يوقف SuperOpt جميع ميزاته وتظهر أيقونته في شريط القوائم باهتة";
 
 /* Toggle label */
 "Window Tiling" = "تبليط النوافذ";

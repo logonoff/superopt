@@ -19,6 +19,12 @@
 /* Category hint */
 "Active only in the Finder" = "仅在访达中可用";
 
+/* Open panel button for adding an app */
+"Add" = "添加";
+
+/* No comment provided by engineer. */
+"Add app" = "添加 App";
+
 /* No comment provided by engineer. */
 "Address Bar" = "地址栏";
 
@@ -123,6 +129,9 @@
 
 /* No comment provided by engineer. */
 "Duplicate" = "复制";
+
+/* Section header */
+"Excluded Apps" = "排除的 App";
 
 /* Shortcut category */
 "File" = "文件";
@@ -229,6 +238,9 @@
 /* Category hint */
 "New, save, print, and quit" = "新建、保存、打印和退出";
 
+/* Shown in place of an empty list of apps */
+"No apps are excluded." = "没有排除的 App。";
+
 /* Picker option */
 "Off" = "关闭";
 
@@ -296,6 +308,9 @@
 "Remap Shortcuts" = "重映射快捷键";
 
 /* No comment provided by engineer. */
+"Remove app" = "移除 App";
+
+/* No comment provided by engineer. */
 "Rename" = "重命名";
 
 /* No comment provided by engineer. */
@@ -330,6 +345,9 @@
 
 /* No comment provided by engineer. */
 "Select Down" = "向下选择";
+
+/* Open panel message */
+"Select the apps you want to exclude." = "选择要排除的 App。";
 
 /* No comment provided by engineer. */
 "Select Up" = "向上选择";
@@ -403,6 +421,9 @@
 /* No comment provided by engineer. */
 "Turn off Show Menu Bar Background in System Settings to use this feature" = "请在系统设置中关闭「显示菜单栏背景」以使用此功能";
 
+/* Toggle label */
+"Turn off SuperOpt in these apps" = "在这些 App 中关闭 SuperOpt";
+
 /* Picker label */
 "Type to Search in Mission Control" = "在调度中心输入以搜索";
 
@@ -426,6 +447,9 @@
 
 /* No comment provided by engineer. */
 "View Source" = "查看源代码";
+
+/* Toggle description */
+"While you’re using an app in this list, SuperOpt turns off all of its features and its menu bar icon appears dimmed" = "使用列表中的 App 时，SuperOpt 会关闭所有功能，菜单栏图标会变暗";
 
 /* Toggle label */
 "Window Tiling" = "窗口平铺";

@@ -19,6 +19,12 @@
 /* Category hint */
 "Active only in the Finder" = "Finderでのみ有効";
 
+/* Open panel button for adding an app */
+"Add" = "追加";
+
+/* No comment provided by engineer. */
+"Add app" = "Appを追加";
+
 /* No comment provided by engineer. */
 "Address Bar" = "アドレスバー";
 
@@ -123,6 +129,9 @@
 
 /* No comment provided by engineer. */
 "Duplicate" = "複製";
+
+/* Section header */
+"Excluded Apps" = "除外するApp";
 
 /* Shortcut category */
 "File" = "ファイル";
@@ -229,6 +238,9 @@
 /* Category hint */
 "New, save, print, and quit" = "新規、保存、プリント、終了";
 
+/* Shown in place of an empty list of apps */
+"No apps are excluded." = "除外されているAppはありません。";
+
 /* Picker option */
 "Off" = "オフ";
 
@@ -296,6 +308,9 @@
 "Remap Shortcuts" = "ショートカットを再割り当て";
 
 /* No comment provided by engineer. */
+"Remove app" = "Appを削除";
+
+/* No comment provided by engineer. */
 "Rename" = "名前を変更";
 
 /* No comment provided by engineer. */
@@ -330,6 +345,9 @@
 
 /* No comment provided by engineer. */
 "Select Down" = "下方向に選択";
+
+/* Open panel message */
+"Select the apps you want to exclude." = "除外するAppを選択してください。";
 
 /* No comment provided by engineer. */
 "Select Up" = "上方向に選択";
@@ -403,6 +421,9 @@
 /* No comment provided by engineer. */
 "Turn off Show Menu Bar Background in System Settings to use this feature" = "この機能を使用するには、システム設定で「メニューバーの背景を表示」をオフにしてください";
 
+/* Toggle label */
+"Turn off SuperOpt in these apps" = "これらのAppではSuperOptをオフにする";
+
 /* Picker label */
 "Type to Search in Mission Control" = "Mission Controlで入力して検索";
 
@@ -426,6 +447,9 @@
 
 /* No comment provided by engineer. */
 "View Source" = "ソースを表示";
+
+/* Toggle description */
+"While you’re using an app in this list, SuperOpt turns off all of its features and its menu bar icon appears dimmed" = "リストにあるAppの使用中は、SuperOptのすべての機能がオフになり、メニューバーのアイコンが薄く表示されます";
 
 /* Toggle label */
 "Window Tiling" = "ウインドウのタイル表示";

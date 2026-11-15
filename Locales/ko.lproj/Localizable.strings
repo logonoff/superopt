@@ -19,6 +19,12 @@
 /* Category hint */
 "Active only in the Finder" = "Finder에서만 활성화";
 
+/* Open panel button for adding an app */
+"Add" = "추가";
+
+/* No comment provided by engineer. */
+"Add app" = "App 추가";
+
 /* No comment provided by engineer. */
 "Address Bar" = "주소 막대";
 
@@ -123,6 +129,9 @@
 
 /* No comment provided by engineer. */
 "Duplicate" = "복제";
+
+/* Section header */
+"Excluded Apps" = "제외된 App";
 
 /* Shortcut category */
 "File" = "파일";
@@ -229,6 +238,9 @@
 /* Category hint */
 "New, save, print, and quit" = "새로 만들기, 저장, 프린트, 종료";
 
+/* Shown in place of an empty list of apps */
+"No apps are excluded." = "제외된 App이 없습니다.";
+
 /* Picker option */
 "Off" = "끔";
 
@@ -296,6 +308,9 @@
 "Remap Shortcuts" = "단축키 재매핑";
 
 /* No comment provided by engineer. */
+"Remove app" = "App 제거";
+
+/* No comment provided by engineer. */
 "Rename" = "이름 변경";
 
 /* No comment provided by engineer. */
@@ -330,6 +345,9 @@
 
 /* No comment provided by engineer. */
 "Select Down" = "아래로 선택";
+
+/* Open panel message */
+"Select the apps you want to exclude." = "제외할 App을 선택하십시오.";
 
 /* No comment provided by engineer. */
 "Select Up" = "위로 선택";
@@ -403,6 +421,9 @@
 /* No comment provided by engineer. */
 "Turn off Show Menu Bar Background in System Settings to use this feature" = "이 기능을 사용하려면 시스템 설정에서 '메뉴 막대 배경 보기'를 끄십시오";
 
+/* Toggle label */
+"Turn off SuperOpt in these apps" = "이 App에서 SuperOpt 끄기";
+
 /* Picker label */
 "Type to Search in Mission Control" = "Mission Control에서 입력하여 검색";
 
@@ -426,6 +447,9 @@
 
 /* No comment provided by engineer. */
 "View Source" = "소스 보기";
+
+/* Toggle description */
+"While you’re using an app in this list, SuperOpt turns off all of its features and its menu bar icon appears dimmed" = "이 목록에 있는 App을 사용하는 동안 SuperOpt의 모든 기능이 꺼지고 메뉴 막대 아이콘이 흐리게 표시됩니다";
 
 /* Toggle label */
 "Window Tiling" = "윈도우 타일링";

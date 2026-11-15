@@ -19,6 +19,12 @@
 /* Category hint */
 "Active only in the Finder" = "Ativo apenas no Finder";
 
+/* Open panel button for adding an app */
+"Add" = "Adicionar";
+
+/* No comment provided by engineer. */
+"Add app" = "Adicionar app";
+
 /* No comment provided by engineer. */
 "Address Bar" = "Barra de endereço";
 
@@ -123,6 +129,9 @@
 
 /* No comment provided by engineer. */
 "Duplicate" = "Duplicar";
+
+/* Section header */
+"Excluded Apps" = "Apps ignorados";
 
 /* Shortcut category */
 "File" = "Arquivo";
@@ -229,6 +238,9 @@
 /* Category hint */
 "New, save, print, and quit" = "Novo, salvar, imprimir e sair";
 
+/* Shown in place of an empty list of apps */
+"No apps are excluded." = "Nenhum app ignorado.";
+
 /* Picker option */
 "Off" = "Desativado";
 
@@ -296,6 +308,9 @@
 "Remap Shortcuts" = "Remapear atalhos";
 
 /* No comment provided by engineer. */
+"Remove app" = "Remover app";
+
+/* No comment provided by engineer. */
 "Rename" = "Renomear";
 
 /* No comment provided by engineer. */
@@ -330,6 +345,9 @@
 
 /* No comment provided by engineer. */
 "Select Down" = "Selecionar para baixo";
+
+/* Open panel message */
+"Select the apps you want to exclude." = "Selecione os apps que deseja ignorar.";
 
 /* No comment provided by engineer. */
 "Select Up" = "Selecionar para cima";
@@ -403,6 +421,9 @@
 /* No comment provided by engineer. */
 "Turn off Show Menu Bar Background in System Settings to use this feature" = "Desative 'Mostrar plano de fundo da barra de menus' nos Ajustes do Sistema para usar este recurso";
 
+/* Toggle label */
+"Turn off SuperOpt in these apps" = "Desativar o SuperOpt nesses apps";
+
 /* Picker label */
 "Type to Search in Mission Control" = "Digitar para buscar no Mission Control";
 
@@ -426,6 +447,9 @@
 
 /* No comment provided by engineer. */
 "View Source" = "Ver código-fonte";
+
+/* Toggle description */
+"While you’re using an app in this list, SuperOpt turns off all of its features and its menu bar icon appears dimmed" = "Enquanto você usa um app desta lista, o SuperOpt desativa todos os seus recursos e seu ícone na barra de menus fica esmaecido";
 
 /* Toggle label */
 "Window Tiling" = "Organização de janelas";
