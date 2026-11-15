@@ -14,7 +14,7 @@
 "Active only in code editors" = "Attivo solo negli editor di codice";
 
 /* Category hint */
-"Active only in terminal apps" = "Attivo solo nelle app terminale";
+"Active only in terminal apps" = "Attivo solo nei terminali";
 
 /* Category hint */
 "Active only in the Finder" = "Attivo solo nel Finder";
@@ -28,10 +28,10 @@
 /* No comment provided by engineer. */
 "Address Bar" = "Barra degli indirizzi";
 
-/* Toggle description */
-"Adds close buttons to windows in Mission Control" = "Aggiunge pulsanti Chiudi alle finestre in Mission Control";
+/* No comment provided by engineer. */
+"Adds close buttons to windows in Mission Control" = "Aggiunge pulsanti di chiusura alle finestre in Mission Control";
 
-/* Type to search picker option */
+/* No comment provided by engineer. */
 "Apps" = "App";
 
 /* No comment provided by engineer. */
@@ -58,14 +58,14 @@
 /* No comment provided by engineer. */
 "Clear Browsing Data" = "Cancella dati di navigazione";
 
-/* Toggle label */
+/* No comment provided by engineer. */
 "Click-Through Focus" = "Attivazione con clic diretto";
 
-/* Toggle description */
-"Clicking an inactive window brings it forward and clicks what is under the pointer" = "Fare clic su una finestra inattiva la porta in primo piano e fa clic su ciò che si trova sotto il puntatore";
+/* No comment provided by engineer. */
+"Clicking an inactive window brings it to the front and passes the click to what is under the pointer" = "Facendo clic su una finestra inattiva, questa viene portata in primo piano e il clic raggiunge ciò che si trova sotto il puntatore";
 
 /* No comment provided by engineer. */
-"Clicking the green button maximizes the window instead of entering full screen" = "Facendo clic sul pulsante verde la finestra viene ingrandita invece di entrare a schermo intero";
+"Clicking the green button fills the screen instead of entering full screen" = "Facendo clic sul pulsante verde, la finestra riempie lo schermo invece di passare a tutto schermo";
 
 /* No comment provided by engineer. */
 "Close Tab" = "Chiudi pannello";
@@ -73,38 +73,35 @@
 /* No comment provided by engineer. */
 "Close Window" = "Chiudi finestra";
 
-/* Toggle label */
+/* No comment provided by engineer. */
 "Close Windows in Mission Control" = "Chiudi finestre in Mission Control";
 
 /* Shortcut category */
 "Code Editor" = "Editor di codice";
 
 /* No comment provided by engineer. */
-"Command Palette" = "Tavolozza dei comandi";
+"Command Palette" = "Riquadro comandi";
 
 /* No comment provided by engineer. */
-"Comment or Uncomment" = "Commenta o Decommenta";
+"Comment or Uncomment" = "Commenta o decommenta";
 
 /* Button to retry after granting permissions */
 "Continue" = "Continua";
-
-/* Picker description */
-"Control-scroll zooms in and out in web browsers" = "Control-scorrimento ingrandisce e rimpicciolisce nei browser web";
 
 /* No comment provided by engineer. */
 "Copy" = "Copia";
 
 /* Category hint */
-"Copy, paste, undo, find, and other essentials" = "Copia, incolla, annulla, cerca e altre funzioni essenziali";
+"Copy, Paste, Undo, Find, and other essentials" = "Copia, Incolla, Annulla, Trova e altre funzioni essenziali";
 
 /* No comment provided by engineer. */
 "Cut" = "Taglia";
 
-/* Picker label */
+/* No comment provided by engineer. */
 "Cut and Paste Files in the Finder" = "Taglia e incolla file nel Finder";
 
-/* Picker description */
-"Cut copies files for moving; paste moves them to the current folder" = "Taglia copia i file per spostarli; incolla li sposta nella cartella attuale";
+/* No comment provided by engineer. */
+"Cut marks the selected files for moving; Paste moves them to the current folder" = "Il comando Taglia contrassegna i file selezionati per lo spostamento; il comando Incolla li sposta nella cartella corrente";
 
 /* No comment provided by engineer. */
 "Dark Menu Bar" = "Barra dei menu scura";
@@ -115,20 +112,14 @@
 /* No comment provided by engineer. */
 "Delete Word" = "Elimina parola";
 
-/* Section header */
+/* No comment provided by engineer. */
 "Desktop" = "Scrivania";
 
-/* Spoken when the space changes */
-"Desktop %1$d of %2$d" = "Scrivania %1$d di %2$d";
+/* No comment provided by engineer. */
+"Detect Integrated Terminals in Code Editors" = "Rileva i terminali integrati negli editor di codice";
 
 /* No comment provided by engineer. */
-"Detect VS Code Integrated Terminal" = "Rileva il terminale integrato di VS Code";
-
-/* No comment provided by engineer. */
-"Developer Tools" = "Strumenti sviluppatore";
-
-/* No comment provided by engineer. */
-"Dock position assigned to the Finder—other apps shift to fill" = "Posizione del Dock assegnata al Finder — le altre app si spostano per riempire";
+"Developer Tools" = "Strumenti per sviluppatori";
 
 /* No comment provided by engineer. */
 "Downloads" = "Download";
@@ -143,16 +134,16 @@
 "File" = "File";
 
 /* No comment provided by engineer. */
-"Find" = "Cerca";
+"Find" = "Trova";
 
 /* No comment provided by engineer. */
-"Find and Replace" = "Cerca e sostituisci";
+"Find and Replace" = "Trova e sostituisci";
 
 /* No comment provided by engineer. */
-"Find Next" = "Cerca successivo";
+"Find Next" = "Trova successivo";
 
 /* No comment provided by engineer. */
-"Find Previous" = "Cerca precedente";
+"Find Previous" = "Trova precedente";
 
 /* Shortcut category */
 "Finder" = "Finder";
@@ -164,28 +155,37 @@
 "Forward Delete Word" = "Elimina parola successiva";
 
 /* No comment provided by engineer. */
-"Full Screen" = "Schermo intero";
+"Full Screen" = "A tutto schermo";
 
 /* Shortcut category */
 "General" = "Generali";
+
+/* No comment provided by engineer. */
+"Get Info" = "Ottieni informazioni";
 
 /* About panel link text */
 "GitHub" = "GitHub";
 
 /* No comment provided by engineer. */
-"Green Button Fills Window" = "Il pulsante verde espande la finestra";
+"Green Button Fills Screen" = "Il pulsante verde riempie lo schermo";
 
 /* No comment provided by engineer. */
-"Home and End keys move the insertion point to the start or end of the line" = "I tasti Home e Fine spostano il punto di inserimento all'inizio o alla fine della riga";
+"Home and End" = "Inizio e Fine";
+
+/* No comment provided by engineer. */
+"Home and End keys move the insertion point to the beginning or end of the line" = "I tasti Inizio e Fine spostano il punto di inserimento all’inizio o alla fine della riga";
 
 /* No comment provided by engineer. */
 "Hot Corner" = "Angolo attivo";
 
 /* No comment provided by engineer. */
-"Indent" = "Rientra";
+"In web browsers, Control-scroll zooms in and out" = "Nei browser, scorrere tenendo premuto Ctrl ingrandisce e riduce la pagina";
 
-/* Section header */
-"Input" = "Input";
+/* No comment provided by engineer. */
+"Indent" = "Aumenta rientro";
+
+/* No comment provided by engineer. */
+"Input" = "Tastiera e mouse";
 
 /* Permission name */
 "Input Monitoring" = "Monitoraggio input";
@@ -199,17 +199,17 @@
 /* No comment provided by engineer. */
 "Italic" = "Corsivo";
 
-/* Section header */
+/* No comment provided by engineer. */
 "Keyboard" = "Tastiera";
 
 /* No comment provided by engineer. */
 "Lock Screen" = "Blocca schermo";
 
 /* No comment provided by engineer. */
-"Maps Linux keyboard shortcuts to their Mac equivalents" = "Associa le scorciatoie da tastiera di Linux ai corrispondenti Mac";
+"Maps Linux keyboard shortcuts to their Mac equivalents" = "Associa le scorciatoie da tastiera di Linux ai comandi equivalenti su Mac";
 
-/* Toggle label */
-"Menu Key → Shortcut Menu" = "Tasto Menu → Menu abbreviazioni";
+/* No comment provided by engineer. */
+"Menu Key → Shortcut Menu" = "Tasto Menu → Menu contestuale";
 
 /* No comment provided by engineer. */
 "Middle-Click Paste" = "Incolla con clic centrale";
@@ -224,9 +224,9 @@
 "Move to Trash" = "Sposta nel Cestino";
 
 /* No comment provided by engineer. */
-"Moving the pointer to the top-left corner opens Mission Control" = "Spostando il puntatore nell'angolo in alto a sinistra si apre Mission Control";
+"Moving the pointer to the top-left corner opens Mission Control" = "Spostando il puntatore nell’angolo in alto a sinistra, si apre Mission Control";
 
-/* Scroll zoom picker option */
+/* No comment provided by engineer. */
 "Natural" = "Naturale";
 
 /* No comment provided by engineer. */
@@ -242,12 +242,12 @@
 "New Window" = "Nuova finestra";
 
 /* Category hint */
-"New, save, print, and quit" = "Nuovo, salva, stampa e esci";
+"New, Save, Print, and Quit" = "Nuovo, Salva, Stampa ed Esci";
 
 /* Shown in place of an empty list of apps */
 "No apps are excluded." = "Nessuna app esclusa.";
 
-/* Picker option */
+/* No comment provided by engineer. */
 "Off" = "Disattivato";
 
 /* Button to open Accessibility settings */
@@ -260,16 +260,16 @@
 "Open Input Monitoring" = "Apri Monitoraggio input";
 
 /* Button to open login items settings */
-"Open Login Items" = "Apri elementi login";
+"Open Login Items" = "Apri Elementi login";
 
 /* No comment provided by engineer. */
-"Option plus a number row key opens the corresponding app in the Dock" = "Option più un tasto nella fila dei numeri apre l'app corrispondente nel Dock";
+"Option plus a number key (1–9) opens the corresponding app in the Dock" = "Opzione più un tasto numerico (1–9) apre l’app corrispondente nel Dock";
 
 /* No comment provided by engineer. */
-"Option-A opens Spotlight Apps" = "Option-A apre le app di Spotlight";
+"Option-A opens Spotlight Apps" = "Opzione-A apre la finestra delle app di Spotlight";
 
 /* No comment provided by engineer. */
-"Option-arrow keys tile, maximize, or restore windows" = "I tasti Option-freccia dispongono, ingrandiscono o ripristinano le finestre";
+"Option-arrow keys tile, fill, or restore windows" = "I tasti Opzione-Freccia dispongono le finestre a mosaico, riempiono lo schermo o le ripristinano";
 
 /* No comment provided by engineer. */
 "Outdent" = "Riduci rientro";
@@ -278,7 +278,7 @@
 "Paste" = "Incolla";
 
 /* No comment provided by engineer. */
-"Pastes with a middle click or opens a new window from the Dock" = "Incolla con un clic centrale o apre una nuova finestra dal Dock";
+"Pastes with a middle-click; middle-clicking a Dock icon opens a new window" = "Incolla con un clic centrale; il clic centrale su un’icona del Dock apre una nuova finestra";
 
 /* Alert title when all permissions are granted */
 "Permissions Granted" = "Permessi concessi";
@@ -287,16 +287,13 @@
 "Permissions Required" = "Permessi necessari";
 
 /* No comment provided by engineer. */
-"Pressing Option opens Mission Control" = "Premendo Option si apre Mission Control";
+"Pressing Option opens Mission Control" = "Premendo Opzione, si apre Mission Control";
 
 /* No comment provided by engineer. */
-"Pressing Option twice opens Spotlight Apps" = "Premendo Option due volte si aprono le app di Spotlight";
+"Pressing Option twice opens Spotlight Apps" = "Premendo Opzione due volte, si apre la finestra delle app di Spotlight";
 
 /* No comment provided by engineer. */
 "Print" = "Stampa";
-
-/* No comment provided by engineer. */
-"Properties" = "Proprietà";
 
 /* Button to quit the app */
 "Quit" = "Esci";
@@ -311,7 +308,7 @@
 "Reload" = "Ricarica";
 
 /* No comment provided by engineer. */
-"Remap Shortcuts" = "Riassegna scorciatoie";
+"Remap Linux Shortcuts" = "Riassegna le scorciatoie di Linux";
 
 /* No comment provided by engineer. */
 "Remove app" = "Rimuovi app";
@@ -323,28 +320,25 @@
 "Reopen Tab" = "Riapri pannello";
 
 /* Menu item to check and request permissions */
-"Request Permissions\u{2026}" = "Richiedi permessi\u{2026}";
+"Request Permissions…" = "Richiedi permessi…";
 
 /* No comment provided by engineer. */
 "Reset Zoom" = "Reimposta zoom";
 
 /* No comment provided by engineer. */
-"Run/Confirm" = "Esegui/Conferma";
+"Run or Confirm" = "Esegui o conferma";
 
 /* No comment provided by engineer. */
 "Save" = "Salva";
 
 /* No comment provided by engineer. */
-"Scroll over the Apple Menu to Switch Spaces" = "Scorri sul menu Apple per cambiare spazio";
+"Scroll to Switch Spaces" = "Scorrere per cambiare spazio";
 
-/* Picker label */
+/* No comment provided by engineer. */
 "Scroll Zoom in Browsers" = "Zoom con scorrimento nei browser";
 
 /* No comment provided by engineer. */
-"Scrolling over the Apple menu switches the display you scrolled on to the next or previous space" = "Scorrere sul menu Apple porta quello schermo allo spazio successivo o precedente";
-
-/* No comment provided by engineer. */
-"Search Selection" = "Cerca selezione";
+"Scrolling over the Apple menu switches that display to the next or previous space" = "Scorrere sul menu Apple porta lo schermo su cui scorri allo spazio successivo o precedente";
 
 /* No comment provided by engineer. */
 "Select All" = "Seleziona tutto";
@@ -368,37 +362,40 @@
 "Settings" = "Impostazioni";
 
 /* Menu item to open settings window */
-"Settings\u{2026}" = "Impostazioni\u{2026}";
+"Settings…" = "Impostazioni…";
 
-/* Section header */
+/* No comment provided by engineer. */
 "Shortcut Remapping" = "Riassegnazione scorciatoie";
 
 /* No comment provided by engineer. */
-"Show or Hide Bookmarks Bar" = "Mostra o nascondi la barra dei segnalibri";
+"Show or Hide Bookmarks Bar" = "Mostra o nascondi la barra dei preferiti";
 
 /* No comment provided by engineer. */
 "Shows a black bar behind the menu bar when a window fills the screen" = "Mostra una barra nera dietro la barra dei menu quando una finestra riempie lo schermo";
 
 /* No comment provided by engineer. */
-"Shows an onscreen indicator when Caps Lock is turned on or off" = "Mostra un indicatore sullo schermo quando Blocco maiuscole viene attivato o disattivato";
+"Shows an onscreen indicator when you turn Caps Lock on or off" = "Mostra un indicatore sullo schermo quando attivi o disattivi Blocco maiuscole";
 
 /* No comment provided by engineer. */
-"Shows an onscreen row of dots when a display switches spaces, no matter how you switched" = "Mostra una fila di puntini quando uno schermo cambia spazio, in qualunque modo sia avvenuto il cambio";
+"Shows an onscreen row of dots when a display switches spaces" = "Mostra una fila di puntini quando uno schermo cambia spazio";
+
+/* Spoken when the space changes */
+"Space %1$d of %2$d" = "Spazio %1$d di %2$d";
 
 /* No comment provided by engineer. */
-"Space Indicator" = "Indicatore Spazi";
+"Space Indicator" = "Indicatore spazi";
 
-/* Type to search picker option */
+/* No comment provided by engineer. */
 "Spotlight" = "Spotlight";
 
-/* Toggle description */
-"Suggests windows to fill the other half after tiling left or right" = "Suggerisce finestre per riempire l'altra metà dopo la disposizione a sinistra o a destra";
+/* No comment provided by engineer. */
+"Suggests windows to fill the other half after tiling left or right" = "Suggerisce finestre per riempire l’altra metà dopo la disposizione a mosaico sul lato sinistro o destro";
 
 /* Alert body when all permissions are granted */
 "SuperOpt already has all required permissions." = "SuperOpt ha già tutti i permessi necessari.";
 
-/* Alert body for missing permissions — %@ is the list of missing permissions */
-"SuperOpt needs the following permissions:\n\n%@\n\nGrant access in Privacy & Security settings, and then click Continue." = "SuperOpt necessita dei seguenti permessi:\n\n%@\n\nConcedi l'accesso nelle impostazioni Privacy e sicurezza, poi fai clic su Continua.";
+/* Alert body for missing permissions — %@ is the list of missing permissions; shared by both permission alerts, so it can't name a specific button */
+"SuperOpt needs the following:\n\n%@\n\nGrant access in Privacy & Security settings." = "SuperOpt necessita di quanto segue:\n\n%@\n\nConcedi l’accesso nelle impostazioni di Privacy e sicurezza.";
 
 /* Category hint */
 "Tab and window management" = "Gestione pannelli e finestre";
@@ -412,32 +409,35 @@
 /* Shortcut category */
 "Text Editing" = "Modifica testo";
 
-/* Toggle description */
-"The Menu key on PC keyboards opens a shortcut menu" = "Il tasto Menu sulle tastiere PC apre un menu abbreviazioni";
+/* No comment provided by engineer. */
+"The Finder takes this Dock position; other apps shift to fill the gap" = "Il Finder occupa questa posizione del Dock; le altre app si spostano per colmare il vuoto";
 
-/* Toggle label */
-"Tile Assist" = "Assistente disposizione";
+/* No comment provided by engineer. */
+"The Menu key on PC keyboards opens a shortcut menu" = "Il tasto Menu sulle tastiere PC apre un menu contestuale";
 
-/* Scroll zoom picker option */
+/* No comment provided by engineer. */
+"Tile Assist" = "Assistente per la disposizione a mosaico";
+
+/* No comment provided by engineer. */
 "Traditional" = "Tradizionale";
 
 /* No comment provided by engineer. */
-"Treats the terminal panel in VS Code and Cursor as a terminal, so Control-C and similar shortcuts pass through unchanged" = "Tratta il pannello del terminale di VS Code e Cursor come un terminale, così Control-C e le abbreviazioni simili vengono trasmesse senza modifiche";
-
-/* No comment provided by engineer. */
-"Turn off Show Menu Bar Background in System Settings to use this feature" = "Disattiva 'Mostra sfondo barra dei menu' in Impostazioni di Sistema per utilizzare questa funzione";
+"Treats the integrated terminal in code editors such as VS Code and Cursor as a terminal app, so Control-C and similar shortcuts pass through unchanged" = "Tratta il terminale integrato negli editor di codice tra cui VS Code e Cursor come un terminale, così Ctrl-C e le scorciatoie simili vengono trasmesse senza modifiche";
 
 /* Toggle label */
-"Turn off SuperOpt in these apps" = "Disattiva SuperOpt in queste app";
+"Turn Off SuperOpt in These Apps" = "Disattiva SuperOpt in queste app";
 
-/* Picker label */
+/* No comment provided by engineer. */
+"Turn off ‘Show menu bar background’ in Menu Bar settings to use this feature" = "Disattiva ‘Mostra sfondo barra dei menu’ nelle impostazioni della barra dei menu per utilizzare questa funzione";
+
+/* No comment provided by engineer. */
 "Type to Search in Mission Control" = "Digitare per cercare in Mission Control";
 
-/* Picker description */
-"Typing in Mission Control closes it and searches what you typed" = "Digitare in Mission Control lo chiude e cerca ciò che è stato digitato";
+/* No comment provided by engineer. */
+"Typing in Mission Control closes it and searches for what you typed" = "Digitare in Mission Control lo chiude e cerca ciò che è stato digitato";
 
 /* Alert title when login item registration fails */
-"Unable to Update Login Item" = "Impossibile aggiornare l'elemento di login";
+"Unable to Update Login Item" = "Impossibile aggiornare l’elemento di login";
 
 /* No comment provided by engineer. */
 "Underline" = "Sottolineato";
@@ -445,20 +445,23 @@
 /* No comment provided by engineer. */
 "Undo" = "Annulla";
 
+/* No comment provided by engineer. */
+"Use Selection for Find" = "Usa selezione per trovare";
+
 /* Shortcut category */
 "View" = "Vista";
 
 /* No comment provided by engineer. */
-"View History" = "Visualizza cronologia";
+"View History" = "Mostra cronologia";
 
 /* No comment provided by engineer. */
 "View Source" = "Visualizza sorgente";
 
 /* Toggle description */
-"While you’re using an app in this list, SuperOpt turns off all of its features and its menu bar icon appears dimmed" = "Mentre usi un’app di questo elenco, SuperOpt disattiva tutte le sue funzionalità e la sua icona nella barra dei menu appare attenuata";
+"While you’re using an app in this list, SuperOpt turns off every feature and dims its menu bar icon" = "Mentre usi un’app di questo elenco, SuperOpt disattiva tutte le funzionalità e attenua la propria icona nella barra dei menu";
 
-/* Toggle label */
-"Window Tiling" = "Disposizione finestre";
+/* No comment provided by engineer. */
+"Window Tiling" = "Mosaico finestre";
 
 /* No comment provided by engineer. */
 "Word Left" = "Parola a sinistra";
@@ -470,36 +473,33 @@
 "Word-level navigation, deletion, and formatting" = "Navigazione, eliminazione e formattazione a livello di parola";
 
 /* Alert body directing user to login items settings */
-"You can manage login items in System Settings > General > Login Items." = "Puoi gestire gli elementi login in Impostazioni di Sistema > Generali > Elementi login.";
+"You can manage login items in System Settings > General > Login Items & Extensions." = "Puoi gestire gli elementi di login in Impostazioni di Sistema > Generali > Elementi login ed estensioni.";
 
 /* Category hint */
-"Zoom and full screen" = "Zoom e schermo intero";
+"Zoom and full screen" = "Zoom e modalità a tutto schermo";
 
 /* No comment provided by engineer. */
 "Zoom In" = "Ingrandisci";
 
 /* No comment provided by engineer. */
-"Zoom Out" = "Rimpicciolisci";
+"Zoom Out" = "Riduci";
 
 /* No comment provided by engineer. */
-"↖/↘ → Line Start/End" = "↖/↘ → Inizio/Fine riga";
-
-/* Finder cut picker option */
 "⌃X and ⌃V" = "⌃X e ⌃V";
 
-/* Finder cut picker option */
+/* No comment provided by engineer. */
 "⌘X and ⌘V" = "⌘X e ⌘V";
 
-/* Toggle label */
+/* No comment provided by engineer. */
 "⌥ → Mission Control" = "⌥ → Mission Control";
 
-/* Toggle label */
+/* No comment provided by engineer. */
 "⌥1–9 → Dock App" = "⌥1–9 → App del Dock";
 
 /* No comment provided by engineer. */
 "⌥A → Apps" = "⌥A → App";
 
-/* Toggle label */
+/* No comment provided by engineer. */
 "⌥⌥ → Apps" = "⌥⌥ → App";
 
 /* No comment provided by engineer. */

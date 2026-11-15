@@ -13,7 +13,7 @@ final class SpaceSwitcherOSD {
     func show(spaceCount: Int, activeIndex: Int, on screens: [NSScreen]) {
         guard spaceCount > 0 else { return }
         let announcement = String(
-            format: NSLocalizedString("Desktop %1$d of %2$d",
+            format: NSLocalizedString("Space %1$d of %2$d",
                                       comment: "Spoken when the space changes"),
             activeIndex + 1, spaceCount)
 

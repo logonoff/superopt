@@ -47,9 +47,10 @@ class PermissionHelper {
 
     private func formatPermissionsMessage(_ missing: [String]) -> String {
         let format = NSLocalizedString(
-            "SuperOpt needs the following permissions:\n\n%@\n\n"
-            + "Grant access in Privacy & Security settings, and then click Continue.",
-            comment: "Alert body for missing permissions — %@ is the list of missing permissions")
+            "SuperOpt needs the following:\n\n%@\n\n"
+            + "Grant access in Privacy & Security settings.",
+            comment: "Alert body for missing permissions — %@ is the list of missing permissions; "
+                + "shared by both permission alerts, so it can't name a specific button")
         return String(format: format, missing.joined(separator: ", "))
     }
 

@@ -4,11 +4,11 @@ import UniformTypeIdentifiers
 // genstrings -SwiftUI only extracts Text(); Section/Toggle string labels need manual entries
 private let _excludedAppsStrings = [
     NSLocalizedString("Excluded Apps", comment: "Section header"),
-    NSLocalizedString("Turn off SuperOpt in these apps", comment: "Toggle label"),
+    NSLocalizedString("Turn Off SuperOpt in These Apps", comment: "Toggle label"),
     NSLocalizedString(
         """
-        While you’re using an app in this list, SuperOpt turns off all of its features \
-        and its menu bar icon appears dimmed
+        While you’re using an app in this list, SuperOpt turns off every feature \
+        and dims its menu bar icon
         """,
         comment: "Toggle description"),
     NSLocalizedString("No apps are excluded.", comment: "Shown in place of an empty list of apps")
@@ -87,10 +87,10 @@ struct ExcludedAppsSection: View {
     var body: some View {
         Section("Excluded Apps") {
             Toggle(isOn: $enabled) {
-                Text("Turn off SuperOpt in these apps")
+                Text("Turn Off SuperOpt in These Apps")
                 Text("""
-                    While you’re using an app in this list, SuperOpt turns off all of its features \
-                    and its menu bar icon appears dimmed
+                    While you’re using an app in this list, SuperOpt turns off every feature \
+                    and dims its menu bar icon
                     """)
             }
 

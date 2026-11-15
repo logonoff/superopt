@@ -17,53 +17,6 @@ private extension View {
     }
 }
 
-// genstrings -SwiftUI only extracts Text(); Section/Toggle string labels need manual entries
-private let _extraStrings = [
-    NSLocalizedString("Desktop", comment: "Section header"),
-    NSLocalizedString("Keyboard", comment: "Section header"),
-    NSLocalizedString("Input", comment: "Section header"),
-    NSLocalizedString("Shortcut Remapping", comment: "Section header"),
-    NSLocalizedString("⌥ → Mission Control", comment: "Toggle label"),
-    NSLocalizedString("⌥⌥ → Apps", comment: "Toggle label"),
-    NSLocalizedString("Window Tiling", comment: "Toggle label"),
-    NSLocalizedString("⌥1–9 → Dock App", comment: "Toggle label"),
-    NSLocalizedString("Copy, paste, undo, find, and other essentials", comment: "Category hint"),
-    NSLocalizedString("New, save, print, and quit", comment: "Category hint"),
-    NSLocalizedString("Zoom and full screen", comment: "Category hint"),
-    NSLocalizedString("Word-level navigation, deletion, and formatting", comment: "Category hint"),
-    NSLocalizedString("Active only in the Finder", comment: "Category hint"),
-    NSLocalizedString("Tab and window management", comment: "Category hint"),
-    NSLocalizedString("Active only in browsers", comment: "Category hint"),
-    NSLocalizedString("Active only in terminal apps", comment: "Category hint"),
-    NSLocalizedString("Active only in code editors", comment: "Category hint"),
-    NSLocalizedString("Off", comment: "Picker option"),
-    NSLocalizedString("Natural", comment: "Scroll zoom picker option"),
-    NSLocalizedString("Traditional", comment: "Scroll zoom picker option"),
-    NSLocalizedString("Scroll Zoom in Browsers", comment: "Picker label"),
-    NSLocalizedString("Control-scroll zooms in and out in web browsers", comment: "Picker description"),
-    NSLocalizedString("Cut and Paste Files in the Finder", comment: "Picker label"),
-    NSLocalizedString(
-        "Cut copies files for moving; paste moves them to the current folder", comment: "Picker description"),
-    NSLocalizedString("⌘X and ⌘V", comment: "Finder cut picker option"),
-    NSLocalizedString("⌃X and ⌃V", comment: "Finder cut picker option"),
-    NSLocalizedString("Menu Key → Shortcut Menu", comment: "Toggle label"),
-    NSLocalizedString("The Menu key on PC keyboards opens a shortcut menu", comment: "Toggle description"),
-    NSLocalizedString("Close Windows in Mission Control", comment: "Toggle label"),
-    NSLocalizedString("Adds close buttons to windows in Mission Control", comment: "Toggle description"),
-    NSLocalizedString("Type to Search in Mission Control", comment: "Picker label"),
-    NSLocalizedString(
-        "Typing in Mission Control closes it and searches what you typed", comment: "Picker description"),
-    NSLocalizedString("Spotlight", comment: "Type to search picker option"),
-    NSLocalizedString("Apps", comment: "Type to search picker option"),
-    NSLocalizedString("Click-Through Focus", comment: "Toggle label"),
-    NSLocalizedString(
-        "Clicking an inactive window brings it forward and clicks what is under the pointer",
-        comment: "Toggle description"),
-    NSLocalizedString("Tile Assist", comment: "Toggle label"),
-    NSLocalizedString(
-        "Suggests windows to fill the other half after tiling left or right", comment: "Toggle description")
-]
-
 struct SettingsView: View {
     @AppStorage("optSingleEnabled") var optSingle = true
     @AppStorage("optDoubleEnabled") var optDouble = true
@@ -93,9 +46,24 @@ struct SettingsView: View {
     @State private var gnomeSettings = GnomeShortcutSettings()
     @State private var expandedCategories: Set<String> = []
 
+    /// Literal Text() calls grouped in a property (not constants) so
+    /// genstrings still extracts them while staying under the line limit.
+    @ViewBuilder
+    private var cutPasteLabel: some View {
+        Text("Cut and Paste Files in the Finder")
+        Text("Cut marks the selected files for moving; Paste moves them to the current folder")
+    }
+
+    /// Same pattern as cutPasteLabel.
+    @ViewBuilder
+    private var clickThroughLabel: some View {
+        Text("Click-Through Focus")
+        Text("Clicking an inactive window brings it to the front and passes the click to what is under the pointer")
+    }
+
     var body: some View {
         Form {
-            Section("Desktop") {
+            Section {
                 Toggle(isOn: $hotCorners) {
                     Text("Hot Corner")
                     Text("Moving the pointer to the top-left corner opens Mission Control")
@@ -104,7 +72,7 @@ struct SettingsView: View {
                 Toggle(isOn: $menuBarBg) {
                     Text("Dark Menu Bar")
                     if systemMenuBarBgOn {
-                        Text("Turn off Show Menu Bar Background in System Settings to use this feature")
+                        Text("Turn off ‘Show menu bar background’ in Menu Bar settings to use this feature")
                     } else {
                         Text("Shows a black bar behind the menu bar when a window fills the screen")
                     }
@@ -112,21 +80,21 @@ struct SettingsView: View {
                 .disabled(systemMenuBarBgOn)
 
                 Toggle(isOn: $zoomButton) {
-                    Text("Green Button Fills Window")
-                    Text("Clicking the green button maximizes the window instead of entering full screen")
+                    Text("Green Button Fills Screen")
+                    Text("Clicking the green button fills the screen instead of entering full screen")
                 }
 
                 Toggle(isOn: $spaceScroll) {
-                    Text("Scroll over the Apple Menu to Switch Spaces")
+                    Text("Scroll to Switch Spaces")
                     Text("""
-                        Scrolling over the Apple menu switches the display you scrolled on \
-                        to the next or previous space
+                        Scrolling over the Apple menu switches that display to the \
+                        next or previous space
                         """)
                 }
 
                 Toggle(isOn: $spaceIndicator) {
                     Text("Space Indicator")
-                    Text("Shows an onscreen row of dots when a display switches spaces, no matter how you switched")
+                    Text("Shows an onscreen row of dots when a display switches spaces")
                 }
 
                 Toggle(isOn: $mcClose) {
@@ -140,33 +108,37 @@ struct SettingsView: View {
                     Text("Apps").tag(MissionControlSearchMode.apps.rawValue)
                 } label: {
                     Text("Type to Search in Mission Control")
-                    Text("Typing in Mission Control closes it and searches what you typed")
+                    Text("Typing in Mission Control closes it and searches for what you typed")
                 }
 
                 Toggle(isOn: $windowTiling) {
                     Text("Window Tiling")
-                    Text("Option-arrow keys tile, maximize, or restore windows")
+                    Text("Option-arrow keys tile, fill, or restore windows")
                 }
 
                 Toggle(isOn: $snapAssist) {
                     Text("Tile Assist")
                     Text("Suggests windows to fill the other half after tiling left or right")
                 }
+            } header: {
+                Text("Desktop")
             }
 
-            Section("Keyboard") {
+            Section {
                 Toggle(isOn: $lockKeyOSD) {
                     Text("Caps Lock Indicator")
-                    Text("Shows an onscreen indicator when Caps Lock is turned on or off")
+                    Text("Shows an onscreen indicator when you turn Caps Lock on or off")
                 }
 
                 Toggle(isOn: $homeEndRemap) {
-                    Text("↖/↘ → Line Start/End")
-                    Text("Home and End keys move the insertion point to the start or end of the line")
+                    Text("Home and End")
+                    Text("Home and End keys move the insertion point to the beginning or end of the line")
                 }
+            } header: {
+                Text("Keyboard")
             }
 
-            Section("Input") {
+            Section {
                 Toggle(isOn: $optSingle) {
                     Text("⌥ → Mission Control")
                     Text("Pressing Option opens Mission Control")
@@ -183,13 +155,13 @@ struct SettingsView: View {
 
                 Toggle(isOn: $dockShortcuts) {
                     Text("⌥1–9 → Dock App")
-                    Text("Option plus a number row key opens the corresponding app in the Dock")
+                    Text("Option plus a number key (1–9) opens the corresponding app in the Dock")
                 }
                 Picker(selection: $finderPosition) {
                     ForEach(1...9, id: \.self) { Text("\($0)").tag($0) }
                 } label: {
                     Text("Finder Position")
-                    Text("Dock position assigned to the Finder—other apps shift to fill")
+                    Text("The Finder takes this Dock position; other apps shift to fill the gap")
                 }
 
                 Picker(selection: $finderCutMode) {
@@ -197,13 +169,12 @@ struct SettingsView: View {
                     Text("⌘X and ⌘V").tag(FinderCutMode.command.rawValue)
                     Text("⌃X and ⌃V").tag(FinderCutMode.control.rawValue)
                 } label: {
-                    Text("Cut and Paste Files in the Finder")
-                    Text("Cut copies files for moving; paste moves them to the current folder")
+                    cutPasteLabel
                 }
 
                 Toggle(isOn: $middleClickPaste) {
                     Text("Middle-Click Paste")
-                    Text("Pastes with a middle click or opens a new window from the Dock")
+                    Text("Pastes with a middle-click; middle-clicking a Dock icon opens a new window")
                 }
 
                 Toggle(isOn: $menuKeyRightClick) {
@@ -212,8 +183,7 @@ struct SettingsView: View {
                 }
 
                 Toggle(isOn: $clickThroughFocus) {
-                    Text("Click-Through Focus")
-                    Text("Clicking an inactive window brings it forward and clicks what is under the pointer")
+                    clickThroughLabel
                 }
 
                 Picker(selection: $scrollZoomMode) {
@@ -222,22 +192,24 @@ struct SettingsView: View {
                     Text("Traditional").tag(ScrollZoomMode.traditional.rawValue)
                 } label: {
                     Text("Scroll Zoom in Browsers")
-                    Text("Control-scroll zooms in and out in web browsers")
+                    Text("In web browsers, Control-scroll zooms in and out")
                 }
+            } header: {
+                Text("Input")
             }
 
-            Section("Shortcut Remapping") {
+            Section {
                 Toggle(isOn: $gnomeShortcuts) {
-                    Text("Remap Shortcuts")
+                    Text("Remap Linux Shortcuts")
                     Text("Maps Linux keyboard shortcuts to their Mac equivalents")
                 }
 
                 if gnomeShortcuts {
                     Toggle(isOn: $vscodeTerminal) {
-                        Text("Detect VS Code Integrated Terminal")
+                        Text("Detect Integrated Terminals in Code Editors")
                         Text("""
-                            Treats the terminal panel in VS Code and Cursor as a terminal, \
-                            so Control-C and similar shortcuts pass through unchanged
+                            Treats the integrated terminal in code editors such as VS Code and Cursor \
+                            as a terminal app, so Control-C and similar shortcuts pass through unchanged
                             """)
                     }
 
@@ -286,6 +258,8 @@ struct SettingsView: View {
                         }
                     }
                 }
+            } header: {
+                Text("Shortcut Remapping")
             }
 
             ExcludedAppsSection()
@@ -298,9 +272,9 @@ struct SettingsView: View {
 
     private static let categoryHints: [String: String] = [
         NSLocalizedString("General", comment: "Shortcut category"):
-            NSLocalizedString("Copy, paste, undo, find, and other essentials", comment: "Category hint"),
+            NSLocalizedString("Copy, Paste, Undo, Find, and other essentials", comment: "Category hint"),
         NSLocalizedString("File", comment: "Shortcut category"):
-            NSLocalizedString("New, save, print, and quit", comment: "Category hint"),
+            NSLocalizedString("New, Save, Print, and Quit", comment: "Category hint"),
         NSLocalizedString("View", comment: "Shortcut category"):
             NSLocalizedString("Zoom and full screen", comment: "Category hint"),
         NSLocalizedString("Text Editing", comment: "Shortcut category"):

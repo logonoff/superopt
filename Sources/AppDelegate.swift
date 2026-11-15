@@ -372,11 +372,11 @@ extension AppDelegate {
         }
 
         let menu = NSMenu()
-        let settingsTitle = NSLocalizedString("Settings\u{2026}", comment: "Menu item to open settings window")
+        let settingsTitle = NSLocalizedString("Settings…", comment: "Menu item to open settings window")
         menu.addItem(NSMenuItem(title: settingsTitle, action: #selector(openSettings), keyEquivalent: ","))
 
         let permTitle = NSLocalizedString(
-            "Request Permissions\u{2026}", comment: "Menu item to check and request permissions")
+            "Request Permissions…", comment: "Menu item to check and request permissions")
         menu.addItem(NSMenuItem(
             title: permTitle, action: #selector(requestPermissions), keyEquivalent: ""))
 
@@ -432,7 +432,7 @@ extension AppDelegate {
             alert.messageText = NSLocalizedString(
                 "Unable to Update Login Item", comment: "Alert title when login item registration fails")
             alert.informativeText = NSLocalizedString(
-                "You can manage login items in System Settings > General > Login Items.",
+                "You can manage login items in System Settings > General > Login Items & Extensions.",
                 comment: "Alert body directing user to login items settings")
             alert.alertStyle = .warning
             let openTitle = NSLocalizedString("Open Login Items", comment: "Button to open login items settings")
