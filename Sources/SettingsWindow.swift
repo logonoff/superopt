@@ -360,9 +360,7 @@ class SettingsWindowController: NSObject, NSWindowDelegate {
 
     func show() {
         if let existing = window {
-            existing.orderFrontRegardless()
-            existing.makeKey()
-            NSApplication.shared.activate()
+            activateAndFront(existing)
             return
         }
 
@@ -385,9 +383,16 @@ class SettingsWindowController: NSObject, NSWindowDelegate {
         window.standardWindowButton(.miniaturizeButton)?.isEnabled = false
         window.contentView = hostingView
 
-        window.makeKeyAndOrderFront(nil)
-        NSApplication.shared.activate()
+        activateAndFront(window)
         self.window = window
+    }
+
+    // Plain activate() is cooperative and never activates this accessory app while
+    // another app is frontmost, leaving the window behind it (measured on macOS 27).
+    // The deprecated activate(ignoringOtherApps:) is the only variant that works.
+    private func activateAndFront(_ window: NSWindow) {
+        NSApplication.shared.activate(ignoringOtherApps: true)
+        window.makeKeyAndOrderFront(nil)
     }
 
     func windowWillClose(_ notification: Notification) {

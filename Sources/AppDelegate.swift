@@ -403,7 +403,9 @@ extension AppDelegate {
     }
 
     @objc private func showAbout() {
-        NSApplication.shared.activate()
+        // Same as SettingsWindowController.activateAndFront: the cooperative
+        // activate() never activates this accessory app, leaving the panel not key.
+        NSApplication.shared.activate(ignoringOtherApps: true)
         let style = NSMutableParagraphStyle()
         style.paragraphSpacing = 8; style.alignment = .center
         let font = NSFont.systemFont(ofSize: 11)
