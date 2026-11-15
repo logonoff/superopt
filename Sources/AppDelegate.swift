@@ -177,6 +177,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         )
         UserDefaults.standard.register(defaults: AppDelegate.defaultPreferences)
 
+        // Before the menu bar background starts: it reads the status item's appearance
+        // to find out what colour the menu bar is drawing its text.
+        setupStatusItem()
+
         let systemMenuBarBg = UserDefaults.standard.bool(forKey: "SLSMenuBarUseBlurredAppearance")
         if isEnabled("menuBarBgEnabled") && !systemMenuBarBg { menuBarBackground.start() }
 
@@ -191,8 +195,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             self, selector: #selector(defaultsChanged),
             name: UserDefaults.didChangeNotification, object: nil
         )
-
-        setupStatusItem()
 
         excludedApps.onChange = { [weak self] in self?.applyExclusion() }
         excludedApps.start()
@@ -362,6 +364,11 @@ extension AppDelegate {
         if let button = statusItem.button {
             button.title = "⌥"
             button.setAccessibilityLabel("SuperOpt")
+        }
+        // A status item takes the appearance of the menu bar it sits in, which is how
+        // the menu bar background finds out whether the text there is dark or light.
+        menuBarBackground.menuBarAppearance = { [weak self] in
+            self?.statusItem?.button?.effectiveAppearance
         }
 
         let menu = NSMenu()

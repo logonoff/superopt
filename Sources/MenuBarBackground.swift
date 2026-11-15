@@ -20,6 +20,13 @@ class MenuBarBackground: NSObject {
     private var timer: Timer?
     private var active = false
 
+    /// The appearance of a status item, which is the appearance of the menu bar it sits
+    /// in. `AppDelegate` supplies its own rather than this class making a second one.
+    var menuBarAppearance: (() -> NSAppearance?)?
+
+    /// Which displays were last seen with a menu bar drawing light text, by display ID.
+    private var lightText: [CGDirectDisplayID: Bool] = [:]
+
     func start() {
         active = true
         if timer == nil {
@@ -38,6 +45,8 @@ class MenuBarBackground: NSObject {
     @objc private func screenChanged() {
         for overlay in overlays { overlay.window.orderOut(nil) }
         overlays.removeAll()
+        // Display IDs and wallpapers both move around with the screen layout.
+        lightText.removeAll()
         createWindows()
         update()
     }
@@ -103,13 +112,15 @@ class MenuBarBackground: NSObject {
             return
         }
 
+        recordMenuBarAppearance()
+
         for screen in NSScreen.screens {
             guard let overlay = overlays.first(where: { $0.screenFrame == screen.frame }) else {
                 continue
             }
             let filled = isScreenFilled(
                 screen, menuBarBottom: overlay.menuBarBottom, windowList: windowList)
-            let target: CGFloat = filled ? 1 : 0
+            let target: CGFloat = filled && textStaysLegible(on: screen) ? 1 : 0
             let win = overlay.window
             if win.alphaValue != target {
                 NSAnimationContext.runAnimationGroup { ctx in
@@ -118,6 +129,36 @@ class MenuBarBackground: NSObject {
                 }
             }
         }
+    }
+
+    /// Notes what the menu bar on the display being used is drawing. A status item
+    /// takes the appearance of the menu bar it sits in, and `NSScreen.main` is the
+    /// display that menu bar belongs to, so one display can be read at a time — the
+    /// active one. The others are remembered from when they were last active, which
+    /// holds while their wallpaper and their windows do.
+    private func recordMenuBarAppearance() {
+        guard let appearance = menuBarAppearance?(),
+              let screen = NSScreen.main, let display = Self.displayID(of: screen)
+        else { return }
+        lightText[display] = appearance.bestMatch(from: [.aqua, .darkAqua]) == .darkAqua
+    }
+
+    /// Whether a bar on this display would leave the menu bar's text readable.
+    ///
+    /// The menu bar draws its own text in a colour the system picks from what it finds
+    /// behind the menu bar — the wallpaper, or the background it puts up for a window
+    /// it considers to fill the display. Nothing drawn there changes that choice: a
+    /// bar at any window level, down to the desktop, leaves it as it was. So over a
+    /// light wallpaper the text is dark, and a black bar behind it would swallow it.
+    /// A display that has not been read yet is left alone for the same reason.
+    private func textStaysLegible(on screen: NSScreen) -> Bool {
+        guard let display = Self.displayID(of: screen) else { return false }
+        return lightText[display] ?? false
+    }
+
+    private static func displayID(of screen: NSScreen) -> CGDirectDisplayID? {
+        (screen.deviceDescription[NSDeviceDescriptionKey("NSScreenNumber")] as? NSNumber)?
+            .uint32Value
     }
 
     private func isScreenFilled(
