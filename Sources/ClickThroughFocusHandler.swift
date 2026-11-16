@@ -32,6 +32,21 @@ class ClickThroughFocusHandler {
     /// raises an inactive window when its title bar is clicked, and withholding
     /// the press would break dragging the window by it.
     private static let titleBarBand: CGFloat = 28
+    /// A window can be resized from just outside its frame, so a press landing
+    /// in that band belongs to the window whose edge it is, not to whatever
+    /// shows through behind it. Presses there are left alone.
+    ///
+    /// The band's real width is not observable from another process: window
+    /// frame dragging is run by the window server, which ignores posted
+    /// events, so a synthesized drag never resizes anything and the resize
+    /// cursor never reaches `NSCursor.currentSystem`. This value is therefore
+    /// chosen rather than measured, and deliberately a little wide — it also
+    /// has to cover the corner grab areas, which reach further than the edges.
+    /// The two ways of being wrong are not equally bad: too narrow hijacks a
+    /// resize the user has already committed to, while too wide only costs
+    /// click-through in a thin band around other windows' edges, where the
+    /// press falls back to stock macOS behaviour.
+    private static let resizeBand: CGFloat = 8
     /// How long to wait for the target window to take focus before giving up.
     private static let focusTimeout: TimeInterval = 0.25
 
@@ -129,10 +144,20 @@ class ClickThroughFocusHandler {
         // take a click while inactive already — or below it, which is the desktop.
         for info in list {
             guard let bounds = info[kCGWindowBounds as String] as? NSDictionary,
-                  let frame = CGRect(dictionaryRepresentation: bounds),
-                  frame.contains(point)
+                  let frame = CGRect(dictionaryRepresentation: bounds)
             else { continue }
-            guard info[kCGWindowLayer as String] as? Int == 0,
+            let layer = info[kCGWindowLayer as String] as? Int
+            guard frame.contains(point) else {
+                // Not in this window, but near enough outside it to be grabbing
+                // its edge. Front to back means any window reaching this point
+                // is in front of whatever the press would otherwise land on, so
+                // its resize band wins and the press is macOS's to interpret.
+                if layer == 0, frame.insetBy(dx: -Self.resizeBand, dy: -Self.resizeBand).contains(point) {
+                    return nil
+                }
+                continue
+            }
+            guard layer == 0,
                   let pid = info[kCGWindowOwnerPID as String] as? pid_t,
                   let windowID = info[kCGWindowNumber as String] as? UInt32,
                   pid != ProcessInfo.processInfo.processIdentifier
