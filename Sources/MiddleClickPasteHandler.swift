@@ -96,21 +96,70 @@ class MiddleClickPasteHandler {
 
     // MARK: - New window
 
+    /// Time for the app to come forward before ⌘N is aimed at it.
+    private static let activationDelay: TimeInterval = 0.15
+    /// How long a reopened app is given to put up a window of its own.
+    private static let reopenGrace: TimeInterval = 0.6
+
     private func openNewWindow(of appURL: URL) {
         let bundleID = Bundle(url: appURL)?.bundleIdentifier
-        let isRunning = bundleID != nil
-            && NSWorkspace.shared.runningApplications.contains { $0.bundleIdentifier == bundleID }
+        let pid = bundleID.flatMap { id in
+            NSWorkspace.shared.runningApplications
+                .first { $0.bundleIdentifier == id }?.processIdentifier
+        }
 
         let config = NSWorkspace.OpenConfiguration()
         config.activates = true
-        if isRunning {
-            NSWorkspace.shared.openApplication(at: appURL, configuration: config) { _, _ in
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
-                    KeyboardUtils.postKey(0x2D, flags: .maskCommand) // ⌘N
+
+        guard let pid else {
+            NSWorkspace.shared.openApplication(at: appURL, configuration: config)
+            return
+        }
+
+        // Activating an app with no windows left makes AppKit's reopen handling
+        // open one, so a ⌘N on top of that is a second window.
+        let hadWindows = Self.windowCount(pid: pid) > 0
+        let activationDelay = Self.activationDelay
+        NSWorkspace.shared.openApplication(at: appURL, configuration: config) { _, _ in
+            DispatchQueue.main.asyncAfter(deadline: .now() + activationDelay) {
+                if hadWindows {
+                    Self.postNewWindow()
+                } else {
+                    Self.postNewWindowIfReopenDidNot(
+                        pid: pid, deadline: Date() + Self.reopenGrace)
                 }
             }
-        } else {
-            NSWorkspace.shared.openApplication(at: appURL, configuration: config)
         }
+    }
+
+    /// An app that answers a reopen with a window of its own needs nothing
+    /// further; one that ignores it still gets its ⌘N, just late.
+    private static func postNewWindowIfReopenDidNot(pid: pid_t, deadline: Date) {
+        guard windowCount(pid: pid) == 0 else { return }
+        guard Date() < deadline else { return postNewWindow() }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            postNewWindowIfReopenDidNot(pid: pid, deadline: deadline)
+        }
+    }
+
+    private static func postNewWindow() {
+        KeyboardUtils.postKey(0x2D, flags: .maskCommand) // ⌘N
+    }
+
+    /// The windows the app has, minimized and hidden ones included. Read through
+    /// the accessibility API rather than `CGWindowListCopyWindowInfo`, which only
+    /// lists what is on screen and would call a minimized window no window at all.
+    /// The role check drops Finder's desktop, which is in the list as an
+    /// `AXScrollArea`.
+    private static func windowCount(pid: pid_t) -> Int {
+        var value: AnyObject?
+        guard AXUIElementCopyAttributeValue(
+            AXUIElementCreateApplication(pid), kAXWindowsAttribute as CFString, &value
+        ) == .success, let windows = value as? [AXUIElement] else { return 0 }
+        return windows.filter { window in
+            var role: AnyObject?
+            AXUIElementCopyAttributeValue(window, kAXRoleAttribute as CFString, &role)
+            return role as? String == kAXWindowRole
+        }.count
     }
 }
