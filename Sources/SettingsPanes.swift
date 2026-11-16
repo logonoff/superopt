@@ -2,11 +2,15 @@ import SwiftUI
 
 // MARK: - Desktop
 
-/// The Desktop pane: hot corner, menu bar, spaces, Mission Control, and tiling.
+/// The Desktop pane: hot corner, Mission Control, spaces, tiling, and the
+/// menu bar.
 struct DesktopPane: View {
     @AppStorage("hotCornersEnabled") var hotCorners = true
     @AppStorage("menuBarBgEnabled") var menuBarBg = false
-    @AppStorage("SLSMenuBarUseBlurredAppearance") var systemMenuBarBgOn = false
+    /// Read only — the key belongs to the system, not to SuperOpt. Kept
+    /// private so no `$systemMenuBarBgOn` binding can write it into this
+    /// app's own defaults domain, where it would have no effect.
+    @AppStorage("SLSMenuBarUseBlurredAppearance") private var systemMenuBarBgOn = false
     @AppStorage("zoomButtonEnabled") var zoomButton = false
     @AppStorage("spaceScrollEnabled") var spaceScroll = false
     @AppStorage("spaceIndicatorEnabled") var spaceIndicator = false
@@ -20,26 +24,29 @@ struct DesktopPane: View {
             Section {
                 Toggle(isOn: $hotCorners) {
                     Text("Hot Corner")
-                    Text("Moving the pointer to the top-left corner opens Mission Control")
+                    Text("Moving the pointer to the top-left corner of any screen opens Mission Control")
                 }
 
-                Toggle(isOn: $menuBarBg) {
-                    Text("Dark Menu Bar")
-                    if systemMenuBarBgOn {
-                        Text("Turn off ‘Show menu bar background’ in Menu Bar settings to use this feature")
-                    } else {
-                        Text("Shows a black bar behind the menu bar when a window fills the screen")
-                    }
-                }
-                .disabled(systemMenuBarBgOn)
-
-                Toggle(isOn: $zoomButton) {
-                    Text("Green Button Fills Screen")
-                    Text("Clicking the green button fills the screen instead of entering full screen")
+                Toggle(isOn: $mcClose) {
+                    Text("Close windows in Mission Control")
+                    Text("Close buttons appear on windows in Mission Control")
                 }
 
+                Picker(selection: $mcTypeToSearchMode) {
+                    Text("Off").tag(MissionControlSearchMode.off.rawValue)
+                    Text("Spotlight").tag(MissionControlSearchMode.search.rawValue)
+                    Text("Apps").tag(MissionControlSearchMode.apps.rawValue)
+                } label: {
+                    Text("Type to search in Mission Control")
+                    Text("Typing in Mission Control closes it and opens Spotlight with what you typed")
+                }
+            } header: {
+                Text("Mission Control")
+            }
+
+            Section {
                 Toggle(isOn: $spaceScroll) {
-                    Text("Scroll to Switch Spaces")
+                    Text("Scroll to switch spaces")
                     Text("""
                         Scrolling over the Apple menu switches that display to the \
                         next or previous space
@@ -48,32 +55,49 @@ struct DesktopPane: View {
 
                 Toggle(isOn: $spaceIndicator) {
                     Text("Space Indicator")
-                    Text("Shows an onscreen row of dots when a display switches spaces")
+                    Text("An onscreen row of dots appears when a display switches spaces")
                 }
+            } header: {
+                Text("Spaces")
+            }
 
-                Toggle(isOn: $mcClose) {
-                    Text("Close Windows in Mission Control")
-                    Text("Adds close buttons to windows in Mission Control")
-                }
-
-                Picker(selection: $mcTypeToSearchMode) {
-                    Text("Off").tag(MissionControlSearchMode.off.rawValue)
-                    Text("Spotlight").tag(MissionControlSearchMode.search.rawValue)
-                    Text("Apps").tag(MissionControlSearchMode.apps.rawValue)
-                } label: {
-                    Text("Type to Search in Mission Control")
-                    Text("Typing in Mission Control closes it and searches for what you typed")
+            Section {
+                Toggle(isOn: $zoomButton) {
+                    Text("Green button fills the screen")
+                    Text("""
+                        Clicking the green button expands the window to fill the screen \
+                        instead of entering full screen
+                        """)
                 }
 
                 Toggle(isOn: $windowTiling) {
                     Text("Window Tiling")
-                    Text("Option-arrow keys tile, fill, or restore windows")
+                    Text("Option–Arrow keys tile, fill, or restore windows")
                 }
 
                 Toggle(isOn: $snapAssist) {
                     Text("Tile Assist")
-                    Text("Suggests windows to fill the other half after tiling left or right")
+                    Text("""
+                        When you tile a window to the left or right, SuperOpt suggests \
+                        windows to fill the other half
+                        """)
                 }
+            } header: {
+                Text("Windows")
+            }
+
+            Section {
+                Toggle(isOn: $menuBarBg) {
+                    Text("Dark Menu Bar")
+                    if systemMenuBarBgOn {
+                        Text("Turn off “Show menu bar background” in Menu Bar settings to use this feature")
+                    } else {
+                        Text("A black bar appears behind the menu bar when a window fills the screen")
+                    }
+                }
+                .disabled(systemMenuBarBgOn)
+            } header: {
+                Text("Menu Bar")
             }
         }
         .formStyle(.grouped)
@@ -83,22 +107,74 @@ struct DesktopPane: View {
 
 // MARK: - Keyboard
 
-/// The Keyboard pane: Caps Lock indicator and Home/End remapping.
+/// The Keyboard pane: key behaviors (Caps Lock indicator, Home/End, the
+/// Menu key) and the Linux shortcut remapper. Shortcut remapping lives
+/// here rather than in its own pane because the HIG has each settings
+/// pane hold "a group of related settings" (a two-row Keyboard pane next
+/// to a standalone remapping pane fragments one domain).
 struct KeyboardPane: View {
+    /// The height of the scrolling shortcut tree, so the pane holds a
+    /// constant height with every category expanded.
+    private static let treeHeight: CGFloat = 320
+
     @AppStorage("lockKeyOSDEnabled") var lockKeyOSD = true
     @AppStorage("homeEndRemapEnabled") var homeEndRemap = true
+    @AppStorage("menuKeyRightClickEnabled") var menuKeyRightClick = false
+    @AppStorage("gnomeShortcutsEnabled") var gnomeShortcuts = false
+    @AppStorage("vscodeTerminalEnabled") var vscodeTerminal = false
+
+    @State private var gnomeSettings = GnomeShortcutSettings()
 
     var body: some View {
         Form {
             Section {
                 Toggle(isOn: $lockKeyOSD) {
                     Text("Caps Lock Indicator")
-                    Text("Shows an onscreen indicator when you turn Caps Lock on or off")
+                    Text("An onscreen indicator appears when you turn Caps Lock on or off")
                 }
 
                 Toggle(isOn: $homeEndRemap) {
                     Text("Home and End")
-                    Text("Home and End keys move the insertion point to the beginning or end of the line")
+                    Text("""
+                        Home and End keys move the insertion point to the beginning or end of the \
+                        line; Control-Home and Control-End move it to the beginning or end of the document
+                        """)
+                }
+
+                Toggle(isOn: $menuKeyRightClick) {
+                    Text("Menu key → Shortcut menu")
+                    Text("The Menu key on PC keyboards opens a shortcut menu")
+                }
+            }
+
+            Section {
+                Toggle(isOn: $gnomeShortcuts) {
+                    Text("Remap Linux shortcuts")
+                    Text("Maps Linux keyboard shortcuts to their Mac equivalents")
+                }
+
+                if gnomeShortcuts {
+                    Toggle(isOn: $vscodeTerminal) {
+                        Text("Detect integrated terminals in code editors")
+                        Text("""
+                            Treats the integrated terminal in code editors such as VS Code and Cursor \
+                            as a terminal app, so Control-C and similar shortcuts pass through unchanged
+                            """)
+                    }
+                }
+            } header: {
+                Text("Shortcut Remapping")
+            }
+
+            if gnomeShortcuts {
+                // In the Form, so the heading is a real AXHeading and the
+                // row's insets and metrics are the Form's own, in both
+                // layout directions.
+                Section {
+                    ShortcutOutline(settings: gnomeSettings)
+                        .frame(height: Self.treeHeight)
+                } header: {
+                    Text("Shortcuts")
                 }
             }
         }
@@ -109,7 +185,8 @@ struct KeyboardPane: View {
 
 // MARK: - Input
 
-/// The Input pane: Option-key triggers, Dock shortcuts, and mouse behavior.
+/// The Input pane: Option-key triggers, Dock shortcuts, mouse behavior, and
+/// the Finder and Menu keys.
 struct InputPane: View {
     @AppStorage("optSingleEnabled") var optSingle = true
     @AppStorage("optDoubleEnabled") var optDouble = true
@@ -118,7 +195,6 @@ struct InputPane: View {
     @AppStorage("dockFinderPosition") var finderPosition = 1
     @AppStorage("finderCutMode") var finderCutMode = FinderCutMode.off.rawValue
     @AppStorage("middleClickPasteEnabled") var middleClickPaste = false
-    @AppStorage("menuKeyRightClickEnabled") var menuKeyRightClick = false
     @AppStorage("clickThroughFocusEnabled") var clickThroughFocus = false
     @AppStorage("scrollZoomMode") var scrollZoomMode = ScrollZoomMode.off.rawValue
 
@@ -126,15 +202,18 @@ struct InputPane: View {
     /// genstrings still extracts them while staying under the line limit.
     @ViewBuilder
     private var cutPasteLabel: some View {
-        Text("Cut and Paste Files in the Finder")
-        Text("Cut marks the selected files for moving; Paste moves them to the current folder")
+        Text("Cut and paste files in the Finder")
+        Text("Cut marks the selected files to be moved; Paste moves them to the current folder")
     }
 
     /// Same pattern as cutPasteLabel.
     @ViewBuilder
     private var clickThroughLabel: some View {
         Text("Click-Through Focus")
-        Text("Clicking an inactive window brings it to the front and passes the click to what is under the pointer")
+        Text("""
+            Clicking an inactive window brings it to the front and passes the click \
+            through to the item under the pointer
+            """)
     }
 
     var body: some View {
@@ -146,41 +225,33 @@ struct InputPane: View {
                 }
                 Toggle(isOn: $optDouble) {
                     Text("⌥⌥ → Apps")
-                    Text("Pressing Option twice opens Spotlight Apps")
+                    Text("Pressing Option twice opens the Apps view in Spotlight")
                 }
 
                 Toggle(isOn: $appGrid) {
                     Text("⌥A → Apps")
-                    Text("Option-A opens Spotlight Apps")
+                    Text("Option-A opens the Apps view in Spotlight")
                 }
 
                 Toggle(isOn: $dockShortcuts) {
-                    Text("⌥1–9 → Dock App")
-                    Text("Option plus a number key (1–9) opens the corresponding app in the Dock")
+                    Text("⌥1–9 → Apps in the Dock")
+                    Text("Option-1 through Option-9 open the corresponding app in the Dock")
                 }
                 Picker(selection: $finderPosition) {
-                    ForEach(1...9, id: \.self) { Text("\($0)").tag($0) }
+                    // Verbatim: the row labels are the numbers 1–9, not text.
+                    ForEach(1...9, id: \.self) { Text(verbatim: "\($0)").tag($0) }
                 } label: {
-                    Text("Finder Position")
-                    Text("The Finder takes this Dock position; other apps shift to fill the gap")
+                    Text("Finder position")
+                    Text("The Finder takes this position in the Dock; other apps shift to fill the gap")
                 }
+            } header: {
+                Text("Option Key")
+            }
 
-                Picker(selection: $finderCutMode) {
-                    Text("Off").tag(FinderCutMode.off.rawValue)
-                    Text("⌘X and ⌘V").tag(FinderCutMode.command.rawValue)
-                    Text("⌃X and ⌃V").tag(FinderCutMode.control.rawValue)
-                } label: {
-                    cutPasteLabel
-                }
-
+            Section {
                 Toggle(isOn: $middleClickPaste) {
                     Text("Middle-Click Paste")
-                    Text("Pastes with a middle-click; middle-clicking a Dock icon opens a new window")
-                }
-
-                Toggle(isOn: $menuKeyRightClick) {
-                    Text("Menu Key → Shortcut Menu")
-                    Text("The Menu key on PC keyboards opens a shortcut menu")
+                    Text("A middle click pastes; middle-clicking a Dock icon opens a new window")
                 }
 
                 Toggle(isOn: $clickThroughFocus) {
@@ -192,165 +263,26 @@ struct InputPane: View {
                     Text("Natural").tag(ScrollZoomMode.natural.rawValue)
                     Text("Traditional").tag(ScrollZoomMode.traditional.rawValue)
                 } label: {
-                    Text("Scroll Zoom in Browsers")
-                    Text("In web browsers, Control-scroll zooms in and out")
+                    Text("Scroll to zoom in browsers")
+                    Text("Control-scroll zooms in and out")
                 }
+            } header: {
+                Text("Mouse")
             }
-        }
-        .formStyle(.grouped)
-        .toggleStyle(.switch)
-    }
-}
 
-// MARK: - Shortcut Remapping
-
-/// The Shortcut Remapping pane: the Linux shortcut remapper and its
-/// per-category, per-shortcut toggles.
-struct ShortcutRemappingPane: View {
-    @AppStorage("gnomeShortcutsEnabled") var gnomeShortcuts = false
-    @AppStorage("vscodeTerminalEnabled") var vscodeTerminal = false
-
-    @State private var gnomeSettings = GnomeShortcutSettings()
-    @State private var expandedCategories: Set<String> = []
-
-    var body: some View {
-        Form {
             Section {
-                Toggle(isOn: $gnomeShortcuts) {
-                    Text("Remap Linux Shortcuts")
-                    Text("Maps Linux keyboard shortcuts to their Mac equivalents")
+                Picker(selection: $finderCutMode) {
+                    Text("Off").tag(FinderCutMode.off.rawValue)
+                    Text("⌘X and ⌘V").tag(FinderCutMode.command.rawValue)
+                    Text("⌃X and ⌃V").tag(FinderCutMode.control.rawValue)
+                } label: {
+                    cutPasteLabel
                 }
-
-                if gnomeShortcuts {
-                    Toggle(isOn: $vscodeTerminal) {
-                        Text("Detect Integrated Terminals in Code Editors")
-                        Text("""
-                            Treats the integrated terminal in code editors such as VS Code and Cursor \
-                            as a terminal app, so Control-C and similar shortcuts pass through unchanged
-                            """)
-                    }
-
-                    ForEach(GnomeShortcutHandler.categories, id: \.self) { category in
-                        DisclosureGroup(
-                            isExpanded: Binding(
-                                get: { expandedCategories.contains(category) },
-                                set: { expanded in
-                                    withAnimation {
-                                        if expanded {
-                                            expandedCategories.insert(category)
-                                        } else {
-                                            expandedCategories.remove(category)
-                                        }
-                                    }
-                                }
-                            )
-                        ) {
-                            ForEach(GnomeShortcutHandler.shortcuts(in: category)) { shortcut in
-                                Toggle(isOn: gnomeSettings.binding(for: shortcut.id)) {
-                                    HStack {
-                                        Text(shortcut.label)
-                                            .frame(width: 130, alignment: .leading)
-                                        HStack(spacing: 4) {
-                                            Text(shortcut.fromKeys)
-                                                .foregroundStyle(.secondary)
-                                            Text("▸")
-                                                .foregroundStyle(.secondary.opacity(0.5))
-                                            Text(shortcut.toKeys)
-                                                .foregroundStyle(.secondary)
-                                        }
-                                    }
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                    .contentShape(Rectangle())
-                                }
-                                .toggleStyle(.checkbox)
-                                .frame(height: 20)
-                            }
-                        } label: {
-                            CategoryLabel(
-                                category: category,
-                                hint: Self.categoryHints[category],
-                                settings: gnomeSettings,
-                                expandedCategories: $expandedCategories
-                            )
-                        }
-                    }
-                }
+            } header: {
+                Text("Finder")
             }
         }
         .formStyle(.grouped)
         .toggleStyle(.switch)
-    }
-
-    private static let categoryHints: [String: String] = [
-        NSLocalizedString("General", comment: "Shortcut category"):
-            NSLocalizedString("Copy, Paste, Undo, Find, and other essentials", comment: "Category hint"),
-        NSLocalizedString("File", comment: "Shortcut category"):
-            NSLocalizedString("New, Save, Print, and Quit", comment: "Category hint"),
-        NSLocalizedString("View", comment: "Shortcut category"):
-            NSLocalizedString("Zoom and full screen", comment: "Category hint"),
-        NSLocalizedString("Text Editing", comment: "Shortcut category"):
-            NSLocalizedString("Word-level navigation, deletion, and formatting", comment: "Category hint"),
-        NSLocalizedString("Finder", comment: "Shortcut category"):
-            NSLocalizedString("Active only in the Finder", comment: "Category hint"),
-        NSLocalizedString("Tabs & Windows", comment: "Shortcut category"):
-            NSLocalizedString("Tab and window management", comment: "Category hint"),
-        NSLocalizedString("Browsers", comment: "Shortcut category"):
-            NSLocalizedString("Active only in browsers", comment: "Category hint"),
-        NSLocalizedString("Terminal", comment: "Shortcut category"):
-            NSLocalizedString("Active only in terminal apps", comment: "Category hint"),
-        NSLocalizedString("Code Editor", comment: "Shortcut category"):
-            NSLocalizedString("Active only in code editors", comment: "Category hint")
-    ]
-}
-
-private extension View {
-    @ViewBuilder
-    func mixed(_ isMixed: Bool) -> some View {
-        if isMixed {
-            self.allowsHitTesting(true)
-                .overlay(alignment: .leading) {
-                    Image(systemName: "minus.square.fill")
-                        .foregroundStyle(.white, .tint)
-                        .allowsHitTesting(false)
-                }
-        } else {
-            self
-        }
-    }
-}
-
-private struct CategoryLabel: View {
-    let category: String
-    let hint: String?
-    var settings: GnomeShortcutSettings
-    @Binding var expandedCategories: Set<String>
-
-    var body: some View {
-        HStack(spacing: 8) {
-            Toggle(isOn: settings.categoryBinding(category)) { EmptyView() }
-                .toggleStyle(.checkbox)
-                .mixed(settings.categoryState(category) == .mixed)
-                .padding(.leading, 4)
-
-            Button {
-                withAnimation {
-                    if expandedCategories.contains(category) {
-                        expandedCategories.remove(category)
-                    } else {
-                        expandedCategories.insert(category)
-                    }
-                }
-            } label: {
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(category)
-                    if let hint {
-                        Text(hint).font(.caption).foregroundStyle(.secondary)
-                    }
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .contentShape(Rectangle())
-            }
-            .buttonStyle(.plain)
-        }
     }
 }

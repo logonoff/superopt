@@ -430,17 +430,17 @@ extension AppDelegate {
             NSLog("SuperOpt: failed to update login item: %@", error.localizedDescription)
             let alert = NSAlert()
             alert.messageText = NSLocalizedString(
-                "Unable to Update Login Item", comment: "Alert title when login item registration fails")
+                "Can’t Update Login Item", comment: "Alert title when login item registration fails")
             alert.informativeText = NSLocalizedString(
-                "You can manage login items in System Settings > General > Login Items & Extensions.",
+                "You can manage login items in Login Items & Extensions settings.",
                 comment: "Alert body directing user to login items settings")
             alert.alertStyle = .warning
-            let openTitle = NSLocalizedString("Open Login Items", comment: "Button to open login items settings")
+            let openTitle = NSLocalizedString(
+                "Open Login Items & Extensions Settings", comment: "Button to open login items settings")
             alert.addButton(withTitle: openTitle)
             alert.addButton(withTitle: NSLocalizedString("Cancel", comment: "Cancel button"))
             if alert.runModal() == .alertFirstButtonReturn {
-                let url = "x-apple.systempreferences:com.apple.LoginItems-Settings.extension"
-                if let url = URL(string: url) { NSWorkspace.shared.open(url) }
+                SMAppService.openSystemSettingsLoginItems()
             }
         }
     }

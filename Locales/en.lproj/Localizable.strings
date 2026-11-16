@@ -1,5 +1,8 @@
 /* No comment provided by engineer. */
-"%@" = "%@";
+"A black bar appears behind the menu bar when a window fills the screen" = "A black bar appears behind the menu bar when a window fills the screen";
+
+/* No comment provided by engineer. */
+"A middle click pastes; middle-clicking a Dock icon opens a new window" = "A middle click pastes; middle-clicking a Dock icon opens a new window";
 
 /* Menu item to show about panel */
 "About SuperOpt" = "About SuperOpt";
@@ -19,17 +22,26 @@
 /* Category hint */
 "Active only in the Finder" = "Active only in the Finder";
 
+/* No comment provided by engineer. */
+"Actual Size" = "Actual Size";
+
 /* Open panel button for adding an app */
 "Add" = "Add";
 
-/* No comment provided by engineer. */
-"Add app" = "Add app";
+/* Add button tooltip */
+"Add an app" = "Add an app";
 
 /* No comment provided by engineer. */
-"Address Bar" = "Address Bar";
+"Add Bookmark" = "Add Bookmark";
 
 /* No comment provided by engineer. */
-"Adds close buttons to windows in Mission Control" = "Adds close buttons to windows in Mission Control";
+"Add Link" = "Add Link";
+
+/* No comment provided by engineer. */
+"An onscreen indicator appears when you turn Caps Lock on or off" = "An onscreen indicator appears when you turn Caps Lock on or off";
+
+/* No comment provided by engineer. */
+"An onscreen row of dots appears when a display switches spaces" = "An onscreen row of dots appears when a display switches spaces";
 
 /* No comment provided by engineer. */
 "Apps" = "Apps";
@@ -37,14 +49,14 @@
 /* No comment provided by engineer. */
 "Bold" = "Bold";
 
-/* No comment provided by engineer. */
-"Bookmark Page" = "Bookmark Page";
-
 /* Shortcut category */
 "Browsers" = "Browsers";
 
 /* Cancel button */
 "Cancel" = "Cancel";
+
+/* Alert title when login item registration fails */
+"Can’t Update Login Item" = "Can’t Update Login Item";
 
 /* No comment provided by engineer. */
 "Caps Lock Indicator" = "Caps Lock Indicator";
@@ -62,10 +74,13 @@
 "Click-Through Focus" = "Click-Through Focus";
 
 /* No comment provided by engineer. */
-"Clicking an inactive window brings it to the front and passes the click to what is under the pointer" = "Clicking an inactive window brings it to the front and passes the click to what is under the pointer";
+"Clicking an inactive window brings it to the front and passes the click through to the item under the pointer" = "Clicking an inactive window brings it to the front and passes the click through to the item under the pointer";
 
 /* No comment provided by engineer. */
-"Clicking the green button fills the screen instead of entering full screen" = "Clicking the green button fills the screen instead of entering full screen";
+"Clicking the green button expands the window to fill the screen instead of entering full screen" = "Clicking the green button expands the window to fill the screen instead of entering full screen";
+
+/* No comment provided by engineer. */
+"Close buttons appear on windows in Mission Control" = "Close buttons appear on windows in Mission Control";
 
 /* No comment provided by engineer. */
 "Close Tab" = "Close Tab";
@@ -74,10 +89,10 @@
 "Close Window" = "Close Window";
 
 /* No comment provided by engineer. */
-"Close Windows in Mission Control" = "Close Windows in Mission Control";
+"Close windows in Mission Control" = "Close windows in Mission Control";
 
 /* Shortcut category */
-"Code Editor" = "Code Editor";
+"Code Editors" = "Code Editors";
 
 /* No comment provided by engineer. */
 "Command Palette" = "Command Palette";
@@ -85,8 +100,14 @@
 /* No comment provided by engineer. */
 "Comment or Uncomment" = "Comment or Uncomment";
 
+/* No comment provided by engineer. */
+"Confirm" = "Confirm";
+
 /* Button to retry after granting permissions */
 "Continue" = "Continue";
+
+/* No comment provided by engineer. */
+"Control-scroll zooms in and out" = "Control-scroll zooms in and out";
 
 /* No comment provided by engineer. */
 "Copy" = "Copy";
@@ -98,10 +119,10 @@
 "Cut" = "Cut";
 
 /* No comment provided by engineer. */
-"Cut and Paste Files in the Finder" = "Cut and Paste Files in the Finder";
+"Cut and paste files in the Finder" = "Cut and paste files in the Finder";
 
 /* No comment provided by engineer. */
-"Cut marks the selected files for moving; Paste moves them to the current folder" = "Cut marks the selected files for moving; Paste moves them to the current folder";
+"Cut marks the selected files to be moved; Paste moves them to the current folder" = "Cut marks the selected files to be moved; Paste moves them to the current folder";
 
 /* No comment provided by engineer. */
 "Dark Menu Bar" = "Dark Menu Bar";
@@ -112,23 +133,29 @@
 /* No comment provided by engineer. */
 "Delete Word" = "Delete Word";
 
-/* No comment provided by engineer. */
+/* Settings pane title */
 "Desktop" = "Desktop";
 
 /* No comment provided by engineer. */
-"Detect Integrated Terminals in Code Editors" = "Detect Integrated Terminals in Code Editors";
+"Detect integrated terminals in code editors" = "Detect integrated terminals in code editors";
 
 /* No comment provided by engineer. */
 "Developer Tools" = "Developer Tools";
 
 /* No comment provided by engineer. */
-"Downloads" = "Downloads";
-
-/* No comment provided by engineer. */
 "Duplicate" = "Duplicate";
 
 /* No comment provided by engineer. */
+"Enter Full Screen" = "Enter Full Screen";
+
+/* Settings pane title */
 "Excluded Apps" = "Excluded Apps";
+
+/* No comment provided by engineer. */
+"Extend Selection Down" = "Extend Selection Down";
+
+/* No comment provided by engineer. */
+"Extend Selection Up" = "Extend Selection Up";
 
 /* Shortcut category */
 "File" = "File";
@@ -149,13 +176,13 @@
 "Finder" = "Finder";
 
 /* No comment provided by engineer. */
-"Finder Position" = "Finder Position";
+"Finder position" = "Finder position";
+
+/* No comment provided by engineer. */
+"Focus Address Bar" = "Focus Address Bar";
 
 /* No comment provided by engineer. */
 "Forward Delete Word" = "Forward Delete Word";
-
-/* No comment provided by engineer. */
-"Full Screen" = "Full Screen";
 
 /* Shortcut category */
 "General" = "General";
@@ -167,24 +194,21 @@
 "GitHub" = "GitHub";
 
 /* No comment provided by engineer. */
-"Green Button Fills Screen" = "Green Button Fills Screen";
+"Green button fills the screen" = "Green button fills the screen";
 
 /* No comment provided by engineer. */
 "Home and End" = "Home and End";
 
 /* No comment provided by engineer. */
-"Home and End keys move the insertion point to the beginning or end of the line" = "Home and End keys move the insertion point to the beginning or end of the line";
+"Home and End keys move the insertion point to the beginning or end of the line; Control-Home and Control-End move it to the beginning or end of the document" = "Home and End keys move the insertion point to the beginning or end of the line; Control-Home and Control-End move it to the beginning or end of the document";
 
 /* No comment provided by engineer. */
 "Hot Corner" = "Hot Corner";
 
 /* No comment provided by engineer. */
-"In web browsers, Control-scroll zooms in and out" = "In web browsers, Control-scroll zooms in and out";
-
-/* No comment provided by engineer. */
 "Indent" = "Indent";
 
-/* No comment provided by engineer. */
+/* Settings pane title */
 "Input" = "Input";
 
 /* Permission name */
@@ -194,12 +218,9 @@
 "Insert Line Above" = "Insert Line Above";
 
 /* No comment provided by engineer. */
-"Insert Link" = "Insert Link";
-
-/* No comment provided by engineer. */
 "Italic" = "Italic";
 
-/* No comment provided by engineer. */
+/* Settings pane title */
 "Keyboard" = "Keyboard";
 
 /* No comment provided by engineer. */
@@ -209,10 +230,19 @@
 "Maps Linux keyboard shortcuts to their Mac equivalents" = "Maps Linux keyboard shortcuts to their Mac equivalents";
 
 /* No comment provided by engineer. */
-"Menu Key → Shortcut Menu" = "Menu Key → Shortcut Menu";
+"Menu Bar" = "Menu Bar";
+
+/* No comment provided by engineer. */
+"Menu key → Shortcut menu" = "Menu key → Shortcut menu";
 
 /* No comment provided by engineer. */
 "Middle-Click Paste" = "Middle-Click Paste";
+
+/* No comment provided by engineer. */
+"Mission Control" = "Mission Control";
+
+/* No comment provided by engineer. */
+"Mouse" = "Mouse";
 
 /* No comment provided by engineer. */
 "Move Line Down" = "Move Line Down";
@@ -224,7 +254,13 @@
 "Move to Trash" = "Move to Trash";
 
 /* No comment provided by engineer. */
-"Moving the pointer to the top-left corner opens Mission Control" = "Moving the pointer to the top-left corner opens Mission Control";
+"Move Word Left" = "Move Word Left";
+
+/* No comment provided by engineer. */
+"Move Word Right" = "Move Word Right";
+
+/* No comment provided by engineer. */
+"Moving the pointer to the top-left corner of any screen opens Mission Control" = "Moving the pointer to the top-left corner of any screen opens Mission Control";
 
 /* No comment provided by engineer. */
 "Natural" = "Natural";
@@ -251,34 +287,34 @@
 "Off" = "Off";
 
 /* Button to open Accessibility settings */
-"Open Accessibility" = "Open Accessibility";
+"Open Accessibility Settings" = "Open Accessibility Settings";
 
 /* Menu item for starting the app at login */
 "Open at Login" = "Open at Login";
 
 /* Button to open Input Monitoring settings */
-"Open Input Monitoring" = "Open Input Monitoring";
+"Open Input Monitoring Settings" = "Open Input Monitoring Settings";
 
 /* Button to open login items settings */
-"Open Login Items" = "Open Login Items";
+"Open Login Items & Extensions Settings" = "Open Login Items & Extensions Settings";
 
 /* No comment provided by engineer. */
-"Option plus a number key (1–9) opens the corresponding app in the Dock" = "Option plus a number key (1–9) opens the corresponding app in the Dock";
+"Option Key" = "Option Key";
 
 /* No comment provided by engineer. */
-"Option-A opens Spotlight Apps" = "Option-A opens Spotlight Apps";
+"Option-1 through Option-9 open the corresponding app in the Dock" = "Option-1 through Option-9 open the corresponding app in the Dock";
 
 /* No comment provided by engineer. */
-"Option-arrow keys tile, fill, or restore windows" = "Option-arrow keys tile, fill, or restore windows";
+"Option-A opens the Apps view in Spotlight" = "Option-A opens the Apps view in Spotlight";
+
+/* No comment provided by engineer. */
+"Option–Arrow keys tile, fill, or restore windows" = "Option–Arrow keys tile, fill, or restore windows";
 
 /* No comment provided by engineer. */
 "Outdent" = "Outdent";
 
 /* No comment provided by engineer. */
 "Paste" = "Paste";
-
-/* No comment provided by engineer. */
-"Pastes with a middle-click; middle-clicking a Dock icon opens a new window" = "Pastes with a middle-click; middle-clicking a Dock icon opens a new window";
 
 /* Alert title when all permissions are granted */
 "Permissions Granted" = "Permissions Granted";
@@ -290,7 +326,7 @@
 "Pressing Option opens Mission Control" = "Pressing Option opens Mission Control";
 
 /* No comment provided by engineer. */
-"Pressing Option twice opens Spotlight Apps" = "Pressing Option twice opens Spotlight Apps";
+"Pressing Option twice opens the Apps view in Spotlight" = "Pressing Option twice opens the Apps view in Spotlight";
 
 /* No comment provided by engineer. */
 "Print" = "Print";
@@ -308,34 +344,28 @@
 "Reload" = "Reload";
 
 /* No comment provided by engineer. */
-"Remap Linux Shortcuts" = "Remap Linux Shortcuts";
+"Remap Linux shortcuts" = "Remap Linux shortcuts";
 
-/* No comment provided by engineer. */
-"Remove app" = "Remove app";
+/* Remove button tooltip */
+"Remove the selected app" = "Remove the selected app";
 
 /* No comment provided by engineer. */
 "Rename" = "Rename";
 
 /* No comment provided by engineer. */
-"Reopen Tab" = "Reopen Tab";
+"Reopen Closed Tab" = "Reopen Closed Tab";
 
 /* Menu item to check and request permissions */
 "Request Permissions…" = "Request Permissions…";
 
 /* No comment provided by engineer. */
-"Reset Zoom" = "Reset Zoom";
-
-/* No comment provided by engineer. */
-"Run or Confirm" = "Run or Confirm";
-
-/* No comment provided by engineer. */
 "Save" = "Save";
 
 /* No comment provided by engineer. */
-"Scroll to Switch Spaces" = "Scroll to Switch Spaces";
+"Scroll to switch spaces" = "Scroll to switch spaces";
 
 /* No comment provided by engineer. */
-"Scroll Zoom in Browsers" = "Scroll Zoom in Browsers";
+"Scroll to zoom in browsers" = "Scroll to zoom in browsers";
 
 /* No comment provided by engineer. */
 "Scrolling over the Apple menu switches that display to the next or previous space" = "Scrolling over the Apple menu switches that display to the next or previous space";
@@ -343,14 +373,8 @@
 /* No comment provided by engineer. */
 "Select All" = "Select All";
 
-/* No comment provided by engineer. */
-"Select Down" = "Select Down";
-
 /* Open panel message */
 "Select the apps you want to exclude." = "Select the apps you want to exclude.";
-
-/* No comment provided by engineer. */
-"Select Up" = "Select Up";
 
 /* No comment provided by engineer. */
 "Select Word Left" = "Select Word Left";
@@ -358,7 +382,7 @@
 /* No comment provided by engineer. */
 "Select Word Right" = "Select Word Right";
 
-/* Settings window title */
+/* No comment provided by engineer. */
 "Settings" = "Settings";
 
 /* Menu item to open settings window */
@@ -368,16 +392,16 @@
 "Shortcut Remapping" = "Shortcut Remapping";
 
 /* No comment provided by engineer. */
+"Shortcuts" = "Shortcuts";
+
+/* No comment provided by engineer. */
+"Show All History" = "Show All History";
+
+/* No comment provided by engineer. */
+"Show Downloads" = "Show Downloads";
+
+/* No comment provided by engineer. */
 "Show or Hide Bookmarks Bar" = "Show or Hide Bookmarks Bar";
-
-/* No comment provided by engineer. */
-"Shows a black bar behind the menu bar when a window fills the screen" = "Shows a black bar behind the menu bar when a window fills the screen";
-
-/* No comment provided by engineer. */
-"Shows an onscreen indicator when you turn Caps Lock on or off" = "Shows an onscreen indicator when you turn Caps Lock on or off";
-
-/* No comment provided by engineer. */
-"Shows an onscreen row of dots when a display switches spaces" = "Shows an onscreen row of dots when a display switches spaces";
 
 /* Spoken when the space changes */
 "Space %1$d of %2$d" = "Space %1$d of %2$d";
@@ -386,13 +410,13 @@
 "Space Indicator" = "Space Indicator";
 
 /* No comment provided by engineer. */
-"Spotlight" = "Spotlight";
+"Spaces" = "Spaces";
 
 /* No comment provided by engineer. */
-"Suggests windows to fill the other half after tiling left or right" = "Suggests windows to fill the other half after tiling left or right";
+"Spotlight" = "Spotlight";
 
 /* Alert body when all permissions are granted */
-"SuperOpt already has all required permissions." = "SuperOpt already has all required permissions.";
+"SuperOpt already has the permissions it needs." = "SuperOpt already has the permissions it needs.";
 
 /* Alert body for missing permissions — %@ is the list of missing permissions; shared by both permission alerts, so it can't name a specific button */
 "SuperOpt needs the following:\n\n%@\n\nGrant access in Privacy & Security settings." = "SuperOpt needs the following:\n\n%@\n\nGrant access in Privacy & Security settings.";
@@ -410,7 +434,7 @@
 "Text Editing" = "Text Editing";
 
 /* No comment provided by engineer. */
-"The Finder takes this Dock position; other apps shift to fill the gap" = "The Finder takes this Dock position; other apps shift to fill the gap";
+"The Finder takes this position in the Dock; other apps shift to fill the gap" = "The Finder takes this position in the Dock; other apps shift to fill the gap";
 
 /* No comment provided by engineer. */
 "The Menu key on PC keyboards opens a shortcut menu" = "The Menu key on PC keyboards opens a shortcut menu";
@@ -425,19 +449,16 @@
 "Treats the integrated terminal in code editors such as VS Code and Cursor as a terminal app, so Control-C and similar shortcuts pass through unchanged" = "Treats the integrated terminal in code editors such as VS Code and Cursor as a terminal app, so Control-C and similar shortcuts pass through unchanged";
 
 /* Toggle label */
-"Turn Off SuperOpt in These Apps" = "Turn Off SuperOpt in These Apps";
+"Turn off SuperOpt in these apps" = "Turn off SuperOpt in these apps";
 
 /* No comment provided by engineer. */
-"Turn off ‘Show menu bar background’ in Menu Bar settings to use this feature" = "Turn off ‘Show menu bar background’ in Menu Bar settings to use this feature";
+"Turn off “Show menu bar background” in Menu Bar settings to use this feature" = "Turn off “Show menu bar background” in Menu Bar settings to use this feature";
 
 /* No comment provided by engineer. */
-"Type to Search in Mission Control" = "Type to Search in Mission Control";
+"Type to search in Mission Control" = "Type to search in Mission Control";
 
 /* No comment provided by engineer. */
-"Typing in Mission Control closes it and searches for what you typed" = "Typing in Mission Control closes it and searches for what you typed";
-
-/* Alert title when login item registration fails */
-"Unable to Update Login Item" = "Unable to Update Login Item";
+"Typing in Mission Control closes it and opens Spotlight with what you typed" = "Typing in Mission Control closes it and opens Spotlight with what you typed";
 
 /* No comment provided by engineer. */
 "Underline" = "Underline";
@@ -452,10 +473,10 @@
 "View" = "View";
 
 /* No comment provided by engineer. */
-"View History" = "View History";
+"View Source" = "View Source";
 
 /* No comment provided by engineer. */
-"View Source" = "View Source";
+"When you tile a window to the left or right, SuperOpt suggests windows to fill the other half" = "When you tile a window to the left or right, SuperOpt suggests windows to fill the other half";
 
 /* Toggle description */
 "While you’re using an app in this list, SuperOpt turns off every feature and dims its menu bar icon" = "While you’re using an app in this list, SuperOpt turns off every feature and dims its menu bar icon";
@@ -464,16 +485,13 @@
 "Window Tiling" = "Window Tiling";
 
 /* No comment provided by engineer. */
-"Word Left" = "Word Left";
-
-/* No comment provided by engineer. */
-"Word Right" = "Word Right";
+"Windows" = "Windows";
 
 /* Category hint */
 "Word-level navigation, deletion, and formatting" = "Word-level navigation, deletion, and formatting";
 
 /* Alert body directing user to login items settings */
-"You can manage login items in System Settings > General > Login Items & Extensions." = "You can manage login items in System Settings > General > Login Items & Extensions.";
+"You can manage login items in Login Items & Extensions settings." = "You can manage login items in Login Items & Extensions settings.";
 
 /* Category hint */
 "Zoom and full screen" = "Zoom and full screen";
@@ -494,14 +512,11 @@
 "⌥ → Mission Control" = "⌥ → Mission Control";
 
 /* No comment provided by engineer. */
-"⌥1–9 → Dock App" = "⌥1–9 → Dock App";
+"⌥1–9 → Apps in the Dock" = "⌥1–9 → Apps in the Dock";
 
 /* No comment provided by engineer. */
 "⌥A → Apps" = "⌥A → Apps";
 
 /* No comment provided by engineer. */
 "⌥⌥ → Apps" = "⌥⌥ → Apps";
-
-/* No comment provided by engineer. */
-"▸" = "▸";
 

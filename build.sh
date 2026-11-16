@@ -183,8 +183,10 @@ for LPROJ in Locales/*.lproj; do
     mv "${STRINGS}.tmp" "$STRINGS"
 
     # Fail if any translation value equals the English source (untranslated).
-    # Excludes: single-word keys, and shortcut labels (starting with ⌥/⌃/⇧/⌘).
-    UNTRANSLATED=$(awk '
+    # Excludes: single-word keys, shortcut labels (starting with ⌥/⌃/⇧/⌘), and
+    # proper nouns Apple itself keeps in English in most locales (PROPER_NOUNS).
+    PROPER_NOUNS='^(Mission Control)$'
+    UNTRANSLATED=$(awk -v pn="$PROPER_NOUNS" '
     NR == FNR {
         if (/^"/) en[NR] = $0
         next
@@ -193,6 +195,7 @@ for LPROJ in Locales/*.lproj; do
         key = $0; sub(/^"/, "", key); sub(/".*/, "", key)
         if (key !~ / /) next
         if (key ~ /^[⌥⌃⇧⌘⇪]/) next
+        if (key ~ pn) next
         for (i in en) {
             if (en[i] == $0) { print key; break }
         }

@@ -46,6 +46,7 @@ class LockKeyOSD {
         let field = view.subviews.compactMap { $0 as? NSTextField }.first ?? addLabel(to: view)
         icon.active = active
         field.stringValue = label
+        field.baseWritingDirection = localizationWritingDirection
 
         let textSize = textSize(of: label)
         let glyph = ceil(glyphInkWidth)
@@ -78,6 +79,15 @@ class LockKeyOSD {
         view.addSubview(icon)
         return icon
     }
+
+    /// The base writing direction of the localization the app is running in.
+    /// The label starts with Latin text (⇪ Caps Lock), so leaving the field on
+    /// `.natural` lets the first-strong-character heuristic pick left-to-right
+    /// and an Arabic status word reads before the key name instead of after it.
+    private static let localizationWritingDirection: NSWritingDirection = {
+        guard let language = Bundle.main.preferredLocalizations.first else { return .leftToRight }
+        return NSParagraphStyle.defaultWritingDirection(forLanguage: language)
+    }()
 
     private static func addLabel(to view: NSView) -> NSTextField {
         let label = NSTextField(labelWithString: "")

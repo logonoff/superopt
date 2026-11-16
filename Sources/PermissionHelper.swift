@@ -23,10 +23,10 @@ class PermissionHelper {
         "x-apple.systempreferences:com.apple.preference.security?Privacy_ListenEvent"
 
     private static var openAccessibilityTitle: String {
-        NSLocalizedString("Open Accessibility", comment: "Button to open Accessibility settings")
+        NSLocalizedString("Open Accessibility Settings", comment: "Button to open Accessibility settings")
     }
     private static var openInputMonitoringTitle: String {
-        NSLocalizedString("Open Input Monitoring", comment: "Button to open Input Monitoring settings")
+        NSLocalizedString("Open Input Monitoring Settings", comment: "Button to open Input Monitoring settings")
     }
     private static var permissionsRequiredTitle: String {
         NSLocalizedString("Permissions Required", comment: "Alert title for missing permissions")
@@ -71,7 +71,7 @@ class PermissionHelper {
             alert.messageText = NSLocalizedString(
                 "Permissions Granted", comment: "Alert title when all permissions are granted")
             alert.informativeText = NSLocalizedString(
-                "SuperOpt already has all required permissions.",
+                "SuperOpt already has the permissions it needs.",
                 comment: "Alert body when all permissions are granted")
             alert.alertStyle = .informational; alert.runModal(); return
         }

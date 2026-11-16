@@ -1,38 +1,40 @@
 import Cocoa
 import SwiftUI
 
-/// One pane of the settings window: one sidebar row and one detail form.
-/// The raw value is the identity used for selection.
+/// Every pane shares this width, so switching panes never shifts the window
+/// sideways.
+private let settingsPaneWidth: CGFloat = 560
+
+/// Where the selected pane is persisted between launches, so the window
+/// reopens on the pane that was last shown.
+private let settingsSelectedPaneKey = "settingsSelectedPane"
+
+/// One pane of the settings window: one icon in the window's toolbar and one
+/// form below it. The raw value is the identity used for selection.
 enum SettingsPane: String, CaseIterable, Identifiable, Hashable {
     case desktop
     case keyboard
     case input
-    case shortcutRemapping
     case excludedApps
 
     var id: String { rawValue }
 
-    /// The localization key, shared with the section headers this pane replaced.
-    var titleKey: String {
+    // Literal NSLocalizedString calls per case so genstrings extracts the
+    // pane titles, which name the toolbar items and the window title.
+    var title: String {
         switch self {
         case .desktop:
-            return "Desktop"
+            return NSLocalizedString("Desktop", comment: "Settings pane title")
         case .keyboard:
-            return "Keyboard"
+            return NSLocalizedString("Keyboard", comment: "Settings pane title")
         case .input:
-            return "Input"
-        case .shortcutRemapping:
-            return "Shortcut Remapping"
+            return NSLocalizedString("Input", comment: "Settings pane title")
         case .excludedApps:
-            return "Excluded Apps"
+            return NSLocalizedString("Excluded Apps", comment: "Settings pane title")
         }
     }
 
-    var title: String {
-        NSLocalizedString(titleKey, comment: "Settings pane title")
-    }
-
-    /// SF Symbol drawn in white on the sidebar glyph.
+    /// The SF Symbol shown for this pane in the window's toolbar.
     var symbol: String {
         switch self {
         case .desktop:
@@ -41,246 +43,22 @@ enum SettingsPane: String, CaseIterable, Identifiable, Hashable {
             return "keyboard"
         case .input:
             return "option"
-        case .shortcutRemapping:
-            return "command"
         case .excludedApps:
             return "hand.raised"
         }
     }
-
-    /// Gradient stops for the sidebar glyph, top to bottom.
-    var iconColors: [Color] {
-        switch self {
-        case .desktop:
-            return [Color(red: 0.42, green: 0.72, blue: 1), Color(red: 0.05, green: 0.38, blue: 0.95)]
-        case .keyboard:
-            return [Color(red: 0.62, green: 0.64, blue: 0.67), Color(red: 0.33, green: 0.35, blue: 0.38)]
-        case .input:
-            return [Color(red: 0.82, green: 0.55, blue: 1), Color(red: 0.48, green: 0.34, blue: 0.95)]
-        case .shortcutRemapping:
-            return [Color(red: 1, green: 0.75, blue: 0.25), Color(red: 0.95, green: 0.44, blue: 0.1)]
-        case .excludedApps:
-            return [Color(red: 0.6, green: 0.6, blue: 1), Color(red: 0.32, green: 0.32, blue: 0.9)]
-        }
-    }
-
-    /// Optical centering correction for the symbol, measured against the
-    /// rendered icon squares (not the AX frames, which sit ~1 pt off the
-    /// visual square): each value cancels the measured offset of the glyph's
-    /// bounding box within its square.
-    var iconCorrection: CGSize {
-        switch self {
-        case .desktop:
-            return CGSize(width: 0.0, height: -0.4)
-        case .keyboard:
-            return CGSize(width: 0.4, height: -0.2)
-        case .input:
-            return CGSize(width: 0.0, height: 0.4)
-        case .shortcutRemapping:
-            return CGSize(width: 0.9, height: -0.9)
-        case .excludedApps:
-            return CGSize(width: 0.9, height: -0.1)
-        }
-    }
 }
 
-/// The colored rounded-square glyph beside each sidebar row, like the pane
-/// icons in System Settings. Follows the system's icon appearance with the
-/// six variants measured from the real app's sidebar: light regular is the
-/// full-colour gradient with a white glyph; dark regular is a near-black
-/// background with the glyph in the icon's own colours; clear is flat gray
-/// (mid gray in light, darker in dark) with a white glyph; tinted is the tint
-/// colour (light) or the tint over a dark base (dark) with a tinted glyph.
-struct SettingsPaneIcon: View {
-    let pane: SettingsPane
-
-    var body: some View {
-        let mode = IconAppearance.shared.mode
-        let tint = IconAppearance.shared.tintColor
-        let gradient = LinearGradient(
-            colors: pane.iconColors, startPoint: .top, endPoint: .bottom)
-
-        RoundedRectangle(cornerRadius: 5, style: .continuous)
-            .fill(Self.background(mode: mode, gradient: gradient, tint: tint))
-            .frame(width: 20, height: 20)
-            .overlay {
-                Image(systemName: pane.symbol)
-                    .font(.system(size: 11, weight: .medium))
-                    .foregroundStyle(Self.glyph(mode: mode, gradient: gradient, tint: tint))
-                    .offset(pane.iconCorrection)
-            }
-    }
-
-    private static func background(
-        mode: IconAppearance.Mode, gradient: LinearGradient, tint: Color
-    ) -> AnyShapeStyle {
-        switch mode {
-        case .regularLight:
-            return AnyShapeStyle(gradient)
-        case .regularDark:
-            return AnyShapeStyle(Color(red: 0.115, green: 0.115, blue: 0.118))
-        case .clearLight:
-            return AnyShapeStyle(Color(white: 0.49))
-        case .clearDark:
-            return AnyShapeStyle(Color(white: 0.17))
-        case .tintedLight:
-            return AnyShapeStyle(tint)
-        case .tintedDark:
-            // The tint at ~18% over a dark base, measured (22,41,57) for blue.
-            return AnyShapeStyle(blend(tint, with: Color(white: 0.086), at: 0.18))
-        }
-    }
-
-    private static func glyph(
-        mode: IconAppearance.Mode, gradient: LinearGradient, tint: Color
-    ) -> AnyShapeStyle {
-        switch mode {
-        case .regularLight, .clearLight, .clearDark:
-            return AnyShapeStyle(Color.white)
-        case .regularDark:
-            return AnyShapeStyle(gradient)
-        case .tintedLight:
-            // Half white, half tint — measured (124,188,215) for blue.
-            return AnyShapeStyle(blend(Color.white, with: tint, at: 0.5))
-        case .tintedDark:
-            return AnyShapeStyle(tint)
-        }
-    }
-
-    /// Linear blend of two colours, `amount` being the weight of the first.
-    private static func blend(_ first: Color, with second: Color, at amount: Double) -> Color {
-        let firstComponents = NSColor(first).usingColorSpace(.deviceRGB)
-        let secondComponents = NSColor(second).usingColorSpace(.deviceRGB)
-        guard let firstComponents, let secondComponents else { return first }
-        return Color(
-            red: firstComponents.redComponent * amount + secondComponents.redComponent * (1 - amount),
-            green: firstComponents.greenComponent * amount + secondComponents.greenComponent * (1 - amount),
-            blue: firstComponents.blueComponent * amount + secondComponents.blueComponent * (1 - amount))
-    }
-}
-
-/// The settings window, laid out like System Settings: a sidebar of panes with
-/// colored glyphs, and a detail column with the selected pane's form. The
-/// pane's name is the window title, drawn in the toolbar.
-struct SettingsView: View {
-    // System Settings reopens on the pane that was last shown; so does this.
-    @AppStorage("settingsSelectedPane") private var selection: SettingsPane = .desktop
-
-    /// The list takes an optional selection so the detail pane follows clicks.
-    private var listSelection: Binding<SettingsPane?> {
-        Binding(
-            get: { selection },
-            set: { if let pane = $0 { selection = pane } }
-        )
-    }
-
-    var body: some View {
-        // System Settings' shell, as its binary shows it: the plain two-column
-        // split view with the sidebar toggle removed from the toolbar and the
-        // pane name as the window title. The transparent title bar with the
-        // traffic lights over the sidebar comes with the split view itself.
-        NavigationSplitView {
-            SettingsSidebar(selection: listSelection)
-                .toolbar(removing: .sidebarToggle)
-                .navigationSplitViewColumnWidth(232)
-        } detail: {
-            // The detail column is a NavigationStack, as in System Settings —
-            // it is what integrates the scrolling form with the toolbar's
-            // scroll-edge effect (the translucent strip that replaces the
-            // toolbar's fill when a pane is scrolled).
-            NavigationStack {
-                SettingsDetail(pane: selection)
-                    // The Form's default 20 pt top content margin puts the first
-                    // card at y=72; the real app's cards start at y=64 (12 pt
-                    // below the toolbar — measured, not half of our 20). Cancel
-                    // the extra 8 pt. The scroll area extends under the toolbar
-                    // by the same 8 pt, which the scroll-edge effect covers.
-                    .contentMargins(.top, -8, for: .scrollContent)
-                    // The pane's name as the window title, rendered by the
-                    // system in the toolbar after the leading spacer — plain
-                    // text with no glass capsule, the way System Settings
-                    // names its panes. The spacer keeps the toolbar alive and
-                    // the title at the leading edge of the detail column.
-                    .navigationTitle(selection.title)
-                    .toolbar {
-                        ToolbarSpacer(.fixed, placement: .navigation)
-                    }
-            }
-        }
-        // The hosting view drives the window's min/max sizes from these
-        // constraints (they override any NSWindow minSize/maxSize). A fixed
-        // width here is what makes the window vertical-only resizable:
-        // AppKit reads the matching min/max width and drops the horizontal
-        // resize cursor from the side edges. The panes vary in height, so the
-        // height keeps a floor and no ceiling.
-        .frame(minWidth: 740, idealWidth: 740, maxWidth: 740, minHeight: 420)
-        .onAppear {
-            IconAppearance.shared.start()
-        }
-        .onDisappear {
-            IconAppearance.shared.stop()
-        }
-    }
-}
-
-/// The sidebar column: the selectable pane list.
-private struct SettingsSidebar: View {
-    @Binding var selection: SettingsPane?
-
-    var body: some View {
-        List(selection: $selection) {
-            ForEach(SettingsPane.allCases) { pane in
-                SidebarRow(pane: pane)
-                    .tag(pane)
-            }
-        }
-        .listStyle(.sidebar)
-    }
-}
-
-/// One pane in the sidebar list: colored glyph and title.
-private struct SidebarRow: View {
-    let pane: SettingsPane
-
-    var body: some View {
-        HStack(spacing: 8) {
-            SettingsPaneIcon(pane: pane)
-            title
-        }
-        // 32 pt row pitch with 24 pt of content, matching System Settings'
-        // sidebar rows; the List's own row inset puts the glyph at the same
-        // offset from the window edge as the real app's.
-        .frame(minHeight: 24, alignment: .leading)
-    }
-
-    /// Literal Text() calls per case so genstrings keeps extracting the pane
-    /// titles, which also name the window.
-    @ViewBuilder
-    private var title: some View {
-        switch pane {
-        case .desktop:
-            Text("Desktop")
-        case .keyboard:
-            Text("Keyboard")
-        case .input:
-            Text("Input")
-        case .shortcutRemapping:
-            Text("Shortcut Remapping")
-        case .excludedApps:
-            Text("Excluded Apps")
-        }
-    }
-}
-
-/// The detail column: just the pane's form. As in System Settings, the pane has
-/// no large title of its own — the column starts below the title bar and the
-/// pane's name is the window title.
-private struct SettingsDetail: View {
+/// The selected pane's form, at the width every pane shares. The height is
+/// whatever the pane's rows need; the window accommodates it, as the HIG's
+/// settings guidance puts it ("a settings window accommodates the size of
+/// the current pane").
+struct SettingsPaneContent: View {
     let pane: SettingsPane
 
     var body: some View {
         content
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+            .frame(width: settingsPaneWidth)
     }
 
     @ViewBuilder
@@ -292,65 +70,193 @@ private struct SettingsDetail: View {
             KeyboardPane()
         case .input:
             InputPane()
-        case .shortcutRemapping:
-            ShortcutRemappingPane()
         case .excludedApps:
             ExcludedAppsPane()
         }
     }
 }
 
+/// The panes as one tab view controller whose tabs render as the window's
+/// toolbar — the same AppKit substrate the SwiftUI Settings scene builds
+/// on: a centered `.preference` toolbar with one icon item per pane, the
+/// selected pane's name as the window title, and the window sized to the
+/// selected pane's form.
+///
+/// The sizing is `NSTabViewController`'s own: each pane is an
+/// `NSHostingController` with `sizingOptions = [.preferredContentSize]`, so
+/// the form's ideal size reaches the tab controller, which resizes the
+/// window to it and holds the window's top edge across pane switches. That
+/// is the whole mechanism; nothing here sets a frame.
 @MainActor
-class SettingsWindowController: NSObject, NSWindowDelegate {
-    static let windowIdentifier = NSUserInterfaceItemIdentifier("superopt-settings")
+private final class SettingsTabViewController: NSTabViewController {
+    init() {
+        super.init(nibName: nil, bundle: nil)
+        tabStyle = .toolbar
+        // No crossfade: the pane is hidden for the resize and revealed at
+        // the end of it (see `resize`), so there is nothing to fade between.
+        transitionOptions = []
 
-    /// The window's width never changes; only the height is resizable.
-    static let fixedWidth: CGFloat = 740
+        for pane in SettingsPane.allCases {
+            let controller = NSHostingController(
+                rootView: SettingsPaneContent(pane: pane))
+            // preferredContentSize carries the form's ideal height up to the
+            // window, which is what sizes it to the pane.
+            controller.sizingOptions = [.preferredContentSize]
+            controller.title = pane.title
 
-    private var window: NSWindow?
-
-    func show() {
-        if let existing = window {
-            activateAndFront(existing)
-            return
+            let item = NSTabViewItem(viewController: controller)
+            item.label = pane.title
+            item.image = NSImage(systemSymbolName: pane.symbol, accessibilityDescription: pane.title)
+            addTabViewItem(item)
         }
 
-        let hostingView = NSHostingView(rootView: SettingsView())
+        selectedTabViewItemIndex = Self.storedPaneIndex()
+    }
 
-        // A standard titled window with a toolbar, as in System Settings:
-        // fullSizeContentView lets the split view run the full height so the
-        // sidebar's material shows through the toolbar's sidebar region and
-        // SwiftUI draws its tracking separator at the seam. Fixed width
-        // (740 pt, the width System Settings opens at); the panes vary in
-        // height, so the height stays resizable.
+    // Built in code; there is no storyboard to decode from.
+    required init?(coder: NSCoder) { nil }
+
+    /// The pane whose form is showing.
+    var selectedPane: SettingsPane {
+        let index = min(max(selectedTabViewItemIndex, 0), SettingsPane.allCases.count - 1)
+        return SettingsPane.allCases[index]
+    }
+
+    override func tabView(_ tabView: NSTabView, didSelect tabViewItem: NSTabViewItem?) {
+        super.tabView(tabView, didSelect: tabViewItem)
+        guard let item = tabViewItem,
+              let index = tabViewItems.firstIndex(of: item) else { return }
+        UserDefaults.standard.set(
+            SettingsPane.allCases[index].rawValue, forKey: settingsSelectedPaneKey)
+        guard let window = view.window else { return }
+        // canPropagagateSelectedChildViewControllerTitle feeds the child's
+        // title to the tab controller, but NSWindow.title only picks that up
+        // when contentViewController is assigned, so set it here.
+        window.title = SettingsPane.allCases[index].title
+        let incoming = item.viewController
+        // Blank the content for the resize; `resize` reveals it at the end.
+        incoming?.view.isHidden = true
+        resize(window, to: incoming)
+    }
+
+    /// Resizes the window to the incoming pane, which `didSelect` has
+    /// hidden, and reveals the pane once the window is the right size. The
+    /// content area stays blank for the whole resize rather than crossfading
+    /// the new pane in underneath it. Hiding the pane also takes its form's
+    /// scroller with it, which would otherwise appear for the length of the
+    /// animation, the content being briefly taller than the window.
+    ///
+    /// The tab controller reaches the same height on its own, but not until
+    /// the transition has finished — measured at ~650 ms after the switch,
+    /// long enough that the window visibly snaps afterwards. Nothing has to
+    /// be waited for: the incoming pane's `preferredContentSize` is already
+    /// final when the switch begins (measured exact, with no settling).
+    ///
+    /// **Call this synchronously from `didSelect`, not a turn later.** Two
+    /// milliseconds after the switch AppKit's constraint engine sets the
+    /// window to the new pane's height itself (measured: `setFrame` from
+    /// `NSWindow(NSConstraintBasedLayoutInternal)` via `NSISEngine`), and
+    /// anything that runs after that finds the window already there and has
+    /// nothing left to animate. Setting the frame first leaves the
+    /// constraint pass with nothing to do.
+    private func resize(_ window: NSWindow, to viewController: NSViewController?) {
+        func reveal() { viewController?.view.isHidden = false }
+        guard window.isVisible,
+              let ideal = viewController?.preferredContentSize.height, ideal > 1
+        else { reveal(); return }
+        let chrome = window.frame.height - window.contentRect(forFrameRect: window.frame).height
+        var frame = window.frame
+        frame.size.height = ideal + chrome
+        // A settings window grows downward from its title bar.
+        frame.origin.y = window.frame.maxY - frame.height
+        guard abs(frame.height - window.frame.height) > 0.5 else { reveal(); return }
+        if NSWorkspace.shared.accessibilityDisplayShouldReduceMotion {
+            window.setFrame(frame, display: true)
+            reveal()
+        } else {
+            NSAnimationContext.runAnimationGroup { context in
+                // AppKit's own duration for a frame change of this size,
+                // which scales with the distance, caps at 0.350 s, and
+                // honours the NSWindowResizeTime default. It is what the
+                // blocking setFrame(display:animate:) uses internally, so
+                // the timing matches a window AppKit resizes itself.
+                context.duration = window.animationResizeTime(frame)
+                window.animator().setFrame(frame, display: true)
+            } completionHandler: {
+                // AppKit runs the completion handler on the main thread, but
+                // does not declare it @MainActor.
+                MainActor.assumeIsolated { reveal() }
+            }
+        }
+    }
+
+    /// Reopens on the pane that was last shown.
+    private static func storedPaneIndex() -> Int {
+        guard let stored = UserDefaults.standard.string(forKey: settingsSelectedPaneKey),
+              let pane = SettingsPane(rawValue: stored),
+              let index = SettingsPane.allCases.firstIndex(of: pane) else { return 0 }
+        return index
+    }
+}
+
+/// Owns the settings window. The window is built on first use — a menu bar
+/// app may never open it — and kept afterwards, so reopening lands on the
+/// pane and the position it was left at.
+@MainActor
+final class SettingsWindowController: NSWindowController {
+    static let windowIdentifier = NSUserInterfaceItemIdentifier("superopt-settings")
+
+    init() {
+        super.init(window: nil)
+    }
+
+    // Built in code; there is no nib to decode from.
+    required init?(coder: NSCoder) { nil }
+
+    func show() {
+        if window == nil {
+            makeWindow()
+        }
+        // Plain activate() is cooperative and never activates this accessory app
+        // while another app is frontmost, leaving the window behind it (measured
+        // on macOS 27). The deprecated activate(ignoringOtherApps:) is the only
+        // variant that works.
+        NSApplication.shared.activate(ignoringOtherApps: true)
+        showWindow(nil)
+    }
+
+    private func makeWindow() {
+        let tabController = SettingsTabViewController()
+
+        // Titled and closable but not resizable or miniaturizable, with a
+        // `.preference` toolbar — the centered icon row, one item per pane.
+        // NSTabViewController sizes the window to the selected pane and keeps
+        // its top edge across switches; nothing here resizes it by hand.
+        // No `.fullSizeContentView`: the SwiftUI Settings scene uses it, but
+        // it folds the toolbar inset into its own safe-area handling — a
+        // plain NSHostingController gets no safe-area information from the
+        // window's contentLayoutGuide, so the form ran under the toolbar and
+        // the top rows were obscured. Without it AppKit starts the content
+        // below the toolbar.
         let window = NSWindow(
-            contentRect: NSRect(x: 0, y: 0, width: Self.fixedWidth, height: 600),
-            styleMask: [.titled, .closable, .miniaturizable, .resizable, .fullSizeContentView],
+            contentRect: NSRect(x: 0, y: 0, width: settingsPaneWidth, height: 400),
+            styleMask: [.titled, .closable],
             backing: .buffered,
             defer: false
         )
-        window.title = NSLocalizedString("Settings", comment: "Settings window title")
+        window.toolbarStyle = .preference
         window.identifier = Self.windowIdentifier
-        window.setFrame(
-            NSRect(x: 0, y: 0, width: Self.fixedWidth, height: 684), display: false)
-        window.center()
         window.isReleasedWhenClosed = false
-        window.delegate = self
-        window.contentView = hostingView
-
-        activateAndFront(window)
+        window.contentViewController = tabController
+        window.title = tabController.selectedPane.title
+        // Lay out before centering: the window is still at its placeholder
+        // height until the tab controller has applied the pane's preferred
+        // content size, and centering that height would leave the window
+        // low on screen once it grows (AppKit grows it downward from the
+        // top edge it was given).
+        window.layoutIfNeeded()
+        window.center()
+        shouldCascadeWindows = false
         self.window = window
-    }
-
-    // Plain activate() is cooperative and never activates this accessory app while
-    // another app is frontmost, leaving the window behind it (measured on macOS 27).
-    // The deprecated activate(ignoringOtherApps:) is the only variant that works.
-    private func activateAndFront(_ window: NSWindow) {
-        NSApplication.shared.activate(ignoringOtherApps: true)
-        window.makeKeyAndOrderFront(nil)
-    }
-
-    func windowWillClose(_ notification: Notification) {
-        window = nil
     }
 }

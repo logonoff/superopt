@@ -3,7 +3,7 @@ import UniformTypeIdentifiers
 
 // genstrings -SwiftUI only extracts Text(); Section/Toggle string labels need manual entries
 private let _excludedAppsStrings = [
-    NSLocalizedString("Turn Off SuperOpt in These Apps", comment: "Toggle label"),
+    NSLocalizedString("Turn off SuperOpt in these apps", comment: "Toggle label"),
     NSLocalizedString(
         """
         While you’re using an app in this list, SuperOpt turns off every feature \
@@ -76,9 +76,8 @@ final class ExcludedAppsModel {
     }
 }
 
-/// The settings pane for the excluded apps, laid out like the app lists in
-/// System Settings' privacy panes: the apps as section rows with a +/− footer
-/// row under them.
+/// The settings pane for the excluded apps: the apps as section rows with a
+/// +/− footer row under them.
 struct ExcludedAppsPane: View {
     @AppStorage(ExcludedApps.enabledKey) private var enabled = false
     @State private var model = ExcludedAppsModel()
@@ -88,7 +87,7 @@ struct ExcludedAppsPane: View {
         Form {
             Section {
                 Toggle(isOn: $enabled) {
-                    Text("Turn Off SuperOpt in These Apps")
+                    Text("Turn off SuperOpt in these apps")
                     Text("""
                         While you’re using an app in this list, SuperOpt turns off every feature \
                         and dims its menu bar icon
@@ -131,35 +130,83 @@ struct ExcludedAppsPane: View {
         .toggleStyle(.switch)
     }
 
-    /// The +/− pair from System Settings' Privacy & Security panes, measured
-    /// from the real app: bare borderless glyph buttons with a 1 pt divider
-    /// between them, 7 pt apart — no bezel or capsule at rest.
+    /// The +/− pair under the list: one NSSegmentedControl with two 24 pt
+    /// segments carrying add/remove template glyphs in a 49×24 pt rounded
+    /// control, the remove segment disabled with nothing selected, sitting
+    /// left-aligned under the list.
     private var buttons: some View {
-        HStack(spacing: 7) {
-            Button {
-                model.runAddPanel()
-            } label: {
-                Label("Add app", systemImage: "plus")
-            }
-            .labelStyle(.iconOnly)
-            .buttonStyle(.borderless)
-            .help(Text("Add app"))
-
-            Divider()
-                .frame(height: 16)
-
-            Button {
+        AddRemoveSegment(
+            removeEnabled: selected != nil,
+            onAdd: { model.runAddPanel() },
+            onRemove: {
                 if let selected {
                     model.remove([selected])
                     self.selected = nil
                 }
-            } label: {
-                Label("Remove app", systemImage: "minus")
+            })
+            // The Form row proposes its full width; a segmented control is
+            // only as wide as its segments, so hold it to its intrinsic size.
+            .fixedSize()
+    }
+}
+
+/// An add/remove segmented control bridged for SwiftUI: two segments with
+/// `NSAddTemplate`/`NSRemoveTemplate` glyphs, reporting clicks through
+/// callbacks.
+private struct AddRemoveSegment: NSViewRepresentable {
+    let removeEnabled: Bool
+    let onAdd: () -> Void
+    let onRemove: () -> Void
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(onAdd: onAdd, onRemove: onRemove)
+    }
+
+    func makeNSView(context: Context) -> NSSegmentedControl {
+        let control = NSSegmentedControl()
+        control.segmentStyle = .rounded
+        control.trackingMode = .momentary
+        control.segmentCount = 2
+        let add = NSLocalizedString("Add an app", comment: "Add button tooltip")
+        let remove = NSLocalizedString("Remove the selected app", comment: "Remove button tooltip")
+        // Symbol images, not NSImage(named: NSImage.addTemplateName): the
+        // named lookup returns a process-wide cached instance, so setting an
+        // accessibility description on it renames NSAddTemplate for every
+        // other use of it in the process, AppKit's own included (verified:
+        // two lookups return the same object, and the second sees the first's
+        // description). A symbol image is created per call and takes the
+        // description as an initializer argument.
+        control.setImage(NSImage(systemSymbolName: "plus", accessibilityDescription: add), forSegment: 0)
+        control.setImage(NSImage(systemSymbolName: "minus", accessibilityDescription: remove), forSegment: 1)
+        control.setToolTip(add, forSegment: 0)
+        control.setToolTip(remove, forSegment: 1)
+        control.setEnabled(false, forSegment: 1)
+        control.target = context.coordinator
+        control.action = #selector(Coordinator.clicked(_:))
+        return control
+    }
+
+    func updateNSView(_ control: NSSegmentedControl, context: Context) {
+        control.setEnabled(removeEnabled, forSegment: 1)
+        context.coordinator.onAdd = onAdd
+        context.coordinator.onRemove = onRemove
+    }
+
+    final class Coordinator: NSObject {
+        var onAdd: () -> Void
+        var onRemove: () -> Void
+
+        init(onAdd: @escaping () -> Void, onRemove: @escaping () -> Void) {
+            self.onAdd = onAdd
+            self.onRemove = onRemove
+        }
+
+        @objc func clicked(_ sender: NSSegmentedControl) {
+            if sender.selectedSegment == 0 {
+                onAdd()
+            } else {
+                onRemove()
             }
-            .labelStyle(.iconOnly)
-            .buttonStyle(.borderless)
-            .disabled(selected == nil)
-            .help(Text("Remove app"))
         }
     }
 }
