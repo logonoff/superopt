@@ -90,6 +90,14 @@ Single-target Swift app compiled with `swiftc` (no Xcode project, no SPM). All s
 ./install.sh --run # install and launch
 ```
 
+```bash
+make run          # kill → clean → install --run: the way to run a change
+```
+
+**To run a change, use `make run`** — it replaces the instance already running, so there is only ever one SuperOpt on the machine. Launching a second build out of `build/` or a scratch worktree leaves two SuperOpt processes competing for the same event tap and the same defaults domain, and both answer to the name "SuperOpt", so accessibility and `pgrep` lookups silently measure the wrong one. Use `./build.sh` to check that a change compiles; use `make run` to see it work.
+
+**The bundle identifier is `co.logonoff.superopt`**. It is set in `Info.plist`, and it is the UserDefaults domain every setting named in this document lives in, at `~/Library/Preferences/co.logonoff.superopt.plist` (the Homebrew cask's `zap trash` points at the same path). Inspect or change a setting from the shell with `defaults read co.logonoff.superopt` / `defaults write co.logonoff.superopt <key> …`. Getting the domain wrong is silent: `defaults write` happily creates any arbitrary key and reports success, the app never sees the value, and the stray plist stays behind.
+
 No Xcode project — just `swiftc` with `-framework Cocoa`. Build script at `build.sh`. The deployment target is set once via `DEPLOYMENT_TARGET` in `build.sh` and must stay in sync with `LSMinimumSystemVersion` in `Info.plist`. **`swiftc` must be passed an explicit `-target`** — left to its own defaults it stamps a `minos` newer than the running OS (`minos 28.0` on macOS 27), and LaunchServices then refuses to launch the app with `kLSIncompatibleSystemVersionErr` (-10825). `MACOSX_DEPLOYMENT_TARGET` is ignored by `swiftc`, so it can't be used instead. Check with `vtool -show-build-version build/SuperOpt.app/Contents/MacOS/SuperOpt`, which reports both `minos` and the SDK the binary was linked against. **The SDK must be at least as new as `DEPLOYMENT_TARGET`**: macOS gates behaviour changes on the linked SDK, not on the deployment target, so an older SDK silently produces a build that behaves unlike the release — on macOS 27 that includes `NSMenu` auto-hiding menu item images and `NSTextView.menuForEvent:` moving Layout Orientation into the Font submenu. `build.sh` enforces this: it honours an explicit `DEVELOPER_DIR`, otherwise selects the newest installed **Xcode** carrying a new enough SDK, and otherwise warns. CI sets `STRICT_SDK=1`, turning that warning into a hard failure so a release is never cut against the wrong SDK. Only full Xcode installs are candidates — the Command Line Tools can ship a newer SDK than the selected Xcode, but provide neither the `sourcekitd` SwiftLint loads nor `actool`. The check treats an unreadable SDK version as a failure rather than a pass, because `xcrun` returns nothing while Xcode is mid-upgrade or its licence is unaccepted. The `minos 28.0` default noted above is itself a symptom of a mismatched toolchain: under Xcode 27, `swiftc` defaults to `macosx27.0.0`. Keep the explicit `-target` regardless, so the stamped `minos` never depends on which Xcode is selected. **Every `dlsym` / private API usage must have a comment (2–3 lines) explaining what the private API does and why no public API can achieve it.** The comment should name the private symbol, describe what it returns or does, and state the specific limitation of public alternatives that makes the private API necessary. **Always use `./build.sh` to compile and verify changes** — never run `swiftc` or `swiftlint` directly, since the build script also handles linting, localization validation, icon compilation, code signing, and version stamping. A `Package.swift` exists for IDE support (symbol resolution across files) but is not used for production builds. Version is stamped into `Info.plist` at build time via `git describe --tags --dirty --always`. If `actool` is available (requires full Xcode, not just CLT), the Liquid Glass icon from `Icon.icon` is compiled into `Assets.car` and bundled; otherwise the icon step is skipped. SwiftLint enforces a 400-line file limit; **when a file exceeds this, extract types or extensions into new files** rather than compacting whitespace or merging lines. SwiftLint runs before compilation if installed (`brew install swiftlint`); build fails on any violation. Compiler warnings are also fatal (`-warnings-as-errors`), so a warning must be silenced deliberately — e.g. via a documented availability annotation — rather than lost in build noise. **Every `// swiftlint:disable` comment must have a justification comment explaining why the rule can't be satisfied.** Fix the underlying issue instead of disabling the rule when possible. For `force_cast` on Core Foundation types (`AXUIElement`, `AXValue`), use the `KeyboardUtils.toAXElement`/`toAXValue` helpers instead of inline disables.
 
 ## Localization
@@ -189,7 +197,7 @@ The signing identity is read from `CODESIGN_IDENTITY` in `.env` (local) or envir
 
 GitHub Actions workflow at `.github/workflows/release.yml` — triggers on `x.y.z` tags, builds on `xcode-27`, creates a GitHub release with `SuperOpt.zip` attached. Release notes are generated from `git log` since the previous tag. The CI imports a signing certificate from repository secrets (`CODESIGN_P12`, `CODESIGN_P12_PASSWORD`, `CODESIGN_IDENTITY`) into a temporary keychain for code signing. After the release, the workflow auto-updates the Homebrew cask (`Casks/superopt.rb`) with the new version and SHA via the GraphQL API (signed commit), then triggers a `repository_dispatch` to `logonoff/homebrew-bucket` to sync the cask there too.
 
-A `Makefile` is also available with targets: `build`, `install`, `run` (kill → clean → install --run), `kill`, `clean`.
+A `Makefile` is also available with targets: `build`, `install`, `run` (kill → clean → install --run; see Build & Install), `kill`, `clean`.
 
 ## Homebrew
 
@@ -216,7 +224,7 @@ The project website is at `docs/index.html`, served via GitHub Pages from the `m
 
 ## Git
 
-Do not add a `Co-Authored-By` trailer to commit messages.
+Do not add a `Co-Authored-By` or `Assissted-by` trailers to commit messages.
 
 ## License
 
