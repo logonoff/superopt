@@ -3,7 +3,6 @@ import UniformTypeIdentifiers
 
 // genstrings -SwiftUI only extracts Text(); Section/Toggle string labels need manual entries
 private let _excludedAppsStrings = [
-    NSLocalizedString("Excluded Apps", comment: "Section header"),
     NSLocalizedString("Turn Off SuperOpt in These Apps", comment: "Toggle label"),
     NSLocalizedString(
         """
@@ -77,79 +76,90 @@ final class ExcludedAppsModel {
     }
 }
 
-/// The settings section for the excluded apps, laid out like the app lists in System
-/// Settings' privacy panes: a bordered list with an add and a remove button under it.
-struct ExcludedAppsSection: View {
+/// The settings pane for the excluded apps, laid out like the app lists in
+/// System Settings' privacy panes: the apps as section rows with a +/− footer
+/// row under them.
+struct ExcludedAppsPane: View {
     @AppStorage(ExcludedApps.enabledKey) private var enabled = false
     @State private var model = ExcludedAppsModel()
-    @State private var selection: Set<String> = []
+    @State private var selected: String?
 
     var body: some View {
-        Section("Excluded Apps") {
-            Toggle(isOn: $enabled) {
-                Text("Turn Off SuperOpt in These Apps")
-                Text("""
-                    While you’re using an app in this list, SuperOpt turns off every feature \
-                    and dims its menu bar icon
-                    """)
-            }
+        Form {
+            Section {
+                Toggle(isOn: $enabled) {
+                    Text("Turn Off SuperOpt in These Apps")
+                    Text("""
+                        While you’re using an app in this list, SuperOpt turns off every feature \
+                        and dims its menu bar icon
+                        """)
+                }
 
-            VStack(alignment: .leading, spacing: 4) {
-                list
+                ForEach(model.apps) { app in
+                    ZStack(alignment: .leading) {
+                        if selected == app.id {
+                            Color.accentColor.opacity(0.3)
+                        }
+                        HStack(spacing: 6) {
+                            Image(nsImage: app.icon)
+                                .resizable()
+                                .frame(width: 16, height: 16)
+                            Text(verbatim: app.name)
+                        }
+                        .padding(.horizontal, 10)
+                    }
+                    .padding(.horizontal, -10)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .contentShape(Rectangle())
+                    .onTapGesture { selected = selected == app.id ? nil : app.id }
+                }
+
+                if model.apps.isEmpty {
+                    Text("No apps are excluded.")
+                        .font(.callout)
+                        .foregroundStyle(.secondary)
+                        .frame(maxWidth: .infinity, alignment: .center)
+                }
+
+                // The +/− pair sits in a plain row, independent of the card's
+                // padding — like Finder's settings windows, not glued to the
+                // card's edges as the Privacy & Security panes' footer is.
                 buttons
             }
         }
+        .formStyle(.grouped)
+        .toggleStyle(.switch)
     }
 
-    private var list: some View {
-        List(selection: $selection) {
-            ForEach(model.apps) { app in
-                HStack(spacing: 6) {
-                    Image(nsImage: app.icon)
-                        .resizable()
-                        .frame(width: 16, height: 16)
-                    Text(verbatim: app.name)
-                }
-            }
-        }
-        .listStyle(.bordered(alternatesRowBackgrounds: true))
-        .frame(height: 120)
-        .overlay {
-            if model.apps.isEmpty {
-                Text("No apps are excluded.")
-                    .font(.callout)
-                    .foregroundStyle(.secondary)
-            }
-        }
-    }
-
-    /// The two buttons System Settings puts under a list like this one: joined, with a
-    /// divider between them, on a background of their own. A `ControlGroup` is what
-    /// draws that; the size is the system's, so the click targets match too.
+    /// The +/− pair from System Settings' Privacy & Security panes, measured
+    /// from the real app: bare borderless glyph buttons with a 1 pt divider
+    /// between them, 7 pt apart — no bezel or capsule at rest.
     private var buttons: some View {
-        ControlGroup {
+        HStack(spacing: 7) {
             Button {
                 model.runAddPanel()
             } label: {
-                Image(systemName: "plus").frame(width: Self.buttonWidth)
+                Label("Add app", systemImage: "plus")
             }
-            .accessibilityLabel(Text("Add app"))
+            .labelStyle(.iconOnly)
+            .buttonStyle(.borderless)
             .help(Text("Add app"))
 
+            Divider()
+                .frame(height: 16)
+
             Button {
-                model.remove(selection)
-                selection = []
+                if let selected {
+                    model.remove([selected])
+                    self.selected = nil
+                }
             } label: {
-                Image(systemName: "minus").frame(width: Self.buttonWidth)
+                Label("Remove app", systemImage: "minus")
             }
-            .disabled(selection.isEmpty)
-            .accessibilityLabel(Text("Remove app"))
+            .labelStyle(.iconOnly)
+            .buttonStyle(.borderless)
+            .disabled(selected == nil)
             .help(Text("Remove app"))
         }
-        .fixedSize()
     }
-
-    /// Wide enough that the glyph is not the whole target, matching the width of the
-    /// same buttons in System Settings.
-    private static let buttonWidth: CGFloat = 14
 }

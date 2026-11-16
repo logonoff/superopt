@@ -1,335 +1,312 @@
 import Cocoa
 import SwiftUI
 
-private extension View {
-    @ViewBuilder
-    func mixed(_ isMixed: Bool) -> some View {
-        if isMixed {
-            self.allowsHitTesting(true)
-                .overlay(alignment: .leading) {
-                    Image(systemName: "minus.square.fill")
-                        .foregroundStyle(.white, .tint)
-                        .allowsHitTesting(false)
-                }
-        } else {
-            self
+/// One pane of the settings window: one sidebar row and one detail form.
+/// The raw value is the identity used for selection.
+enum SettingsPane: String, CaseIterable, Identifiable, Hashable {
+    case desktop
+    case keyboard
+    case input
+    case shortcutRemapping
+    case excludedApps
+
+    var id: String { rawValue }
+
+    /// The localization key, shared with the section headers this pane replaced.
+    var titleKey: String {
+        switch self {
+        case .desktop:
+            return "Desktop"
+        case .keyboard:
+            return "Keyboard"
+        case .input:
+            return "Input"
+        case .shortcutRemapping:
+            return "Shortcut Remapping"
+        case .excludedApps:
+            return "Excluded Apps"
+        }
+    }
+
+    var title: String {
+        NSLocalizedString(titleKey, comment: "Settings pane title")
+    }
+
+    /// SF Symbol drawn in white on the sidebar glyph.
+    var symbol: String {
+        switch self {
+        case .desktop:
+            return "desktopcomputer"
+        case .keyboard:
+            return "keyboard"
+        case .input:
+            return "option"
+        case .shortcutRemapping:
+            return "command"
+        case .excludedApps:
+            return "hand.raised"
+        }
+    }
+
+    /// Gradient stops for the sidebar glyph, top to bottom.
+    var iconColors: [Color] {
+        switch self {
+        case .desktop:
+            return [Color(red: 0.42, green: 0.72, blue: 1), Color(red: 0.05, green: 0.38, blue: 0.95)]
+        case .keyboard:
+            return [Color(red: 0.62, green: 0.64, blue: 0.67), Color(red: 0.33, green: 0.35, blue: 0.38)]
+        case .input:
+            return [Color(red: 0.82, green: 0.55, blue: 1), Color(red: 0.48, green: 0.34, blue: 0.95)]
+        case .shortcutRemapping:
+            return [Color(red: 1, green: 0.75, blue: 0.25), Color(red: 0.95, green: 0.44, blue: 0.1)]
+        case .excludedApps:
+            return [Color(red: 0.6, green: 0.6, blue: 1), Color(red: 0.32, green: 0.32, blue: 0.9)]
+        }
+    }
+
+    /// Optical centering correction for the symbol, measured against the
+    /// rendered icon squares (not the AX frames, which sit ~1 pt off the
+    /// visual square): each value cancels the measured offset of the glyph's
+    /// bounding box within its square.
+    var iconCorrection: CGSize {
+        switch self {
+        case .desktop:
+            return CGSize(width: 0.0, height: -0.4)
+        case .keyboard:
+            return CGSize(width: 0.4, height: -0.2)
+        case .input:
+            return CGSize(width: 0.0, height: 0.4)
+        case .shortcutRemapping:
+            return CGSize(width: 0.9, height: -0.9)
+        case .excludedApps:
+            return CGSize(width: 0.9, height: -0.1)
         }
     }
 }
 
-struct SettingsView: View {
-    @AppStorage("optSingleEnabled") var optSingle = true
-    @AppStorage("optDoubleEnabled") var optDouble = true
-    @AppStorage("hotCornersEnabled") var hotCorners = true
-    @AppStorage("appGridEnabled") var appGrid = true
-    @AppStorage("dockShortcutsEnabled") var dockShortcuts = true
-    @AppStorage("dockFinderPosition") var finderPosition = 1
-    @AppStorage("lockKeyOSDEnabled") var lockKeyOSD = true
-    @AppStorage("homeEndRemapEnabled") var homeEndRemap = true
-    @AppStorage("windowTilingEnabled") var windowTiling = false
-    @AppStorage("snapAssistEnabled") var snapAssist = false
-    @AppStorage("zoomButtonEnabled") var zoomButton = false
-    @AppStorage("finderCutMode") var finderCutMode = FinderCutMode.off.rawValue
-    @AppStorage("middleClickPasteEnabled") var middleClickPaste = false
-    @AppStorage("clickThroughFocusEnabled") var clickThroughFocus = false
-    @AppStorage("scrollZoomMode") var scrollZoomMode = ScrollZoomMode.off.rawValue
-    @AppStorage("spaceScrollEnabled") var spaceScroll = false
-    @AppStorage("spaceIndicatorEnabled") var spaceIndicator = false
-    @AppStorage("menuKeyRightClickEnabled") var menuKeyRightClick = false
-    @AppStorage("gnomeShortcutsEnabled") var gnomeShortcuts = false
-    @AppStorage("vscodeTerminalEnabled") var vscodeTerminal = false
-    @AppStorage("mcCloseEnabled") var mcClose = true
-    @AppStorage("mcTypeToSearchMode") var mcTypeToSearchMode = MissionControlSearchMode.off.rawValue
-    @AppStorage("menuBarBgEnabled") var menuBarBg = false
-    @AppStorage("SLSMenuBarUseBlurredAppearance") var systemMenuBarBgOn = false
+/// The colored rounded-square glyph beside each sidebar row, like the pane
+/// icons in System Settings. Follows the system's icon appearance with the
+/// six variants measured from the real app's sidebar: light regular is the
+/// full-colour gradient with a white glyph; dark regular is a near-black
+/// background with the glyph in the icon's own colours; clear is flat gray
+/// (mid gray in light, darker in dark) with a white glyph; tinted is the tint
+/// colour (light) or the tint over a dark base (dark) with a tinted glyph.
+struct SettingsPaneIcon: View {
+    let pane: SettingsPane
 
-    @State private var gnomeSettings = GnomeShortcutSettings()
-    @State private var expandedCategories: Set<String> = []
+    var body: some View {
+        let mode = IconAppearance.shared.mode
+        let tint = IconAppearance.shared.tintColor
+        let gradient = LinearGradient(
+            colors: pane.iconColors, startPoint: .top, endPoint: .bottom)
 
-    /// Literal Text() calls grouped in a property (not constants) so
-    /// genstrings still extracts them while staying under the line limit.
-    @ViewBuilder
-    private var cutPasteLabel: some View {
-        Text("Cut and Paste Files in the Finder")
-        Text("Cut marks the selected files for moving; Paste moves them to the current folder")
+        RoundedRectangle(cornerRadius: 5, style: .continuous)
+            .fill(Self.background(mode: mode, gradient: gradient, tint: tint))
+            .frame(width: 20, height: 20)
+            .overlay {
+                Image(systemName: pane.symbol)
+                    .font(.system(size: 11, weight: .medium))
+                    .foregroundStyle(Self.glyph(mode: mode, gradient: gradient, tint: tint))
+                    .offset(pane.iconCorrection)
+            }
     }
 
-    /// Same pattern as cutPasteLabel.
-    @ViewBuilder
-    private var clickThroughLabel: some View {
-        Text("Click-Through Focus")
-        Text("Clicking an inactive window brings it to the front and passes the click to what is under the pointer")
+    private static func background(
+        mode: IconAppearance.Mode, gradient: LinearGradient, tint: Color
+    ) -> AnyShapeStyle {
+        switch mode {
+        case .regularLight:
+            return AnyShapeStyle(gradient)
+        case .regularDark:
+            return AnyShapeStyle(Color(red: 0.115, green: 0.115, blue: 0.118))
+        case .clearLight:
+            return AnyShapeStyle(Color(white: 0.49))
+        case .clearDark:
+            return AnyShapeStyle(Color(white: 0.17))
+        case .tintedLight:
+            return AnyShapeStyle(tint)
+        case .tintedDark:
+            // The tint at ~18% over a dark base, measured (22,41,57) for blue.
+            return AnyShapeStyle(blend(tint, with: Color(white: 0.086), at: 0.18))
+        }
+    }
+
+    private static func glyph(
+        mode: IconAppearance.Mode, gradient: LinearGradient, tint: Color
+    ) -> AnyShapeStyle {
+        switch mode {
+        case .regularLight, .clearLight, .clearDark:
+            return AnyShapeStyle(Color.white)
+        case .regularDark:
+            return AnyShapeStyle(gradient)
+        case .tintedLight:
+            // Half white, half tint — measured (124,188,215) for blue.
+            return AnyShapeStyle(blend(Color.white, with: tint, at: 0.5))
+        case .tintedDark:
+            return AnyShapeStyle(tint)
+        }
+    }
+
+    /// Linear blend of two colours, `amount` being the weight of the first.
+    private static func blend(_ first: Color, with second: Color, at amount: Double) -> Color {
+        let firstComponents = NSColor(first).usingColorSpace(.deviceRGB)
+        let secondComponents = NSColor(second).usingColorSpace(.deviceRGB)
+        guard let firstComponents, let secondComponents else { return first }
+        return Color(
+            red: firstComponents.redComponent * amount + secondComponents.redComponent * (1 - amount),
+            green: firstComponents.greenComponent * amount + secondComponents.greenComponent * (1 - amount),
+            blue: firstComponents.blueComponent * amount + secondComponents.blueComponent * (1 - amount))
+    }
+}
+
+/// The settings window, laid out like System Settings: a sidebar of panes with
+/// colored glyphs, and a detail column with the selected pane's form. The
+/// pane's name is the window title, drawn in the toolbar.
+struct SettingsView: View {
+    // System Settings reopens on the pane that was last shown; so does this.
+    @AppStorage("settingsSelectedPane") private var selection: SettingsPane = .desktop
+
+    /// The list takes an optional selection so the detail pane follows clicks.
+    private var listSelection: Binding<SettingsPane?> {
+        Binding(
+            get: { selection },
+            set: { if let pane = $0 { selection = pane } }
+        )
     }
 
     var body: some View {
-        Form {
-            Section {
-                Toggle(isOn: $hotCorners) {
-                    Text("Hot Corner")
-                    Text("Moving the pointer to the top-left corner opens Mission Control")
-                }
-
-                Toggle(isOn: $menuBarBg) {
-                    Text("Dark Menu Bar")
-                    if systemMenuBarBgOn {
-                        Text("Turn off ‘Show menu bar background’ in Menu Bar settings to use this feature")
-                    } else {
-                        Text("Shows a black bar behind the menu bar when a window fills the screen")
+        // System Settings' shell, as its binary shows it: the plain two-column
+        // split view with the sidebar toggle removed from the toolbar and the
+        // pane name as the window title. The transparent title bar with the
+        // traffic lights over the sidebar comes with the split view itself.
+        NavigationSplitView {
+            SettingsSidebar(selection: listSelection)
+                .toolbar(removing: .sidebarToggle)
+                .navigationSplitViewColumnWidth(232)
+        } detail: {
+            // The detail column is a NavigationStack, as in System Settings —
+            // it is what integrates the scrolling form with the toolbar's
+            // scroll-edge effect (the translucent strip that replaces the
+            // toolbar's fill when a pane is scrolled).
+            NavigationStack {
+                SettingsDetail(pane: selection)
+                    // The Form's default 20 pt top content margin puts the first
+                    // card at y=72; the real app's cards start at y=64 (12 pt
+                    // below the toolbar — measured, not half of our 20). Cancel
+                    // the extra 8 pt. The scroll area extends under the toolbar
+                    // by the same 8 pt, which the scroll-edge effect covers.
+                    .contentMargins(.top, -8, for: .scrollContent)
+                    // The pane's name as the window title, rendered by the
+                    // system in the toolbar after the leading spacer — plain
+                    // text with no glass capsule, the way System Settings
+                    // names its panes. The spacer keeps the toolbar alive and
+                    // the title at the leading edge of the detail column.
+                    .navigationTitle(selection.title)
+                    .toolbar {
+                        ToolbarSpacer(.fixed, placement: .navigation)
                     }
-                }
-                .disabled(systemMenuBarBgOn)
-
-                Toggle(isOn: $zoomButton) {
-                    Text("Green Button Fills Screen")
-                    Text("Clicking the green button fills the screen instead of entering full screen")
-                }
-
-                Toggle(isOn: $spaceScroll) {
-                    Text("Scroll to Switch Spaces")
-                    Text("""
-                        Scrolling over the Apple menu switches that display to the \
-                        next or previous space
-                        """)
-                }
-
-                Toggle(isOn: $spaceIndicator) {
-                    Text("Space Indicator")
-                    Text("Shows an onscreen row of dots when a display switches spaces")
-                }
-
-                Toggle(isOn: $mcClose) {
-                    Text("Close Windows in Mission Control")
-                    Text("Adds close buttons to windows in Mission Control")
-                }
-
-                Picker(selection: $mcTypeToSearchMode) {
-                    Text("Off").tag(MissionControlSearchMode.off.rawValue)
-                    Text("Spotlight").tag(MissionControlSearchMode.search.rawValue)
-                    Text("Apps").tag(MissionControlSearchMode.apps.rawValue)
-                } label: {
-                    Text("Type to Search in Mission Control")
-                    Text("Typing in Mission Control closes it and searches for what you typed")
-                }
-
-                Toggle(isOn: $windowTiling) {
-                    Text("Window Tiling")
-                    Text("Option-arrow keys tile, fill, or restore windows")
-                }
-
-                Toggle(isOn: $snapAssist) {
-                    Text("Tile Assist")
-                    Text("Suggests windows to fill the other half after tiling left or right")
-                }
-            } header: {
-                Text("Desktop")
             }
-
-            Section {
-                Toggle(isOn: $lockKeyOSD) {
-                    Text("Caps Lock Indicator")
-                    Text("Shows an onscreen indicator when you turn Caps Lock on or off")
-                }
-
-                Toggle(isOn: $homeEndRemap) {
-                    Text("Home and End")
-                    Text("Home and End keys move the insertion point to the beginning or end of the line")
-                }
-            } header: {
-                Text("Keyboard")
-            }
-
-            Section {
-                Toggle(isOn: $optSingle) {
-                    Text("⌥ → Mission Control")
-                    Text("Pressing Option opens Mission Control")
-                }
-                Toggle(isOn: $optDouble) {
-                    Text("⌥⌥ → Apps")
-                    Text("Pressing Option twice opens Spotlight Apps")
-                }
-
-                Toggle(isOn: $appGrid) {
-                    Text("⌥A → Apps")
-                    Text("Option-A opens Spotlight Apps")
-                }
-
-                Toggle(isOn: $dockShortcuts) {
-                    Text("⌥1–9 → Dock App")
-                    Text("Option plus a number key (1–9) opens the corresponding app in the Dock")
-                }
-                Picker(selection: $finderPosition) {
-                    ForEach(1...9, id: \.self) { Text("\($0)").tag($0) }
-                } label: {
-                    Text("Finder Position")
-                    Text("The Finder takes this Dock position; other apps shift to fill the gap")
-                }
-
-                Picker(selection: $finderCutMode) {
-                    Text("Off").tag(FinderCutMode.off.rawValue)
-                    Text("⌘X and ⌘V").tag(FinderCutMode.command.rawValue)
-                    Text("⌃X and ⌃V").tag(FinderCutMode.control.rawValue)
-                } label: {
-                    cutPasteLabel
-                }
-
-                Toggle(isOn: $middleClickPaste) {
-                    Text("Middle-Click Paste")
-                    Text("Pastes with a middle-click; middle-clicking a Dock icon opens a new window")
-                }
-
-                Toggle(isOn: $menuKeyRightClick) {
-                    Text("Menu Key → Shortcut Menu")
-                    Text("The Menu key on PC keyboards opens a shortcut menu")
-                }
-
-                Toggle(isOn: $clickThroughFocus) {
-                    clickThroughLabel
-                }
-
-                Picker(selection: $scrollZoomMode) {
-                    Text("Off").tag(ScrollZoomMode.off.rawValue)
-                    Text("Natural").tag(ScrollZoomMode.natural.rawValue)
-                    Text("Traditional").tag(ScrollZoomMode.traditional.rawValue)
-                } label: {
-                    Text("Scroll Zoom in Browsers")
-                    Text("In web browsers, Control-scroll zooms in and out")
-                }
-            } header: {
-                Text("Input")
-            }
-
-            Section {
-                Toggle(isOn: $gnomeShortcuts) {
-                    Text("Remap Linux Shortcuts")
-                    Text("Maps Linux keyboard shortcuts to their Mac equivalents")
-                }
-
-                if gnomeShortcuts {
-                    Toggle(isOn: $vscodeTerminal) {
-                        Text("Detect Integrated Terminals in Code Editors")
-                        Text("""
-                            Treats the integrated terminal in code editors such as VS Code and Cursor \
-                            as a terminal app, so Control-C and similar shortcuts pass through unchanged
-                            """)
-                    }
-
-                    ForEach(GnomeShortcutHandler.categories, id: \.self) { category in
-                        DisclosureGroup(
-                            isExpanded: Binding(
-                                get: { expandedCategories.contains(category) },
-                                set: { expanded in
-                                    withAnimation {
-                                        if expanded {
-                                            expandedCategories.insert(category)
-                                        } else {
-                                            expandedCategories.remove(category)
-                                        }
-                                    }
-                                }
-                            )
-                        ) {
-                            ForEach(GnomeShortcutHandler.shortcuts(in: category)) { shortcut in
-                                Toggle(isOn: gnomeSettings.binding(for: shortcut.id)) {
-                                    HStack {
-                                        Text(shortcut.label)
-                                            .frame(width: 130, alignment: .leading)
-                                        HStack(spacing: 4) {
-                                            Text(shortcut.fromKeys)
-                                                .foregroundStyle(.secondary)
-                                            Text("▸")
-                                                .foregroundStyle(.secondary.opacity(0.5))
-                                            Text(shortcut.toKeys)
-                                                .foregroundStyle(.secondary)
-                                        }
-                                    }
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                    .contentShape(Rectangle())
-                                }
-                                .toggleStyle(.checkbox)
-                                .frame(height: 20)
-                            }
-                        } label: {
-                            CategoryLabel(
-                                category: category,
-                                hint: Self.categoryHints[category],
-                                settings: gnomeSettings,
-                                expandedCategories: $expandedCategories
-                            )
-                        }
-                    }
-                }
-            } header: {
-                Text("Shortcut Remapping")
-            }
-
-            ExcludedAppsSection()
         }
-        .formStyle(.grouped)
-        .frame(width: 420)
-        .frame(minHeight: 400, idealHeight: 600)
-        .toggleStyle(.switch)
+        // The hosting view drives the window's min/max sizes from these
+        // constraints (they override any NSWindow minSize/maxSize). A fixed
+        // width here is what makes the window vertical-only resizable:
+        // AppKit reads the matching min/max width and drops the horizontal
+        // resize cursor from the side edges. The panes vary in height, so the
+        // height keeps a floor and no ceiling.
+        .frame(minWidth: 740, idealWidth: 740, maxWidth: 740, minHeight: 420)
+        .onAppear {
+            IconAppearance.shared.start()
+        }
+        .onDisappear {
+            IconAppearance.shared.stop()
+        }
     }
-
-    private static let categoryHints: [String: String] = [
-        NSLocalizedString("General", comment: "Shortcut category"):
-            NSLocalizedString("Copy, Paste, Undo, Find, and other essentials", comment: "Category hint"),
-        NSLocalizedString("File", comment: "Shortcut category"):
-            NSLocalizedString("New, Save, Print, and Quit", comment: "Category hint"),
-        NSLocalizedString("View", comment: "Shortcut category"):
-            NSLocalizedString("Zoom and full screen", comment: "Category hint"),
-        NSLocalizedString("Text Editing", comment: "Shortcut category"):
-            NSLocalizedString("Word-level navigation, deletion, and formatting", comment: "Category hint"),
-        NSLocalizedString("Finder", comment: "Shortcut category"):
-            NSLocalizedString("Active only in the Finder", comment: "Category hint"),
-        NSLocalizedString("Tabs & Windows", comment: "Shortcut category"):
-            NSLocalizedString("Tab and window management", comment: "Category hint"),
-        NSLocalizedString("Browsers", comment: "Shortcut category"):
-            NSLocalizedString("Active only in browsers", comment: "Category hint"),
-        NSLocalizedString("Terminal", comment: "Shortcut category"):
-            NSLocalizedString("Active only in terminal apps", comment: "Category hint"),
-        NSLocalizedString("Code Editor", comment: "Shortcut category"):
-            NSLocalizedString("Active only in code editors", comment: "Category hint")
-    ]
 }
 
-private struct CategoryLabel: View {
-    let category: String
-    let hint: String?
-    var settings: GnomeShortcutSettings
-    @Binding var expandedCategories: Set<String>
+/// The sidebar column: the selectable pane list.
+private struct SettingsSidebar: View {
+    @Binding var selection: SettingsPane?
+
+    var body: some View {
+        List(selection: $selection) {
+            ForEach(SettingsPane.allCases) { pane in
+                SidebarRow(pane: pane)
+                    .tag(pane)
+            }
+        }
+        .listStyle(.sidebar)
+    }
+}
+
+/// One pane in the sidebar list: colored glyph and title.
+private struct SidebarRow: View {
+    let pane: SettingsPane
 
     var body: some View {
         HStack(spacing: 8) {
-            Toggle(isOn: settings.categoryBinding(category)) { EmptyView() }
-                .toggleStyle(.checkbox)
-                .mixed(settings.categoryState(category) == .mixed)
-                .padding(.leading, 4)
+            SettingsPaneIcon(pane: pane)
+            title
+        }
+        // 32 pt row pitch with 24 pt of content, matching System Settings'
+        // sidebar rows; the List's own row inset puts the glyph at the same
+        // offset from the window edge as the real app's.
+        .frame(minHeight: 24, alignment: .leading)
+    }
 
-            Button {
-                withAnimation {
-                    if expandedCategories.contains(category) {
-                        expandedCategories.remove(category)
-                    } else {
-                        expandedCategories.insert(category)
-                    }
-                }
-            } label: {
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(category)
-                    if let hint {
-                        Text(hint).font(.caption).foregroundStyle(.secondary)
-                    }
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .contentShape(Rectangle())
-            }
-            .buttonStyle(.plain)
+    /// Literal Text() calls per case so genstrings keeps extracting the pane
+    /// titles, which also name the window.
+    @ViewBuilder
+    private var title: some View {
+        switch pane {
+        case .desktop:
+            Text("Desktop")
+        case .keyboard:
+            Text("Keyboard")
+        case .input:
+            Text("Input")
+        case .shortcutRemapping:
+            Text("Shortcut Remapping")
+        case .excludedApps:
+            Text("Excluded Apps")
+        }
+    }
+}
+
+/// The detail column: just the pane's form. As in System Settings, the pane has
+/// no large title of its own — the column starts below the title bar and the
+/// pane's name is the window title.
+private struct SettingsDetail: View {
+    let pane: SettingsPane
+
+    var body: some View {
+        content
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+    }
+
+    @ViewBuilder
+    private var content: some View {
+        switch pane {
+        case .desktop:
+            DesktopPane()
+        case .keyboard:
+            KeyboardPane()
+        case .input:
+            InputPane()
+        case .shortcutRemapping:
+            ShortcutRemappingPane()
+        case .excludedApps:
+            ExcludedAppsPane()
         }
     }
 }
 
 @MainActor
 class SettingsWindowController: NSObject, NSWindowDelegate {
+    static let windowIdentifier = NSUserInterfaceItemIdentifier("superopt-settings")
+
+    /// The window's width never changes; only the height is resizable.
+    static let fixedWidth: CGFloat = 740
+
     private var window: NSWindow?
 
     func show() {
@@ -340,21 +317,25 @@ class SettingsWindowController: NSObject, NSWindowDelegate {
 
         let hostingView = NSHostingView(rootView: SettingsView())
 
-        // HIG says settings windows should auto-size to content, but our disclosure
-        // groups make content height vary dramatically — resizable is more practical.
+        // A standard titled window with a toolbar, as in System Settings:
+        // fullSizeContentView lets the split view run the full height so the
+        // sidebar's material shows through the toolbar's sidebar region and
+        // SwiftUI draws its tracking separator at the seam. Fixed width
+        // (740 pt, the width System Settings opens at); the panes vary in
+        // height, so the height stays resizable.
         let window = NSWindow(
-            contentRect: NSRect(x: 0, y: 0, width: 420, height: 600),
-            styleMask: [.titled, .closable, .resizable],
+            contentRect: NSRect(x: 0, y: 0, width: Self.fixedWidth, height: 600),
+            styleMask: [.titled, .closable, .miniaturizable, .resizable, .fullSizeContentView],
             backing: .buffered,
             defer: false
         )
         window.title = NSLocalizedString("Settings", comment: "Settings window title")
+        window.identifier = Self.windowIdentifier
+        window.setFrame(
+            NSRect(x: 0, y: 0, width: Self.fixedWidth, height: 684), display: false)
         window.center()
         window.isReleasedWhenClosed = false
         window.delegate = self
-        window.minSize = NSSize(width: 420, height: 400)
-        window.maxSize = NSSize(width: 420, height: CGFloat.greatestFiniteMagnitude)
-        window.standardWindowButton(.miniaturizeButton)?.isEnabled = false
         window.contentView = hostingView
 
         activateAndFront(window)
