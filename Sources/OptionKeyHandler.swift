@@ -23,6 +23,13 @@ class OptionKeyHandler {
         if optionCurrentlyDown && !optionIsDown {
             optionIsDown = true
             otherInputDetected = hasOtherModifiers
+            // A second press supersedes the first one's pending single-press
+            // timer — clean or chorded. Without this, a double press whose
+            // second hold outlasts the threshold, or a quick roll into an
+            // ⌥-chord, fires the single-press action while Option is already
+            // down again.
+            singlePressWorkItem?.cancel()
+            singlePressWorkItem = nil
 
         } else if !optionCurrentlyDown && optionIsDown {
             optionIsDown = false
