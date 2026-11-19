@@ -286,8 +286,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         CFMachPortInvalidate(tap)
         eventTap = nil
     }
-    // MARK: - Actions
+}
 
+// MARK: - Actions
+extension AppDelegate {
     /// Virtual key code emitted by the Mission Control key — a dedicated feature key,
     /// not the F3 function key, which is code 99. Which F-position it shares varies by
     /// keyboard model, so the code is the only stable way to name it.
