@@ -20,9 +20,16 @@ class FinderCutHandler {
     init() { reloadSettings() }
 
     func reloadSettings() {
-        mode = FinderCutMode(
+        let newMode = FinderCutMode(
             rawValue: UserDefaults.standard.integer(forKey: "finderCutMode")
         ) ?? .off
+        // A cut taken under the old setting must not complete under the new
+        // one. `didChangeNotification` fires for every preference write —
+        // pane switches, unrelated toggles, macOS's own housekeeping keys —
+        // so the clear has to be limited to actual mode changes or an
+        // unrelated write would drop a pending cut.
+        if newMode != mode { cutPending = false }
+        mode = newMode
     }
 
     /// Returns true if the event was consumed.
