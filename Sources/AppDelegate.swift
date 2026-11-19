@@ -15,11 +15,11 @@ func eventTapCallback(
         let delegate = Unmanaged<AppDelegate>.fromOpaque(userInfo).takeUnretainedValue()
 
         if type == .tapDisabledByTimeout || type == .tapDisabledByUserInput {
-            if AXIsProcessTrusted(), let tap = delegate.eventTap {
-                CGEvent.tapEnable(tap: tap, enable: true)
-            } else {
-                delegate.tearDownEventTap()
-            }
+            // Both branches route through accessibilityChanged: it re-enables
+            // or tears down the tap, verifies the result, and arms the safety
+            // timer when the tap cannot be brought back. The callback itself
+            // must not leave a state that nothing else will retry.
+            delegate.accessibilityChanged()
             return Unmanaged.passUnretained(event)
         }
 
@@ -212,6 +212,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         permissionHelper.trySetupEventTap = { [weak self] in self?.setupEventTap() ?? false }
 
         if !setupEventTap() {
+            // The loop blocks until the tap is up (or the app quits), and its
+            // own modal-mode timer + notification observer watch for the
+            // grant — a timer created here would sit in the healthy state
+            // with nothing to wait for, and .default mode does not tick
+            // during its modal sessions anyway.
             permissionHelper.showPermissionLoop()
         }
 
@@ -221,10 +226,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             name: NSNotification.Name("com.apple.accessibility.api"), object: nil
         )
 
-        // Safety net: periodically verify permissions in case the notification doesn't fire
-        safetyTimer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true) { [weak self] _ in
-            MainActor.assumeIsolated { self?.accessibilityChanged() }
-        }
+        // Settle the permission safety timer into its steady-state heartbeat.
+        // Nothing else runs on a healthy launch — no notification has fired
+        // and the tap was never disabled — so without this the backstop the
+        // heartbeat exists for would never be armed.
+        accessibilityChanged()
     }
 
     func applicationWillTerminate(_: Notification) {
@@ -267,19 +273,50 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         return true
     }
 
-    @objc private func accessibilityChanged() {
-        if AXIsProcessTrusted() {
-            if eventTap == nil && setupEventTap() {
-                safetyTimer?.invalidate()
-                safetyTimer = nil
-            }
-        } else {
+    @objc func accessibilityChanged() {
+        guard AXIsProcessTrusted() else {
             tearDownEventTap()
-            if safetyTimer == nil {
-                safetyTimer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true) { [weak self] _ in
-                    MainActor.assumeIsolated { self?.accessibilityChanged() }
-                }
+            setSafetyInterval(Self.recoveryInterval)
+            return
+        }
+        if eventTap == nil {
+            _ = setupEventTap()
+        }
+        // An assigned tap can still be disabled — a revocation notice that
+        // arrived by notification only, or secure input having taken it down —
+        // so the assignment alone is not proof the tap is working.
+        if let tap = eventTap, !CGEvent.tapIsEnabled(tap: tap) {
+            CGEvent.tapEnable(tap: tap, enable: true)
+            resyncCapsLockLatch()
+            if !CGEvent.tapIsEnabled(tap: tap) {
+                // A tap that will not come back is not helped by re-enabling
+                // it every few seconds; drop it so the next tick builds a
+                // fresh one.
+                tearDownEventTap()
             }
+        }
+        if eventTap.map({ CGEvent.tapIsEnabled(tap: $0) }) ?? false {
+            // Steady state. A slow heartbeat keeps the documented backstop
+            // alive for a revocation that neither the distributed
+            // notification nor the tap-disabled callback reports.
+            setSafetyInterval(Self.heartbeatInterval)
+        } else {
+            setSafetyInterval(Self.recoveryInterval)
+        }
+    }
+
+    /// Safety net: re-checks permissions in case neither the distributed
+    /// notification nor the tap-disabled callback arrives. Fast while
+    /// something is wrong, settling to a slow heartbeat once the tap is
+    /// verified.
+    private static let recoveryInterval: TimeInterval = 3.0
+    private static let heartbeatInterval: TimeInterval = 30.0
+
+    private func setSafetyInterval(_ interval: TimeInterval) {
+        if let timer = safetyTimer, abs(timer.timeInterval - interval) < 0.001 { return }
+        safetyTimer?.invalidate()
+        safetyTimer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { [weak self] _ in
+            MainActor.assumeIsolated { self?.accessibilityChanged() }
         }
     }
 
