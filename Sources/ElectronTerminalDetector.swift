@@ -77,10 +77,17 @@ enum ElectronTerminalDetector {
     private static func enableAccessibility(for pid: pid_t) {
         installPidCleanupIfNeeded()
         guard !accessibilityEnabledPIDs.contains(pid) else { return }
-        accessibilityEnabledPIDs.insert(pid)
-        AXUIElementSetAttributeValue(
+        // Recorded only when there is no point trying again: on success, and
+        // when the app does not implement the attribute at all. Anything
+        // else — the editor still launching, an AX timeout — is transient
+        // and must be retried on the next query, or the terminal stays
+        // undetectable for as long as the process lives.
+        let result = AXUIElementSetAttributeValue(
             AXUIElementCreateApplication(pid),
             "AXManualAccessibility" as CFString, kCFBooleanTrue)
+        if result == .success || result == .attributeUnsupported {
+            accessibilityEnabledPIDs.insert(pid)
+        }
     }
 
     private static func installPidCleanupIfNeeded() {
