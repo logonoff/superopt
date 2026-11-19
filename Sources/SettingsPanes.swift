@@ -23,7 +23,7 @@ struct DesktopPane: View {
         Form {
             Section {
                 Toggle(isOn: $hotCorners) {
-                    Text("Hot Corner")
+                    Text("Hot corner")
                     Text("Moving the pointer to the top-left corner of any screen opens Mission Control")
                 }
 
@@ -54,7 +54,7 @@ struct DesktopPane: View {
                 }
 
                 Toggle(isOn: $spaceIndicator) {
-                    Text("Space Indicator")
+                    Text("Space indicator")
                     Text("An onscreen row of dots appears when a display switches spaces")
                 }
             } header: {
@@ -71,12 +71,12 @@ struct DesktopPane: View {
                 }
 
                 Toggle(isOn: $windowTiling) {
-                    Text("Window Tiling")
-                    Text("Option–Arrow keys tile, fill, or restore windows")
+                    Text("Window tiling")
+                    Text("Option-Arrow keys tile, fill, or restore windows")
                 }
 
                 Toggle(isOn: $snapAssist) {
-                    Text("Tile Assist")
+                    Text("Tile assist")
                     Text("""
                         When you tile a window to the left or right, SuperOpt suggests \
                         windows to fill the other half
@@ -88,7 +88,7 @@ struct DesktopPane: View {
 
             Section {
                 Toggle(isOn: $menuBarBg) {
-                    Text("Dark Menu Bar")
+                    Text("Dark menu bar")
                     if systemMenuBarBgOn {
                         Text("Turn off “Show menu bar background” in Menu Bar settings to use this feature")
                     } else {
@@ -129,7 +129,7 @@ struct KeyboardPane: View {
         Form {
             Section {
                 Toggle(isOn: $lockKeyOSD) {
-                    Text("Caps Lock Indicator")
+                    Text("Caps Lock indicator")
                     Text("An onscreen indicator appears when you turn Caps Lock on or off")
                 }
 
@@ -142,8 +142,8 @@ struct KeyboardPane: View {
                 }
 
                 Toggle(isOn: $menuKeyRightClick) {
-                    Text("Menu key → Shortcut menu")
-                    Text("The Menu key on PC keyboards opens a shortcut menu")
+                    Text("Menu key → shortcut menu")
+                    Text("The Menu key on Windows keyboards opens a shortcut menu")
                 }
             }
 
@@ -209,7 +209,7 @@ struct InputPane: View {
     /// Same pattern as cutPasteLabel.
     @ViewBuilder
     private var clickThroughLabel: some View {
-        Text("Click-Through Focus")
+        Text("Click-through focus")
         Text("""
             Clicking an inactive window brings it to the front and passes the click \
             through to the item under the pointer
@@ -221,7 +221,7 @@ struct InputPane: View {
             Section {
                 Toggle(isOn: $optSingle) {
                     Text("⌥ → Mission Control")
-                    Text("Pressing Option opens Mission Control")
+                    Text("Pressing the Option key opens Mission Control")
                 }
                 Toggle(isOn: $optDouble) {
                     Text("⌥⌥ → Apps")
@@ -250,7 +250,7 @@ struct InputPane: View {
 
             Section {
                 Toggle(isOn: $middleClickPaste) {
-                    Text("Middle-Click Paste")
+                    Text("Middle-click paste")
                     Text("""
                         A middle click pastes the selected text, or the contents of the \
                         Clipboard if nothing is selected; middle-clicking a Dock app icon \

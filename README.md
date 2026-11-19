@@ -25,7 +25,7 @@ make install
 
 ### Gatekeeper
 
-This app is self-signed but not notarized, so macOS may block it the first time you try to open it. If it does, open System Settings, click Privacy & Security, scroll down, and then click Open Anyway. Or remove the quarantine attribute before opening it:
+This app is self-signed but not notarized, so macOS may block it the first time you try to open it. If it does, open System Settings, click Privacy & Security, scroll down, and click Open Anyway. Or remove the quarantine attribute before opening it:
 
 ```
 xattr -d com.apple.quarantine /Applications/SuperOpt.app
@@ -58,21 +58,21 @@ Features are on by default unless noted otherwise.
 
 | Feature | Description |
 |---|---|
-| Hot Corner | Quickly moving the pointer into the top-left corner of any screen opens Mission Control (with a GNOME-style ripple animation) |
-| Window Tiling | The Option–Arrow keys tile, fill, or restore windows (off by default) |
-| Green button fills the screen | Clicking the green button fills the screen instead of entering full screen (off by default) |
+| Hot corner | Quickly moving the pointer into the top-left corner of any screen opens Mission Control (with a GNOME-style ripple animation) |
+| Window tiling | The Option-Arrow keys tile, fill, or restore windows (off by default) |
+| Green button fills the screen | Clicking the green button expands the window to fill the screen instead of entering full screen (off by default) |
 | Close windows in Mission Control | Holding the pointer over a window in Mission Control shows a close button |
 | Type to search in Mission Control | Typing in Mission Control closes it and sends what you typed to Spotlight or the Apps view (off by default) |
-| Tile Assist | After tiling a window, SuperOpt suggests other windows to fill the remaining space (off by default) |
-| Dark Menu Bar | An opaque bar appears behind the menu bar when a window fills the screen (off by default) |
+| Tile assist | When you tile a window to the left or right, SuperOpt suggests windows to fill the other half (off by default) |
+| Dark menu bar | An opaque bar appears behind the menu bar when a window fills the screen (off by default) |
 | Scroll to switch spaces | Scrolling over a display’s Apple menu switches that display to the next or previous space (off by default) |
-| Space Indicator | An onscreen row of dots appears when a display switches spaces (off by default) |
+| Space indicator | An onscreen row of dots appears when a display switches spaces (off by default) |
 
 ### Keyboard
 
 | Feature | Description |
 |---|---|
-| Caps Lock Indicator | An onscreen indicator appears when you turn Caps Lock on or off |
+| Caps Lock indicator | An onscreen indicator appears when you turn Caps Lock on or off |
 | Home and End | Home and End move the insertion point to the beginning or end of the line in text fields; Control-Home and Control-End move it to the beginning or end of the document |
 | Shortcut Remapping | SuperOpt maps Linux shortcuts to their Mac equivalents: Control-C, Control-X, and Control-V; Alt-F4; F2 to rename in the Finder; browser, terminal, and code editor shortcuts; and more (off by default) |
 
@@ -80,11 +80,11 @@ Features are on by default unless noted otherwise.
 
 | Feature | Description |
 |---|---|
-| Menu key → Shortcut menu | The Menu key on PC keyboards opens a shortcut menu (off by default) |
+| Menu key → shortcut menu | The Menu key on Windows keyboards opens a shortcut menu (off by default) |
 | Scroll to zoom in browsers | In web browsers, Control-scroll zooms in and out, with a choice of Natural or Traditional scroll direction (off by default) |
-| Click-Through Focus | Clicking an inactive window brings it to the front and passes the click through, as on Windows or Linux (off by default) |
+| Click-through focus | Clicking an inactive window brings it to the front and passes the click through, as on Windows or Linux (off by default) |
 | Cut and paste files in the Finder | Cut, then paste in the Finder to move files: press Command-X, then Command-V (or Control-X, then Control-V), depending on which pair you choose in SuperOpt’s settings (off by default) |
-| Middle-Click Paste | Middle-clicking pastes in text fields (X11-style), opens a new window when you middle-click an app icon in the Dock, or uses the native behavior elsewhere (off by default) |
+| Middle-click paste | Middle-clicking pastes in text fields (X11-style), opens a new window when you middle-click an app icon in the Dock, or uses the native behavior elsewhere (off by default) |
 
 All features can be individually turned on or off in SuperOpt’s settings, which you open by clicking the SuperOpt icon in the menu bar. The Option key is detected when it’s released, so existing shortcuts are unaffected.
 
@@ -105,7 +105,7 @@ SuperOpt requires two permissions in Privacy & Security settings:
 1. **Accessibility**: synthetic key events and window management
 2. **Input Monitoring**: global keyboard and mouse event detection
 
-Use the Request Permissions menu item to check for missing permissions and open the relevant settings.
+Use the Request Permissions menu item to check for missing permissions and open the relevant settings pane.
 
 ## Privacy
 

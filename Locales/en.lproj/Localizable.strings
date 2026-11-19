@@ -59,7 +59,7 @@
 "Can’t Update Login Item" = "Can’t Update Login Item";
 
 /* No comment provided by engineer. */
-"Caps Lock Indicator" = "Caps Lock Indicator";
+"Caps Lock indicator" = "Caps Lock indicator";
 
 /* OSD text when Caps Lock is turned off */
 "Caps Lock Off" = "Caps Lock Off";
@@ -71,7 +71,7 @@
 "Clear Browsing Data" = "Clear Browsing Data";
 
 /* No comment provided by engineer. */
-"Click-Through Focus" = "Click-Through Focus";
+"Click-through focus" = "Click-through focus";
 
 /* No comment provided by engineer. */
 "Clicking an inactive window brings it to the front and passes the click through to the item under the pointer" = "Clicking an inactive window brings it to the front and passes the click through to the item under the pointer";
@@ -125,7 +125,7 @@
 "Cut marks the selected files to be moved; Paste moves them to the current folder" = "Cut marks the selected files to be moved; Paste moves them to the current folder";
 
 /* No comment provided by engineer. */
-"Dark Menu Bar" = "Dark Menu Bar";
+"Dark menu bar" = "Dark menu bar";
 
 /* No comment provided by engineer. */
 "Delete Line" = "Delete Line";
@@ -203,7 +203,7 @@
 "Home and End keys move the insertion point to the beginning or end of the line; Control-Home and Control-End move it to the beginning or end of the document" = "Home and End keys move the insertion point to the beginning or end of the line; Control-Home and Control-End move it to the beginning or end of the document";
 
 /* No comment provided by engineer. */
-"Hot Corner" = "Hot Corner";
+"Hot corner" = "Hot corner";
 
 /* No comment provided by engineer. */
 "Indent" = "Indent";
@@ -233,10 +233,10 @@
 "Menu Bar" = "Menu Bar";
 
 /* No comment provided by engineer. */
-"Menu key → Shortcut menu" = "Menu key → Shortcut menu";
+"Menu key → shortcut menu" = "Menu key → shortcut menu";
 
 /* No comment provided by engineer. */
-"Middle-Click Paste" = "Middle-Click Paste";
+"Middle-click paste" = "Middle-click paste";
 
 /* No comment provided by engineer. */
 "Mission Control" = "Mission Control";
@@ -308,7 +308,7 @@
 "Option-A opens the Apps view in Spotlight" = "Option-A opens the Apps view in Spotlight";
 
 /* No comment provided by engineer. */
-"Option–Arrow keys tile, fill, or restore windows" = "Option–Arrow keys tile, fill, or restore windows";
+"Option-Arrow keys tile, fill, or restore windows" = "Option-Arrow keys tile, fill, or restore windows";
 
 /* No comment provided by engineer. */
 "Outdent" = "Outdent";
@@ -323,10 +323,10 @@
 "Permissions Required" = "Permissions Required";
 
 /* No comment provided by engineer. */
-"Pressing Option opens Mission Control" = "Pressing Option opens Mission Control";
+"Pressing Option twice opens the Apps view in Spotlight" = "Pressing Option twice opens the Apps view in Spotlight";
 
 /* No comment provided by engineer. */
-"Pressing Option twice opens the Apps view in Spotlight" = "Pressing Option twice opens the Apps view in Spotlight";
+"Pressing the Option key opens Mission Control" = "Pressing the Option key opens Mission Control";
 
 /* No comment provided by engineer. */
 "Print" = "Print";
@@ -407,7 +407,7 @@
 "Space %1$d of %2$d" = "Space %1$d of %2$d";
 
 /* No comment provided by engineer. */
-"Space Indicator" = "Space Indicator";
+"Space indicator" = "Space indicator";
 
 /* No comment provided by engineer. */
 "Spaces" = "Spaces";
@@ -437,10 +437,10 @@
 "The Finder takes this position in the Dock; other apps shift to fill the gap" = "The Finder takes this position in the Dock; other apps shift to fill the gap";
 
 /* No comment provided by engineer. */
-"The Menu key on PC keyboards opens a shortcut menu" = "The Menu key on PC keyboards opens a shortcut menu";
+"The Menu key on Windows keyboards opens a shortcut menu" = "The Menu key on Windows keyboards opens a shortcut menu";
 
 /* No comment provided by engineer. */
-"Tile Assist" = "Tile Assist";
+"Tile assist" = "Tile assist";
 
 /* No comment provided by engineer. */
 "Traditional" = "Traditional";
@@ -479,10 +479,10 @@
 "When you tile a window to the left or right, SuperOpt suggests windows to fill the other half" = "When you tile a window to the left or right, SuperOpt suggests windows to fill the other half";
 
 /* Toggle description */
-"While you’re using an app in this list, SuperOpt turns off every feature and dims its menu bar icon" = "While you’re using an app in this list, SuperOpt turns off every feature and dims its menu bar icon";
+"While you’re using an app in this list, SuperOpt turns off every feature and dims its own menu bar icon" = "While you’re using an app in this list, SuperOpt turns off every feature and dims its own menu bar icon";
 
 /* No comment provided by engineer. */
-"Window Tiling" = "Window Tiling";
+"Window tiling" = "Window tiling";
 
 /* No comment provided by engineer. */
 "Windows" = "Windows";

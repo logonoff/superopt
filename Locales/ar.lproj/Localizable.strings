@@ -2,7 +2,7 @@
 "A black bar appears behind the menu bar when a window fills the screen" = "يظهر شريط أسود خلف شريط القوائم عندما تملأ النافذة الشاشة";
 
 /* No comment provided by engineer. */
-"A middle click pastes the selected text, or the contents of the Clipboard if nothing is selected; middle-clicking a Dock app icon opens a new window" = "يؤدي النقر بالزر الأوسط إلى لصق النص المحدد، أو محتويات الحافظة إذا لم يكن هناك نص محدد؛ والنقر بالزر الأوسط على أيقونة التطبيق في شريط الأيقونات يفتح نافذة جديدة";
+"A middle click pastes the selected text, or the contents of the Clipboard if nothing is selected; middle-clicking a Dock app icon opens a new window" = "يؤدي النقر بالزر الأوسط إلى لصق النص المحدد، أو محتويات الحافظة إذا لم يكن هناك نص محدد؛ والنقر بالزر الأوسط على أيقونة تطبيق في شريط الأيقونات يفتح نافذة جديدة";
 
 /* Menu item to show about panel */
 "About SuperOpt" = "حول SuperOpt";
@@ -41,7 +41,7 @@
 "An onscreen indicator appears when you turn Caps Lock on or off" = "يظهر مؤشر على الشاشة عند تشغيل Caps Lock أو إيقاف تشغيله";
 
 /* No comment provided by engineer. */
-"An onscreen row of dots appears when a display switches spaces" = "يظهر صف من النقاط على الشاشة عند تبديل إحدى شاشات العرض مساحتها";
+"An onscreen row of dots appears when a display switches spaces" = "يظهر صف من النقاط على الشاشة عندما تنتقل إحدى شاشات العرض إلى مساحة أخرى";
 
 /* No comment provided by engineer. */
 "Apps" = "التطبيقات";
@@ -59,19 +59,19 @@
 "Can’t Update Login Item" = "تعذّر تحديث عنصر الدخول";
 
 /* No comment provided by engineer. */
-"Caps Lock Indicator" = "مؤشر Caps Lock";
+"Caps Lock indicator" = "مؤشر Caps Lock";
 
 /* OSD text when Caps Lock is turned off */
-"Caps Lock Off" = "Caps Lock غير مفعّل";
+"Caps Lock Off" = "‏Caps Lock غير مفعّل";
 
 /* OSD text when Caps Lock is turned on */
-"Caps Lock On" = "Caps Lock مفعّل";
+"Caps Lock On" = "‏Caps Lock مفعّل";
 
 /* No comment provided by engineer. */
 "Clear Browsing Data" = "محو بيانات التصفح";
 
 /* No comment provided by engineer. */
-"Click-Through Focus" = "التركيز مع تمرير النقرة";
+"Click-through focus" = "التركيز مع تمرير النقرة";
 
 /* No comment provided by engineer. */
 "Clicking an inactive window brings it to the front and passes the click through to the item under the pointer" = "يؤدي النقر على نافذة غير نشطة إلى إحضارها إلى الأمام وتمرير النقرة إلى العنصر الموجود تحت المؤشر";
@@ -125,7 +125,7 @@
 "Cut marks the selected files to be moved; Paste moves them to the current folder" = "يضع القص علامة على الملفات المحددة لنقلها؛ وينقلها اللصق إلى المجلد الحالي";
 
 /* No comment provided by engineer. */
-"Dark Menu Bar" = "شريط القوائم الداكن";
+"Dark menu bar" = "شريط القوائم الداكن";
 
 /* No comment provided by engineer. */
 "Delete Line" = "حذف السطر";
@@ -194,16 +194,16 @@
 "GitHub" = "GitHub";
 
 /* No comment provided by engineer. */
-"Green button fills the screen" = "ملء الشاشة بالزر الأخضر";
+"Green button fills the screen" = "الزر الأخضر يملأ الشاشة";
 
 /* No comment provided by engineer. */
-"Home and End" = "Home وEnd";
+"Home and End" = "‏Home وEnd";
 
 /* No comment provided by engineer. */
-"Home and End keys move the insertion point to the beginning or end of the line; Control-Home and Control-End move it to the beginning or end of the document" = "ينقل مفتاحي Home وEnd نقطة الإدراج إلى بداية السطر أو نهايته؛ وينقل Control-Home وControl-End نقطة الإدراج إلى بداية المستند أو نهايته";
+"Home and End keys move the insertion point to the beginning or end of the line; Control-Home and Control-End move it to the beginning or end of the document" = "تنقل مفاتيح Home وEnd نقطة الإدراج إلى بداية السطر أو نهايته؛ وتنقلها مفاتيح Control-Home وControl-End إلى بداية المستند أو نهايته";
 
 /* No comment provided by engineer. */
-"Hot Corner" = "الزاوية الفعالة";
+"Hot corner" = "الزاوية الفعالة";
 
 /* No comment provided by engineer. */
 "Indent" = "إضافة مسافة بادئة";
@@ -233,10 +233,10 @@
 "Menu Bar" = "شريط القوائم";
 
 /* No comment provided by engineer. */
-"Menu key → Shortcut menu" = "مفتاح القائمة ← قائمة مختصرة";
+"Menu key → shortcut menu" = "مفتاح القائمة ← قائمة الاختصارات";
 
 /* No comment provided by engineer. */
-"Middle-Click Paste" = "اللصق بالنقر الأوسط";
+"Middle-click paste" = "اللصق بالنقر الأوسط";
 
 /* No comment provided by engineer. */
 "Mission Control" = "إدارة المهام";
@@ -308,7 +308,7 @@
 "Option-A opens the Apps view in Spotlight" = "يفتح Option-A عرض التطبيقات في الباحث";
 
 /* No comment provided by engineer. */
-"Option–Arrow keys tile, fill, or restore windows" = "تنشئ مفاتيح الأسهم مع Option تجانبًا للنوافذ أو تجعل النافذة تملأ الشاشة أو تستعيد حجمها السابق";
+"Option-Arrow keys tile, fill, or restore windows" = "تؤدي مفاتيح الأسهم مع Option إلى تجانب النوافذ أو تعبئة الشاشة أو عودة إلى الحجم السابق";
 
 /* No comment provided by engineer. */
 "Outdent" = "إزالة المسافة البادئة";
@@ -323,10 +323,10 @@
 "Permissions Required" = "الأذونات مطلوبة";
 
 /* No comment provided by engineer. */
-"Pressing Option opens Mission Control" = "الضغط على Option يفتح إدارة المهام";
+"Pressing Option twice opens the Apps view in Spotlight" = "الضغط على مفتاح Option مرتين يفتح عرض التطبيقات في الباحث";
 
 /* No comment provided by engineer. */
-"Pressing Option twice opens the Apps view in Spotlight" = "الضغط على Option مرتين يفتح عرض التطبيقات في الباحث";
+"Pressing the Option key opens Mission Control" = "الضغط على مفتاح Option يفتح إدارة المهام";
 
 /* No comment provided by engineer. */
 "Print" = "طباعة";
@@ -365,7 +365,7 @@
 "Scroll to switch spaces" = "التمرير للتبديل بين المساحات";
 
 /* No comment provided by engineer. */
-"Scroll to zoom in browsers" = "التكبير بالتمرير في المتصفحات";
+"Scroll to zoom in browsers" = "التمرير للتكبير في المتصفحات";
 
 /* No comment provided by engineer. */
 "Scrolling over the Apple menu switches that display to the next or previous space" = "التمرير فوق قائمة Apple ينقل شاشة العرض التي مرّرت فوق قائمتها إلى المساحة التالية أو السابقة";
@@ -392,7 +392,7 @@
 "Shortcut Remapping" = "إعادة تخصيص الاختصارات";
 
 /* No comment provided by engineer. */
-"Shortcuts" = "Shortcuts";
+"Shortcuts" = "الاختصارات";
 
 /* No comment provided by engineer. */
 "Show All History" = "إظهار كل سجل التاريخ";
@@ -407,7 +407,7 @@
 "Space %1$d of %2$d" = "المساحة %1$d من %2$d";
 
 /* No comment provided by engineer. */
-"Space Indicator" = "مؤشر المساحات";
+"Space indicator" = "مؤشر المساحات";
 
 /* No comment provided by engineer. */
 "Spaces" = "المساحات";
@@ -437,22 +437,22 @@
 "The Finder takes this position in the Dock; other apps shift to fill the gap" = "يحصل فايندر على هذا الموضع في شريط الأيقونات؛ وتتحرك التطبيقات الأخرى لملء الفراغ";
 
 /* No comment provided by engineer. */
-"The Menu key on PC keyboards opens a shortcut menu" = "يفتح مفتاح القائمة في لوحات مفاتيح PC قائمة مختصرة";
+"The Menu key on Windows keyboards opens a shortcut menu" = "يفتح مفتاح القائمة في لوحات مفاتيح Windows قائمة الاختصارات";
 
 /* No comment provided by engineer. */
-"Tile Assist" = "مساعد التجانب";
+"Tile assist" = "مساعد التجانب";
 
 /* No comment provided by engineer. */
 "Traditional" = "تقليدي";
 
 /* No comment provided by engineer. */
-"Treats the integrated terminal in code editors such as VS Code and Cursor as a terminal app, so Control-C and similar shortcuts pass through unchanged" = "يعامل الوحدة الطرفية المتكاملة في محررات الأكواد مثل VS Code وCursor كأنها تطبيق وحدة طرفية، فتمر الاختصارات مثل Control-C دون تغيير";
+"Treats the integrated terminal in code editors such as VS Code and Cursor as a terminal app, so Control-C and similar shortcuts pass through unchanged" = "يعامل الوحدة الطرفية المتكاملة في محررات الأكواد مثل VS Code وCursor على أنها تطبيق وحدة طرفية، فتمر الاختصارات مثل Control-C دون تغيير";
 
 /* Toggle label */
-"Turn off SuperOpt in these apps" = "إيقاف SuperOpt في هذه التطبيقات";
+"Turn off SuperOpt in these apps" = "إيقاف تشغيل SuperOpt في هذه التطبيقات";
 
 /* No comment provided by engineer. */
-"Turn off “Show menu bar background” in Menu Bar settings to use this feature" = "أوقف تشغيل «إظهار خلفية شريط القوائم» في إعدادات شريط القوائم لاستخدام هذه الميزة";
+"Turn off “Show menu bar background” in Menu Bar settings to use this feature" = "أوقف تشغيل \"إظهار خلفية شريط القوائم\" في إعدادات شريط القوائم لاستخدام هذه الميزة";
 
 /* No comment provided by engineer. */
 "Type to search in Mission Control" = "الكتابة للبحث في إدارة المهام";
@@ -476,13 +476,13 @@
 "View Source" = "عرض المصدر";
 
 /* No comment provided by engineer. */
-"When you tile a window to the left or right, SuperOpt suggests windows to fill the other half" = "عند تجانب النافذة إلى اليسار أو اليمين، يقترح SuperOpt نوافذ لملء النصف الآخر";
+"When you tile a window to the left or right, SuperOpt suggests windows to fill the other half" = "عند إنشاء تجانب لنافذة على اليسار أو اليمين، يقترح SuperOpt نوافذ لملء النصف الآخر";
 
 /* Toggle description */
-"While you’re using an app in this list, SuperOpt turns off every feature and dims its menu bar icon" = "أثناء استخدامك أحد التطبيقات في هذه القائمة، يوقف SuperOpt تشغيل جميع ميزاته ويجعل أيقونته في شريط القوائم باهتة";
+"While you’re using an app in this list, SuperOpt turns off every feature and dims its own menu bar icon" = "أثناء استخدامك أحد التطبيقات في هذه القائمة، يوقف SuperOpt تشغيل جميع ميزاته ويجعل أيقونته في شريط القوائم باهتة";
 
 /* No comment provided by engineer. */
-"Window Tiling" = "تجانب النوافذ";
+"Window tiling" = "تجانب النوافذ";
 
 /* No comment provided by engineer. */
 "Windows" = "النوافذ";
@@ -503,20 +503,20 @@
 "Zoom Out" = "تصغير";
 
 /* No comment provided by engineer. */
-"⌃X and ⌃V" = "⌃X و⌃V";
+"⌃X and ⌃V" = "‏⌃X و⌃V";
 
 /* No comment provided by engineer. */
-"⌘X and ⌘V" = "⌘X و⌘V";
+"⌘X and ⌘V" = "‏⌘X و⌘V";
 
 /* No comment provided by engineer. */
-"⌥ → Mission Control" = "⌥ ← إدارة المهام";
+"⌥ → Mission Control" = "‏⌥ ← إدارة المهام";
 
 /* No comment provided by engineer. */
-"⌥1–9 → Apps in the Dock" = "⌥1-9 ← تطبيقات شريط الأيقونات";
+"⌥1–9 → Apps in the Dock" = "‏⌥1–9 ← تطبيقات في شريط الأيقونات";
 
 /* No comment provided by engineer. */
 "⌥A → Apps" = "‏⌥A ← التطبيقات";
 
 /* No comment provided by engineer. */
-"⌥⌥ → Apps" = "⌥⌥ ← التطبيقات";
+"⌥⌥ → Apps" = "‏⌥⌥ ← التطبيقات";
 

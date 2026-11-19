@@ -7,7 +7,7 @@ private let _excludedAppsStrings = [
     NSLocalizedString(
         """
         While you’re using an app in this list, SuperOpt turns off every feature \
-        and dims its menu bar icon
+        and dims its own menu bar icon
         """,
         comment: "Toggle description"),
     NSLocalizedString("No apps are excluded.", comment: "Shown in place of an empty list of apps")
@@ -90,7 +90,7 @@ struct ExcludedAppsPane: View {
                     Text("Turn off SuperOpt in these apps")
                     Text("""
                         While you’re using an app in this list, SuperOpt turns off every feature \
-                        and dims its menu bar icon
+                        and dims its own menu bar icon
                         """)
                 }
 

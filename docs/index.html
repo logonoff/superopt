@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>SuperOpt · GNOME shortcuts and features for macOS</title>
+    <title>SuperOpt · GNOME-style shortcuts and features for macOS</title>
     <link rel="icon" type="image/png" href="favicon.png">
     <meta name="description"
       content="A tiny macOS menu bar app that repurposes the Option key for Mission Control and adds a hot corner, Dock shortcuts, and GNOME-style keyboard shortcuts.">
@@ -182,7 +182,7 @@
               full screen. Click it again to return to the previous size.</p>
             <h3 class="shale-v1-h3">Dark Menu Bar</h3>
             <p class="shale-v1-p">When a window fills the screen, a black bar appears behind the transparent menu bar,
-              keeping it readable.</p>
+              keeping the menu bar readable.</p>
           </div>
         </div>
 
@@ -195,7 +195,7 @@
           </div>
           <div class="feature-slide-text">
             <h3 class="shale-v1-h3">Caps Lock Indicator</h3>
-            <p class="shale-v1-p">A centered indicator appears near the bottom of the screen whenever you turn Caps Lock on or off.</p>
+            <p class="shale-v1-p">An indicator appears centered near the bottom of the screen whenever you turn Caps Lock on or off.</p>
           </div>
         </div>
 
@@ -209,10 +209,10 @@
           <div class="feature-slide-text">
             <h3 class="shale-v1-h3">Scroll to Switch Spaces</h3>
             <p class="shale-v1-p">Scroll over the Apple menu to move a display to the next or previous space, just
-              as scrolling over the top bar does in GNOME.</p>
+              as scrolling over GNOME&rsquo;s top bar switches workspaces.</p>
             <h3 class="shale-v1-h3">Space Indicator</h3>
             <p class="shale-v1-p">A row of dots shows which space you&rsquo;re viewing whenever a display switches
-              spaces&mdash;whether you used the keyboard, Mission Control, a swipe, or a scroll over the Apple menu.</p>
+              spaces&mdash;whether you use the keyboard, Mission Control, a swipe, or a scroll over the Apple menu.</p>
           </div>
         </div>
 
@@ -230,10 +230,10 @@
           </div>
           <div class="shale-v1-flex-third shale-v1-card feature-card">
             <h3 class="shale-v1-h3">Press <kbd class="shale-v1-code">&#x2325;</kbd> Twice</h3>
-            <p class="shale-v1-p">Press Option twice to open the apps window in Spotlight.</p>
+            <p class="shale-v1-p">Press the Option key twice to open or close the Apps view in Spotlight.</p>
           </div>
           <div class="shale-v1-flex-third shale-v1-card feature-card">
-            <h3 class="shale-v1-h3">
+            <h3 class="shale-v1-h3">Press
               <kbd class="shale-v1-code">&#x2325;1</kbd> through <kbd class="shale-v1-code">&#x2325;9</kbd>
             </h3>
             <p class="shale-v1-p">Open apps in the Dock by number. You can choose which number opens the Finder.</p>
@@ -243,7 +243,7 @@
             <p class="shale-v1-p">
               Start typing, as you would in GNOME&rsquo;s Activities overview, and Mission Control closes,
               handing what you typed to Spotlight. You can choose where the search opens: Spotlight or the
-              apps window.
+              Apps view.
             </p>
           </div>
           <div class="shale-v1-flex-third shale-v1-card feature-card">
@@ -263,7 +263,7 @@
           </div>
           <div class="shale-v1-flex-third shale-v1-card feature-card">
             <h3 class="shale-v1-h3">
-              Home and End Keys
+              Home and End
             </h3>
             <p class="shale-v1-p">
               The Home and End keys move the
@@ -273,17 +273,17 @@
           <div class="shale-v1-flex-third shale-v1-card feature-card">
             <h3 class="shale-v1-h3">Menu Key</h3>
             <p class="shale-v1-p">
-              The Menu key on PC keyboards opens a shortcut menu, even in apps that don&rsquo;t support it natively.
+              The Menu key on Windows keyboards opens a shortcut menu, even in apps that don&rsquo;t support it natively.
             </p>
           </div>
           <div class="shale-v1-flex-third shale-v1-card feature-card">
             <h3 class="shale-v1-h3">Middle-Click Paste</h3>
             <p class="shale-v1-p">
-              Middle-click a text field to paste at the spot where you click (X11-style). If text is
+              Middle-click in a text field to paste where you click. If text is
               selected, the selection is pasted&mdash;like the X11 primary selection&mdash;instead of the
               contents of the Clipboard.
-              Middle-click a Dock app icon to open a new window (or to open an app that isn’t running). Middle clicks everywhere else pass through
-              unchanged, preserving native browser behavior, such as opening links in a new tab.
+              Middle-click an app icon in the Dock to open a new window (or to open an app that isn&rsquo;t running). Middle clicks everywhere else pass through
+              unchanged, preserving native behavior, such as opening links in a new tab in browsers.
             </p>
           </div>
           <div class="shale-v1-flex-third shale-v1-card feature-card">
@@ -386,7 +386,7 @@
             <a href="https://github.com/logonoff/superopt/releases/latest" target="_blank" rel="noopener"
               class="shale-v1-link">GitHub Releases</a>, then open the app. Builds are self-signed but not
             notarized. The first launch may be blocked. If it is, open System Settings, click Privacy &amp;
-            Security, scroll down, then click Open Anyway. Alternatively, remove the quarantine attribute with
+            Security, scroll down, and click Open Anyway. Alternatively, remove the quarantine attribute with
             <code class="shale-v1-code snippet">xattr -dr com.apple.quarantine /Applications/SuperOpt.app</code>.
           </p>
         </div>
@@ -413,7 +413,7 @@
           Every release carries a <a href="https://github.com/logonoff/superopt/attestations" target="_blank"
             rel="noopener" class="shale-v1-link">GitHub artifact attestation</a> that links the build to its source commit
           and workflow
-          run, confirming that the binary was built from the published source code and hasn’t been tampered with. Verify
+          run, confirming that the binary was built from the published source code and hasn&rsquo;t been tampered with. Verify
           with <code class="shale-v1-code snippet">gh attestation verify SuperOpt.zip --repo logonoff/superopt</code>.
           <br><br>
           <a href="https://docs.github.com/en/code-security/concepts/supply-chain-security/immutable-releases"
@@ -430,8 +430,9 @@
           <h2 class="shale-v1-h2">Shortcut Remapping</h2>
         </div>
         <p class="shale-v1-p">
-          Maps Linux keyboard shortcuts to their macOS equivalents&mdash;copy, cut, paste, and undo
-          (Control-C, Control-X, Control-V, and Control-Z), browser shortcuts, terminal shortcuts, and more.
+          SuperOpt maps Linux keyboard shortcuts to their macOS equivalents&mdash;copy, cut, paste, and undo
+          (Control-C, Control-X, Control-V, and Control-Z)&mdash;plus shortcuts for browsers, terminals, code
+          editors, the Finder, and more.
         </p>
 
         <div class="shale-v1-card" style="padding: 0">

@@ -1,14 +1,14 @@
 /* No comment provided by engineer. */
-"A black bar appears behind the menu bar when a window fills the screen" = "窗口填充桌面时，菜单栏后面会显示黑色横条";
+"A black bar appears behind the menu bar when a window fills the screen" = "窗口填充屏幕时，菜单栏后面会显示一条黑色横条";
 
 /* No comment provided by engineer. */
-"A middle click pastes the selected text, or the contents of the Clipboard if nothing is selected; middle-clicking a Dock app icon opens a new window" = "点按鼠标中键会粘贴所选文本，若未选择文本，则粘贴剪贴板内容；用鼠标中键点按程序坞中的 App 图标会打开新窗口";
+"A middle click pastes the selected text, or the contents of the Clipboard if nothing is selected; middle-clicking a Dock app icon opens a new window" = "点按鼠标中键会粘贴所选文本；如果未选择文本，则粘贴剪贴板的内容。用鼠标中键点按程序坞中的App图标会打开新窗口";
 
 /* Menu item to show about panel */
-"About SuperOpt" = "关于 SuperOpt";
+"About SuperOpt" = "关于SuperOpt";
 
 /* Permission name */
-"Accessibility" = "辅助功能";
+"Accessibility" = "无障碍";
 
 /* Category hint */
 "Active only in browsers" = "仅在浏览器中生效";
@@ -17,10 +17,10 @@
 "Active only in code editors" = "仅在代码编辑器中生效";
 
 /* Category hint */
-"Active only in terminal apps" = "仅在终端 App 中生效";
+"Active only in terminal apps" = "仅在终端App中生效";
 
 /* Category hint */
-"Active only in the Finder" = "仅在访达中生效";
+"Active only in the Finder" = "仅在“访达”中生效";
 
 /* No comment provided by engineer. */
 "Actual Size" = "实际大小";
@@ -29,19 +29,19 @@
 "Add" = "添加";
 
 /* Add button tooltip */
-"Add an app" = "添加 App";
+"Add an app" = "添加App";
 
 /* No comment provided by engineer. */
 "Add Bookmark" = "添加书签";
 
 /* No comment provided by engineer. */
-"Add Link" = "添加网页链接";
+"Add Link" = "添加链接";
 
 /* No comment provided by engineer. */
 "An onscreen indicator appears when you turn Caps Lock on or off" = "打开或关闭大写锁定时，屏幕上会显示指示器";
 
 /* No comment provided by engineer. */
-"An onscreen row of dots appears when a display switches spaces" = "当显示器切换空间时，屏幕上会显示一排圆点";
+"An onscreen row of dots appears when a display switches spaces" = "显示器切换空间时，屏幕上会显示一排圆点";
 
 /* No comment provided by engineer. */
 "Apps" = "App";
@@ -59,7 +59,7 @@
 "Can’t Update Login Item" = "无法更新登录项";
 
 /* No comment provided by engineer. */
-"Caps Lock Indicator" = "大写锁定指示器";
+"Caps Lock indicator" = "大写锁定指示器";
 
 /* OSD text when Caps Lock is turned off */
 "Caps Lock Off" = "大写锁定已关闭";
@@ -71,13 +71,13 @@
 "Clear Browsing Data" = "清除浏览数据";
 
 /* No comment provided by engineer. */
-"Click-Through Focus" = "点按穿透聚焦";
+"Click-through focus" = "点按穿透式聚焦";
 
 /* No comment provided by engineer. */
 "Clicking an inactive window brings it to the front and passes the click through to the item under the pointer" = "点按非活跃窗口时会将它置于最前，并将点按传递给指针下方的项目";
 
 /* No comment provided by engineer. */
-"Clicking the green button expands the window to fill the screen instead of entering full screen" = "点按绿色按钮会展开窗口以填充桌面，而不是进入全屏幕";
+"Clicking the green button expands the window to fill the screen instead of entering full screen" = "点按绿色按钮会展开窗口以填充屏幕，而不是进入全屏幕";
 
 /* No comment provided by engineer. */
 "Close buttons appear on windows in Mission Control" = "调度中心中的窗口会显示关闭按钮";
@@ -107,7 +107,7 @@
 "Continue" = "继续";
 
 /* No comment provided by engineer. */
-"Control-scroll zooms in and out" = "按住 Control 键滚动可放大或缩小";
+"Control-scroll zooms in and out" = "按住Control键并滚动可放大或缩小";
 
 /* No comment provided by engineer. */
 "Copy" = "拷贝";
@@ -119,13 +119,13 @@
 "Cut" = "剪切";
 
 /* No comment provided by engineer. */
-"Cut and paste files in the Finder" = "在访达中剪切和粘贴文件";
+"Cut and paste files in the Finder" = "在“访达”中剪切和粘贴文件";
 
 /* No comment provided by engineer. */
 "Cut marks the selected files to be moved; Paste moves them to the current folder" = "剪切会将所选文件标记为待移动；粘贴会将其移动到当前文件夹";
 
 /* No comment provided by engineer. */
-"Dark Menu Bar" = "深色菜单栏";
+"Dark menu bar" = "深色菜单栏";
 
 /* No comment provided by engineer. */
 "Delete Line" = "删除行";
@@ -149,7 +149,7 @@
 "Enter Full Screen" = "进入全屏幕";
 
 /* Settings pane title */
-"Excluded Apps" = "已排除的 App";
+"Excluded Apps" = "已排除的App";
 
 /* No comment provided by engineer. */
 "Extend Selection Down" = "向下扩展选择范围";
@@ -164,7 +164,7 @@
 "Find" = "查找";
 
 /* No comment provided by engineer. */
-"Find and Replace" = "查找与替换";
+"Find and Replace" = "查找和替换";
 
 /* No comment provided by engineer. */
 "Find Next" = "查找下一个";
@@ -173,10 +173,10 @@
 "Find Previous" = "查找上一个";
 
 /* Shortcut category */
-"Finder" = "访达";
+"Finder" = "“访达”";
 
 /* No comment provided by engineer. */
-"Finder position" = "访达在程序坞中的位置";
+"Finder position" = "“访达”在程序坞中的位置";
 
 /* No comment provided by engineer. */
 "Focus Address Bar" = "聚焦地址栏";
@@ -194,16 +194,16 @@
 "GitHub" = "GitHub";
 
 /* No comment provided by engineer. */
-"Green button fills the screen" = "绿色按钮填充桌面";
+"Green button fills the screen" = "绿色按钮填充屏幕";
 
 /* No comment provided by engineer. */
-"Home and End" = "Home 和 End";
+"Home and End" = "Home和End";
 
 /* No comment provided by engineer. */
-"Home and End keys move the insertion point to the beginning or end of the line; Control-Home and Control-End move it to the beginning or end of the document" = "Home 和 End 键将插入点移至行首或行尾；Control-Home 和 Control-End 则将其移至文稿开头或末尾";
+"Home and End keys move the insertion point to the beginning or end of the line; Control-Home and Control-End move it to the beginning or end of the document" = "Home和End键将插入点移至行首或行尾；Control-Home和Control-End则将其移至文稿开头或末尾";
 
 /* No comment provided by engineer. */
-"Hot Corner" = "触发角";
+"Hot corner" = "触发角";
 
 /* No comment provided by engineer. */
 "Indent" = "增加缩进";
@@ -227,16 +227,16 @@
 "Lock Screen" = "锁定屏幕";
 
 /* No comment provided by engineer. */
-"Maps Linux keyboard shortcuts to their Mac equivalents" = "将 Linux 键盘快捷键映射为对应的 Mac 快捷键";
+"Maps Linux keyboard shortcuts to their Mac equivalents" = "将Linux键盘快捷键映射为对应的Mac快捷键";
 
 /* No comment provided by engineer. */
 "Menu Bar" = "菜单栏";
 
 /* No comment provided by engineer. */
-"Menu key → Shortcut menu" = "菜单键 → 快捷菜单";
+"Menu key → shortcut menu" = "菜单键 → 快捷菜单";
 
 /* No comment provided by engineer. */
-"Middle-Click Paste" = "鼠标中键粘贴";
+"Middle-click paste" = "鼠标中键粘贴";
 
 /* No comment provided by engineer. */
 "Mission Control" = "调度中心";
@@ -281,13 +281,13 @@
 "New, Save, Print, and Quit" = "新建、存储、打印和退出";
 
 /* Shown in place of an empty list of apps */
-"No apps are excluded." = "未排除任何 App。";
+"No apps are excluded." = "未排除任何App。";
 
 /* No comment provided by engineer. */
 "Off" = "关闭";
 
 /* Button to open Accessibility settings */
-"Open Accessibility Settings" = "打开“辅助功能”设置";
+"Open Accessibility Settings" = "打开“无障碍”设置";
 
 /* Menu item for starting the app at login */
 "Open at Login" = "登录时打开";
@@ -299,16 +299,16 @@
 "Open Login Items & Extensions Settings" = "打开“登录项与扩展”设置";
 
 /* No comment provided by engineer. */
-"Option Key" = "Option 键";
+"Option Key" = "Option键";
 
 /* No comment provided by engineer. */
-"Option-1 through Option-9 open the corresponding app in the Dock" = "Option-1 至 Option-9 可打开程序坞中对应的 App";
+"Option-1 through Option-9 open the corresponding app in the Dock" = "Option-1至Option-9可打开程序坞中对应的App";
 
 /* No comment provided by engineer. */
-"Option-A opens the Apps view in Spotlight" = "Option-A 可打开“聚焦”中的 App 视图";
+"Option-A opens the Apps view in Spotlight" = "Option-A可打开“聚焦”中的App视图";
 
 /* No comment provided by engineer. */
-"Option–Arrow keys tile, fill, or restore windows" = "Option-箭头键可平铺窗口、填充桌面或恢复上一个大小";
+"Option-Arrow keys tile, fill, or restore windows" = "Option-箭头键可平铺窗口、填充屏幕或恢复上一个大小";
 
 /* No comment provided by engineer. */
 "Outdent" = "减少缩进";
@@ -323,10 +323,10 @@
 "Permissions Required" = "需要权限";
 
 /* No comment provided by engineer. */
-"Pressing Option opens Mission Control" = "按下 Option 键即可打开调度中心";
+"Pressing Option twice opens the Apps view in Spotlight" = "连按两下Option键可打开“聚焦”中的App视图";
 
 /* No comment provided by engineer. */
-"Pressing Option twice opens the Apps view in Spotlight" = "连按两次 Option 键即可打开“聚焦”中的 App 视图";
+"Pressing the Option key opens Mission Control" = "按下Option键可打开调度中心";
 
 /* No comment provided by engineer. */
 "Print" = "打印";
@@ -335,19 +335,19 @@
 "Quit" = "退出";
 
 /* Menu item to quit the app */
-"Quit SuperOpt" = "退出 SuperOpt";
+"Quit SuperOpt" = "退出SuperOpt";
 
 /* No comment provided by engineer. */
 "Redo" = "重做";
 
 /* No comment provided by engineer. */
-"Reload" = "重新载入";
+"Reload" = "重新加载";
 
 /* No comment provided by engineer. */
-"Remap Linux shortcuts" = "重新映射 Linux 快捷键";
+"Remap Linux shortcuts" = "重新映射Linux快捷键";
 
 /* Remove button tooltip */
-"Remove the selected app" = "移除所选 App";
+"Remove the selected app" = "移除所选App";
 
 /* No comment provided by engineer. */
 "Rename" = "重新命名";
@@ -374,7 +374,7 @@
 "Select All" = "全选";
 
 /* Open panel message */
-"Select the apps you want to exclude." = "选择要排除的 App。";
+"Select the apps you want to exclude." = "选择要排除的App。";
 
 /* No comment provided by engineer. */
 "Select Word Left" = "选择上一字词";
@@ -392,22 +392,22 @@
 "Shortcut Remapping" = "快捷键重新映射";
 
 /* No comment provided by engineer. */
-"Shortcuts" = "Shortcuts";
+"Shortcuts" = "快捷键";
 
 /* No comment provided by engineer. */
 "Show All History" = "显示所有历史记录";
 
 /* No comment provided by engineer. */
-"Show Downloads" = "显示下载项";
+"Show Downloads" = "显示下载";
 
 /* No comment provided by engineer. */
 "Show or Hide Bookmarks Bar" = "显示或隐藏书签栏";
 
 /* Spoken when the space changes */
-"Space %1$d of %2$d" = "第 %1$d 个空间，共 %2$d 个";
+"Space %1$d of %2$d" = "第%1$d个空间，共%2$d个";
 
 /* No comment provided by engineer. */
-"Space Indicator" = "空间指示器";
+"Space indicator" = "空间指示器";
 
 /* No comment provided by engineer. */
 "Spaces" = "空间";
@@ -416,10 +416,10 @@
 "Spotlight" = "聚焦";
 
 /* Alert body when all permissions are granted */
-"SuperOpt already has the permissions it needs." = "SuperOpt 已获得所需的全部权限。";
+"SuperOpt already has the permissions it needs." = "SuperOpt已获得所需的全部权限。";
 
 /* Alert body for missing permissions — %@ is the list of missing permissions; shared by both permission alerts, so it can't name a specific button */
-"SuperOpt needs the following:\n\n%@\n\nGrant access in Privacy & Security settings." = "SuperOpt 需要以下权限：\n\n%@\n\n请在“隐私与安全性”设置中授予访问权限。";
+"SuperOpt needs the following:\n\n%@\n\nGrant access in Privacy & Security settings." = "SuperOpt需要以下权限：\n\n%@\n\n请在“隐私与安全”设置中授予访问权限。";
 
 /* Category hint */
 "Tab and window management" = "标签页和窗口管理";
@@ -434,22 +434,22 @@
 "Text Editing" = "文本编辑";
 
 /* No comment provided by engineer. */
-"The Finder takes this position in the Dock; other apps shift to fill the gap" = "访达会占用程序坞中的此位置，其他 App 会依次移动以填补空位";
+"The Finder takes this position in the Dock; other apps shift to fill the gap" = "“访达”会占据程序坞中的此位置，其他App会依次移动以填补空位";
 
 /* No comment provided by engineer. */
-"The Menu key on PC keyboards opens a shortcut menu" = "PC 键盘上的菜单键可打开快捷菜单";
+"The Menu key on Windows keyboards opens a shortcut menu" = "Windows键盘上的菜单键可打开快捷菜单";
 
 /* No comment provided by engineer. */
-"Tile Assist" = "平铺助手";
+"Tile assist" = "平铺助手";
 
 /* No comment provided by engineer. */
 "Traditional" = "传统";
 
 /* No comment provided by engineer. */
-"Treats the integrated terminal in code editors such as VS Code and Cursor as a terminal app, so Control-C and similar shortcuts pass through unchanged" = "将 VS Code 和 Cursor 等代码编辑器中的集成终端视为终端 App，使 Control-C 等快捷键原样传递";
+"Treats the integrated terminal in code editors such as VS Code and Cursor as a terminal app, so Control-C and similar shortcuts pass through unchanged" = "将VS Code和Cursor等代码编辑器中的集成终端视为终端App，从而让Control-C等快捷键原样传递";
 
 /* Toggle label */
-"Turn off SuperOpt in these apps" = "在这些 App 中关闭 SuperOpt";
+"Turn off SuperOpt in these apps" = "在这些App中关闭SuperOpt";
 
 /* No comment provided by engineer. */
 "Turn off “Show menu bar background” in Menu Bar settings to use this feature" = "请在“菜单栏”设置中关闭“显示菜单栏背景”以使用此功能";
@@ -458,7 +458,7 @@
 "Type to search in Mission Control" = "在调度中心键入即可搜索";
 
 /* No comment provided by engineer. */
-"Typing in Mission Control closes it and opens Spotlight with what you typed" = "在调度中心键入会将其关闭，并使用你键入的内容打开“聚焦”";
+"Typing in Mission Control closes it and opens Spotlight with what you typed" = "在调度中心键入会将其关闭，并打开“聚焦”，同时填入你键入的内容";
 
 /* No comment provided by engineer. */
 "Underline" = "下划线";
@@ -467,7 +467,7 @@
 "Undo" = "撤销";
 
 /* No comment provided by engineer. */
-"Use Selection for Find" = "使用所选内容进行查找";
+"Use Selection for Find" = "用所选内容查找";
 
 /* Shortcut category */
 "View" = "显示";
@@ -476,13 +476,13 @@
 "View Source" = "查看源代码";
 
 /* No comment provided by engineer. */
-"When you tile a window to the left or right, SuperOpt suggests windows to fill the other half" = "当你将窗口平铺到左侧或右侧时，SuperOpt 会推荐可填充另一半桌面的窗口";
+"When you tile a window to the left or right, SuperOpt suggests windows to fill the other half" = "当你将窗口平铺到左侧或右侧时，SuperOpt会推荐可填充屏幕另一半的窗口";
 
 /* Toggle description */
-"While you’re using an app in this list, SuperOpt turns off every feature and dims its menu bar icon" = "使用列表中的 App 时，SuperOpt 会关闭自身的所有功能，其菜单栏图标也会变暗";
+"While you’re using an app in this list, SuperOpt turns off every feature and dims its own menu bar icon" = "使用列表中的App时，SuperOpt会关闭自身的所有功能，其菜单栏图标也会变暗";
 
 /* No comment provided by engineer. */
-"Window Tiling" = "窗口平铺";
+"Window tiling" = "窗口平铺";
 
 /* No comment provided by engineer. */
 "Windows" = "窗口";
@@ -503,16 +503,16 @@
 "Zoom Out" = "缩小";
 
 /* No comment provided by engineer. */
-"⌃X and ⌃V" = "⌃X 和 ⌃V";
+"⌃X and ⌃V" = "⌃X和⌃V";
 
 /* No comment provided by engineer. */
-"⌘X and ⌘V" = "⌘X 和 ⌘V";
+"⌘X and ⌘V" = "⌘X和⌘V";
 
 /* No comment provided by engineer. */
 "⌥ → Mission Control" = "⌥ → 调度中心";
 
 /* No comment provided by engineer. */
-"⌥1–9 → Apps in the Dock" = "⌥1–9 → 程序坞中的 App";
+"⌥1–9 → Apps in the Dock" = "⌥1–9 → 程序坞中的App";
 
 /* No comment provided by engineer. */
 "⌥A → Apps" = "⌥A → App";
