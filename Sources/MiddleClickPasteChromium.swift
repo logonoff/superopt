@@ -102,10 +102,18 @@ extension MiddleClickPasteHandler {
     private static func enableAccessibility(for pid: pid_t) {
         installPidCleanupIfNeeded()
         guard !accessibilityEnabledPIDs.contains(pid) else { return }
-        accessibilityEnabledPIDs.insert(pid)
-        AXUIElementSetAttributeValue(
+        // Recorded only when there is no point trying again: on success, and
+        // when the app does not implement the attribute at all (Chrome never
+        // has). Anything else — the app mid-launch, an AX timeout against a
+        // backgrounded window — is transient and must be retried on the next
+        // query, or the app's editors stay invisible to the paste for as
+        // long as it lives.
+        let result = AXUIElementSetAttributeValue(
             AXUIElementCreateApplication(pid),
             "AXManualAccessibility" as CFString, kCFBooleanTrue)
+        if result == .success || result == .attributeUnsupported {
+            accessibilityEnabledPIDs.insert(pid)
+        }
     }
 
     /// Without this, a Chromium app later handed a recycled pid would be
