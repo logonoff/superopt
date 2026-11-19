@@ -602,6 +602,16 @@ extension AppDelegate {
         lockKeyOSD.show(text: capsLockOn ? CapsLockOSDText.turnedOn : CapsLockOSDText.turnedOff, active: capsLockOn)
     }
 
+    /// Whether the key at `keyCode` is the apps-grid key: the one typing "a",
+    /// or on a layout typing no ASCII letters the one that is A on a US
+    /// keyboard.
+    private static func appGridKeyIsA(_ keyCode: Int64) -> Bool {
+        guard let char = KeyboardLayout.character(forKeyCode: keyCode) else {
+            return keyCode == 0x00
+        }
+        return char == "a" || (!KeyboardLayout.isLetter(char) && keyCode == 0x00)
+    }
+
     /// ⌥A → Spotlight Apps. Its own feature toggle, separate from shortcut remapping.
     private func handleAppGridKey(event: CGEvent) -> Bool {
         guard isEnabled("appGridEnabled"),
@@ -610,7 +620,12 @@ extension AppDelegate {
               !event.flags.contains(.maskControl),
               // ⌥⇧A is a different chord, and on a US layout it types Å.
               !event.flags.contains(.maskShift),
-              event.getIntegerValueField(.keyboardEventKeycode) == 0x00
+              // The key that types "a" — on AZERTY the A lives where US
+              // keyboards keep their Q, so a key-code match would fire on ⌥Q.
+              // On layouts that type no ASCII letters at all (Cyrillic,
+              // Greek), it is the key that is A on a US keyboard, where the
+              // old key-code match worked and a character match never fires.
+              Self.appGridKeyIsA(event.getIntegerValueField(.keyboardEventKeycode))
         else { return false }
         // Held keys autorepeat, and the Apps key toggles — repeats would
         // strobe the panel open and closed. The chord is already handled, so

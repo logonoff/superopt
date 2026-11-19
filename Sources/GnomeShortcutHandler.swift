@@ -102,12 +102,10 @@ class GnomeShortcutHandler {
     private static let keyDown: Int64 = 0x7D
     private static let keyF4: Int64 = 0x76
     private static let keyReturn: Int64 = 0x24
-    private static let keyI: Int64 = 0x22
     private static let keyW: Int64 = 0x0D
-    private static let keyL: Int64 = 0x25
     private static let keyQ: Int64 = 0x0C
-    private static let keyH: Int64 = 0x04
     private static let keyF: Int64 = 0x03
+    private static let keyI: Int64 = 0x22
     private static let keyForwardDelete: Int64 = 0x75
     private static let keyF2: Int64 = 0x78
     private static let keyF11: Int64 = 0x67
@@ -117,6 +115,62 @@ class GnomeShortcutHandler {
     // MARK: - Runtime state
 
     private var disabledShortcuts: Set<String> = []
+
+    // MARK: - Layout-aware matching
+
+    // Letters are matched by the character the key types, not by key code:
+    // codes are physical positions, and on QWERTZ/AZERTY the letters live at
+    // different ones — matching German ⌃Z by code finds the handler's Y and
+    // leaves undo and redo both dead. The character tables are derived from
+    // the key-code tables through the fixed US positions, so the two
+    // representations cannot drift apart.
+    private static let ctrlToCmdByChar: [String: [String]] = deriveByChar(ctrlToCmdMap)
+    private static let ctrlShiftByChar: [String: [String]] = deriveByChar(ctrlShiftMap)
+    private static let terminalShiftByChar: [String: String] = {
+        var byChar: [String: String] = [:]
+        for (keyCode, id) in terminalShiftMap {
+            if let char = KeyboardLayout.usCharacter(forKeyCode: keyCode),
+               KeyboardLayout.isLetter(char) {
+                byChar[char] = id
+            }
+        }
+        return byChar
+    }()
+    private static let terminalPassthroughChars: Set<String> = Set(
+        terminalPassthroughKeys.compactMap(KeyboardLayout.usCharacter(forKeyCode:)))
+
+    private static func deriveByChar(_ map: [Int64: [String]]) -> [String: [String]] {
+        var byChar: [String: [String]] = [:]
+        for (keyCode, ids) in map {
+            if let char = KeyboardLayout.usCharacter(forKeyCode: keyCode),
+               KeyboardLayout.isLetter(char) {
+                byChar[char] = ids
+            }
+        }
+        return byChar
+    }
+
+    /// The shortcut ID for a single-id map (the terminal set), by typed
+    /// character for letters and by key code otherwise.
+    private static func terminalShiftID(for keyCode: Int64) -> String? {
+        if let char = KeyboardLayout.character(forKeyCode: keyCode),
+           KeyboardLayout.isLetter(char) {
+            return terminalShiftByChar[char]
+        }
+        return terminalShiftMap[keyCode]
+    }
+
+    /// The shortcut IDs for a Ctrl-keyed chord: by typed character for
+    /// letters, by key code for everything else (digits, punctuation,
+    /// Return — positions stable across the layouts worth handling).
+    private static func ctrlIDs(for keyCode: Int64, in byChar: [String: [String]],
+                                fallback: [Int64: [String]]) -> [String]? {
+        if let char = KeyboardLayout.character(forKeyCode: keyCode),
+           KeyboardLayout.isLetter(char) {
+            return byChar[char]
+        }
+        return fallback[keyCode]
+    }
 
     init() { reloadSettings() }
 
@@ -288,7 +342,7 @@ extension GnomeShortcutHandler {
     private func handleCtrlKey(event: CGEvent, keyCode: Int64, flags: CGEventFlags,
                                hasShift: Bool, isTerminal: Bool) -> Bool {
         // Terminal Ctrl+Shift shortcuts (must be checked before passthrough)
-        if isTerminal && hasShift, let id = Self.terminalShiftMap[keyCode] {
+        if isTerminal && hasShift, let id = Self.terminalShiftID(for: keyCode) {
             // The chord belongs to the terminal set whether or not its
             // shortcut is on: disabling it restores passthrough rather than
             // falling through to the Tabs & Windows mapping of the same
@@ -296,7 +350,7 @@ extension GnomeShortcutHandler {
             guard isEnabled(id) else { return false }
             return remap(event, keyCode, flags: flags, remove: [.maskControl, .maskShift], add: .maskCommand)
         }
-        if isTerminal && Self.terminalPassthroughKeys.contains(keyCode) { return false }
+        if isTerminal && Self.isTerminalPassthrough(keyCode) { return false }
         if keyCode == Self.keyTab { return false } // Ctrl+Tab already works on Mac
 
         // Special remaps (non-standard modifier swaps)
@@ -305,16 +359,31 @@ extension GnomeShortcutHandler {
         }
 
         // Ctrl+Shift+key shortcuts (check before base Ctrl+key)
-        if hasShift, let ids = Self.ctrlShiftMap[keyCode] {
+        if hasShift, let ids = Self.ctrlIDs(for: keyCode, in: Self.ctrlShiftByChar,
+                                            fallback: Self.ctrlShiftMap) {
             guard ids.contains(where: { isEnabled($0) }) else { return false }
             return remap(event, keyCode, flags: flags, remove: .maskControl, add: .maskCommand)
         }
 
         // General Ctrl → Cmd swap
-        if let ids = Self.ctrlToCmdMap[keyCode], ids.contains(where: { isEnabled($0) }) {
+        if let ids = Self.ctrlIDs(for: keyCode, in: Self.ctrlToCmdByChar,
+                                  fallback: Self.ctrlToCmdMap),
+           ids.contains(where: { isEnabled($0) }) {
             return remap(event, keyCode, flags: flags, remove: .maskControl, add: .maskCommand)
         }
         return false
+    }
+
+    /// Plain control sequences the shell owns, matched by typed character for
+    /// letters (layouts move them — a raw key-code match would pass the wrong
+    /// chord through, German ⌃Y sitting on the code the US calls Z) and by key
+    /// code for Delete and the arrows, whose positions are stable.
+    private static func isTerminalPassthrough(_ keyCode: Int64) -> Bool {
+        if let char = KeyboardLayout.character(forKeyCode: keyCode),
+           KeyboardLayout.isLetter(char) {
+            return terminalPassthroughChars.contains(char)
+        }
+        return terminalPassthroughKeys.contains(keyCode)
     }
 
     // Each branch has different modifier transforms — can't be reduced to a lookup table.
@@ -322,8 +391,12 @@ extension GnomeShortcutHandler {
     private func handleCtrlSpecialKey(
         event: CGEvent, keyCode: Int64, flags: CGEventFlags, hasShift: Bool
     ) -> Bool? {
-        if keyCode == Self.keyY && !hasShift && isEnabled("redo") { // Ctrl+Y → ⇧⌘Z
-            return remap(event, Self.keyZ, flags: flags, remove: .maskControl, add: [.maskCommand, .maskShift])
+        // Cross-key remaps are matched and emitted by typed character: the
+        // input letter moves with the layout, and the output has to land on
+        // the key that types the target letter under that same layout.
+        if Self.types("y", keyCode: keyCode) && !hasShift && isEnabled("redo") { // Ctrl+Y → ⇧⌘Z
+            return remap(event, Self.key(for: "z", usFallback: Self.keyZ), flags: flags,
+                         remove: .maskControl, add: [.maskCommand, .maskShift])
         }
         if keyCode == Self.keyDelete && !hasShift && isEnabled("deleteWord") { // Ctrl+⌫ → ⌥⌫
             return remap(event, Self.keyDelete, flags: flags, remove: .maskControl, add: .maskAlternate)
@@ -355,33 +428,64 @@ extension GnomeShortcutHandler {
         if hasShift && keyCode == Self.keyUp && isEnabled("selectUp") { // Ctrl+Shift+↑ → Shift+↑
             return remap(event, keyCode, flags: flags, remove: .maskControl)
         }
-        if hasShift && keyCode == Self.keyI && isEnabled("devTools") { // Ctrl+Shift+I → ⌥⌘I
-            return remap(event, Self.keyI, flags: flags, remove: [.maskControl, .maskShift],
+        if hasShift && Self.types("i", keyCode: keyCode) && isEnabled("devTools") { // Ctrl+Shift+I → ⌥⌘I
+            return remap(event, Self.key(for: "i", usFallback: Self.keyI), flags: flags,
+                         remove: [.maskControl, .maskShift],
                          add: [.maskCommand, .maskAlternate])
         }
-        if keyCode == Self.keyH && !hasShift { // Ctrl+H → ⌥⌘F or ⌘Y
-            if isEnabled("findReplace") {
-                return remap(event, Self.keyF, flags: flags, remove: .maskControl,
-                             add: [.maskCommand, .maskAlternate])
-            }
-            if isEnabled("viewHistory") {
-                return remap(event, Self.keyY, flags: flags, remove: .maskControl, add: .maskCommand)
-            }
+        if Self.types("h", keyCode: keyCode) && !hasShift { // Ctrl+H → ⌥⌘F or ⌘Y
+            return ctrlHReplacement(event: event, flags: flags)
         }
         return nil
+    }
+
+    /// Ctrl+H is Find and Replace in code editors and View History in browsers.
+    private func ctrlHReplacement(event: CGEvent, flags: CGEventFlags) -> Bool? {
+        if isEnabled("findReplace") {
+            return remap(event, Self.key(for: "f", usFallback: Self.keyF), flags: flags,
+                         remove: .maskControl, add: [.maskCommand, .maskAlternate])
+        }
+        if isEnabled("viewHistory") {
+            return remap(event, Self.key(for: "y", usFallback: Self.keyY), flags: flags,
+                         remove: .maskControl, add: .maskCommand)
+        }
+        return nil
+    }
+
+    /// Whether the key at `keyCode` is the one that types `char` — or, on a
+    /// layout whose keys type no ASCII letters (Cyrillic, Greek, Korean),
+    /// the key that is `char` on a US keyboard: the old positional match
+    /// worked there, because macOS resolves ⌘-key-equivalents through an
+    /// ASCII-capable layout whatever the selected one types.
+    private static func types(_ char: String, keyCode: Int64) -> Bool {
+        let typed = KeyboardLayout.character(forKeyCode: keyCode)
+        if typed == char { return true }
+        guard let typed, KeyboardLayout.isLetter(typed) else {
+            return KeyboardLayout.usCharacter(forKeyCode: keyCode) == char
+        }
+        return false
+    }
+
+    /// The key that types `char` under the current layout, or its US position
+    /// when no layout can be read.
+    private static func key(for char: String, usFallback: Int64) -> Int64 {
+        KeyboardLayout.keyCode(forCharacter: char) ?? usFallback
     }
 
     // MARK: - Alt (Option) shortcuts
 
     private func handleAltKey(event: CGEvent, keyCode: Int64, flags: CGEventFlags, hasShift: Bool) -> Bool {
         if keyCode == Self.keyF4 && isEnabled("closeWindow") { // Alt+F4 → ⌘W
-            return remap(event, Self.keyW, flags: flags, remove: .maskAlternate, add: .maskCommand)
+            return remap(event, Self.key(for: "w", usFallback: Self.keyW), flags: flags,
+                         remove: .maskAlternate, add: .maskCommand)
         }
         if keyCode == Self.keyReturn && !hasShift && isEnabled("getInfo") { // Alt+Enter → ⌘I
-            return remap(event, Self.keyI, flags: flags, remove: .maskAlternate, add: .maskCommand)
+            return remap(event, Self.key(for: "i", usFallback: Self.keyI), flags: flags,
+                         remove: .maskAlternate, add: .maskCommand)
         }
-        if keyCode == Self.keyL && !hasShift && isEnabled("lockScreen") { // Alt+L → ⌃⌘Q
-            return remap(event, Self.keyQ, flags: flags, remove: .maskAlternate, add: [.maskCommand, .maskControl])
+        if Self.types("l", keyCode: keyCode) && !hasShift && isEnabled("lockScreen") { // Alt+L → ⌃⌘Q
+            return remap(event, Self.key(for: "q", usFallback: Self.keyQ), flags: flags,
+                         remove: .maskAlternate, add: [.maskCommand, .maskControl])
         }
         return false
     }
@@ -398,10 +502,12 @@ extension GnomeShortcutHandler {
             return remap(event, Self.keyReturn, flags: flags, add: [])
         }
         if keyCode == Self.keyF11 && isEnabled("fullscreen") { // F11 → ⌃⌘F
-            return remap(event, Self.keyF, flags: flags, add: [.maskCommand, .maskControl])
+            return remap(event, Self.key(for: "f", usFallback: Self.keyF), flags: flags,
+                         add: [.maskCommand, .maskControl])
         }
         if keyCode == Self.keyF12 && isEnabled("devToolsF12") { // F12 → ⌥⌘I
-            return remap(event, Self.keyI, flags: flags, add: [.maskCommand, .maskAlternate])
+            return remap(event, Self.key(for: "i", usFallback: Self.keyI), flags: flags,
+                         add: [.maskCommand, .maskAlternate])
         }
         return false
     }
