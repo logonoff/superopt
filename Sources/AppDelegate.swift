@@ -42,6 +42,7 @@ private enum CapsLockOSDText {
 @MainActor
 class AppDelegate: NSObject, NSApplicationDelegate {
     var eventTap: CFMachPort?
+    private var eventTapSource: CFRunLoopSource?
     private var statusItem: NSStatusItem!
     private var safetyTimer: Timer?
 
@@ -239,6 +240,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     // MARK: - Event Tap
     private func setupEventTap() -> Bool {
+        // A second tap would orphan the first one's run loop source.
+        guard eventTap == nil else { return true }
         let mask: CGEventMask =
             (1 << CGEventType.flagsChanged.rawValue)
             | (1 << CGEventType.keyDown.rawValue)
@@ -266,6 +269,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         self.eventTap = tap
         let source = CFMachPortCreateRunLoopSource(kCFAllocatorDefault, tap, 0)
         CFRunLoopAddSource(CFRunLoopGetCurrent(), source, .commonModes)
+        eventTapSource = source
         CGEvent.tapEnable(tap: tap, enable: true)
         // Caps Lock toggles that happened while no tap was listening left the
         // OSD's latch stale; resync so the next real toggle still shows.
@@ -330,6 +334,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         guard let tap = eventTap else { return }
         CGEvent.tapEnable(tap: tap, enable: false)
         CFMachPortInvalidate(tap)
+        // Core Foundation objects are ARC-managed from Swift, but a source
+        // left registered in .commonModes is retained by the run loop and
+        // would accumulate across permission flaps, so it has to be removed
+        // for the ARC release to take effect.
+        if let source = eventTapSource {
+            CFRunLoopRemoveSource(CFRunLoopGetCurrent(), source, .commonModes)
+            eventTapSource = nil
+        }
         eventTap = nil
     }
 }
