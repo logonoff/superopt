@@ -73,7 +73,11 @@ enum ElectronTerminalDetector {
     /// `AXEnhancedUserInterface`.
     ///
     /// Set once per process: the attribute reads back as `0` even once it has taken
-    /// effect, so whether it is on has to be tracked here rather than queried.
+    /// effect, so whether it is on has to be tracked here rather than queried. Pids
+    /// are recycled, so entries are dropped when their process terminates — without
+    /// that, a pid handed to a new process would be skipped forever and the
+    /// integrated terminal would go undetected in it for the rest of SuperOpt's
+    /// lifetime, remapping ⌃C into ⌘C over the shell.
     private static func enableAccessibility(for pid: pid_t) {
         installPidCleanupIfNeeded()
         guard !accessibilityEnabledPIDs.contains(pid) else { return }
