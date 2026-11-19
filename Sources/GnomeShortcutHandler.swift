@@ -332,10 +332,10 @@ extension GnomeShortcutHandler {
         if hasShift && keyCode == Self.keyRight && isEnabled("selectWordRight") { // Ctrl+Shift+→ → ⌥⇧→
             return remap(event, keyCode, flags: flags, remove: .maskControl, add: .maskAlternate)
         }
-        if keyCode == Self.keyLeft && isEnabled("wordLeft") { // Ctrl+← → ⌥←
+        if keyCode == Self.keyLeft && !hasShift && isEnabled("wordLeft") { // Ctrl+← → ⌥←
             return remap(event, keyCode, flags: flags, remove: .maskControl, add: .maskAlternate)
         }
-        if keyCode == Self.keyRight && isEnabled("wordRight") { // Ctrl+→ → ⌥→
+        if keyCode == Self.keyRight && !hasShift && isEnabled("wordRight") { // Ctrl+→ → ⌥→
             return remap(event, keyCode, flags: flags, remove: .maskControl, add: .maskAlternate)
         }
         if hasShift && keyCode == Self.keyDown && isEnabled("moveLineDown") { // Ctrl+Shift+↓ → ⌥↓
