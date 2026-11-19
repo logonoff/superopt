@@ -287,8 +287,12 @@ extension GnomeShortcutHandler {
     private func handleCtrlKey(event: CGEvent, keyCode: Int64, flags: CGEventFlags,
                                hasShift: Bool, isTerminal: Bool) -> Bool {
         // Terminal Ctrl+Shift shortcuts (must be checked before passthrough)
-        if isTerminal && hasShift,
-           let id = Self.terminalShiftMap[keyCode], isEnabled(id) {
+        if isTerminal && hasShift, let id = Self.terminalShiftMap[keyCode] {
+            // The chord belongs to the terminal set whether or not its
+            // shortcut is on: disabling it restores passthrough rather than
+            // falling through to the Tabs & Windows mapping of the same
+            // chord (⌃⇧T would silently become Reopen Closed Tab).
+            guard isEnabled(id) else { return false }
             return remap(event, keyCode, flags: flags, remove: [.maskControl, .maskShift], add: .maskCommand)
         }
         if isTerminal && Self.terminalPassthroughKeys.contains(keyCode) { return false }
