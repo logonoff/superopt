@@ -90,12 +90,8 @@ Single-target Swift app compiled with `swiftc` (no Xcode project, no SPM). All s
 
 ```bash
 ./build.sh        # compiles Sources/*.swift → build/SuperOpt.app
-./install.sh      # moves to /Applications (builds first if needed)
-./install.sh --run # install and launch
-```
-
-```bash
-make run          # kill → clean → install --run: the way to run a change
+make install      # moves to /Applications (builds first if needed)
+make run          # kill → clean → install → open: the way to run a change
 ```
 
 **To run a change, use `make run`** — it replaces the instance already running, so there is only ever one SuperOpt on the machine. Launching a second build out of `build/` or a scratch worktree leaves two SuperOpt processes competing for the same event tap and the same defaults domain, and both answer to the name "SuperOpt", so accessibility and `pgrep` lookups silently measure the wrong one. Use `./build.sh` to check that a change compiles; use `make run` to see it work.
@@ -217,7 +213,7 @@ The signing identity is read from `CODESIGN_IDENTITY` in `.env` (local) or envir
 
 GitHub Actions workflow at `.github/workflows/release.yml` — triggers on `x.y.z` tags, builds on `xcode-27`, creates a GitHub release with `SuperOpt.zip` attached. Release notes are generated from `git log` since the previous tag. The CI imports a signing certificate from repository secrets (`CODESIGN_P12`, `CODESIGN_P12_PASSWORD`, `CODESIGN_IDENTITY`) into a temporary keychain for code signing. After the release, the workflow auto-updates the Homebrew cask (`Casks/superopt.rb`) with the new version and SHA via the GraphQL API (signed commit), then triggers a `repository_dispatch` to `logonoff/homebrew-bucket` to sync the cask there too.
 
-A `Makefile` is also available with targets: `build`, `install`, `run` (kill → clean → install --run; see Build & Install), `kill`, `clean`.
+A `Makefile` is also available with targets: `build`, `install` (moves to /Applications, building first if needed), `run` (kill → clean → install → open; see Build & Install), `kill`, `clean`.
 
 ## Homebrew
 

@@ -20,7 +20,7 @@ brew install --cask logonoff/bucket/superopt
 Or build from source:
 
 ```
-./build.sh && ./install.sh
+make install
 ```
 
 ### Gatekeeper
