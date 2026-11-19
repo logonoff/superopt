@@ -23,7 +23,10 @@ class ScrollZoomHandler {
 
     /// Returns true if the event was consumed.
     func handleScroll(event: CGEvent) -> Bool {
-        guard mode != .off,
+        // Checked before the frontmost-app lookup: this runs for every scroll
+        // event at trackpad frequency, and the feature is off by default.
+        guard mode != .off else { return false }
+        guard KeyboardUtils.isBrowserApp(),
               event.flags.contains(.maskControl),
               !event.flags.contains(.maskCommand)
         else { return false }
