@@ -34,10 +34,12 @@ enum ElectronTerminalDetector {
     /// embeds xterm.js.
     private static let terminalClassName = "xterm-helper-textarea"
 
-    /// Only ever touched from the CGEvent tap callback, which runs on the main run
-    /// loop, so no synchronisation is needed. Matches how the other KeyboardUtils
-    /// helpers this sits behind are written.
+    /// Only ever touched from the CGEvent tap callback and the
+    /// didTerminateApplicationNotification observer — both run on the main
+    /// run loop — so no synchronisation is needed. Matches how the other
+    /// KeyboardUtils helpers this sits behind are written.
     nonisolated(unsafe) private static var accessibilityEnabledPIDs: Set<pid_t> = []
+    nonisolated(unsafe) private static var pidCleanupInstalled = false
 
     static func isFocusedOnIntegratedTerminal() -> Bool {
         guard UserDefaults.standard.bool(forKey: defaultsKey),
@@ -73,10 +75,24 @@ enum ElectronTerminalDetector {
     /// Set once per process: the attribute reads back as `0` even once it has taken
     /// effect, so whether it is on has to be tracked here rather than queried.
     private static func enableAccessibility(for pid: pid_t) {
+        installPidCleanupIfNeeded()
         guard !accessibilityEnabledPIDs.contains(pid) else { return }
         accessibilityEnabledPIDs.insert(pid)
         AXUIElementSetAttributeValue(
             AXUIElementCreateApplication(pid),
             "AXManualAccessibility" as CFString, kCFBooleanTrue)
+    }
+
+    private static func installPidCleanupIfNeeded() {
+        guard !pidCleanupInstalled else { return }
+        pidCleanupInstalled = true
+        _ = NSWorkspace.shared.notificationCenter.addObserver(
+            forName: NSWorkspace.didTerminateApplicationNotification,
+            object: nil, queue: .main
+        ) { note in
+            guard let app = note.userInfo?[NSWorkspace.applicationUserInfoKey]
+                as? NSRunningApplication else { return }
+            accessibilityEnabledPIDs.remove(app.processIdentifier)
+        }
     }
 }
