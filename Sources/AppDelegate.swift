@@ -261,6 +261,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let source = CFMachPortCreateRunLoopSource(kCFAllocatorDefault, tap, 0)
         CFRunLoopAddSource(CFRunLoopGetCurrent(), source, .commonModes)
         CGEvent.tapEnable(tap: tap, enable: true)
+        // Caps Lock toggles that happened while no tap was listening left the
+        // OSD's latch stale; resync so the next real toggle still shows.
+        resyncCapsLockLatch()
         return true
     }
 
@@ -278,6 +281,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 }
             }
         }
+    }
+
+    /// Caps Lock toggles that happened while no tap was listening leave the
+    /// OSD's latch stale; resync so the next real toggle still shows.
+    private func resyncCapsLockLatch() {
+        lastCapsLockState = NSEvent.modifierFlags.contains(.capsLock)
     }
 
     func tearDownEventTap() {
@@ -465,11 +474,15 @@ extension AppDelegate {
     /// Returns true if the event should be consumed.
     @discardableResult
     func handleEvent(type: CGEventType, event: CGEvent) -> Bool {
+        // Caps Lock transitions are tracked even while the active app is
+        // excluded or the OSD is off: a skipped toggle would leave the latch
+        // stale and silently eat the next real toggle's notification.
+        if type == .flagsChanged { trackCapsLock(event: event) }
         // Every handler below is off in an excluded app, including the ones that read
         // their own setting rather than going through `isEnabled`.
         guard !excludedApps.isSuspended else { return false }
         switch type {
-        case .flagsChanged: handleFlagsChanged(event: event)
+        case .flagsChanged: optionKeyHandler.handleFlagsChanged(event: event)
         case .keyDown: return handleKeyDown(event: event)
         case .leftMouseDown, .rightMouseDown, .otherMouseDown:
             return handleMouseDown(type: type, event: event)
@@ -501,7 +514,7 @@ extension AppDelegate {
         if isEnabled("spaceScrollEnabled") && spaceScrollHandler.handleScroll(event: event) {
             return true
         }
-        return KeyboardUtils.isBrowserApp() && scrollZoomHandler.handleScroll(event: event)
+        return scrollZoomHandler.handleScroll(event: event)
     }
 
     private func handleMouseMoved(event: CGEvent) -> Bool {
@@ -530,12 +543,13 @@ extension AppDelegate {
         return false
     }
 
-    private func handleFlagsChanged(event: CGEvent) {
-        optionKeyHandler.handleFlagsChanged(event: event)
-        guard isEnabled("lockKeyOSDEnabled") else { return }
+    /// Shows the Caps Lock OSD on a toggle. State tracking lives in
+    /// `trackCapsLock`, which runs even when this does not.
+    private func trackCapsLock(event: CGEvent) {
         let capsLockOn = event.flags.contains(.maskAlphaShift)
         guard capsLockOn != lastCapsLockState else { return }
         lastCapsLockState = capsLockOn
+        guard isEnabled("lockKeyOSDEnabled") else { return }
         lockKeyOSD.show(text: capsLockOn ? CapsLockOSDText.turnedOn : CapsLockOSDText.turnedOff, active: capsLockOn)
     }
 
