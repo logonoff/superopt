@@ -128,14 +128,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if !UserDefaults.standard.bool(forKey: "clickThroughFocusEnabled") {
             clickThroughFocusHandler.reset()
         }
-    }
-
-    /// The monitor is shared, so it runs whenever any feature that needs to know
-    /// about Mission Control is on, and not at all otherwise.
-    private func updateMissionControlMonitor() {
-        if !excludedApps.isSuspended && (isEnabled("mcCloseEnabled") || mcSearchHandler.isEnabled) {
-            mcMonitor.start()
-        } else { mcMonitor.stop() }
+        // Unlike the click-through replay, a pending middle-click paste is new
+        // synthetic input rather than the user's own click restored, so
+        // switching the feature off (or into an excluded app) abandons it.
+        if !isEnabled("middleClickPasteEnabled") {
+            middleClickPasteHandler.reset()
+        }
     }
 
     /// Switching into or out of an excluded app. The menu bar icon dims, anything
@@ -231,6 +229,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             | (1 << CGEventType.leftMouseUp.rawValue)
             | (1 << CGEventType.rightMouseDown.rawValue)
             | (1 << CGEventType.otherMouseDown.rawValue)
+            | (1 << CGEventType.otherMouseUp.rawValue)
             | (1 << CGEventType.mouseMoved.rawValue)
             | (1 << CGEventType.scrollWheel.rawValue)
 
@@ -462,6 +461,8 @@ extension AppDelegate {
         case .leftMouseDown, .rightMouseDown, .otherMouseDown:
             return handleMouseDown(type: type, event: event)
         case .leftMouseUp: return handleMouseUp(event: event)
+        case .otherMouseUp:
+            return middleClickPasteHandler.handleMouseUp(event: event)
         case .mouseMoved: return handleMouseMoved(event: event)
         case .scrollWheel: return handleScroll(event: event)
         default: break
@@ -471,6 +472,16 @@ extension AppDelegate {
 
     private func handleMouseUp(event: CGEvent) -> Bool {
         isEnabled("clickThroughFocusEnabled") && clickThroughFocusHandler.handleMouseUp(event: event)
+    }
+
+    /// The monitor is shared, so it runs whenever any feature that needs to know
+    /// about Mission Control is on, and not at all otherwise.
+    func updateMissionControlMonitor() {
+        if !excludedApps.isSuspended && (isEnabled("mcCloseEnabled") || mcSearchHandler.isEnabled) {
+            mcMonitor.start()
+        } else {
+            mcMonitor.stop()
+        }
     }
 
     private func handleScroll(event: CGEvent) -> Bool {

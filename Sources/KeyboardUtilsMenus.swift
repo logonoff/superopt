@@ -1,9 +1,33 @@
 import Cocoa
 
-// Pressing a menu item is how window tiling is triggered: the Window menu's
-// Fill / Left / Right / Return to Previous Size items have no public API and no
-// stable titles across locales, so they are matched by their key equivalent.
+// KeyboardUtils grew past the type-body limit, so shared helpers live here.
+// Originally the AX menu-bar search that window tiling triggers (the Window
+// menu's Fill / Left / Right / Return to Previous Size items have no public
+// API and no stable titles across locales, so they are matched by their key
+// equivalent); now also the general AX helpers several handlers share.
 extension KeyboardUtils {
+    /// The AX roles that count as a text field, shared by the handlers that
+    /// classify click targets and check keyboard focus.
+    /// "AXSearchField" is Chromium's role for a search field; AppKit exposes
+    /// the same string only as a subrole constant.
+    static let textRoles: Set<String> = [
+        kAXTextFieldRole, kAXTextAreaRole, kAXComboBoxRole, "AXSearchField"
+    ]
+
+    /// The app's focused window as a CGWindowID, via the private
+    /// `_AXUIElementGetWindow` — no public API bridges an AX window element
+    /// to its compositor window ID.
+    static func focusedWindowID(pid: pid_t) -> UInt32? {
+        guard let getWindow = axGetWindow else { return nil }
+        var ref: AnyObject?
+        guard AXUIElementCopyAttributeValue(
+            AXUIElementCreateApplication(pid), kAXFocusedWindowAttribute as CFString, &ref
+        ) == .success, let window = ref.flatMap(toAXElement) else { return nil }
+        var windowID: UInt32 = 0
+        guard getWindow(window, &windowID) == 0 else { return nil }
+        return windowID
+    }
+
     private static let tilingModifier = 28
 
     static func pressTilingMenuItem(pid: pid_t, char: String) -> Bool {

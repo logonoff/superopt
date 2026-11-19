@@ -2,7 +2,7 @@
 "A black bar appears behind the menu bar when a window fills the screen" = "윈도우가 화면을 채울 때 메뉴 막대 뒤에 검은색 막대가 나타납니다";
 
 /* No comment provided by engineer. */
-"A middle click pastes; middle-clicking a Dock icon opens a new window" = "가운데 버튼으로 클릭하면 붙여넣을 수 있고, Dock 아이콘을 가운데 버튼으로 클릭하면 새로운 윈도우가 열립니다";
+"A middle click pastes the selected text, or the contents of the Clipboard if nothing is selected; middle-clicking a Dock app icon opens a new window" = "가운데 버튼으로 클릭하면 선택한 텍스트를 붙여넣고, 선택한 텍스트가 없으면 클립보드의 내용을 붙여넣습니다. Dock의 앱 아이콘을 가운데 버튼으로 클릭하면 새로운 윈도우가 열립니다";
 
 /* Menu item to show about panel */
 "About SuperOpt" = "SuperOpt에 관하여";

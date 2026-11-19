@@ -2,7 +2,7 @@
 "A black bar appears behind the menu bar when a window fills the screen" = "Affiche une barre noire derrière la barre des menus lorsqu’une fenêtre remplit l’écran";
 
 /* No comment provided by engineer. */
-"A middle click pastes; middle-clicking a Dock icon opens a new window" = "Un clic avec le bouton du milieu colle ; un clic avec le bouton du milieu sur une icône du Dock ouvre une nouvelle fenêtre";
+"A middle click pastes the selected text, or the contents of the Clipboard if nothing is selected; middle-clicking a Dock app icon opens a new window" = "Un clic avec le bouton du milieu colle le texte sélectionné, ou le contenu du presse-papiers si rien n’est sélectionné ; sur l’icône d’une app du Dock, il ouvre une nouvelle fenêtre";
 
 /* Menu item to show about panel */
 "About SuperOpt" = "À propos de SuperOpt";

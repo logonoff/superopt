@@ -251,7 +251,11 @@ struct InputPane: View {
             Section {
                 Toggle(isOn: $middleClickPaste) {
                     Text("Middle-Click Paste")
-                    Text("A middle click pastes; middle-clicking a Dock icon opens a new window")
+                    Text("""
+                        A middle click pastes the selected text, or the contents of the \
+                        Clipboard if nothing is selected; middle-clicking a Dock app icon \
+                        opens a new window
+                        """)
                 }
 
                 Toggle(isOn: $clickThroughFocus) {

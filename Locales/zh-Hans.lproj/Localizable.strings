@@ -2,7 +2,7 @@
 "A black bar appears behind the menu bar when a window fills the screen" = "窗口填充桌面时，菜单栏后面会显示黑色横条";
 
 /* No comment provided by engineer. */
-"A middle click pastes; middle-clicking a Dock icon opens a new window" = "点按鼠标中键可粘贴；用鼠标中键点按程序坞中的图标会打开新窗口";
+"A middle click pastes the selected text, or the contents of the Clipboard if nothing is selected; middle-clicking a Dock app icon opens a new window" = "点按鼠标中键会粘贴所选文本，若未选择文本，则粘贴剪贴板内容；用鼠标中键点按程序坞中的 App 图标会打开新窗口";
 
 /* Menu item to show about panel */
 "About SuperOpt" = "关于 SuperOpt";

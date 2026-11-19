@@ -47,6 +47,7 @@ enum KeyboardUtils {
         for isDown in [true, false] {
             guard let event = CGEvent(
                 keyboardEventSource: src, virtualKey: 0, keyDown: isDown) else { return }
+            event.flags = []
             event.keyboardSetUnicodeString(
                 stringLength: utf16.count, unicodeString: &utf16)
             event.setIntegerValueField(.eventSourceUserData, value: syntheticTag)
@@ -242,9 +243,6 @@ enum KeyboardUtils {
         AXUIElementCopyAttributeValue(axElement, kAXRoleAttribute as CFString, &roleValue)
         guard let role = roleValue as? String else { return false }
 
-        let textRoles: Set<String> = [
-            kAXTextFieldRole, kAXTextAreaRole, kAXComboBoxRole, "AXSearchField"
-        ]
         return textRoles.contains(role)
     }
 

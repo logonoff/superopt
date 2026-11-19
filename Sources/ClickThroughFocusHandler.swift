@@ -173,19 +173,8 @@ class ClickThroughFocusHandler {
         // Same app, different window — macOS swallows that press too. This is the
         // case of two browser windows, where pausing a video in the back one takes
         // a click to focus it and a second click to hit the button.
-        guard let focused = focusedWindowID(pid: target.pid) else { return false }
+        guard let focused = KeyboardUtils.focusedWindowID(pid: target.pid) else { return false }
         return focused != target.windowID
-    }
-
-    private func focusedWindowID(pid: pid_t) -> UInt32? {
-        guard let getWindow = KeyboardUtils.axGetWindow else { return nil }
-        var ref: AnyObject?
-        guard AXUIElementCopyAttributeValue(
-            AXUIElementCreateApplication(pid), kAXFocusedWindowAttribute as CFString, &ref
-        ) == .success, let window = ref.flatMap(KeyboardUtils.toAXElement) else { return nil }
-        var windowID: UInt32 = 0
-        guard getWindow(window, &windowID) == 0 else { return nil }
-        return windowID
     }
 
     // MARK: - Replay

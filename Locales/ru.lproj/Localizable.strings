@@ -2,7 +2,7 @@
 "A black bar appears behind the menu bar when a window fills the screen" = "Показывает черную полосу за строкой меню, когда окно заполняет экран";
 
 /* No comment provided by engineer. */
-"A middle click pastes; middle-clicking a Dock icon opens a new window" = "Щелчок средней кнопкой вставляет текст; щелчок средней кнопкой по значку в Dock открывает новое окно";
+"A middle click pastes the selected text, or the contents of the Clipboard if nothing is selected; middle-clicking a Dock app icon opens a new window" = "Щелчок средней кнопкой вставляет выделенный текст, а если ничего не выделено — содержимое буфера обмена; щелчок средней кнопкой по значку приложения в Dock открывает новое окно";
 
 /* Menu item to show about panel */
 "About SuperOpt" = "О программе SuperOpt";

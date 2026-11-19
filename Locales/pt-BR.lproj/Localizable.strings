@@ -2,7 +2,7 @@
 "A black bar appears behind the menu bar when a window fills the screen" = "Mostra uma barra preta atrás da barra de menus quando uma janela preenche a tela";
 
 /* No comment provided by engineer. */
-"A middle click pastes; middle-clicking a Dock icon opens a new window" = "Um clique com o botão do meio cola; um clique com o botão do meio em um ícone do Dock abre uma nova janela";
+"A middle click pastes the selected text, or the contents of the Clipboard if nothing is selected; middle-clicking a Dock app icon opens a new window" = "Clicar com o botão do meio cola o texto selecionado ou, se nada estiver selecionado, o conteúdo da área de transferência; clicar com o botão do meio em um ícone de app do Dock abre uma nova janela";
 
 /* Menu item to show about panel */
 "About SuperOpt" = "Sobre o SuperOpt";

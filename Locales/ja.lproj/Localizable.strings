@@ -2,7 +2,7 @@
 "A black bar appears behind the menu bar when a window fills the screen" = "ウインドウが画面全体に広がっているとき、メニューバーの背後に黒いバーを表示します";
 
 /* No comment provided by engineer. */
-"A middle click pastes; middle-clicking a Dock icon opens a new window" = "中クリックでペーストします。また、Dockのアイコンを中クリックすると、新規ウインドウを開きます";
+"A middle click pastes the selected text, or the contents of the Clipboard if nothing is selected; middle-clicking a Dock app icon opens a new window" = "中クリックすると、選択したテキストをペーストします。何も選択されていない場合はクリップボードの内容をペーストします。また、Dockのアプリアイコンを中クリックすると、新規ウインドウを開きます";
 
 /* Menu item to show about panel */
 "About SuperOpt" = "SuperOptについて";

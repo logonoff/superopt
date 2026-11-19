@@ -2,7 +2,7 @@
 "A black bar appears behind the menu bar when a window fills the screen" = "يظهر شريط أسود خلف شريط القوائم عندما تملأ النافذة الشاشة";
 
 /* No comment provided by engineer. */
-"A middle click pastes; middle-clicking a Dock icon opens a new window" = "يلصق النقر الأوسط؛ ويؤدي النقر الأوسط على أيقونة في شريط الأيقونات إلى فتح نافذة جديدة";
+"A middle click pastes the selected text, or the contents of the Clipboard if nothing is selected; middle-clicking a Dock app icon opens a new window" = "يؤدي النقر بالزر الأوسط إلى لصق النص المحدد، أو محتويات الحافظة إذا لم يكن هناك نص محدد؛ والنقر بالزر الأوسط على أيقونة التطبيق في شريط الأيقونات يفتح نافذة جديدة";
 
 /* Menu item to show about panel */
 "About SuperOpt" = "حول SuperOpt";
