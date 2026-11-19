@@ -271,8 +271,12 @@ extension MiddleClickPasteHandler {
 // MARK: - New window
 
 extension MiddleClickPasteHandler {
-    /// Time for the app to come forward before ⌘N is aimed at it.
-    private static let activationDelay: TimeInterval = 0.15
+    /// How long to keep waiting for a Dock-launched app to come forward before
+    /// ⌘N is aimed at it. Named distinctly from the deferred paste's
+    /// `activationTimeout` in MiddleClickPasteWindow.swift — extensions of
+    /// this class move between the two files, and a bare reference would
+    /// silently rebind to the other value.
+    private static let dockActivationTimeout: TimeInterval = 1.0
     /// How long a reopened app is given to put up a window of its own.
     private static let reopenGrace: TimeInterval = 0.6
 
@@ -294,11 +298,10 @@ extension MiddleClickPasteHandler {
         // Activating an app with no windows left makes AppKit's reopen handling
         // open one, so a ⌘N on top of that is a second window.
         let hadWindows = Self.windowCount(pid: pid) > 0
-        let activationDelay = Self.activationDelay
         NSWorkspace.shared.openApplication(at: appURL, configuration: config) { _, _ in
-            DispatchQueue.main.asyncAfter(deadline: .now() + activationDelay) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
                 if hadWindows {
-                    Self.postNewWindow(pid: pid, generation: generation)
+                    Self.postNewWindow(pid: pid, deadline: Date() + Self.dockActivationTimeout, generation: generation)
                 } else {
                     Self.postNewWindowIfReopenDidNot(
                         pid: pid, deadline: Date() + Self.reopenGrace, generation: generation)
@@ -314,18 +317,38 @@ extension MiddleClickPasteHandler {
     ) {
         guard generation == MiddleClickPasteHandler.generation else { return }
         guard windowCount(pid: pid) == 0 else { return }
-        guard Date() < deadline else { return postNewWindow(pid: pid, generation: generation) }
+        guard Date() < deadline else {
+            // The reopen path's last chance: a single look, not a wait.
+            // Polling here would fire the ⌘N the moment a slow activation
+            // lands — right before the reopen's own window appears — and
+            // open a second one.
+            return postNewWindowIfFrontmost(pid: pid, generation: generation)
+        }
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             postNewWindowIfReopenDidNot(pid: pid, deadline: deadline, generation: generation)
         }
     }
 
-    private static func postNewWindow(pid: pid_t, generation: Int) {
+    private static func postNewWindowIfFrontmost(pid: pid_t, generation: Int) {
+        guard generation == MiddleClickPasteHandler.generation else { return }
+        guard NSWorkspace.shared.frontmostApplication?.processIdentifier == pid else { return }
+        KeyboardUtils.postKey(keyN, flags: .maskCommand) // ⌘N
+    }
+
+    private static func postNewWindow(pid: pid_t, deadline: Date, generation: Int) {
         guard generation == MiddleClickPasteHandler.generation else { return }
         // ⌘N goes to whichever app is frontmost at delivery time; posting it
         // after the user has moved on would open a window in the wrong app.
-        guard NSWorkspace.shared.frontmostApplication?.processIdentifier == pid else { return }
-        KeyboardUtils.postKey(keyN, flags: .maskCommand) // ⌘N
+        // Activation is asynchronous and can take well past a fixed delay, so
+        // it is polled for rather than assumed.
+        if NSWorkspace.shared.frontmostApplication?.processIdentifier == pid {
+            KeyboardUtils.postKey(keyN, flags: .maskCommand) // ⌘N
+            return
+        }
+        guard Date() < deadline else { return }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            postNewWindow(pid: pid, deadline: deadline, generation: generation)
+        }
     }
 
     /// The windows the app has, minimized and hidden ones included. Read through
