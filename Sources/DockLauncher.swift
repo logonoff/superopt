@@ -41,6 +41,10 @@ class DockLauncher {
               !event.flags.contains(.maskShift),
               let number = Self.numberKeyCodes[keyCode]
         else { return false }
+        // Held keys autorepeat, and each repeat would relaunch the app. The
+        // chord is already handled, so the repeats are consumed rather than
+        // typed into whatever has focus.
+        guard event.getIntegerValueField(.keyboardEventAutorepeat) == 0 else { return true }
         let position = number == finderPosition ? 1 : (number < finderPosition ? number + 1 : number)
         launch(position: position)
         return true

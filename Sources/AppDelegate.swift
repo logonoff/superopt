@@ -549,6 +549,10 @@ extension AppDelegate {
               !event.flags.contains(.maskShift),
               event.getIntegerValueField(.keyboardEventKeycode) == 0x00
         else { return false }
+        // Held keys autorepeat, and the Apps key toggles — repeats would
+        // strobe the panel open and closed. The chord is already handled, so
+        // the repeats are consumed rather than typed into whatever has focus.
+        guard event.getIntegerValueField(.keyboardEventAutorepeat) == 0 else { return true }
         triggerSpotlight()
         return true
     }
