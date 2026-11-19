@@ -20,6 +20,7 @@ class GnomeShortcutHandler {
     // MARK: - Terminal detection
 
     private static let terminalPassthroughKeys: Set<Int64> = [
+        0x00, // A - beginning of line
         0x08, // C - interrupt
         0x02, // D - EOF
         0x0E, // E - end of line
