@@ -15,6 +15,10 @@ final class OSDPanel {
     private var shownSize: NSSize = .zero
     private var shownFrames: [NSRect] = []
     private var dismissWorkItem: DispatchWorkItem?
+    /// Per-window fade generation, bumped by every fade so a delayed fallback
+    /// whose fade was superseded (a re-show or dismissal mid-fade) no-ops
+    /// instead of landing a stale alpha.
+    private var fadeGenerations: [ObjectIdentifier: Int] = [:]
 
     init(displayDuration: TimeInterval, fadeDuration: TimeInterval) {
         self.displayDuration = displayDuration
@@ -88,24 +92,44 @@ final class OSDPanel {
         return window
     }
 
-    private func fade(_ window: NSWindow, to alpha: CGFloat) {
-        guard window.alphaValue != alpha else { return }
-        NSAnimationContext.runAnimationGroup { ctx in
-            ctx.duration = fadeDuration
-            window.animator().alphaValue = alpha
+    /// Fades the window to an alpha, delivering `completion` once the value has
+    /// arrived. The animation is not trusted to finish: in a session whose window
+    /// animations have stopped running (measured after one display rearrangement
+    /// — animator alpha changes never progressed, in this app and in a bare probe
+    /// alike, while direct alpha sets worked), the delayed block lands the value
+    /// itself. It is also the only deliverer of the completion — a completion
+    /// handed to the animation group is retained forever by a group that never
+    /// finishes, holding the window with it — and the generation counter retires
+    /// a block whose fade a later re-show or dismissal has superseded. The block
+    /// keeps the window alive until it has delivered.
+    private func fade(_ window: NSWindow, to alpha: CGFloat, completion: (() -> Void)? = nil) {
+        let key = ObjectIdentifier(window)
+        let generation = (fadeGenerations[key] ?? 0) + 1
+        fadeGenerations[key] = generation
+        if window.alphaValue != alpha {
+            NSAnimationContext.runAnimationGroup { ctx in
+                ctx.duration = fadeDuration
+                window.animator().alphaValue = alpha
+            }
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + fadeDuration + 0.05) { [weak self] in
+            MainActor.assumeIsolated {
+                guard let self = self, self.fadeGenerations[key] == generation else { return }
+                self.fadeGenerations.removeValue(forKey: key)
+                if window.alphaValue != alpha { window.alphaValue = alpha }
+                completion?()
+            }
         }
     }
 
     private func dismiss() {
-        for window in windows {
-            NSAnimationContext.runAnimationGroup({ ctx in
-                ctx.duration = fadeDuration
-                window.animator().alphaValue = 0
-            }, completionHandler: { window.orderOut(nil) })
-        }
+        let dismissing = windows
         windows = []
         shownSize = .zero
         shownFrames = []
+        for window in dismissing {
+            fade(window, to: 0, completion: { window.orderOut(nil) })
+        }
     }
 }
 

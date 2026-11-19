@@ -33,6 +33,12 @@ func eventTapCallback(
     }
 }
 
+/// The Caps Lock OSD's status strings, localized once.
+private enum CapsLockOSDText {
+    static let turnedOn = NSLocalizedString("Caps Lock On", comment: "OSD text when Caps Lock is turned on")
+    static let turnedOff = NSLocalizedString("Caps Lock Off", comment: "OSD text when Caps Lock is turned off")
+}
+
 @MainActor
 class AppDelegate: NSObject, NSApplicationDelegate {
     var eventTap: CFMachPort?
@@ -183,6 +189,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if isEnabled("menuBarBgEnabled") && !systemMenuBarBg { menuBarBackground.start() }
 
         lastCapsLockState = NSEvent.modifierFlags.contains(.capsLock)
+
+        // Before the event tap exists: the OSD measures its labels by rasterizing
+        // them, which draws — slow work for the tap callback, where a slow
+        // callback gets the tap disabled by timeout.
+        lockKeyOSD.prepare(texts: [CapsLockOSDText.turnedOn, CapsLockOSDText.turnedOff])
 
         if isEnabled("mcCloseEnabled") { mcCloseHandler?.start() }
         updateMissionControlMonitor()
@@ -523,9 +534,7 @@ extension AppDelegate {
         let capsLockOn = event.flags.contains(.maskAlphaShift)
         guard capsLockOn != lastCapsLockState else { return }
         lastCapsLockState = capsLockOn
-        let onText = NSLocalizedString("Caps Lock On", comment: "OSD text when Caps Lock is turned on")
-        let offText = NSLocalizedString("Caps Lock Off", comment: "OSD text when Caps Lock is turned off")
-        lockKeyOSD.show(text: capsLockOn ? onText : offText, active: capsLockOn)
+        lockKeyOSD.show(text: capsLockOn ? CapsLockOSDText.turnedOn : CapsLockOSDText.turnedOff, active: capsLockOn)
     }
 
     /// ⌥A → Spotlight Apps. Its own feature toggle, separate from shortcut remapping.
