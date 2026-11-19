@@ -39,6 +39,11 @@ class HomeEndHandler {
         }
 
         if KeyboardUtils.isTerminalApp() { return false }
+        // Only ⌃ and ⇧ combine with Home/End here. ⌥Home and ⌘Home belong to
+        // whatever the app binds them to, not to this remap.
+        if event.flags.contains(.maskAlternate) || event.flags.contains(.maskCommand) {
+            return false
+        }
         guard KeyboardUtils.isFocusedOnTextField() else { return false }
 
         let isHome = keyCode == HomeEndHandler.keyHome
