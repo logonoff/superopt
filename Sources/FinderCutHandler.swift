@@ -60,10 +60,14 @@ class FinderCutHandler {
             return true
         }
 
-        if keyCode == Self.keyV && cutIsOnPasteboard() {
+        if keyCode == Self.keyV && cutPending {
+            // A stale cut falls back to an ordinary paste: the pasteboard
+            // holds something the user did not cut here, and moving it would
+            // take files out of a folder they never cut them from.
+            let move = cutIsOnPasteboard()
             var newFlags = flags
             newFlags.remove(.maskControl)
-            newFlags.insert([.maskCommand, .maskAlternate])
+            newFlags.insert(move ? [.maskCommand, .maskAlternate] : .maskCommand)
             KeyboardUtils.postKey(Self.keyV, flags: newFlags)
             cutPending = false
             return true
@@ -85,9 +89,12 @@ class FinderCutHandler {
             return true
         }
 
-        if keyCode == Self.keyV && cutIsOnPasteboard() {
+        if keyCode == Self.keyV && cutPending {
+            // A stale cut falls back to an ordinary paste rather than moving
+            // something the user did not cut here.
+            let move = cutIsOnPasteboard()
             var newFlags = flags
-            newFlags.insert(.maskAlternate)
+            if move { newFlags.insert(.maskAlternate) }
             KeyboardUtils.postKey(Self.keyV, flags: newFlags)
             cutPending = false
             return true
@@ -107,13 +114,18 @@ class FinderCutHandler {
     /// Whether the files marked as cut are still the ones on the pasteboard.
     ///
     /// Finder's copy bumps the change count exactly once — measured for a single file
-    /// and for a multiple selection alike — so anything past that is a copy made
-    /// somewhere this handler cannot see: the Edit menu, a context menu, another app.
-    /// Pasting then has to copy like any other paste, because moving files the user
+    /// and for a multiple selection alike — so only that result means the cut's own
+    /// copy landed. An unmoved count means it never did: an empty selection, or a
+    /// volume too slow to have processed the ⌘C by the time ⌘V was pressed. Either
+    /// way the pasteboard still holds whatever was copied before the cut, and moving
+    /// that would take files the user never cut out of the folder they are in, so
+    /// the paste falls back to copying like any other paste. Anything past +1 is a
+    /// copy made somewhere this handler cannot see: the Edit menu, a context menu,
+    /// another app — pasting then has to copy too, because moving files the user
     /// only copied takes them out of the folder they are looking at.
     private func cutIsOnPasteboard() -> Bool {
         guard cutPending else { return false }
-        guard NSPasteboard.general.changeCount <= cutChangeCount + 1 else {
+        guard NSPasteboard.general.changeCount == cutChangeCount + 1 else {
             cutPending = false
             return false
         }
