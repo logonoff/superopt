@@ -115,6 +115,13 @@ class MenuKeyHandler {
               let mouseUp = CGEvent(mouseEventSource: src, mouseType: .rightMouseUp,
                                     mouseCursorPosition: point, mouseButton: .right)
         else { return false }
+        // Tagged and flag-cleared like every other synthetic mouse event, so a
+        // future right-mouse handler can tell them from real clicks — and so
+        // they do not inherit whatever modifiers happen to be held.
+        mouseDown.flags = []
+        mouseUp.flags = []
+        mouseDown.setIntegerValueField(.eventSourceUserData, value: KeyboardUtils.syntheticTag)
+        mouseUp.setIntegerValueField(.eventSourceUserData, value: KeyboardUtils.syntheticTag)
         mouseDown.post(tap: .cgSessionEventTap)
         mouseUp.post(tap: .cgSessionEventTap)
 
