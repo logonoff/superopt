@@ -85,6 +85,17 @@ class MissionControlSearchHandler {
         if monitor.isActive { handledActivation = monitor.activationID }
     }
 
+    /// Ends any in-flight session, e.g. when the active app becomes one of
+    /// the excluded apps. A pending session is synthetic input in flight —
+    /// the same category as a pending middle-click paste — so switching into
+    /// an excluded app abandons it: the session's own posting would run
+    /// while the feature is contractually off there, and keystrokes typed
+    /// during suspension would no longer be intercepted, landing in
+    /// Spotlight ahead of the stale buffer's late injection.
+    func reset() {
+        finish()
+    }
+
     /// Returns true if the event was consumed.
     func handleKeyDown(event: CGEvent) -> Bool {
         guard mode != .off else { return false }

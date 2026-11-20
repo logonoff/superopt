@@ -149,6 +149,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private func applyExclusion() {
         statusItem?.button?.alphaValue = excludedApps.isSuspended ? 0.5 : 1
         if excludedApps.isSuspended { snapAssistPanel?.dismiss() }
+        // A pending type-to-search session keeps posting synthetic input and
+        // intercepting keystrokes from its own timers — the handleEvent
+        // suspension guard only blocks new events — so it is abandoned on
+        // the way into an excluded app, like the middle-click paste is.
+        if excludedApps.isSuspended { mcSearchHandler.reset() }
         defaultsChanged()
     }
 
