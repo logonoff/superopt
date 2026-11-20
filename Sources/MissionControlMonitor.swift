@@ -39,11 +39,20 @@ final class MissionControlMonitor {
     /// How long to keep polling after a trigger before giving up on Mission Control.
     private static let graceWindow: TimeInterval = 2.0
 
+    /// True while a trigger is outstanding and Mission Control has yet to be
+    /// seen arriving or leaving — the key toggles, so a trigger may be a
+    /// close, and while one is unresolved the poll stays at the frame rate:
+    /// the first tick after a closing trigger still sees the ~320 ms close
+    /// animation, and dropping to 4 Hz there would leave `isActive`
+    /// stale-true for up to ~570 ms after the close.
+    private var triggerOutstanding = false
+
     /// True while a trigger is outstanding and Mission Control has yet to appear —
     /// it is on its way in, so a caller that cares is better off looking right now
     /// than waiting for the next poll.
     var isOpening: Bool {
-        !isActive && enabled && ProcessInfo.processInfo.systemUptime <= graceDeadline
+        !isActive && triggerOutstanding && enabled
+            && ProcessInfo.processInfo.systemUptime <= graceDeadline
     }
 
     func start() {
@@ -53,6 +62,7 @@ final class MissionControlMonitor {
 
     func stop() {
         enabled = false
+        triggerOutstanding = false
         stopTimer()
         guard isActive else { return }
         isActive = false
@@ -61,9 +71,14 @@ final class MissionControlMonitor {
 
     /// Called when something that might have opened Mission Control happened. Entering
     /// or leaving Mission Control with the pointer held still generates no mouse-moved
-    /// event, so without this nothing would notice either transition.
+    /// event, so without this nothing would notice either transition. The key toggles,
+    /// so a trigger may close Mission Control too — accelerating detection either way
+    /// matters: while active, the 4 Hz poll can leave `isActive` stale-true for up to
+    /// ~570 ms after a close, during which callers would act on a Mission Control that
+    /// is already gone.
     func noteTrigger() {
-        guard enabled, !isActive else { return }
+        guard enabled else { return }
+        triggerOutstanding = true
         graceDeadline = ProcessInfo.processInfo.systemUptime + Self.graceWindow
         lastCheck = 0 // look on the very next tick rather than waiting out the throttle
         setTimer(Self.searchInterval)
@@ -79,17 +94,32 @@ final class MissionControlMonitor {
         else { return isActive }
 
         if KeyboardUtils.isMissionControlActive(list) {
-            if !isActive { activationID += 1 }
+            if !isActive {
+                activationID += 1
+                // It arrived, so the outstanding trigger was an open.
+                triggerOutstanding = false
+            } else if triggerOutstanding,
+                      ProcessInfo.processInfo.systemUptime > graceDeadline {
+                // A trigger that neither arrived nor left by the end of its
+                // grace window never will (a modified Escape, an autorepeat)
+                // — expire it, or the frame-rate poll never demotes.
+                triggerOutstanding = false
+            }
             isActive = true
             // Found it — stop searching every frame. Also starts the timer when a
-            // caller discovered Mission Control with no trigger behind it.
-            setTimer(Self.pollInterval)
+            // caller discovered Mission Control with no trigger behind it. A
+            // trigger may still be on its way OUT, though, and the first tick
+            // after a closing one sees the close animation, so the fast rate
+            // is kept while any trigger is unresolved.
+            setTimer(triggerOutstanding ? Self.searchInterval : Self.pollInterval)
             onActive?(list)
         } else if isActive {
             isActive = false
+            triggerOutstanding = false
             stopTimer()
             onInactive?()
         } else if lastCheck > graceDeadline {
+            triggerOutstanding = false
             stopTimer() // triggered, but Mission Control never appeared
         }
         return isActive
