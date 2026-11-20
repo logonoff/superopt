@@ -21,10 +21,17 @@ final class SpaceScrollHandler {
     /// Height to search when the menu bar is set to auto-hide, where `visibleFrame`
     /// reports no menu bar at all but one can still be pulled down and scrolled.
     private static let hiddenMenuBarHeight: CGFloat = 40
+    /// The space list reads stale for roughly this long after a switch is posted (the
+    /// animation); an edge computed during that window is the animation talking, not
+    /// the row's real end.
+    private static let switchSettle: TimeInterval = 1.3
 
     private var travel: CGFloat = 0
     private var lastScrollAt: TimeInterval = 0
     private var lastSwitchAt: TimeInterval = 0
+    /// When a switch was last posted, per display — the stale read is per
+    /// display, so the suppression is too.
+    private var lastSwitchPostedAt: [String: TimeInterval] = [:]
 
     /// Called when the scroll lands on a space that is already showing, with the space
     /// count, the index, and the screens it applies to. Every other case is a real
@@ -80,16 +87,36 @@ final class SpaceScrollHandler {
     private func switchSpace(by direction: Int, on screen: NSScreen) {
         guard let target = SpaceSwitcher.target(for: screen) else { return }
         let display = target.display
+        let now = ProcessInfo.processInfo.systemUptime
+        let lastPosted = lastSwitchPostedAt[display.identifier] ?? 0
         let index = min(max(display.currentIndex + direction, 0), display.spaceIDs.count - 1)
 
         guard index != display.currentIndex else {
             // Either end of the row. Nothing will move, so no space change is coming
             // for `SpaceChangeWatcher` to report, and this is the only chance to answer
             // "did that do anything" — which GNOME answers here too.
-            onEdge?(display.spaceIDs.count, index, target.screens)
+            // Suppressed while a switch from this display is still animating: the
+            // stale space list would report an edge — and pop the OSD for the
+            // wrong space — for a scroll the system is still acting on.
+            if now - lastPosted >= Self.switchSettle {
+                onEdge?(display.spaceIDs.count, index, target.screens)
+            }
             return
         }
-        SpaceShortcut.post(direction > 0 ? .right : .left)
+        // The post is always made — dropping it would lose the wheel-spin
+        // case if the system honors same-direction posts mid-animation
+        // (opposite-direction absorption is what was measured; same-direction
+        // was not). Only a post outside the settle window arms the
+        // suppression: one made inside it acts on the same switch and its
+        // stale read, so it extends nothing.
+        if SpaceShortcut.post(direction > 0 ? .right : .left),
+           now - lastPosted >= Self.switchSettle {
+            // Entries older than the settle window are dead weight; keeping
+            // only live ones bounds the dictionary across dock/undock cycles
+            // that keep minting display UUIDs.
+            lastSwitchPostedAt = lastSwitchPostedAt.filter { now - $0.value < Self.switchSettle }
+            lastSwitchPostedAt[display.identifier] = now
+        }
     }
 
     // MARK: - Hit testing
