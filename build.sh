@@ -143,7 +143,7 @@ KEYS_TMP="/tmp/_superopt_keys.json"
 KEYS_JS='
   var path = $.NSProcessInfo.processInfo.environment.objectForKey("_KEYS_FILE").js;
   var data = $.NSString.stringWithContentsOfFileEncodingError(path, $.NSUTF8StringEncoding, null);
-  Object.keys(JSON.parse(data.js)).sort().map(JSON.stringify).join("\n");
+  Object.keys(JSON.parse(data.js)).map(JSON.stringify).sort().join("\n");
 '
 
 extract_keys() {
@@ -165,8 +165,14 @@ for LPROJ in Locales/*.lproj; do
     fi
 
     LANG_KEYS=$(extract_keys "$STRINGS")
-    MISSING=$(comm -23 <(echo "$EN_KEYS") <(echo "$LANG_KEYS"))
-    EXTRA=$(comm -13 <(echo "$EN_KEYS") <(echo "$LANG_KEYS"))
+    # LC_ALL=C, and the lists are sorted as the quoted lines comm actually
+    # compares them: sorting the raw keys and then quoting them orders
+    # prefix pairs ("Add" vs "Add an app") oppositely to the quoted form,
+    # where the closing quote sorts after a space, and the collating locale
+    # on a UTF-8 terminal misaligns them further — one genuinely missing
+    # key used to report a handful of phantom missing and extra keys.
+    MISSING=$(LC_ALL=C comm -23 <(echo "$EN_KEYS") <(echo "$LANG_KEYS"))
+    EXTRA=$(LC_ALL=C comm -13 <(echo "$EN_KEYS") <(echo "$LANG_KEYS"))
 
     if [ -n "$MISSING" ]; then
         echo "Warning: $LANG — added $(echo "$MISSING" | wc -l | tr -d ' ') key(s) with English placeholder text (translate these):"
