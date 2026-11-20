@@ -30,6 +30,7 @@ class SnapAssistPanel {
     private(set) var items: [SnapWindowItem] = []
     private var keyMonitor: Any?
     private var clickMonitor: Any?
+    private var globalClickMonitor: Any?
     private var appActivationObserver: NSObjectProtocol?
     private var dismissTimer: Timer?
     private var windowCheckTimer: Timer?
@@ -92,6 +93,7 @@ class SnapAssistPanel {
         windowCheckTimer?.invalidate()
         if let monitor = keyMonitor { NSEvent.removeMonitor(monitor) }
         if let monitor = clickMonitor { NSEvent.removeMonitor(monitor) }
+        if let monitor = globalClickMonitor { NSEvent.removeMonitor(monitor) }
         if let obs = appActivationObserver {
             NSWorkspace.shared.notificationCenter.removeObserver(obs)
         }
@@ -261,6 +263,13 @@ extension SnapAssistPanel {
             forName: NSWorkspace.didActivateApplicationNotification,
             object: nil, queue: .main
         ) { [weak self] _ in MainActor.assumeIsolated { self?.dismiss() } }
+        // Clicks in other apps' windows never reach the local monitor, and a
+        // click on the tiled window changes neither the frontmost app nor the
+        // window's frame — the documented "clicking outside" dismissal needs
+        // a global monitor to see them.
+        globalClickMonitor = NSEvent.addGlobalMonitorForEvents(matching: [.leftMouseDown]) { [weak self] _ in
+            MainActor.assumeIsolated { self?.dismiss() }
+        }
     }
 
     func dismiss() {
@@ -270,6 +279,7 @@ extension SnapAssistPanel {
         windowCheckTimer?.invalidate(); windowCheckTimer = nil
         if let monitor = keyMonitor { NSEvent.removeMonitor(monitor); keyMonitor = nil }
         if let monitor = clickMonitor { NSEvent.removeMonitor(monitor); clickMonitor = nil }
+        if let monitor = globalClickMonitor { NSEvent.removeMonitor(monitor); globalClickMonitor = nil }
         if let obs = appActivationObserver {
             NSWorkspace.shared.notificationCenter.removeObserver(obs)
             appActivationObserver = nil
