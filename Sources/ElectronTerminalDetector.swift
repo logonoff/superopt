@@ -17,6 +17,7 @@ enum ElectronTerminalDetector {
         "com.microsoft.VSCode",
         "com.microsoft.VSCodeInsiders",
         "com.vscodium", // VSCodium's product.json darwinBundleIdentifier
+        "com.vscodium.VSCodiumInsiders",
         "com.todesktop.230313mzl4w4u92" // Cursor
     ]
 
