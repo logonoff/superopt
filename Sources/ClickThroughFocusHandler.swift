@@ -147,6 +147,11 @@ class ClickThroughFocusHandler {
                   let frame = CGRect(dictionaryRepresentation: bounds)
             else { continue }
             let layer = info[kCGWindowLayer as String] as? Int
+            // The cursor window follows the pointer and always contains the
+            // point — it is the pointer, not a click target. Skipping it the
+            // way MiddleClickPasteWindow.frontWindow does keeps a click at a
+            // position the pointer was recently warped to click-through-able.
+            if layer == Int(CGWindowLevelForKey(.cursorWindow)) { continue }
             guard frame.contains(point) else {
                 // Not in this window, but near enough outside it to be grabbing
                 // its edge. Front to back means any window reaching this point
