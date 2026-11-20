@@ -115,11 +115,28 @@ cp Info.plist "$APP_BUNDLE/Contents/"
 # Generate and bundle localization strings
 mkdir -p "$APP_BUNDLE/Contents/Resources"
 LPROJ_SRC="Locales/en.lproj"
-rm -rf "$LPROJ_SRC"
+LPROJ_TMP=$(mktemp -d)
+# genstrings writes to a scratch directory first: failing mid-run (an
+# unparseable source file, a transient failure) under `set -e` must not take
+# the checked-in English strings with it. Its routine per-file warnings only
+# surface when it fails.
+if ! GEN_ERR=$(genstrings -SwiftUI -o "$LPROJ_TMP" Sources/*.swift 2>&1); then
+    echo "Error: genstrings failed; the checked-in $LPROJ_SRC was left untouched." >&2
+    [ -n "$GEN_ERR" ] && echo "$GEN_ERR" >&2
+    rm -rf "$LPROJ_TMP"
+    exit 1
+fi
+if ! iconv -f UTF-16 -t UTF-8 "$LPROJ_TMP/Localizable.strings" \
+        > "$LPROJ_TMP/Localizable.strings.tmp"; then
+    echo "Error: iconv failed; the checked-in $LPROJ_SRC was left untouched." >&2
+    rm -rf "$LPROJ_TMP"
+    exit 1
+fi
+# The destination keeps its previous file until the move succeeds, so a
+# failed mv leaves the working tree intact rather than empty.
 mkdir -p "$LPROJ_SRC"
-genstrings -SwiftUI -o "$LPROJ_SRC" Sources/*.swift 2>/dev/null
-iconv -f UTF-16 -t UTF-8 "$LPROJ_SRC/Localizable.strings" > "$LPROJ_SRC/Localizable.strings.tmp"
-mv "$LPROJ_SRC/Localizable.strings.tmp" "$LPROJ_SRC/Localizable.strings"
+mv "$LPROJ_TMP/Localizable.strings.tmp" "$LPROJ_SRC/Localizable.strings"
+rm -rf "$LPROJ_TMP"
 
 # Validate and check translations against the English source
 KEYS_TMP="/tmp/_superopt_keys.json"
