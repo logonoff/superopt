@@ -55,8 +55,11 @@ class SnapAssistPanel {
         let candidates = Self.collectWindows(
             screen: screen, excludeWID: tiled.windowID,
             excludePID: tiled.pid, excludeFrame: tiled.frame)
-        guard !candidates.isEmpty else { return nil }
-        items = candidates
+        // More windows than the container has height for would lay out
+        // buttons below the glass, outside the panel frame entirely.
+        let maxItems = Self.capacity(panelHeight: freeFrame.height)
+        items = Array(candidates.prefix(maxItems))
+        guard !items.isEmpty else { return nil }
         panel = Self.makePanel(frame: freeFrame)
 
         backdrop = NSView(frame: NSRect(origin: .zero, size: freeFrame.size))
@@ -137,7 +140,7 @@ class SnapAssistPanel {
     }
 
     /// Bumped by dismiss, so a pending fade-in fallback cannot land after a
-    /// dismissal has started (the panel stays \"visible\" through its own
+    /// dismissal has started (the panel stays "visible" through its own
     /// fade-out).
     private var fadeGeneration = 0
 
@@ -176,6 +179,13 @@ extension SnapAssistPanel {
             x: (panelSize.width - width) / 2,
             y: (panelSize.height - height) / 2,
             width: width, height: height)
+    }
+
+    /// How many item rows fit in a panel of this height — the container caps
+    /// at `panelSize.height - 80`, and buttons laid out past that would draw
+    /// outside the glass entirely.
+    fileprivate static func capacity(panelHeight: CGFloat) -> Int {
+        max(1, Int((panelHeight - 80 - containerPadding * 2) / itemHeight))
     }
 
     fileprivate static func makeButton(
