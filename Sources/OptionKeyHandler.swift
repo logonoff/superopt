@@ -12,6 +12,10 @@ class OptionKeyHandler {
     /// release must not fire even when it lands after leaving.
     private var pressWasSuspended = false
     private var lastCleanOptionUpTime: TimeInterval = 0
+    /// The last release of the current double-press burst — set by the double
+    /// itself and extended by every tail release, so a burst of any length is
+    /// recognised as one gesture.
+    private var doubleFiredAt: TimeInterval = 0
     private var singlePressWorkItem: DispatchWorkItem?
 
     private let doublePressThreshold: TimeInterval = 0.3
@@ -69,7 +73,15 @@ class OptionKeyHandler {
 
         if now - lastCleanOptionUpTime < doublePressThreshold {
             lastCleanOptionUpTime = 0
+            doubleFiredAt = now
             onDoublePress?()
+        } else if now - doubleFiredAt < doublePressThreshold {
+            // The tail of a rapid burst: it already fired its double press,
+            // and treating this release as a fresh first press would arm a
+            // single-press action on top of it — two conflicting panels
+            // from one gesture. Each tail extends the window, so a fourth
+            // or fifth tap is still the same burst, not a new first press.
+            doubleFiredAt = now
         } else {
             lastCleanOptionUpTime = now
             let work = DispatchWorkItem { [weak self] in
