@@ -182,6 +182,10 @@ class MissionControlSearchHandler {
         } else if !spotlightFieldIsPopulated() {
             giveUpIfLate()
         } else if !buffer.isEmpty {
+            // Deletes queued before this text belong to the characters that
+            // preceded it, so they go out first — replaying them after would
+            // delete the freshly typed character instead of the old one.
+            flushDeletes()
             flushBuffer()
         } else {
             flushDeletes()
