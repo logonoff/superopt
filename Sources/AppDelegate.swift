@@ -369,8 +369,8 @@ extension AppDelegate {
         mcMonitor.noteTrigger()
     }
     private func setupCallbacks() {
-        tileAssistWatcher.onTile = { [weak self] dir, screen in
-            self?.showSnapAssist(direction: dir, screen: screen)
+        tileAssistWatcher.onTile = { [weak self] dir, screen, tiled in
+            self?.showSnapAssist(direction: dir, screen: screen, tiled: tiled)
         }
         tileAssistWatcher.isPanelVisible = { [weak self] in
             self?.snapAssistPanel != nil
@@ -423,11 +423,13 @@ extension AppDelegate {
         KeyboardUtils.postKey(Self.launchPanelKeyCode, flags: .maskSecondaryFn)
     }
     fileprivate func showSnapAssist(
-        direction: SnapAssistPanel.TileDirection, screen: NSScreen
+        direction: SnapAssistPanel.TileDirection, screen: NSScreen,
+        tiled: TiledWindowInfo
     ) {
         snapAssistPanel?.dismiss()
-        let panel = SnapAssistPanel(
-            direction: direction, screen: screen) { [weak self] in
+        var panel: SnapAssistPanel?
+        panel = SnapAssistPanel(
+            direction: direction, screen: screen, tiled: tiled) { [weak self] in
                 self?.snapAssistPanel = nil
             }
         panel?.onWillTile = { [weak self] in self?.tileAssistWatcher.suppress() }

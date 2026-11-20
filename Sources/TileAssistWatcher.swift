@@ -10,7 +10,7 @@ private func tileWatcherCallback(
 
 @MainActor
 class TileAssistWatcher {
-    var onTile: ((SnapAssistPanel.TileDirection, NSScreen) -> Void)?
+    var onTile: ((SnapAssistPanel.TileDirection, NSScreen, TiledWindowInfo) -> Void)?
     var isPanelVisible: () -> Bool = { false }
 
     private var observer: AXObserver?
@@ -142,8 +142,21 @@ class TileAssistWatcher {
 
         if !wasTiled, let dir, let screen, !isPanelVisible(),
            !Self.isOtherHalfOccupied(direction: dir, screen: screen) {
-            onTile?(dir, screen)
+            // The tiled window's identity is handed over as known here: the
+            // panel re-identifying it from the frontmost app at popup time
+            // races a focus change in the debounce window.
+            onTile?(dir, screen, TiledWindowInfo(
+                pid: watchedPID,
+                windowID: Self.windowID(of: window),
+                frame: frame))
         }
+    }
+
+    /// The watched window's CGWindowID, 0 when it cannot be had.
+    private static func windowID(of window: AXUIElement) -> UInt32 {
+        guard let getWindow = KeyboardUtils.axGetWindow else { return 0 }
+        var wid: UInt32 = 0
+        return getWindow(window, &wid) == 0 ? wid : 0
     }
 
     private func tearDownObserver() {

@@ -8,6 +8,16 @@ struct SnapWindowItem {
     let icon: NSImage
 }
 
+/// The window that just tiled, as the watcher knows it. The panel would
+/// otherwise re-identify it from the frontmost app at popup time — half a
+/// second after the tile, by which point focus may have moved elsewhere and
+/// the wrong window measured, excluded, and dismissed against.
+struct TiledWindowInfo {
+    let pid: pid_t
+    let windowID: UInt32
+    let frame: CGRect
+}
+
 @MainActor
 class SnapAssistPanel {
     enum TileDirection { case left, right }
@@ -33,19 +43,20 @@ class SnapAssistPanel {
     private static let cellPadding: CGFloat = 8
     private static let containerPadding: CGFloat = 8
 
-    init?(direction: TileDirection, screen: NSScreen, onDismiss: @escaping () -> Void) {
+    init?(direction: TileDirection, screen: NSScreen, tiled: TiledWindowInfo,
+          onDismiss: @escaping () -> Void) {
         self.direction = direction
         self.onDismiss = onDismiss
 
-        tiledPID = NSWorkspace.shared.frontmostApplication?.processIdentifier ?? -1
-        let tiledWID = Self.frontWindowID(pid: tiledPID)
-        let candidates = Self.collectWindows(screen: screen, excludeWID: tiledWID)
-        guard !candidates.isEmpty else { return nil }
-        items = candidates
-        tiledWindowFrame = Self.frontWindowFrame(pid: tiledPID)
-
+        tiledPID = tiled.pid
+        tiledWindowFrame = tiled.frame
         let freeFrame = Self.freeArea(
             direction: direction, screen: screen, tiledFrame: tiledWindowFrame)
+        let candidates = Self.collectWindows(
+            screen: screen, excludeWID: tiled.windowID,
+            excludePID: tiled.pid, excludeFrame: tiled.frame)
+        guard !candidates.isEmpty else { return nil }
+        items = candidates
         panel = Self.makePanel(frame: freeFrame)
 
         backdrop = NSView(frame: NSRect(origin: .zero, size: freeFrame.size))
@@ -237,13 +248,6 @@ extension SnapAssistPanel {
         var ref: AnyObject?
         AXUIElementCopyAttributeValue(app, kAXFocusedWindowAttribute as CFString, &ref)
         return ref.flatMap(KeyboardUtils.toAXElement)
-    }
-
-    fileprivate static func frontWindowID(pid: pid_t) -> UInt32 {
-        guard let win = focusedWindow(pid: pid),
-              let getWindow = KeyboardUtils.axGetWindow else { return 0 }
-        var wid: UInt32 = 0
-        return getWindow(win, &wid) == 0 ? wid : 0
     }
 
     fileprivate static func frontWindowFrame(pid: pid_t) -> CGRect {

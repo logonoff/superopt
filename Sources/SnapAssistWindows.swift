@@ -5,7 +5,10 @@ import Cocoa
 // limit.
 
 extension SnapAssistPanel {
-    static func collectWindows(screen: NSScreen, excludeWID: UInt32) -> [SnapWindowItem] {
+    static func collectWindows(
+        screen: NSScreen, excludeWID: UInt32,
+        excludePID: pid_t, excludeFrame: CGRect
+    ) -> [SnapWindowItem] {
         guard let windowList = CGWindowListCopyWindowInfo(
             [.optionOnScreenOnly, .excludeDesktopElements],
             kCGNullWindowID) as? [[String: Any]]
@@ -27,6 +30,18 @@ extension SnapAssistPanel {
                   let winWidth = bounds["Width"], let winHeight = bounds["Height"],
                   winWidth > 100, winHeight > 100
             else { continue }
+
+            // When the tiled window's ID could not be resolved (0 from a
+            // failed _AXUIElementGetWindow), it sails past the ID exclusion —
+            // match it by pid and bounds instead, or it gets offered as a
+            // candidate for its own gap.
+            if excludeWID == 0, pid == excludePID,
+               abs(originX - excludeFrame.minX) < 2,
+               abs(originY - excludeFrame.minY) < 2,
+               abs(winWidth - excludeFrame.width) < 2,
+               abs(winHeight - excludeFrame.height) < 2 {
+                continue
+            }
 
             let center = NSPoint(
                 x: originX + winWidth / 2, y: primaryHeight - (originY + winHeight / 2))
