@@ -356,6 +356,10 @@ extension AppDelegate {
     private static let keyEscape: Int64 = 0x35
 
     fileprivate func triggerMissionControl() {
+        // The key toggles: when Mission Control is up, this closes it, and
+        // the search handler has to treat that activation as consumed — its
+        // phantom-search guard never sees the synthetic key posted below.
+        if mcMonitor.isActive { mcSearchHandler.noteDismissal() }
         // Emulate the Mission Control key rather than spawning `open -a "Mission Control"`:
         // no subprocess, and it does exactly what the hardware key does. Key code
         // 160 needs the Fn flag set — without it the key does nothing. Like the
@@ -397,9 +401,11 @@ extension AppDelegate {
             self?.triggerMissionControl()
         }
         // The Mission Control key toggles, so the same key that opens Mission Control closes it.
-        // The close-button handler is already polling and notices on its next tick.
-        mcSearchHandler.dismissMissionControl = {
+        // The close-button handler is already polling and notices on its next tick;
+        // the trigger is noted so the monitor learns of the close at frame rate.
+        mcSearchHandler.dismissMissionControl = { [weak self] in
             KeyboardUtils.postKey(Self.missionControlKeyCode, flags: .maskSecondaryFn)
+            self?.mcMonitor.noteTrigger()
         }
     }
 

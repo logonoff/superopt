@@ -30,6 +30,8 @@ class MissionControlSearchHandler {
 
     private static let keyEscape: Int64 = 0x35
     private static let keyDelete: Int64 = 0x33
+    /// Virtual key code emitted by the Mission Control key, which toggles.
+    private static let missionControlKeyCode: Int64 = 160
 
     /// Mission Control swallows the Spotlight key until it has begun closing, so the
     /// two posts need a gap. Measured success rate by gap: 0 ms 0/8, 1–5 ms 0/8,
@@ -74,10 +76,36 @@ class MissionControlSearchHandler {
         if mode == .off { finish() }
     }
 
+    /// Marks the current Mission Control activation as consumed, so typing
+    /// during the close animation cannot start a phantom search that
+    /// re-opens what the user just closed. For closes SuperOpt itself
+    /// performs — the Option press, the hot corner — whose synthetic
+    /// Mission Control key the event tap never delivers to `handleKeyDown`.
+    func noteDismissal() {
+        if monitor.isActive { handledActivation = monitor.activationID }
+    }
+
     /// Returns true if the event was consumed.
     func handleKeyDown(event: CGEvent) -> Bool {
         guard mode != .off else { return false }
         if pending { return handleWhilePending(event: event) }
+
+        // A key that closes Mission Control ends this activation's search
+        // window: `isActive` stays true through the ~320 ms close animation,
+        // and a keystroke in that gap would start a search that re-opens
+        // what the user just closed. Bare keys only — a modified Escape
+        // (⌥⌘Esc is Force Quit) does not close Mission Control, and marking
+        // the activation consumed here would kill the session's search.
+        if monitor.isActive,
+           !event.flags.contains(.maskCommand),
+           !event.flags.contains(.maskControl),
+           !event.flags.contains(.maskAlternate),
+           !event.flags.contains(.maskShift),
+           [Self.keyEscape, Self.missionControlKeyCode].contains(
+               event.getIntegerValueField(.keyboardEventKeycode)) {
+            handledActivation = monitor.activationID
+            return false
+        }
 
         guard let text = Self.typedText(event),
               text.rangeOfCharacter(from: CharacterSet.whitespaces.inverted) != nil
