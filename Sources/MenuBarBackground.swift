@@ -31,15 +31,25 @@ class MenuBarBackground: NSObject {
 
     /// Bumped by start and stop, so a delayed fade-out only applies if
     /// nothing has happened since.
-    private var fadeGeneration = 0
+    private var fadeGenerations: [ObjectIdentifier: Int] = [:]
     /// Installed once and never removed: a screen-layout change while the
     /// feature is stopped has to drop the overlays, or `start` would find
     /// them non-empty and pair them with stale frames forever.
     private var observingScreens = false
 
+    /// Each window's fade has its own generation, so one display's fade
+    /// cannot retire another display's fallback — OSDPanel keys its the
+    /// same way.
+    private func bumpGeneration(for win: NSWindow) -> Int {
+        let key = ObjectIdentifier(win)
+        let next = (fadeGenerations[key] ?? 0) + 1
+        fadeGenerations[key] = next
+        return next
+    }
+
     func start() {
         active = true
-        fadeGeneration += 1
+        for overlay in overlays { _ = bumpGeneration(for: overlay.window) }
         installScreenChangeObserverIfNeeded()
         if timer == nil {
             if overlays.isEmpty { createWindows() }
@@ -62,6 +72,10 @@ class MenuBarBackground: NSObject {
     @objc private func screenChanged() {
         for overlay in overlays { overlay.window.orderOut(nil) }
         overlays.removeAll()
+        // Their generations go with them: any pending fallback for a removed
+        // window is retired by the missing entry, and the dictionary does not
+        // outgrow the windows it tracks.
+        fadeGenerations.removeAll()
         // Display IDs and wallpapers both move around with the screen layout.
         lightText.removeAll()
         if active {
@@ -72,8 +86,10 @@ class MenuBarBackground: NSObject {
 
     func stop() {
         active = false
-        fadeGeneration += 1
-        let generation = fadeGeneration
+        var generations: [ObjectIdentifier: Int] = [:]
+        for overlay in overlays {
+            generations[ObjectIdentifier(overlay.window)] = bumpGeneration(for: overlay.window)
+        }
         timer?.invalidate()
         timer = nil
         for overlay in overlays {
@@ -84,8 +100,16 @@ class MenuBarBackground: NSObject {
         // same animator/direct-set disagreement OSDPanel works around. With
         // the timer stopped nothing corrects it, so a delayed block does.
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) { [weak self] in
-            guard let self, self.fadeGeneration == generation else { return }
-            for overlay in self.overlays { overlay.window.alphaValue = 0 }
+            guard let self else { return }
+            for overlay in self.overlays {
+                // A window missing from the snapshot — created after stop,
+                // or a recycled ObjectIdentifier — is not this block's to
+                // touch; only a matching entry delivers the fade-out.
+                let key = ObjectIdentifier(overlay.window)
+                guard let expected = generations[key], self.fadeGenerations[key] == expected
+                else { continue }
+                overlay.window.alphaValue = 0
+            }
         }
     }
 
@@ -125,7 +149,10 @@ class MenuBarBackground: NSObject {
 
     private func update() {
         if !active {
-            for overlay in overlays { overlay.window.alphaValue = 0 }
+            for overlay in overlays {
+                _ = bumpGeneration(for: overlay.window)
+                overlay.window.alphaValue = 0
+            }
             return
         }
 
@@ -135,7 +162,13 @@ class MenuBarBackground: NSObject {
         ) as? [[String: Any]] ?? []
 
         if KeyboardUtils.isMissionControlActive(windowList) {
-            for overlay in overlays { overlay.window.alphaValue = 0 }
+            for overlay in overlays {
+                // Bumped so a pending fade-in fallback for this window is
+                // retired, rather than landing its target back over the
+                // zeroing after a compressed or stalled tick ordering.
+                _ = bumpGeneration(for: overlay.window)
+                overlay.window.alphaValue = 0
+            }
             return
         }
 
@@ -150,9 +183,20 @@ class MenuBarBackground: NSObject {
             let target: CGFloat = filled && textStaysLegible(on: screen) ? 1 : 0
             let win = overlay.window
             if win.alphaValue != target {
+                let generation = bumpGeneration(for: win)
                 NSAnimationContext.runAnimationGroup { ctx in
                     ctx.duration = 0.3
                     win.animator().alphaValue = target
+                }
+                // An in-flight animator has measured as never progressing
+                // after a display rearrangement (see OSDPanel) while direct
+                // sets still work, so the target is landed directly as a
+                // fallback — retired by any later fade of this window,
+                // start, or stop.
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) { [weak self] in
+                    guard let self,
+                          self.fadeGenerations[ObjectIdentifier(win)] == generation else { return }
+                    win.alphaValue = target
                 }
             }
         }
