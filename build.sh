@@ -165,12 +165,9 @@ for LPROJ in Locales/*.lproj; do
     fi
 
     LANG_KEYS=$(extract_keys "$STRINGS")
-    # LC_ALL=C, and the lists are sorted as the quoted lines comm actually
-    # compares them: sorting the raw keys and then quoting them orders
-    # prefix pairs ("Add" vs "Add an app") oppositely to the quoted form,
-    # where the closing quote sorts after a space, and the collating locale
-    # on a UTF-8 terminal misaligns them further — one genuinely missing
-    # key used to report a handful of phantom missing and extra keys.
+    # LC_ALL=C: `comm` compares under the collating locale, and a UTF-8
+    # locale orders keys differently than the code-unit sort that produced
+    # the two lists, misaligning them into phantom missing/extra keys.
     MISSING=$(LC_ALL=C comm -23 <(echo "$EN_KEYS") <(echo "$LANG_KEYS"))
     EXTRA=$(LC_ALL=C comm -13 <(echo "$EN_KEYS") <(echo "$LANG_KEYS"))
 
