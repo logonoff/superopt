@@ -72,10 +72,20 @@ class MenuBarBackground: NSObject {
 
     func stop() {
         active = false
+        fadeGeneration += 1
+        let generation = fadeGeneration
         timer?.invalidate()
         timer = nil
         for overlay in overlays {
             overlay.window.alphaValue = 0
+        }
+        // An in-flight fade-in animator steps the real property over time and
+        // can land the window back at alpha 1 after this direct set — the
+        // same animator/direct-set disagreement OSDPanel works around. With
+        // the timer stopped nothing corrects it, so a delayed block does.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) { [weak self] in
+            guard let self, self.fadeGeneration == generation else { return }
+            for overlay in self.overlays { overlay.window.alphaValue = 0 }
         }
     }
 
