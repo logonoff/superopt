@@ -69,6 +69,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private lazy var mcSearchHandler = MissionControlSearchHandler(monitor: mcMonitor)
     private var snapAssistPanel: SnapAssistPanel?
     private let tileAssistWatcher = TileAssistWatcher()
+    /// Held for the process lifetime: a released source is cancelled, and
+    /// `signal(SIGTERM, SIG_IGN)` would then be the only disposition left.
+    private var sigtermSource: DispatchSourceSignal?
     private let settingsWindow = SettingsWindowController()
     private let permissionHelper = PermissionHelper()
     private let excludedApps = ExcludedApps()
@@ -174,11 +177,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func applicationDidFinishLaunching(_ notification: Notification) {
-        // Ensure the app can quit even when a modal dialog is blocking the run loop
-        let termSource = DispatchSource.makeSignalSource(signal: SIGTERM, queue: .main)
-        termSource.setEventHandler { exit(0) }
-        termSource.resume()
+        // The handler runs on a private queue so it fires no matter what the main thread is blocked in.
         signal(SIGTERM, SIG_IGN)
+        let source = DispatchSource.makeSignalSource(
+            signal: SIGTERM, queue: DispatchQueue(label: "co.logonoff.superopt.sigterm"))
+        source.setEventHandler { exit(0) }
+        source.resume()
+        sigtermSource = source
 
         NSAppleEventManager.shared().setEventHandler(
             self, andSelector: #selector(handleQuitAppleEvent(_:withReply:)),
