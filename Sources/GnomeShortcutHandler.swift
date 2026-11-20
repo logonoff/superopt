@@ -175,7 +175,7 @@ class GnomeShortcutHandler {
 
     func reloadSettings() {
         disabledShortcuts = Set(
-            UserDefaults.standard.stringArray(forKey: "gnomeDisabledShortcuts") ?? [])
+            UserDefaults.standard.stringArray(forKey: GnomeShortcutSettings.defaultsKey) ?? [])
     }
 
     private static let finderOnlyShortcuts: Set<String> = Set(

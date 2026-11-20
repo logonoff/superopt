@@ -60,7 +60,7 @@ final class GnomeShortcutSettings: NSObject {
         } else {
             disabledShortcuts.insert(id)
         }
-        UserDefaults.standard.set(Array(disabledShortcuts), forKey: "gnomeDisabledShortcuts")
+        UserDefaults.standard.set(Array(disabledShortcuts), forKey: Self.defaultsKey)
     }
 
     func binding(for id: String) -> Binding<Bool> {
