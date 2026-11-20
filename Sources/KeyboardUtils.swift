@@ -84,6 +84,7 @@ enum KeyboardUtils {
 
     static let codeEditorBundleIDs: Set<String> = [
         "com.microsoft.VSCode",
+        "com.microsoft.VSCodeInsiders",
         "com.todesktop.230313mzl4w4u92", // Cursor
         "com.vscodium.VSCodium",
         "dev.zed.Zed",
