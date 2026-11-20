@@ -129,6 +129,24 @@ class ClickThroughFocusHandler {
         }
     }
 
+    /// A real left press that this handler may not see (the feature is off,
+    /// or the press is otherwise routed around it). Any release obligation
+    /// left over from a previous press is stale — on a single pointing
+    /// device a new press cannot precede that release, so it has either
+    /// been consumed already or never reached the tap — and consuming THIS
+    /// press's release for it would leave the window with the button down.
+    func noteExternalPress() {
+        afterPress = nil
+    }
+
+    /// Whether a press is withheld or its replay is still waiting for a
+    /// release — the states in which `handleMouseUp` must run even while the
+    /// active app is excluded. Clicking into an excluded app suspends
+    /// SuperOpt from the handler's own activation, and without this the
+    /// release is never recorded (or consumed after the replay), leaving the
+    /// window with the button down.
+    var hasPendingPress: Bool { pending != nil || afterPress != nil }
+
     /// Drops any withheld press, e.g. when the feature is switched off. Runs just
     /// before a replay, which then records its own release to wait for.
     func reset() {
@@ -136,6 +154,20 @@ class ClickThroughFocusHandler {
         pollTimer = nil
         pending = nil
         afterPress = nil
+    }
+
+    /// Drops a withheld press whose release may still be coming, e.g. when
+    /// the feature is switched off mid-hold: the window never saw the press,
+    /// so its release must not reach it unmatched either. An outstanding
+    /// `.dropped` obligation survives the call — `defaultsChanged` fires for
+    /// every preference write, and a second one while the button is still
+    /// held must not release the first one's hold on the upcoming release.
+    func dropWithheldPress() {
+        let unreleased = pending != nil && pending?.releasedAt == nil
+        var alreadyDropped = false
+        if case .dropped = afterPress { alreadyDropped = true }
+        reset()
+        if unreleased || alreadyDropped { afterPress = .dropped }
     }
 
     // MARK: - Hit testing

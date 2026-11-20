@@ -133,7 +133,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // excluded app has to be replayed even though arriving there suspends the
         // feature, or the click that brought the app forward is swallowed.
         if !UserDefaults.standard.bool(forKey: "clickThroughFocusEnabled") {
-            clickThroughFocusHandler.reset()
+            clickThroughFocusHandler.dropWithheldPress()
         }
         // Unlike the click-through replay, a pending middle-click paste is new
         // synthetic input rather than the user's own click restored, so
@@ -546,12 +546,24 @@ extension AppDelegate {
         .keyDown, .leftMouseDown, .rightMouseDown, .otherMouseDown
     ]
 
-    /// Key or mouse input while the active app is excluded still dirties a
-    /// held Option press — the same events mark it on the unsuspended path —
-    /// or a release inside the excluded app would read as clean.
-    private func markOptionDirtyIfInput(type: CGEventType) {
+    /// Key or mouse input while the active app is excluded. It still dirties
+    /// a held Option press — the same events mark it on the unsuspended
+    /// path, or a release inside the excluded app would read as clean. A
+    /// left press also supersedes any in-flight click-through press the way
+    /// a new press does on the unsuspended path: the handler never sees
+    /// this one (the feature is off here), so its release has to pass
+    /// through untouched rather than be consumed by state left over from a
+    /// press that is over. Synthetic events are exempt — the click-through
+    /// replay posts its own press while suspended, and it must neither
+    /// reset the state waiting for the real release nor dirty a held
+    /// Option press as though the user had acted.
+    private func handleSuspendedInput(type: CGEventType, event: CGEvent) {
+        guard !KeyboardUtils.isSynthetic(event) else { return }
         if Self.optionDirtyingEvents.contains(type) {
             optionKeyHandler.markOtherInput()
+        }
+        if type == .leftMouseDown {
+            clickThroughFocusHandler.reset()
         }
     }
 
@@ -577,12 +589,21 @@ extension AppDelegate {
         // and mouse input still dirties a held Option press — the same events
         // mark it on the unsuspended path — or a release inside the excluded
         // app would read as clean.
+        //
+        // A click-through press whose target is an excluded app suspends
+        // SuperOpt from its own activation, and its release still has to be
+        // recorded (or consumed after the replay) or the window is left with
+        // the button down — so that one release is routed to the handler
+        // ahead of the guard, and a new press while suspended supersedes the
+        // in-flight one so its own release passes through untouched.
+        if type == .leftMouseUp, clickThroughFocusHandler.hasPendingPress {
+            return clickThroughFocusHandler.handleMouseUp(event: event)
+        }
         guard !excludedApps.isSuspended else {
-            markOptionDirtyIfInput(type: type)
+            handleSuspendedInput(type: type, event: event)
             return false
         }
         switch type {
-        case .flagsChanged: break // tracked above
         case .keyDown: return handleKeyDown(event: event)
         case .leftMouseDown, .rightMouseDown, .otherMouseDown:
             return handleMouseDown(type: type, event: event)
@@ -624,6 +645,13 @@ extension AppDelegate {
 
     private func handleMouseDown(type: CGEventType, event: CGEvent) -> Bool {
         if type == .leftMouseDown {
+            if !KeyboardUtils.isSynthetic(event) {
+                // A new press retires any stale click-through release
+                // obligation even with the feature off: the handler's own
+                // clear sits behind the isEnabled gates below, and a stale
+                // `.dropped` would otherwise consume this press's release.
+                clickThroughFocusHandler.noteExternalPress()
+            }
             // A click while Mission Control is up usually closes it — a
             // thumbnail, the desktop — so the monitor looks for that at
             // frame rate rather than learning of the close up to 250 ms
