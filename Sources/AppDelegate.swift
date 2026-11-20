@@ -430,8 +430,12 @@ extension AppDelegate {
         var panel: SnapAssistPanel?
         panel = SnapAssistPanel(
             direction: direction, screen: screen, tiled: tiled) { [weak self] in
-                self?.snapAssistPanel = nil
-            }
+            // The dismissed panel may no longer be the current one — a new
+            // tile during its dismiss animation replaces it, and nil-ing
+            // unconditionally here would orphan the new panel's window.
+            guard let self, let panel, self.snapAssistPanel === panel else { return }
+            self.snapAssistPanel = nil
+        }
         panel?.onWillTile = { [weak self] in self?.tileAssistWatcher.suppress() }
         snapAssistPanel = panel
     }
