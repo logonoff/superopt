@@ -53,8 +53,7 @@ class GnomeShortcutHandler {
         0x24: ["insertLineAbove"],              // Return
         0x2D: ["newWindow"],                    // N
         0x05: ["findPrev"],                     // G
-        0x0B: ["bookmarksBar"],                 // B
-        0x75: ["clearData"]                     // Forward Delete
+        0x0B: ["bookmarksBar"]                  // B
     ]
 
     // Ctrl+key → Cmd+key (simple modifier swap)
@@ -403,6 +402,11 @@ extension GnomeShortcutHandler {
         }
         if keyCode == Self.keyForwardDelete && !hasShift && isEnabled("forwardDeleteWord") { // Ctrl+⌦ → ⌥⌦
             return remap(event, Self.keyForwardDelete, flags: flags, remove: .maskControl, add: .maskAlternate)
+        }
+        if hasShift && keyCode == Self.keyForwardDelete && isEnabled("clearData") { // Ctrl+Shift+⌦ → ⇧⌘⌫
+            // Not the plain modifier swap the ctrlShiftMap entries get: the browsers
+            // bind Clear Browsing Data to Backspace, so the key changes too.
+            return remap(event, Self.keyDelete, flags: flags, remove: .maskControl, add: [.maskCommand, .maskShift])
         }
         if hasShift && keyCode == Self.keyLeft && isEnabled("selectWordLeft") { // Ctrl+Shift+← → ⌥⇧←
             return remap(event, keyCode, flags: flags, remove: .maskControl, add: .maskAlternate)
