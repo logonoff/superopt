@@ -95,8 +95,16 @@ class SnapAssistPanel {
     }
 
     private func checkTiledWindow() {
+        // A failed AX read reports .zero — not evidence the window moved or
+        // closed — and a tiled frame of .zero (the identity never resolved)
+        // cannot be compared. Dismissing on either would kill the popup
+        // whenever the app is briefly unresponsive; the 5-second timeout
+        // covers a window that really is gone.
         let currentFrame = Self.frontWindowFrame(pid: tiledPID)
-        if currentFrame == .zero || currentFrame != tiledWindowFrame { dismiss() }
+        guard currentFrame != .zero, tiledWindowFrame != .zero,
+              currentFrame != tiledWindowFrame
+        else { return }
+        dismiss()
     }
     // MARK: - Panel setup
     private static func makePanel(frame: NSRect) -> NSPanel {
