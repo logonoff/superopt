@@ -581,6 +581,12 @@ extension AppDelegate {
 
     private func handleMouseDown(type: CGEventType, event: CGEvent) -> Bool {
         if type == .leftMouseDown {
+            // A click while Mission Control is up usually closes it — a
+            // thumbnail, the desktop — so the monitor looks for that at
+            // frame rate rather than learning of the close up to 250 ms
+            // late. A click that leaves it open (the spaces bar) expires
+            // the trigger by its grace window.
+            if mcMonitor.isActive { mcMonitor.noteTrigger() }
             if isEnabled("mcCloseEnabled") && mcCloseHandler?.handleClick(event: event) == true {
                 optionKeyHandler.markOtherInput(); return true
             }
