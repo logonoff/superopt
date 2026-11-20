@@ -110,9 +110,14 @@ struct ShortcutOutline: NSViewRepresentable {
     }
 
     func updateNSView(_ scroll: NSScrollView, context: Context) {
-        // The tree's data is static; checkbox state is read from settings
-        // when a row view is configured and written straight back through
-        // the coordinator, so there is nothing to push in.
+        // Checkbox state is read from settings when a row view is
+        // configured, so the tree's static data needs no pushing — only a
+        // reload from outside the UI does, and that means reconfiguring the
+        // visible rows (reloadItem does not re-ask the delegate for them).
+        guard context.coordinator.seenRevision != settings.revision else { return }
+        if context.coordinator.refreshVisibleRows() {
+            context.coordinator.seenRevision = settings.revision
+        }
     }
 
     func makeCoordinator() -> Coordinator {
@@ -126,9 +131,33 @@ struct ShortcutOutline: NSViewRepresentable {
     final class Coordinator: NSObject, NSOutlineViewDataSource, NSOutlineViewDelegate {
         private let settings: GnomeShortcutSettings
         weak var outline: NSOutlineView?
+        /// The model revision the visible rows were last configured against.
+        var seenRevision = 0
 
         init(settings: GnomeShortcutSettings) {
             self.settings = settings
+        }
+
+        /// Reconfigures rows from the model — the counterpart of `refresh`,
+        /// for changes that did not come from a click. When the outline is
+        /// hidden (another settings pane showing) the visible rect is empty
+        /// and `rows(in:)` reports nothing, so every row is refreshed
+        /// instead — the pane must not come back stale. False when there was
+        /// nothing to refresh, so the revision stays unacknowledged and the
+        /// next update tries again.
+        @discardableResult
+        func refreshVisibleRows() -> Bool {
+            guard let outline else { return false }
+            let visible = outline.rows(in: outline.visibleRect)
+            let range = visible.length > 0
+                ? visible
+                : NSRange(location: 0, length: outline.numberOfRows)
+            guard range.length > 0 else { return false }
+            for row in range.location..<NSMaxRange(range) {
+                guard let node = outline.item(atRow: row) as? ShortcutNode else { continue }
+                refresh(node)
+            }
+            return true
         }
 
         // MARK: - Data source
