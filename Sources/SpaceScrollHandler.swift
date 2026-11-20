@@ -120,8 +120,14 @@ final class SpaceScrollHandler {
     /// display the pointer is on.
     private func isOverAppleMenu(_ location: CGPoint, on screen: NSScreen) -> Bool {
         guard let frame = appleMenuFrame(),
-              let host = NSScreen.screens.first(where: {
-                  $0.frame.minX <= frame.midX && frame.midX < $0.frame.maxX
+              // Both axes: vertically stacked displays share an x-range, and
+              // resolving the host by x alone picks whichever `NSScreen.screens`
+              // lists first — leaving the Apple menu's y-offset off by a full
+              // screen height and the feature dead on the other display.
+              let host = NSScreen.screens.first(where: { candidate in
+                  let origin = cgOrigin(of: candidate)
+                  return origin.x <= frame.midX && frame.midX < origin.x + candidate.frame.width
+                      && origin.y <= frame.midY && frame.midY < origin.y + candidate.frame.height
               }) ?? NSScreen.main
         else { return false }
 
