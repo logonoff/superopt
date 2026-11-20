@@ -18,7 +18,7 @@ install: clean
 	@echo "Done. You can launch $(APP_NAME) from Applications."
 
 kill:
-	pkill -9 -f "SuperOpt" || echo "No running SuperOpt processes found."
+	pkill -9 -x SuperOpt || echo "No running SuperOpt processes found."
 
 run: kill clean install
 	open "$(INSTALL_DIR)/$(APP_NAME).app"
