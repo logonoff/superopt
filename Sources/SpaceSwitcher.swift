@@ -23,7 +23,12 @@ struct ManagedDisplay {
 @MainActor
 enum SpaceSwitcher {
     private typealias MainConnectionFn = @convention(c) () -> UInt32
-    private typealias CopyDisplaySpacesFn = @convention(c) (UInt32) -> CFArray?
+    // Typed as Unmanaged because the hand-written signature carries no
+    // audit annotation: a plain CFArray? return is treated by ARC as a
+    // borrowed reference, so the Copy rule's +1 would never be released
+    // (measured with CFGetRetainCount against an audited call — one extra
+    // retain). takeRetainedValue consumes it.
+    private typealias CopyDisplaySpacesFn = @convention(c) (UInt32) -> Unmanaged<CFArray>?
 
     private static let skyLight = dlopen(
         "/System/Library/PrivateFrameworks/SkyLight.framework/SkyLight", RTLD_LAZY)
@@ -41,7 +46,7 @@ enum SpaceSwitcher {
 
     static func displays() -> [ManagedDisplay] {
         guard let connection, let copyDisplaySpaces,
-              let raw = copyDisplaySpaces(connection) as? [[String: Any]]
+              let raw = copyDisplaySpaces(connection)?.takeRetainedValue() as? [[String: Any]]
         else { return [] }
 
         return raw.compactMap { entry in
