@@ -539,18 +539,50 @@ extension AppDelegate {
 
 // MARK: - Event Routing
 extension AppDelegate {
+    /// Key and mouse input that dirties a held Option press, mirrored into
+    /// the suspended path so a release inside an excluded app cannot read as
+    /// clean.
+    private static let optionDirtyingEvents: Set<CGEventType> = [
+        .keyDown, .leftMouseDown, .rightMouseDown, .otherMouseDown
+    ]
+
+    /// Key or mouse input while the active app is excluded still dirties a
+    /// held Option press — the same events mark it on the unsuspended path —
+    /// or a release inside the excluded app would read as clean.
+    private func markOptionDirtyIfInput(type: CGEventType) {
+        if Self.optionDirtyingEvents.contains(type) {
+            optionKeyHandler.markOtherInput()
+        }
+    }
+
     /// Returns true if the event should be consumed.
     @discardableResult
     func handleEvent(type: CGEventType, event: CGEvent) -> Bool {
         // Caps Lock transitions are tracked even while the active app is
         // excluded or the OSD is off: a skipped toggle would leave the latch
-        // stale and silently eat the next real toggle's notification.
-        if type == .flagsChanged { trackCapsLock(event: event) }
+        // stale and silently eat the next real toggle's notification. Option
+        // press state is tracked there for the same reason — the suspension
+        // guard below would otherwise swallow the release of a chord held
+        // into an excluded app, and the stale flags misjudge the next press
+        // after leaving (a chord held straight through reads as clean when a
+        // companion modifier releases). Only the actions are suppressed
+        // while suspended.
+        if type == .flagsChanged {
+            trackCapsLock(event: event)
+            optionKeyHandler.handleFlagsChanged(
+                event: event, actionsEnabled: !excludedApps.isSuspended)
+        }
         // Every handler below is off in an excluded app, including the ones that read
-        // their own setting rather than going through `isEnabled`.
-        guard !excludedApps.isSuspended else { return false }
+        // their own setting rather than going through `isEnabled`. Their key
+        // and mouse input still dirties a held Option press — the same events
+        // mark it on the unsuspended path — or a release inside the excluded
+        // app would read as clean.
+        guard !excludedApps.isSuspended else {
+            markOptionDirtyIfInput(type: type)
+            return false
+        }
         switch type {
-        case .flagsChanged: optionKeyHandler.handleFlagsChanged(event: event)
+        case .flagsChanged: break // tracked above
         case .keyDown: return handleKeyDown(event: event)
         case .leftMouseDown, .rightMouseDown, .otherMouseDown:
             return handleMouseDown(type: type, event: event)
