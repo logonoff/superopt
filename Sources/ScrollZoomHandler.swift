@@ -23,11 +23,11 @@ class ScrollZoomHandler {
 
     /// Returns true if the event was consumed.
     func handleScroll(event: CGEvent) -> Bool {
-        // Checked before the frontmost-app lookup: this runs for every scroll
-        // event at trackpad frequency, and the feature is off by default.
+        // Cheap local checks first, the frontmost-app lookup last: this runs
+        // for every scroll event at trackpad frequency, the feature is off by
+        // default, and the app lookup is not free.
         guard mode != .off else { return false }
-        guard KeyboardUtils.isBrowserApp(),
-              event.flags.contains(.maskControl),
+        guard event.flags.contains(.maskControl),
               !event.flags.contains(.maskCommand)
         else { return false }
 
@@ -39,6 +39,8 @@ class ScrollZoomHandler {
 
         let delta = event.getIntegerValueField(.scrollWheelEventDeltaAxis1)
         guard delta != 0 else { return false }
+
+        guard KeyboardUtils.isBrowserApp() else { return false }
 
         let zoomIn = mode == .natural ? delta > 0 : delta < 0
         KeyboardUtils.postKey(
