@@ -252,7 +252,7 @@ if [ -d "Icon.icon" ] && actool --version &>/dev/null; then
     # Extract 256x256 favicon from the compiled icns for the website
     ICNS="$APP_BUNDLE/Contents/Resources/Icon.icns"
     if [ -f "$ICNS" ]; then
-        sips -s format png -z 256 256 "$ICNS" --out docs/favicon.png &>/dev/null
+        sips -s format png -z 256 256 "$ICNS" --out docs/favicon.png &>/dev/null || true
     fi
     # actool spawns ibtoold as a background daemon that outlives the build
     pkill -9 ibtoold 2>/dev/null || true
