@@ -129,9 +129,14 @@ class ZoomButtonHandler {
             y: KeyboardUtils.primaryScreenHeight() - visible.origin.y - visible.height,
             width: visible.width, height: visible.height)
 
-        return abs(winFrame.origin.x - fillFrame.origin.x) < 10
-            && abs(winFrame.origin.y - fillFrame.origin.y) < 10
-            && abs(winFrame.width - fillFrame.width) < 10
-            && abs(winFrame.height - fillFrame.height) < 10
+        // One-sided comparisons with tolerance, not abs() equality: a window
+        // can extend past visibleFrame into the menu-bar strip or Dock area
+        // and still be filled (the same convention as Tile Assist detection
+        // and MenuBarBackground's fill test).
+        let tolerance: CGFloat = 10
+        return winFrame.minX <= fillFrame.minX + tolerance
+            && winFrame.minY <= fillFrame.minY + tolerance
+            && winFrame.maxX >= fillFrame.maxX - tolerance
+            && winFrame.maxY >= fillFrame.maxY - tolerance
     }
 }
