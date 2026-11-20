@@ -18,8 +18,21 @@ class CloseOverlay {
         buttonView.isHovered = hovered
         window.contentView = buttonView; window.alphaValue = 0
         window.orderFrontRegardless()
-        NSAnimationContext.runAnimationGroup { ctx in
+        var landed = false
+        NSAnimationContext.runAnimationGroup({ ctx in
             ctx.duration = 0.15; window.animator().alphaValue = 1
+        }, completionHandler: {
+            MainActor.assumeIsolated { landed = true }
+        })
+        // The completion of a group whose animation never starts is never
+        // delivered (measured in this app — see OSDPanel, which carries the
+        // same fallback); the button is purely visual, but the handler keeps
+        // aiming clicks at where it should be, so land it directly.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in
+            MainActor.assumeIsolated {
+                guard let self, !landed, self.window.isVisible else { return }
+                self.window.alphaValue = 1
+            }
         }
     }
 
