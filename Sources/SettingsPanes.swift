@@ -244,6 +244,9 @@ struct InputPane: View {
                     Text("Finder position")
                     Text("The Finder takes this position in the Dock; other apps shift to fill the gap")
                 }
+                // Inert while the parent feature is off — the position is
+                // only read on the ⌥1–9 path.
+                .disabled(!dockShortcuts)
             } header: {
                 Text("Option Key")
             }
