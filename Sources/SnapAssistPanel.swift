@@ -232,6 +232,13 @@ extension SnapAssistPanel {
         }
         clickMonitor = NSEvent.addLocalMonitorForEvents(matching: [.leftMouseDown]) { [weak self] event in
             guard let self else { return event }
+            // A click in another of this app's windows (settings, the
+            // permission dialog) goes through rather than being consumed as
+            // an outside click — it still dismisses the popup.
+            if event.window !== self.panel {
+                self.dismiss()
+                return event
+            }
             let loc = event.locationInWindow
             let containerInPanel = self.backdrop.convert(self.glassView.frame, to: nil)
             if !containerInPanel.contains(loc) {
