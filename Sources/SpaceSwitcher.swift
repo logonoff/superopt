@@ -66,6 +66,19 @@ enum SpaceSwitcher {
            let match = all.first(where: { $0.identifier == uuid }) {
             return (match, [screen])
         }
+        // The shared-spaces configuration collapses the list to a single entry
+        // under a name that matches no screen, and they all move together.
+        // Reaching this point any other way — a UUID that will not resolve, a
+        // display the window server has not listed yet — has no known answer,
+        // and another display's row would be the wrong one to switch by.
+        let identifiers = Set(all.map(\.identifier))
+        let anyScreenListed = NSScreen.screens.contains {
+            identifier(for: $0).map(identifiers.contains) ?? false
+        }
+        // One entry that names no screen is the shared configuration itself;
+        // anything else reaching this point is a resolution failure with no
+        // known answer.
+        guard all.count == 1, !anyScreenListed else { return nil }
         return (shared, NSScreen.screens)
     }
 
