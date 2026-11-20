@@ -82,6 +82,15 @@ class TileAssistWatcher {
             AXObserverGetRunLoopSource(obs), .defaultMode)
 
         let axApp = AXUIElementCreateApplication(pid)
+        // The app-level notification is the recovery path for a transient
+        // focused-window failure below, so it is registered before that
+        // failure can happen — an observer with no notifications registered
+        // observes nothing, and the watcher would stay deaf to the app until
+        // the next activation.
+        AXObserverAddNotification(
+            obs, axApp,
+            kAXFocusedWindowChangedNotification as CFString, refcon)
+
         var winRef: AnyObject?
         AXUIElementCopyAttributeValue(
             axApp, kAXFocusedWindowAttribute as CFString, &winRef)
@@ -94,9 +103,6 @@ class TileAssistWatcher {
         for note in [kAXMovedNotification, kAXResizedNotification] as [CFString] {
             AXObserverAddNotification(obs, window, note, refcon)
         }
-        AXObserverAddNotification(
-            obs, axApp,
-            kAXFocusedWindowChangedNotification as CFString, refcon)
     }
 
     func windowDidChange() {
