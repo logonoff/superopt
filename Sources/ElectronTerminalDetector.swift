@@ -16,7 +16,7 @@ enum ElectronTerminalDetector {
     static let bundleIDs: Set<String> = [
         "com.microsoft.VSCode",
         "com.microsoft.VSCodeInsiders",
-        "com.vscodium.VSCodium",
+        "com.vscodium", // VSCodium's product.json darwinBundleIdentifier
         "com.todesktop.230313mzl4w4u92" // Cursor
     ]
 

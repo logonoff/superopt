@@ -86,7 +86,7 @@ enum KeyboardUtils {
         "com.microsoft.VSCode",
         "com.microsoft.VSCodeInsiders",
         "com.todesktop.230313mzl4w4u92", // Cursor
-        "com.vscodium.VSCodium",
+        "com.vscodium", // VSCodium's product.json darwinBundleIdentifier
         "dev.zed.Zed",
         "com.sublimetext.4",
         "com.sublimetext.3",
