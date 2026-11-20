@@ -160,6 +160,13 @@ private final class SettingsTabViewController: NSTabViewController {
     /// nothing left to animate. Setting the frame first leaves the
     /// constraint pass with nothing to do.
     private func resize(_ window: NSWindow, to viewController: NSViewController?) {
+        // Bumped on every path through here: a later resize (animated or
+        // not) must cancel any pending fallback reveal an earlier one
+        // scheduled, or the stale fallback would un-hide a pane the newer
+        // switch just hid — the flicker the hide-during-resize design
+        // exists to prevent.
+        resizeGeneration += 1
+        let generation = resizeGeneration
         func reveal() { viewController?.view.isHidden = false }
         guard window.isVisible,
               let ideal = viewController?.preferredContentSize.height, ideal > 1
@@ -174,6 +181,7 @@ private final class SettingsTabViewController: NSTabViewController {
             window.setFrame(frame, display: true)
             reveal()
         } else {
+            var revealed = false
             NSAnimationContext.runAnimationGroup { context in
                 // AppKit's own duration for a frame change of this size,
                 // which scales with the distance, caps at 0.350 s, and
@@ -182,13 +190,35 @@ private final class SettingsTabViewController: NSTabViewController {
                 // the timing matches a window AppKit resizes itself.
                 context.duration = window.animationResizeTime(frame)
                 window.animator().setFrame(frame, display: true)
-            } completionHandler: {
+            } completionHandler: { [weak self] in
                 // AppKit runs the completion handler on the main thread, but
                 // does not declare it @MainActor.
-                MainActor.assumeIsolated { reveal() }
+                MainActor.assumeIsolated {
+                    revealed = true
+                    guard let self, self.resizeGeneration == generation else { return }
+                    reveal()
+                }
+            }
+            // The completion of a group whose animation never starts is
+            // never delivered (measured in this app — see OSDPanel, which
+            // carries the same fallback), and the pane stays hidden with
+            // nothing re-triggering didSelect for an unchanged selection —
+            // close the window mid-resize and reopen it, and the content
+            // area is blank until a pane switch. Land the reveal directly,
+            // gated on this resize still being the live one.
+            let duration = window.animationResizeTime(frame)
+            DispatchQueue.main.asyncAfter(deadline: .now() + duration + 0.05) { [weak self] in
+                MainActor.assumeIsolated {
+                    guard let self, !revealed, self.resizeGeneration == generation else { return }
+                    reveal()
+                }
             }
         }
     }
+
+    /// Bumped by each pass through `resize`, so a pending fallback reveal
+    /// only applies to the resize that scheduled it.
+    private var resizeGeneration = 0
 
     /// Reopens on the pane that was last shown.
     private static func storedPaneIndex() -> Int {
