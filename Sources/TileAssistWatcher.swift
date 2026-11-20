@@ -11,18 +11,29 @@ private func tileWatcherCallback(
 @MainActor
 class TileAssistWatcher {
     var onTile: ((SnapAssistPanel.TileDirection, NSScreen, TiledWindowInfo) -> Void)?
-    var isPanelVisible: () -> Bool = { false }
 
     private var observer: AXObserver?
     private var watchedWindow: AXUIElement?
     private var watchedPID: pid_t = -1
     private var previousFrame: CGRect = .zero
-    private var previousWasTiled = false
+    /// The half and screen the window was last tiled on, nil when it was not
+    /// tiled. Recording *where* the window is tiled, not just that it is,
+    /// keeps a nudge within the same half from re-offering the popup while
+    /// still treating a move to the other half — or another screen's half —
+    /// as the fresh tile it is.
+    private var lastTile: TileState?
     private var appObserver: NSObjectProtocol?
     private var selfPtr: Unmanaged<TileAssistWatcher>?
     private var debounceTimer: Timer?
     private var suppressUntil: TimeInterval = 0
     private static let tolerance: CGFloat = 10
+
+    /// A tiled window's half and the screen it sits on, compared across
+    /// checks to decide what counts as a fresh tile.
+    private struct TileState: Equatable {
+        let direction: SnapAssistPanel.TileDirection
+        let screenFrame: NSRect
+    }
 
     func suppress() { suppressUntil = ProcessInfo.processInfo.systemUptime + 1.5 }
 
@@ -97,8 +108,12 @@ class TileAssistWatcher {
         guard let window = winRef.flatMap(KeyboardUtils.toAXElement) else { return }
         watchedWindow = window
         previousFrame = Self.windowFrame(window)
-        previousWasTiled = Self.tileDirection(
-            previousFrame, onScreen: Self.screenForWindow(previousFrame)) != nil
+        if let screen = Self.screenForWindow(previousFrame),
+           let dir = Self.tileDirection(previousFrame, onScreen: screen) {
+            lastTile = TileState(direction: dir, screenFrame: screen.frame)
+        } else {
+            lastTile = nil
+        }
 
         for note in [kAXMovedNotification, kAXResizedNotification] as [CFString] {
             AXObserverAddNotification(obs, window, note, refcon)
@@ -132,25 +147,37 @@ class TileAssistWatcher {
     private func checkTileState() {
         guard let window = watchedWindow else { return }
         let frame = Self.windowFrame(window)
+        // A failed AX read reports .zero — not evidence the window moved or
+        // stopped being tiled — and recording it would clear the latch that
+        // keeps a nudge of a still-tiled window from re-offering the popup.
+        guard frame != .zero else { return }
         previousFrame = frame
-        let screen = Self.screenForWindow(frame)
-        let dir = Self.tileDirection(frame, onScreen: screen)
-        let wasTiled = previousWasTiled
+        guard let screen = Self.screenForWindow(frame) else { return }
+        var currentTile: TileState?
+        if let dir = Self.tileDirection(frame, onScreen: screen) {
+            currentTile = TileState(direction: dir, screenFrame: screen.frame)
+        }
+        let newlyTiled = currentTile != nil && currentTile != lastTile
         // Recorded even while suppressed: when Tile Assist itself arranges a
         // window, the move/resize notifications land inside the suppression
         // window, and leaving the state unrecorded there would let a later
         // nudge of the still-tiled window read as a fresh tile and re-offer
         // the popup beside it.
-        previousWasTiled = dir != nil
+        lastTile = currentTile
 
         guard ProcessInfo.processInfo.systemUptime > suppressUntil else { return }
 
-        if !wasTiled, let dir, let screen, !isPanelVisible(),
-           !Self.isOtherHalfOccupied(direction: dir, screen: screen) {
+        if newlyTiled, let currentTile,
+           !Self.isOtherHalfOccupied(direction: currentTile.direction, screen: screen) {
             // The tiled window's identity is handed over as known here: the
             // panel re-identifying it from the frontmost app at popup time
-            // races a focus change in the debounce window.
-            onTile?(dir, screen, TiledWindowInfo(
+            // races a focus change in the debounce window. A panel still
+            // standing from an earlier tile is replaced, not waited out:
+            // the free half changed, so its candidates would arrange into
+            // the half this window just took — and the panel's own arrange
+            // cannot re-trigger this, as it runs inside the suppression
+            // window.
+            onTile?(currentTile.direction, screen, TiledWindowInfo(
                 pid: watchedPID,
                 windowID: Self.windowID(of: window),
                 frame: frame))
