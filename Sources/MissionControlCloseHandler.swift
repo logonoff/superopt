@@ -29,6 +29,11 @@ class MissionControlCloseHandler {
 
     private static let buttonSize: CGFloat = 26
     private static let hitPadding: CGFloat = 9
+    /// How far from a cached thumbnail rect the pointer may sit before the
+    /// live read is skipped: the cache lags a moving thumbnail by whatever
+    /// it travelled since the last 4 Hz refresh, so this is deliberately
+    /// much wider than the button's hit padding.
+    private static let hoverPrefilter: CGFloat = 150
     private static let slowInterval: TimeInterval = 0.25
 
     init?(monitor: MissionControlMonitor) {
@@ -117,11 +122,26 @@ class MissionControlCloseHandler {
     // MARK: - Event tap hooks
 
     func handleClick(event: CGEvent) -> Bool {
-        guard monitor.isActive else { return false }
+        // `hoveredWID` is only ever set while Mission Control was up, so with
+        // nothing hovered there is nothing to do — and this runs for every
+        // click in every app, so the walk below is not paid there.
+        guard hoveredWID != 0 else { return false }
+        // A fresh walk rather than the `isActive` flag: it stays true through
+        // the close animation, and a click in that window would otherwise
+        // close a very real window from where a thumbnail used to be.
+        guard monitor.check() else { return false }
         let loc = event.location
-        guard hoveredWID != 0,
-              let entry = windowRects.first(where: { $0.wid == hoveredWID }),
-              hitTestCGRect(for: entry.rect).contains(loc)
+        guard let entry = windowRects.first(where: { $0.wid == hoveredWID })
+        else { return false }
+        // The visible button tracks the live compositor rect at the display's
+        // refresh rate while `windowRects` refreshes at the monitor's 4 Hz,
+        // so the hit test runs against where the button is drawn. The same
+        // size floor as the overlay: no button is drawn below it, so no
+        // click is consumed there either.
+        var live = CGRect.zero
+        guard getScreenRect(cid, entry.wid, &live) == 0,
+              live.width > 60, live.height > 60,
+              hitTestCGRect(for: live).contains(loc)
         else { return false }
         closeWindow(pid: entry.pid, windowID: entry.wid)
         return true
@@ -141,10 +161,20 @@ class MissionControlCloseHandler {
     }
 
     private func updateHover(at loc: CGPoint) {
-        let hitWID = windowRects.first(where: { $0.rect.contains(loc) })?.wid ?? 0
+        // Live compositor rects, not the 4 Hz-cached ones: the click path
+        // tests the live rect, so the drawn affordance has to agree with it
+        // while thumbnails move. The cached rect pre-filters, generously —
+        // the cache lags a moving thumbnail by whatever it travelled since
+        // the last 4 Hz refresh, so a tight margin would drop hover exactly
+        // during animations — and the live read is still only paid for
+        // entries the pointer is plausibly on.
+        let hitWID = windowRects.first(where: { entry in
+            entry.rect.insetBy(dx: -Self.hoverPrefilter, dy: -Self.hoverPrefilter).contains(loc)
+                && hoverRect(for: entry).contains(loc)
+        })?.wid ?? 0
         var overButton = false
         if hitWID != 0, let entry = windowRects.first(where: { $0.wid == hitWID }) {
-            overButton = hitTestCGRect(for: entry.rect).contains(loc)
+            overButton = hitTestCGRect(for: hoverRect(for: entry)).contains(loc)
         }
         guard hitWID != hoveredWID || overButton != buttonHovered else { return }
         hoveredWID = hitWID
@@ -155,6 +185,20 @@ class MissionControlCloseHandler {
             setTickRate(.slow)
         }
         updateOverlay()
+    }
+
+    /// Where a window's thumbnail is right now: the live compositor rect
+    /// under the same size floor as everything that draws or consumes the
+    /// button, falling back to the cached one only when the live read fails.
+    /// Zero when neither qualifies — no button is drawn there, so nothing is
+    /// hovered either.
+    private func hoverRect(for entry: WindowEntry) -> CGRect {
+        var live = CGRect.zero
+        if getScreenRect(cid, entry.wid, &live) == 0,
+           live.width > 60, live.height > 60 {
+            return live
+        }
+        return (entry.rect.width > 60 && entry.rect.height > 60) ? entry.rect : .zero
     }
 
     private func deactivateMC() {
