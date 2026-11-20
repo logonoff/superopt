@@ -128,12 +128,32 @@ class SnapAssistPanel {
         }
     }
 
+    /// Bumped by dismiss, so a pending fade-in fallback cannot land after a
+    /// dismissal has started (the panel stays \"visible\" through its own
+    /// fade-out).
+    private var fadeGeneration = 0
+
     private func showAnimated() {
         panel.alphaValue = 0
         panel.orderFrontRegardless()
-        NSAnimationContext.runAnimationGroup { ctx in
+        let generation = fadeGeneration
+        var landed = false
+        NSAnimationContext.runAnimationGroup({ ctx in
             ctx.duration = 0.2
             panel.animator().alphaValue = 1
+        }, completionHandler: {
+            MainActor.assumeIsolated { landed = true }
+        })
+        // The completion of a group whose animation never starts is never
+        // delivered (measured in this app — see OSDPanel, which carries the
+        // same fallback), and an invisible window still eats clicks through
+        // its backdrop for the 5 s timeout, so land the fade directly.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) { [weak self] in
+            MainActor.assumeIsolated {
+                guard let self, self.panel.isVisible, !landed,
+                      self.fadeGeneration == generation else { return }
+                self.panel.alphaValue = 1
+            }
         }
     }
 }
@@ -220,6 +240,7 @@ extension SnapAssistPanel {
 
     func dismiss() {
         guard panel.isVisible else { return }
+        fadeGeneration += 1
         dismissTimer?.invalidate(); dismissTimer = nil
         windowCheckTimer?.invalidate(); windowCheckTimer = nil
         if let monitor = keyMonitor { NSEvent.removeMonitor(monitor); keyMonitor = nil }
@@ -229,16 +250,22 @@ extension SnapAssistPanel {
             appActivationObserver = nil
         }
         let panelWindow = panel
-        NSAnimationContext.runAnimationGroup({ ctx in
+        // No completion handler: one handed to a group whose animation never
+        // starts is retained forever, holding the window with it (measured —
+        // the OSDPanel finding). The delayed block below is the sole
+        // deliverer, which is OSDPanel's own workaround for exactly this.
+        NSAnimationContext.runAnimationGroup { ctx in
             ctx.duration = 0.15
             panelWindow.animator().alphaValue = 0
-        }, completionHandler: { [weak self] in
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in
             MainActor.assumeIsolated {
+                panelWindow.alphaValue = 0
                 panelWindow.orderOut(nil)
                 self?.onDismiss?()
                 self?.onDismiss = nil
             }
-        })
+        }
     }
 }
 // MARK: - Geometry
