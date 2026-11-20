@@ -12,6 +12,11 @@ class MenuKeyHandler {
               !event.flags.contains(.maskAlternate),
               !event.flags.contains(.maskShift)
         else { return false }
+        // Held keys autorepeat, and each repeat would re-run the whole path:
+        // a synthetic right-click pair plus a cursor warp back. Strobing the
+        // menu open and closed and flickering the pointer is worse than
+        // delivering the repeats, so they are consumed like the Apps key's.
+        guard event.getIntegerValueField(.keyboardEventAutorepeat) == 0 else { return true }
 
         // event.location is the current pointer position, so the caret click can put
         // it back afterwards. The other two paths never move it.
