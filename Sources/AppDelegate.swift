@@ -352,6 +352,8 @@ extension AppDelegate {
     /// not the F3 function key, which is code 99. Which F-position it shares varies by
     /// keyboard model, so the code is the only stable way to name it.
     private static let missionControlKeyCode: Int64 = 160
+    /// Virtual key code of Escape.
+    private static let keyEscape: Int64 = 0x35
 
     fileprivate func triggerMissionControl() {
         // Emulate the Mission Control key rather than spawning `open -a "Mission Control"`:
@@ -637,9 +639,19 @@ extension AppDelegate {
 
     private func handleKeyDown(event: CGEvent) -> Bool {
         if KeyboardUtils.isSynthetic(event) { return false }
-        // Not consumed — just tells the close-button handler to start looking for
-        // Mission Control, since opening it from the keyboard moves no mouse.
-        if event.getIntegerValueField(.keyboardEventKeycode) == Self.missionControlKeyCode {
+        let keyCode = event.getIntegerValueField(.keyboardEventKeycode)
+        // Not consumed — just tells the monitor to start looking for Mission
+        // Control, since opening it from the keyboard moves no mouse. Escape
+        // closes an open Mission Control, so it counts as a trigger too:
+        // without it the monitor learns of the close up to 250 ms late.
+        // Bare keys only — a modified Escape (⌥⌘Esc is Force Quit) closes
+        // nothing, and the same rule gates the search handler's guard.
+        let bareKey = !event.flags.contains(.maskCommand)
+            && !event.flags.contains(.maskControl)
+            && !event.flags.contains(.maskAlternate)
+            && !event.flags.contains(.maskShift)
+        if keyCode == Self.missionControlKeyCode
+            || (bareKey && keyCode == Self.keyEscape && mcMonitor.isActive) {
             mcMonitor.noteTrigger()
         }
         if mcSearchHandler.handleKeyDown(event: event) {
