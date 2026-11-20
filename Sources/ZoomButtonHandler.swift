@@ -21,7 +21,50 @@ class ZoomButtonHandler {
 
         let filled = isWindowFilled(window, clickPoint: pos)
         let char = filled ? "R" : "F"
+
+        // The Window menu's Fill / Return to Previous Size items act on the
+        // app's key window, not on the window whose green button was
+        // clicked, so the clicked window has to be made the focused one
+        // first — and a background app brought forward, or the fill lands
+        // on the wrong window and the click is gone.
+        AXUIElementPerformAction(window, kAXRaiseAction as CFString)
+        AXUIElementSetAttributeValue(
+            AXUIElementCreateApplication(pid), kAXFocusedWindowAttribute as CFString, window)
+        if NSWorkspace.shared.frontmostApplication?.processIdentifier != pid {
+            NSRunningApplication(processIdentifier: pid)?.activate()
+            pressWhenFront(pid: pid, window: window, char: char, attempts: 0)
+            // Consumed even though the press is deferred: passing the click
+            // through would give the app its native green-button behaviour
+            // instead of Fill, and a synthetic re-post on a still-inactive
+            // window is swallowed as bare activation (measured). The cost
+            // is a rare swallowed click — when activation never completes,
+            // or when the geometric fill test picks "Return to Previous
+            // Size" for a manually-maximized window whose menu item is
+            // disabled (measured: never-tiled windows disable it).
+            return true
+        }
         return KeyboardUtils.pressTilingMenuItem(pid: pid, char: char)
+    }
+
+    /// ⌘-menu items reach the app's own menu bar reliably once it is
+    /// frontmost; a background app's activation is asynchronous, so the
+    /// press waits for it (the SnapAssistActions pattern).
+    private func pressWhenFront(
+        pid: pid_t, window: AXUIElement, char: String, attempts: Int
+    ) {
+        if NSWorkspace.shared.frontmostApplication?.processIdentifier == pid || attempts >= 10 {
+            // Activation makes the app's own recorded key window key, which
+            // is not necessarily the one whose button was clicked — re-apply
+            // the raise right before pressing, as SnapAssistActions does.
+            AXUIElementPerformAction(window, kAXRaiseAction as CFString)
+            AXUIElementSetAttributeValue(
+                AXUIElementCreateApplication(pid), kAXFocusedWindowAttribute as CFString, window)
+            _ = KeyboardUtils.pressTilingMenuItem(pid: pid, char: char)
+            return
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) { [weak self] in
+            self?.pressWhenFront(pid: pid, window: window, char: char, attempts: attempts + 1)
+        }
     }
 
     // MARK: - AX helpers
