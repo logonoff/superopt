@@ -68,9 +68,24 @@ class ClickThroughFocusHandler {
     /// Returns true if the event was consumed.
     func handleMouseDown(event: CGEvent) -> Bool {
         // Our own replayed press must reach the window, not be withheld again.
-        guard !KeyboardUtils.isSynthetic(event), pending == nil else { return false }
-        // A new press means the last one is over, whatever became of its release.
-        afterPress = nil
+        guard !KeyboardUtils.isSynthetic(event) else { return false }
+        if pending != nil {
+            // A second press while the first is still withheld: the target has
+            // not come forward yet, so letting this one through raw would
+            // deliver it to the still-inactive window — swallowed as a bare
+            // activation, exactly what this handler exists to fix. The first
+            // press is dropped here and the new one evaluated below. Its
+            // release needs no matching: on a single pointing device a second
+            // press cannot precede the first's release through a working tap,
+            // so an unreleased pending here means the release was missed
+            // while the tap could not see it — and it has already reached the
+            // window on its own. Eating the next release instead would tear
+            // the new press's pair.
+            reset()
+        } else {
+            // A new press means the last one is over, whatever became of its release.
+            afterPress = nil
+        }
         guard let target = frontWindow(at: event.location), needsFocus(target) else { return false }
         guard event.location.y - target.frame.minY > Self.titleBarBand else { return false }
 
