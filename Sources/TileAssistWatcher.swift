@@ -130,15 +130,20 @@ class TileAssistWatcher {
     }
 
     private func checkTileState() {
-        guard let window = watchedWindow,
-              ProcessInfo.processInfo.systemUptime > suppressUntil
-        else { return }
+        guard let window = watchedWindow else { return }
         let frame = Self.windowFrame(window)
         previousFrame = frame
         let screen = Self.screenForWindow(frame)
         let dir = Self.tileDirection(frame, onScreen: screen)
         let wasTiled = previousWasTiled
+        // Recorded even while suppressed: when Tile Assist itself arranges a
+        // window, the move/resize notifications land inside the suppression
+        // window, and leaving the state unrecorded there would let a later
+        // nudge of the still-tiled window read as a fresh tile and re-offer
+        // the popup beside it.
         previousWasTiled = dir != nil
+
+        guard ProcessInfo.processInfo.systemUptime > suppressUntil else { return }
 
         if !wasTiled, let dir, let screen, !isPanelVisible(),
            !Self.isOtherHalfOccupied(direction: dir, screen: screen) {
