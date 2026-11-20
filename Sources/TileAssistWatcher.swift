@@ -33,7 +33,22 @@ class TileAssistWatcher {
         appObserver = NSWorkspace.shared.notificationCenter.addObserver(
             forName: NSWorkspace.didActivateApplicationNotification,
             object: nil, queue: .main
-        ) { [weak self] _ in MainActor.assumeIsolated { self?.observeFrontmostApp() } }
+        ) { [weak self] note in
+            MainActor.assumeIsolated {
+                // `frontmostApplication` still names the outgoing app inside
+                // this notification (measured; see AGENTS.md), so the
+                // activated app comes from the notification itself — reading
+                // the property here would leave the observer one app switch
+                // behind, re-observing the app the user just left.
+                guard let self else { return }
+                if let app = note.userInfo?[NSWorkspace.applicationUserInfoKey]
+                    as? NSRunningApplication {
+                    self.observe(app)
+                } else {
+                    self.observeFrontmostApp()
+                }
+            }
+        }
     }
 
     func stop() {
@@ -47,10 +62,24 @@ class TileAssistWatcher {
     }
 
     func observeFrontmostApp() {
-        tearDownObserver()
         guard let app = NSWorkspace.shared.frontmostApplication else { return }
+        observe(app)
+    }
+
+    func observe(_ app: NSRunningApplication) {
+        tearDownObserver()
         let pid = app.processIdentifier
         watchedPID = pid
+
+        var obs: AXObserver?
+        guard AXObserverCreate(
+            pid, tileWatcherCallback, &obs) == .success,
+              let obs else { return }
+        observer = obs
+        let refcon = selfPtr?.toOpaque()
+        CFRunLoopAddSource(
+            CFRunLoopGetMain(),
+            AXObserverGetRunLoopSource(obs), .defaultMode)
 
         let axApp = AXUIElementCreateApplication(pid)
         var winRef: AnyObject?
@@ -62,21 +91,12 @@ class TileAssistWatcher {
         previousWasTiled = Self.tileDirection(
             previousFrame, onScreen: Self.screenForWindow(previousFrame)) != nil
 
-        var obs: AXObserver?
-        guard AXObserverCreate(
-            pid, tileWatcherCallback, &obs) == .success,
-              let obs else { return }
-        observer = obs
-        let refcon = selfPtr?.toOpaque()
         for note in [kAXMovedNotification, kAXResizedNotification] as [CFString] {
             AXObserverAddNotification(obs, window, note, refcon)
         }
         AXObserverAddNotification(
             obs, axApp,
             kAXFocusedWindowChangedNotification as CFString, refcon)
-        CFRunLoopAddSource(
-            CFRunLoopGetMain(),
-            AXObserverGetRunLoopSource(obs), .defaultMode)
     }
 
     func windowDidChange() {
