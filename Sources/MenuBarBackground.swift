@@ -29,19 +29,34 @@ class MenuBarBackground: NSObject {
     /// When the wallpaper was last changed, as far as the readings above are concerned.
     private var wallpaperChangedAt: Date?
 
+    /// Bumped by start and stop, so a delayed fade-out only applies if
+    /// nothing has happened since.
+    private var fadeGeneration = 0
+    /// Installed once and never removed: a screen-layout change while the
+    /// feature is stopped has to drop the overlays, or `start` would find
+    /// them non-empty and pair them with stale frames forever.
+    private var observingScreens = false
+
     func start() {
         active = true
+        fadeGeneration += 1
+        installScreenChangeObserverIfNeeded()
         if timer == nil {
             if overlays.isEmpty { createWindows() }
             timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [weak self] _ in
                 MainActor.assumeIsolated { self?.update() }
             }
-            NotificationCenter.default.addObserver(
-                self, selector: #selector(screenChanged),
-                name: NSApplication.didChangeScreenParametersNotification, object: nil
-            )
         }
         update()
+    }
+
+    private func installScreenChangeObserverIfNeeded() {
+        guard !observingScreens else { return }
+        observingScreens = true
+        NotificationCenter.default.addObserver(
+            self, selector: #selector(screenChanged),
+            name: NSApplication.didChangeScreenParametersNotification, object: nil
+        )
     }
 
     @objc private func screenChanged() {
@@ -49,16 +64,16 @@ class MenuBarBackground: NSObject {
         overlays.removeAll()
         // Display IDs and wallpapers both move around with the screen layout.
         lightText.removeAll()
-        createWindows()
-        update()
+        if active {
+            createWindows()
+            update()
+        }
     }
 
     func stop() {
         active = false
         timer?.invalidate()
         timer = nil
-        NotificationCenter.default.removeObserver(
-            self, name: NSApplication.didChangeScreenParametersNotification, object: nil)
         for overlay in overlays {
             overlay.window.alphaValue = 0
         }
