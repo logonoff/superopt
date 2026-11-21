@@ -198,9 +198,18 @@ class MiddleClickPasteHandler {
 
         // The AppKit shape: the text area sits in the AX tree under the
         // pointer. Chromium shape: the hit lands on plain groups and only
-        // the app's focused editor can be asked for.
+        // the app's focused editor can be asked for — gated on the engine
+        // attribute at both the hit and the focused element, because AppKit
+        // and Gecko expose real structure under the pointer, and a native
+        // focused element's ancestors can span unrelated UI (a tab bar
+        // sharing a container with the text view) that the bounds walk
+        // would cover and classify as a paste target. WebKit answers the
+        // attribute too, so Safari page content passes both gates — an
+        // accepted residual.
         if Self.hasTextRole(element) { return pid }
-        guard let focused = Self.focusedTextElement(of: pid),
+        guard Self.isChromiumElement(element),
+              let focused = Self.focusedTextElement(of: pid),
+              Self.isChromiumElement(focused),
               Self.textElementCovers(focused, pos) else { return nil }
         return pid
     }

@@ -47,11 +47,11 @@ extension MiddleClickPasteHandler {
         return (subroleRef as? String) == kAXSecureTextFieldSubrole
     }
 
-    /// Whether an element belongs to a Chromium app: only Chromium answers
-    /// the private `AXDOMClassList` attribute — the same discriminator
-    /// `ElectronTerminalDetector` uses for the integrated terminal. No public
-    /// AX attribute identifies a Chromium element, so this is the only
-    /// discriminator; AppKit elements answer `-25205`.
+    /// Whether an element belongs to a Chromium or WebKit engine: both
+    /// answer the private `AXDOMClassList` attribute — the same
+    /// discriminator `ElectronTerminalDetector` uses for the integrated
+    /// terminal. No public AX attribute identifies either engine's
+    /// elements; AppKit and Gecko answer `-25205`.
     static func isChromiumElement(_ element: AXUIElement) -> Bool {
         var classListRef: AnyObject?
         return AXUIElementCopyAttributeValue(

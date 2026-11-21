@@ -61,20 +61,34 @@ extension MiddleClickPasteHandler {
         let deadline: Date
         let raiseDeadline: Date
         var raised = false
+        /// Ready polls that found a non-Chromium focused element — the
+        /// deferred re-check abandons on the second; intervening polls do
+        /// not reset the count.
+        var nonChromiumStreak = 0
     }
 
     /// Waits until the app under the point is frontmost with that window
     /// focused — the state the real click's activation produces — then
     /// re-checks whether the point sits in the app's focused text editor.
     /// Chromium's accessibility tree may still be building the first time,
-    /// so the check is retried each poll until the deadline.
+    /// so the check is retried each poll until the deadline, or until two
+    /// ready polls have found a non-Chromium focused element.
     private static func pollUntilTargetReady(_ state: DeferredPaste) {
         guard state.generation == MiddleClickPasteHandler.generation else { return }
         let front = NSWorkspace.shared.frontmostApplication?.processIdentifier
         let focused = KeyboardUtils.focusedWindowID(pid: state.target.pid)
         let ready = front == state.target.pid && focused == state.target.windowID
         let element = focusedTextElement(of: state.target.pid)
-        let covers = element.map { textElementCovers($0, state.point) } == true
+        // The focused-editor classification is the Chromium shape only — an
+        // AppKit or Gecko focused element's ancestors can span unrelated UI
+        // (a tab bar) that the bounds walk would cover. WebKit answers the
+        // same attribute, so Safari page content passes the gate too — an
+        // accepted residual: only a click inside the focused field's own
+        // ancestor groups can misfire there, and no attribute separates
+        // WebKit from Chromium.
+        let engineElement = element.map(isChromiumElement) ?? false
+        let covers = engineElement
+            && element.map { textElementCovers($0, state.point) } == true
         if ready && covers {
             let paste = {
                 clickWhenWindowIsFront(
@@ -96,26 +110,38 @@ extension MiddleClickPasteHandler {
             } else {
                 paste()
             }
-        } else if Date() < state.deadline {
-            var next = state
-            if !ready && !next.raised && Date() >= next.raiseDeadline {
-                // Raising is only ours to do while the user has not moved on:
-                // focus on a third app means the click's activation was
-                // undone or never came, and yanking the window back over the
-                // user's choice would override it.
-                guard front == state.target.pid || front == state.sourcePid else { return }
-                DisplayRefreshRate.startTracking()
-                KeyboardUtils.raiseWindow(pid: state.target.pid, windowID: state.target.windowID)
-                NSRunningApplication(processIdentifier: state.target.pid)?.activate()
-                next.raised = true
-            }
-            let timer = Timer(timeInterval: DisplayRefreshRate.frameInterval, repeats: false) { _ in
-                MainActor.assumeIsolated {
-                    pollUntilTargetReady(next)
-                }
-            }
-            RunLoop.main.add(timer, forMode: .common)
+            return
         }
+
+        var next = state
+        if ready, element != nil, !engineElement {
+            // The target's focused element is known and not Chromium-shaped,
+            // so this click can never classify as a paste target — stop
+            // rather than poll out the deadline. Two observations first
+            // (intervening polls do not reset the count): a window mixing
+            // native and web content can answer with its native field on
+            // one poll before DOM focus lands.
+            next.nonChromiumStreak += 1
+            if next.nonChromiumStreak >= 2 { return }
+        }
+        guard Date() < state.deadline else { return }
+        if !ready && !next.raised && Date() >= next.raiseDeadline {
+            // Raising is only ours to do while the user has not moved on:
+            // focus on a third app means the click's activation was
+            // undone or never came, and yanking the window back over the
+            // user's choice would override it.
+            guard front == state.target.pid || front == state.sourcePid else { return }
+            DisplayRefreshRate.startTracking()
+            KeyboardUtils.raiseWindow(pid: state.target.pid, windowID: state.target.windowID)
+            NSRunningApplication(processIdentifier: state.target.pid)?.activate()
+            next.raised = true
+        }
+        let timer = Timer(timeInterval: DisplayRefreshRate.frameInterval, repeats: false) { _ in
+            MainActor.assumeIsolated {
+                pollUntilTargetReady(next)
+            }
+        }
+        RunLoop.main.add(timer, forMode: .common)
     }
 
     /// A click-time ⌘C in flight: what the pasteboard counted before it, and
