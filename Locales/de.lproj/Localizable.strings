@@ -146,6 +146,9 @@
 "Duplicate" = "Duplizieren";
 
 /* No comment provided by engineer. */
+"Dynamic Spaces" = "Dynamische Spaces";
+
+/* No comment provided by engineer. */
 "Enter Full Screen" = "Vollbildmodus";
 
 /* Settings pane title */
@@ -477,6 +480,9 @@
 
 /* No comment provided by engineer. */
 "When you tile a window to the left or right, SuperOpt suggests windows to fill the other half." = "Wenn du ein Fenster auf der linken oder rechten Bildschirmseite anordnest, schlägt SuperOpt Fenster vor, mit denen du die andere Hälfte füllen kannst.";
+
+/* No comment provided by engineer. */
+"While you’re in Mission Control, SuperOpt keeps one desktop empty and removes other empty desktops." = "Solange du in Mission Control bist, hält SuperOpt einen leeren Schreibtisch frei und entfernt die übrigen leeren Schreibtische.";
 
 /* Toggle description */
 "While you’re using an app in this list, SuperOpt turns off every feature and dims its own menu bar icon." = "Solange du eine App aus dieser Liste verwendest, deaktiviert SuperOpt alle seine Funktionen und zeigt sein Symbol in der Menüleiste abgedunkelt an.";

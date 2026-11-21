@@ -2,12 +2,14 @@ import Cocoa
 
 /// Tracks whether Mission Control is on screen, for the features that need to know.
 ///
-/// Nothing polls while Mission Control is closed. Polling starts from a trigger —
+/// Normally polling starts from a trigger —
 /// the app opening Mission Control itself, or the event tap seeing the Mission Control
 /// key — and stops again when Mission Control goes away, or when it never showed up
 /// within `graceWindow`. Opening Mission Control some other way (a trackpad swipe,
 /// the Dock icon) produces no trigger, so callers that are doing work anyway and can
-/// afford a window list walk use `check()` to find it that way instead.
+/// afford a window list walk use `check()` to find it that way instead. Dynamic
+/// Spaces also needs to notice a swipe with no subsequent input, so it requests
+/// a slow visibility check while idle. Desktop and AX queries only run once open.
 @MainActor
 final class MissionControlMonitor {
     private(set) var isActive = false
@@ -24,6 +26,7 @@ final class MissionControlMonitor {
     /// Fired once when Mission Control goes away.
     var onInactive: (() -> Void)?
 
+    private var detectsUnsignalledOpen = false
     private var enabled = false
     private var timer: Timer?
     private var lastCheck: TimeInterval = 0
@@ -55,8 +58,11 @@ final class MissionControlMonitor {
             && ProcessInfo.processInfo.systemUptime <= graceDeadline
     }
 
-    func start() {
+    func start(detectUnsignalledOpen: Bool) {
+        let changed = !enabled || detectsUnsignalledOpen != detectUnsignalledOpen
         enabled = true
+        detectsUnsignalledOpen = detectUnsignalledOpen
+        if changed && !isActive && !triggerOutstanding { idle() }
         DisplayRefreshRate.startTracking()
     }
 
@@ -116,11 +122,11 @@ final class MissionControlMonitor {
         } else if isActive {
             isActive = false
             triggerOutstanding = false
-            stopTimer()
+            idle()
             onInactive?()
         } else if lastCheck > graceDeadline {
             triggerOutstanding = false
-            stopTimer() // triggered, but Mission Control never appeared
+            idle()
         }
         return isActive
     }
@@ -140,6 +146,14 @@ final class MissionControlMonitor {
             withTimeInterval: interval, repeats: true
         ) { [weak self] _ in
             MainActor.assumeIsolated { _ = self?.check() }
+        }
+    }
+
+    private func idle() {
+        if detectsUnsignalledOpen {
+            setTimer(1)
+        } else {
+            stopTimer()
         }
     }
 

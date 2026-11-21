@@ -146,6 +146,9 @@
 "Duplicate" = "تكرار";
 
 /* No comment provided by engineer. */
+"Dynamic Spaces" = "المساحات الديناميكية";
+
+/* No comment provided by engineer. */
 "Enter Full Screen" = "الدخول إلى وضع ملء الشاشة";
 
 /* Settings pane title */
@@ -477,6 +480,9 @@
 
 /* No comment provided by engineer. */
 "When you tile a window to the left or right, SuperOpt suggests windows to fill the other half." = "عند تجانب نافذة إلى اليسار أو اليمين، يقترح SuperOpt نوافذ لملء النصف الآخر.";
+
+/* No comment provided by engineer. */
+"While you’re in Mission Control, SuperOpt keeps one desktop empty and removes other empty desktops." = "أثناء وجودك في إدارة المهام، يحتفظ SuperOpt بسطح مكتب فارغ واحد ويزيل أسطح المكتب الفارغة الأخرى.";
 
 /* Toggle description */
 "While you’re using an app in this list, SuperOpt turns off every feature and dims its own menu bar icon." = "أثناء استخدامك أحد التطبيقات في هذه القائمة، يوقف SuperOpt تشغيل جميع ميزاته ويجعل أيقونته في شريط القوائم باهتة.";

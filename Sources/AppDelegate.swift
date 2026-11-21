@@ -64,6 +64,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     private let spaceChangeWatcher = SpaceChangeWatcher()
     private let menuKeyHandler = MenuKeyHandler()
     private let menuBarBackground = MenuBarBackground()
+    private let dynamicSpaces = DynamicSpacesHandler()
     private let mcMonitor = MissionControlMonitor()
     private lazy var mcCloseHandler = MissionControlCloseHandler(monitor: mcMonitor)
     private lazy var mcSearchHandler = MissionControlSearchHandler(monitor: mcMonitor)
@@ -108,6 +109,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         "scrollZoomMode": ScrollZoomMode.off.rawValue,
         "spaceScrollEnabled": false,
         "spaceIndicatorEnabled": false,
+        "dynamicSpacesEnabled": false,
         "excludedAppsEnabled": false,
         "dockFinderPosition": 1
     ]
@@ -390,6 +392,15 @@ extension AppDelegate {
         mcMonitor.noteTrigger()
     }
     private func setupCallbacks() {
+        mcMonitor.onActive = { [weak self] list in
+            guard let self else { return }
+            mcCloseHandler?.missionControlDidTick(list)
+            if isEnabled("dynamicSpacesEnabled") { dynamicSpaces.scheduleCheck() }
+        }
+        mcMonitor.onInactive = { [weak self] in
+            self?.mcCloseHandler?.deactivateMC()
+            self?.dynamicSpaces.reset()
+        }
         tileAssistWatcher.onTile = { [weak self] dir, screen, tiled in
             self?.showSnapAssist(direction: dir, screen: screen, tiled: tiled)
         }
@@ -657,8 +668,10 @@ extension AppDelegate {
     /// The monitor is shared, so it runs whenever any feature that needs to know
     /// about Mission Control is on, and not at all otherwise.
     func updateMissionControlMonitor() {
-        if !excludedApps.isSuspended && (isEnabled("mcCloseEnabled") || mcSearchHandler.isEnabled) {
-            mcMonitor.start()
+        let dynamic = isEnabled("dynamicSpacesEnabled")
+        if !dynamic { dynamicSpaces.reset() }
+        if !excludedApps.isSuspended && (dynamic || isEnabled("mcCloseEnabled") || mcSearchHandler.isEnabled) {
+            mcMonitor.start(detectUnsignalledOpen: dynamic)
         } else {
             mcMonitor.stop()
         }

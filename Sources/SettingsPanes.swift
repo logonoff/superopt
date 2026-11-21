@@ -12,6 +12,7 @@ struct DesktopPane: View {
     /// app's own defaults domain, where it would have no effect.
     @AppStorage("SLSMenuBarUseBlurredAppearance") private var systemMenuBarBgOn = false
     @AppStorage("zoomButtonEnabled") var zoomButton = false
+    @AppStorage("dynamicSpacesEnabled") var dynamicSpaces = false
     @AppStorage("spaceScrollEnabled") var spaceScroll = false
     @AppStorage("spaceIndicatorEnabled") var spaceIndicator = false
     @AppStorage("mcCloseEnabled") var mcClose = true
@@ -45,6 +46,14 @@ struct DesktopPane: View {
             }
 
             Section {
+                Toggle(isOn: $dynamicSpaces) {
+                    Text("Dynamic Spaces")
+                    Text("""
+                        While you’re in Mission Control, SuperOpt keeps one desktop \
+                        empty and removes other empty desktops.
+                        """)
+                }
+
                 Toggle(isOn: $spaceScroll) {
                     Text("Scroll to switch spaces")
                     Text("""

@@ -66,6 +66,7 @@ Features are on by default unless noted otherwise.
 | Tile assist | When you tile a window to the left or right, SuperOpt suggests windows to fill the other half (off by default) |
 | Dark menu bar | A black bar appears behind the menu bar when a window fills the screen (off by default) |
 | Scroll to switch spaces | Scrolling over a display’s Apple menu switches that display to the next or previous space (off by default) |
+| Dynamic Spaces | While you’re in Mission Control, SuperOpt keeps one desktop empty and removes other empty desktops (off by default) |
 | Space indicator | An onscreen row of dots appears when a display switches spaces (off by default) |
 
 ### Keyboard

@@ -52,10 +52,6 @@ class MissionControlCloseHandler {
     func start() {
         enabled = true
         DisplayRefreshRate.startTracking()
-        // The monitor owns Mission Control detection and is shared, so the callbacks
-        // check `enabled` rather than being torn down when this feature is off.
-        monitor.onActive = { [weak self] list in self?.missionControlDidTick(list) }
-        monitor.onInactive = { [weak self] in self?.deactivateMC() }
     }
 
     func stop() {
@@ -71,7 +67,7 @@ class MissionControlCloseHandler {
     /// list it already fetched. Starting the position timer here is what gets the
     /// close button on screen when Mission Control was opened with the pointer held
     /// still, which produces no mouse-moved event of its own.
-    private func missionControlDidTick(_ windowList: [[String: Any]]) {
+    func missionControlDidTick(_ windowList: [[String: Any]]) {
         guard enabled else { return }
         refreshWindowRects(from: windowList)
         if positionTimer == nil { setTickRate(.slow) }
@@ -201,7 +197,7 @@ class MissionControlCloseHandler {
         return (entry.rect.width > 60 && entry.rect.height > 60) ? entry.rect : .zero
     }
 
-    private func deactivateMC() {
+    func deactivateMC() {
         hoveredWID = 0; buttonHovered = false
         hideOverlay()
         windowRects.removeAll()

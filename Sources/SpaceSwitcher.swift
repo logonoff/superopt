@@ -7,6 +7,7 @@ struct ManagedDisplay {
     let identifier: String
     let spaceIDs: [UInt64]
     let currentIndex: Int
+    let spaceTypes: [Int?]
 }
 
 /// Reads which space each display is showing.
@@ -44,6 +45,24 @@ enum SpaceSwitcher {
         return unsafeBitCast(symbol, to: CopyDisplaySpacesFn.self)
     }()
 
+    // SLSCopyWindowsWithOptionsAndTags includes windows on inactive desktops and,
+    // with options 0x7, minimized windows. Core Graphics lists windows but does
+    // not expose their Space membership. Bit 11 excludes all-Spaces windows.
+    private typealias CopyWindowsFn = @convention(c) (
+        UInt32, UInt32, CFArray, UInt32, UnsafePointer<UInt64>, UnsafePointer<UInt64>
+    ) -> Unmanaged<CFArray>?
+    private static let copyWindows: CopyWindowsFn? = skyLight.flatMap {
+        dlsym($0, "SLSCopyWindowsWithOptionsAndTags").map { unsafeBitCast($0, to: CopyWindowsFn.self) }
+    }
+
+    static func windows(on space: UInt64) -> [CGWindowID]? {
+        guard let connection, let copyWindows else { return nil }
+        var required: UInt64 = 0
+        var excluded: UInt64 = 1 << 11
+        return copyWindows(connection, 0, [space] as CFArray, 0x7, &required, &excluded)?
+            .takeRetainedValue() as? [CGWindowID]
+    }
+
     static func displays() -> [ManagedDisplay] {
         guard let connection, let copyDisplaySpaces,
               let raw = copyDisplaySpaces(connection)?.takeRetainedValue() as? [[String: Any]]
@@ -55,8 +74,9 @@ enum SpaceSwitcher {
                   let current = (entry["Current Space"] as? [String: Any])?["id64"] as? UInt64
             else { return nil }
             let ids = spaces.compactMap { $0["id64"] as? UInt64 }
-            guard let index = ids.firstIndex(of: current) else { return nil }
-            return ManagedDisplay(identifier: identifier, spaceIDs: ids, currentIndex: index)
+            guard ids.count == spaces.count, let index = ids.firstIndex(of: current) else { return nil }
+            return ManagedDisplay(identifier: identifier, spaceIDs: ids, currentIndex: index,
+                                  spaceTypes: spaces.map { $0["type"] as? Int })
         }
     }
 

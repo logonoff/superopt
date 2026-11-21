@@ -146,6 +146,9 @@
 "Duplicate" = "복제";
 
 /* No comment provided by engineer. */
+"Dynamic Spaces" = "다이내믹 Spaces";
+
+/* No comment provided by engineer. */
 "Enter Full Screen" = "전체 화면 시작";
 
 /* Settings pane title */
@@ -477,6 +480,9 @@
 
 /* No comment provided by engineer. */
 "When you tile a window to the left or right, SuperOpt suggests windows to fill the other half." = "윈도우를 왼쪽이나 오른쪽으로 타일 정렬하면 SuperOpt가 나머지 절반을 채울 윈도우를 제안합니다.";
+
+/* No comment provided by engineer. */
+"While you’re in Mission Control, SuperOpt keeps one desktop empty and removes other empty desktops." = "Mission Control이 열려 있는 동안 SuperOpt가 빈 데스크탑 하나를 유지하고 나머지 빈 데스크탑을 제거합니다.";
 
 /* Toggle description */
 "While you’re using an app in this list, SuperOpt turns off every feature and dims its own menu bar icon." = "이 목록에 있는 앱을 사용하는 동안 SuperOpt가 모든 기능을 끄고 메뉴 막대 아이콘을 흐리게 표시합니다.";

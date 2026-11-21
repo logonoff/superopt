@@ -146,6 +146,9 @@
 "Duplicate" = "复制";
 
 /* No comment provided by engineer. */
+"Dynamic Spaces" = "动态空间";
+
+/* No comment provided by engineer. */
 "Enter Full Screen" = "进入全屏幕";
 
 /* Settings pane title */
@@ -477,6 +480,9 @@
 
 /* No comment provided by engineer. */
 "When you tile a window to the left or right, SuperOpt suggests windows to fill the other half." = "当你将窗口平铺到左侧或右侧时，SuperOpt会推荐可填充屏幕另一半的窗口。";
+
+/* No comment provided by engineer. */
+"While you’re in Mission Control, SuperOpt keeps one desktop empty and removes other empty desktops." = "调度中心打开时，SuperOpt会保留一个空桌面，并移除多余的空桌面。";
 
 /* Toggle description */
 "While you’re using an app in this list, SuperOpt turns off every feature and dims its own menu bar icon." = "使用列表中的App时，SuperOpt会关闭自身的所有功能，其菜单栏图标也会变暗。";

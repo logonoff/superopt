@@ -146,6 +146,9 @@
 "Duplicate" = "複製";
 
 /* No comment provided by engineer. */
+"Dynamic Spaces" = "ダイナミック操作スペース";
+
+/* No comment provided by engineer. */
 "Enter Full Screen" = "フルスクリーンにする";
 
 /* Settings pane title */
@@ -477,6 +480,9 @@
 
 /* No comment provided by engineer. */
 "When you tile a window to the left or right, SuperOpt suggests windows to fill the other half." = "ウインドウを左または右にタイル表示すると、SuperOptは残りの半分を埋めるウインドウを提案します。";
+
+/* No comment provided by engineer. */
+"While you’re in Mission Control, SuperOpt keeps one desktop empty and removes other empty desktops." = "Mission Controlが開いている間は、SuperOptは空のデスクトップを1つ維持し、余分な空のデスクトップを削除します。";
 
 /* Toggle description */
 "While you’re using an app in this list, SuperOpt turns off every feature and dims its own menu bar icon." = "このリストにあるアプリを使用している間は、SuperOptのすべての機能がオフになり、SuperOptのメニューバーアイコンが暗く表示されます。";

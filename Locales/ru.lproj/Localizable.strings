@@ -146,6 +146,9 @@
 "Duplicate" = "Дублировать";
 
 /* No comment provided by engineer. */
+"Dynamic Spaces" = "Динамические пространства";
+
+/* No comment provided by engineer. */
 "Enter Full Screen" = "Перейти в полноэкранный режим";
 
 /* Settings pane title */
@@ -477,6 +480,9 @@
 
 /* No comment provided by engineer. */
 "When you tile a window to the left or right, SuperOpt suggests windows to fill the other half." = "Когда Вы создаете окно-плитку в левой или правой половине экрана, SuperOpt предлагает окна для заполнения другой половины.";
+
+/* No comment provided by engineer. */
+"While you’re in Mission Control, SuperOpt keeps one desktop empty and removes other empty desktops." = "Пока открыт Mission Control, SuperOpt оставляет один Рабочий стол пустым и удаляет остальные пустые Рабочие столы.";
 
 /* Toggle description */
 "While you’re using an app in this list, SuperOpt turns off every feature and dims its own menu bar icon." = "Пока Вы работаете в приложении из этого списка, SuperOpt отключает все функции и затемняет свой значок в строке меню.";
