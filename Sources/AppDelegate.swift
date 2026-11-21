@@ -698,11 +698,14 @@ extension AppDelegate {
                     optionKeyHandler.markOtherInput(); return true
                 }
             }
-            // The search suppression is stamped for every press, not only
-            // while the monitor reports Mission Control up: one opened by a
-            // trackpad swipe it never saw is closed by the same click, and
-            // the stamp is inert when nothing is up — no session can start.
-            mcSearchHandler.noteClickInMissionControl()
+            // The search suppression is stamped for every real press, not
+            // only while the monitor reports Mission Control up: one opened
+            // by a trackpad swipe it never saw is closed by the same click,
+            // and the stamp is inert when nothing is up — no session can
+            // start. Synthetic presses are skipped, like their releases.
+            if !KeyboardUtils.isSynthetic(event) {
+                mcSearchHandler.noteClickInMissionControl()
+            }
             if isEnabled("zoomButtonEnabled") && zoomButtonHandler.handleClick(event: event) {
                 optionKeyHandler.markOtherInput(); return true
             }
