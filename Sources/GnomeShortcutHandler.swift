@@ -436,7 +436,12 @@ extension GnomeShortcutHandler {
         if hasShift && keyCode == Self.keyUp && isEnabled("selectUp") { // Ctrl+Shift+↑ → Shift+↑
             return remap(event, keyCode, flags: flags, remove: .maskControl)
         }
-        if hasShift && Self.types("i", keyCode: keyCode) && isEnabled("devTools") { // Ctrl+Shift+I → ⌥⌘I
+        // Browsers own the chord: disabling Developer Tools restores
+        // passthrough rather than falling through to Text Editing's italic
+        // mapping (⌃⇧I would silently become ⇧⌘I) — the same rule the
+        // terminal chords follow.
+        if hasShift && Self.types("i", keyCode: keyCode) && KeyboardUtils.isBrowserApp() {
+            guard isEnabled("devTools") else { return false }
             return remap(event, Self.key(for: "i", usFallback: Self.keyI), flags: flags,
                          remove: [.maskControl, .maskShift],
                          add: [.maskCommand, .maskAlternate])
