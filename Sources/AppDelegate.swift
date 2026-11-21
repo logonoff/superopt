@@ -78,6 +78,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     private var lastCapsLockState = false
     /// Kept so menuNeedsUpdate can refresh the checkmark.
     private var launchMenuItem: NSMenuItem?
+    /// Whether the last left press was consumed as a Mission Control
+    /// close-button hit — its release must not re-stamp the search
+    /// suppression, so closing a window in Mission Control stays searchable.
+    private var closeButtonPress = false
 
     // MARK: - Preferences
 
@@ -636,7 +640,18 @@ extension AppDelegate {
     }
 
     private func handleMouseUp(event: CGEvent) -> Bool {
-        isEnabled("clickThroughFocusEnabled") && clickThroughFocusHandler.handleMouseUp(event: event)
+        // Mission Control closes a thumbnail click on the release, so a
+        // press held while dragging one out keeps the close-animation window
+        // open past the press-time stamp — re-stamp from the release. A
+        // close-button hit's release is excluded, keeping it searchable.
+        if !KeyboardUtils.isSynthetic(event) {
+            if closeButtonPress {
+                closeButtonPress = false
+            } else {
+                mcSearchHandler.noteClickInMissionControl()
+            }
+        }
+        return isEnabled("clickThroughFocusEnabled") && clickThroughFocusHandler.handleMouseUp(event: event)
     }
 
     /// The monitor is shared, so it runs whenever any feature that needs to know
@@ -675,10 +690,19 @@ extension AppDelegate {
             // frame rate rather than learning of the close up to 250 ms
             // late. A click that leaves it open (the spaces bar) expires
             // the trigger by its grace window.
-            if mcMonitor.isActive { mcMonitor.noteTrigger() }
-            if isEnabled("mcCloseEnabled") && mcCloseHandler?.handleClick(event: event) == true {
-                optionKeyHandler.markOtherInput(); return true
+            closeButtonPress = false
+            if mcMonitor.isActive {
+                mcMonitor.noteTrigger()
+                if isEnabled("mcCloseEnabled") && mcCloseHandler?.handleClick(event: event) == true {
+                    closeButtonPress = true
+                    optionKeyHandler.markOtherInput(); return true
+                }
             }
+            // The search suppression is stamped for every press, not only
+            // while the monitor reports Mission Control up: one opened by a
+            // trackpad swipe it never saw is closed by the same click, and
+            // the stamp is inert when nothing is up — no session can start.
+            mcSearchHandler.noteClickInMissionControl()
             if isEnabled("zoomButtonEnabled") && zoomButtonHandler.handleClick(event: event) {
                 optionKeyHandler.markOtherInput(); return true
             }

@@ -44,6 +44,15 @@ class MissionControlSearchHandler {
     private static let readyTimeout: TimeInterval = 1.5
     /// Only look for Mission Control on the first keystroke of a typing burst.
     private static let burstGap: TimeInterval = 0.3
+    /// How long after a Mission Control click a keystroke may not start a
+    /// search. A click that is not a close button usually closes Mission
+    /// Control, and `isActive` stays stale-true through the ~320 ms close
+    /// animation plus the frame the monitor needs to observe the close, so
+    /// 0.4 s covers the window a phantom search could start in. Stamped on
+    /// both the press and its release — Mission Control closes a thumbnail
+    /// click on the release, and a press held while dragging one out keeps
+    /// the window open past the press-time stamp.
+    private static let clickSuppression: TimeInterval = 0.4
 
     private var mode: MissionControlSearchMode = .off
     private var buffer = ""
@@ -53,6 +62,7 @@ class MissionControlSearchHandler {
     private var pending = false
     private var injected = false
     private var lastTypedAt: TimeInterval = 0
+    private var lastClickInMissionControl: TimeInterval = 0
     private var handledActivation: Int?
     private var deadline: TimeInterval = 0
     private var timer: Timer?
@@ -83,6 +93,15 @@ class MissionControlSearchHandler {
     /// Mission Control key the event tap never delivers to `handleKeyDown`.
     func noteDismissal() {
         if monitor.isActive { handledActivation = monitor.activationID }
+    }
+
+    /// Records a click that may have closed Mission Control — the route the
+    /// activation-consumed guard above cannot see. Applied to every click:
+    /// the stamp is inert when nothing can start a session, and the
+    /// close-button filtering lives with the caller, which knows which
+    /// presses were consumed as close-button hits.
+    func noteClickInMissionControl() {
+        lastClickInMissionControl = ProcessInfo.processInfo.systemUptime
     }
 
     /// Ends any in-flight session, e.g. when the active app becomes one of
@@ -123,6 +142,10 @@ class MissionControlSearchHandler {
         else { return false }
 
         let now = ProcessInfo.processInfo.systemUptime
+        // Before `lastTypedAt` is advanced: a keystroke rejected here must
+        // not count as typing, or it would clear the burst flag and extend
+        // the suppression's cost past its window.
+        guard now - lastClickInMissionControl > Self.clickSuppression else { return false }
         let startsBurst = now - lastTypedAt > Self.burstGap
         lastTypedAt = now
         guard missionControlIsUp(startsBurst: startsBurst),
