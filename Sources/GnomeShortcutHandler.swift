@@ -479,7 +479,7 @@ extension GnomeShortcutHandler {
     // MARK: - Alt (Option) shortcuts
 
     private func handleAltKey(event: CGEvent, keyCode: Int64, flags: CGEventFlags, hasShift: Bool) -> Bool {
-        if keyCode == Self.keyF4 && isEnabled("closeWindow") { // Alt+F4 → ⌘W
+        if keyCode == Self.keyF4 && !hasShift && isEnabled("closeWindow") { // Alt+F4 → ⌘W
             return remap(event, Self.key(for: "w", usFallback: Self.keyW), flags: flags,
                          remove: .maskAlternate, add: .maskCommand)
         }
