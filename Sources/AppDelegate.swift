@@ -128,7 +128,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         updateMissionControlMonitor()
         if isEnabled("snapAssistEnabled") {
             tileAssistWatcher.start()
-        } else { tileAssistWatcher.stop() }
+        } else {
+            tileAssistWatcher.stop()
+            // Dismiss it with its feature: left up, it keeps its timers to
+            // the 5 s timeout. The exclusion path relies on this branch too.
+            snapAssistPanel?.dismiss()
+        }
         if isEnabled("spaceIndicatorEnabled") {
             spaceChangeWatcher.start()
         } else { spaceChangeWatcher.stop() }
