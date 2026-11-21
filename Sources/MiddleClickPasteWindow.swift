@@ -320,6 +320,7 @@ final class CopyLatch {
     private static let settleTimeout: TimeInterval = 0.3
 
     private(set) var outcome: Outcome = .pending
+    private var completions: [() -> Void] = []
     private let pending: MiddleClickPasteHandler.PendingCopy
     private let generation: Int
     private let deadline: Date
@@ -346,13 +347,13 @@ final class CopyLatch {
     private func poll() {
         guard outcome == .pending else { return }
         guard generation == MiddleClickPasteHandler.generation else {
-            outcome = .nothingCopied
+            conclude(.nothingCopied)
             return
         }
         if NSPasteboard.general.changeCount != pending.before {
-            outcome = copyIsFromSource() ? .landed : .landedElsewhere
+            conclude(copyIsFromSource() ? .landed : .landedElsewhere)
         } else if Date() >= deadline {
-            outcome = .nothingCopied
+            conclude(.nothingCopied)
         } else {
             let timer = Timer(timeInterval: DisplayRefreshRate.frameInterval, repeats: false) { _ in
                 MainActor.assumeIsolated { self.poll() }
@@ -363,13 +364,17 @@ final class CopyLatch {
 
     /// Runs `then` once the outcome is known.
     func awaitConcluded(then: @escaping () -> Void) {
-        if outcome != .pending {
-            then()
+        if outcome == .pending {
+            completions.append(then)
         } else {
-            let timer = Timer(timeInterval: DisplayRefreshRate.frameInterval, repeats: false) { _ in
-                MainActor.assumeIsolated { self.awaitConcluded(then: then) }
-            }
-            RunLoop.main.add(timer, forMode: .common)
+            then()
         }
+    }
+
+    private func conclude(_ outcome: Outcome) {
+        self.outcome = outcome
+        let callbacks = completions
+        completions.removeAll()
+        for callback in callbacks { callback() }
     }
 }
