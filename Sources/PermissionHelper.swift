@@ -143,6 +143,10 @@ class PermissionHelper {
         guard let permissionWindow, NSApplication.shared.modalWindow === permissionWindow,
               AXIsProcessTrusted(), trySetupEventTap()
         else { return false }
+        // Drop the window reference before aborting: the modal session unwinds
+        // on a later run-loop turn, and a second notification delivered before
+        // then would otherwise abort an already-aborting session.
+        self.permissionWindow = nil
         NSApplication.shared.abortModal()
         return true
     }
