@@ -120,32 +120,43 @@ class PermissionHelper {
         }
     }
 
-    private var permissionChanged = false
+    private weak var permissionWindow: NSWindow?
+    private var permissionRetry: Timer?
 
     @objc private func permissionDidChange() {
-        permissionChanged = true
+        guard let permissionWindow, NSApplication.shared.modalWindow === permissionWindow else { return }
+        if finishIfTrusted() { return }
+
+        // A grant can be announced before the new trust state is readable.
+        guard permissionRetry == nil else { return }
+        let retry = Timer(timeInterval: 1, repeats: false) { [weak self] _ in
+            MainActor.assumeIsolated {
+                self?.permissionRetry = nil
+                _ = self?.finishIfTrusted()
+            }
+        }
+        permissionRetry = retry
+        RunLoop.main.add(retry, forMode: .modalPanel)
+    }
+
+    private func finishIfTrusted() -> Bool {
+        guard let permissionWindow, NSApplication.shared.modalWindow === permissionWindow,
+              AXIsProcessTrusted(), trySetupEventTap()
+        else { return false }
+        NSApplication.shared.abortModal()
+        return true
     }
 
     // Modal loop with dynamic button layout depending on which permissions are missing.
     // swiftlint:disable:next cyclomatic_complexity function_body_length
     func showPermissionLoop() {
-        permissionChanged = false
-        DistributedNotificationCenter.default().addObserver(
+        let center = DistributedNotificationCenter.default()
+        center.addObserver(
             self, selector: #selector(permissionDidChange),
-            name: NSNotification.Name("com.apple.accessibility.api"), object: nil
+            name: NSNotification.Name("com.apple.accessibility.api"), object: nil,
+            suspensionBehavior: .deliverImmediately
         )
-
-        // Lightweight timer to check the flag during modal sessions
-        let modalCheck = Timer(timeInterval: 1, repeats: true) { [weak self] _ in
-            MainActor.assumeIsolated {
-                guard let self = self, self.permissionChanged else { return }
-                self.permissionChanged = false
-                if AXIsProcessTrusted() && self.trySetupEventTap() {
-                    NSApplication.shared.abortModal()
-                }
-            }
-        }
-        RunLoop.main.add(modalCheck, forMode: .modalPanel)
+        defer { center.removeObserver(self, name: NSNotification.Name("com.apple.accessibility.api"), object: nil) }
 
         while true {
             let missing = checkMissingPermissions()
@@ -175,7 +186,13 @@ class PermissionHelper {
                 }
             }
 
+            // Launch calls this loop from an AppKit callback so distributed
+            // notifications can be delivered in modal mode.
+            permissionWindow = alert.window
             let response = alert.runModal()
+            permissionWindow = nil
+            permissionRetry?.invalidate()
+            permissionRetry = nil
             alert.window.orderOut(nil)
 
             if response == .abort { break }
@@ -196,20 +213,10 @@ class PermissionHelper {
             }
             // Last button is always Quit
             if response == NSApplication.ModalResponse(rawValue: 1000 + buttonIndex) {
-                modalCheck.invalidate()
-                removePermissionObserver()
                 NSApplication.shared.terminate(nil); return
             }
             // Continue button (alertFirstButtonReturn = 1000)
             if trySetupEventTap() { break }
         }
-        modalCheck.invalidate()
-        removePermissionObserver()
-    }
-
-    private func removePermissionObserver() {
-        DistributedNotificationCenter.default().removeObserver(
-            self, name: NSNotification.Name("com.apple.accessibility.api"), object: nil
-        )
     }
 }

@@ -236,11 +236,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         permissionHelper.trySetupEventTap = { [weak self] in self?.setupEventTap() ?? false }
 
         if !setupEventTap() {
-            // The loop blocks until the tap is up (or the app quits), and its
-            // own modal-mode timer + notification observer watch for the
-            // grant — a timer created here would sit in the healthy state
-            // with nothing to wait for, and .default mode does not tick
-            // during its modal sessions anyway.
+            // The startup alert observes grants in its modal run loop.
+            // Start the safety heartbeat once the event tap is up.
             permissionHelper.showPermissionLoop()
         }
 
