@@ -11,6 +11,18 @@ class ZoomButtonHandler {
               let window = windowForButton(button)
         else { return false }
 
+        // Mission Control's shield covers the screen while windows' AX frames
+        // stay at their logical positions, so a click meant for a thumbnail can
+        // resolve a green button that is not visually there and act on a real
+        // window — the same exclusion ClickThroughFocusHandler's hit test
+        // carries. Checked only after a button resolved, so the walk is not
+        // paid on ordinary clicks.
+        if let list = CGWindowListCopyWindowInfo(
+            [.optionOnScreenOnly, .excludeDesktopElements], kCGNullWindowID
+        ) as? [[String: Any]], KeyboardUtils.isMissionControlActive(list) {
+            return false
+        }
+
         // A full-screen window has no previous size to fill or restore to, and the only
         // thing its green button does is leave full screen. Let the click through.
         if isFullScreen(window) { return false }
