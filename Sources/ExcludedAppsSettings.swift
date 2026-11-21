@@ -11,10 +11,40 @@ struct ExcludedApp: Identifiable, Hashable {
 }
 
 @MainActor @Observable
-final class ExcludedAppsModel {
+final class ExcludedAppsModel: NSObject {
     private(set) var apps: [ExcludedApp] = []
 
-    init() { reload() }
+    override init() {
+        super.init()
+        reload()
+        // KVO rather than didChangeNotification: the notification only
+        // covers writes made through this process's own defaults API, so an
+        // external `defaults write` never posts it (measured), while KVO on
+        // the key fires for both — GnomeShortcutSettings observes its own
+        // key the same way.
+        UserDefaults.standard.addObserver(
+            self, forKeyPath: ExcludedApps.listKey, options: [], context: nil)
+    }
+
+    deinit {
+        UserDefaults.standard.removeObserver(self, forKeyPath: ExcludedApps.listKey)
+    }
+
+    // swiftlint:disable block_based_kvo
+    // Arbitrary UserDefaults keys have no KeyPath representation, so the
+    // block-based KVO API cannot observe them and the selector-based
+    // override is the only route.
+    nonisolated override func observeValue(
+        forKeyPath keyPath: String?,
+        of object: Any?,
+        change: [NSKeyValueChangeKey: Any]?,
+        context: UnsafeMutableRawPointer?
+    ) {
+        DispatchQueue.main.async { [weak self] in
+            MainActor.assumeIsolated { self?.reload() }
+        }
+    }
+    // swiftlint:enable block_based_kvo
 
     func reload() {
         apps = ExcludedApps.bundleIDs().map(Self.describe)
@@ -71,6 +101,16 @@ struct ExcludedAppsPane: View {
     @State private var model = ExcludedAppsModel()
     @State private var selected: String?
 
+    /// The selection, dropped when the app it names has left the list — the
+    /// list can change out from under the pane (an external defaults write),
+    /// and a stale selection would leave the remove button enabled with
+    /// nothing to remove.
+    private var effectiveSelected: String? {
+        guard let selected, model.apps.contains(where: { $0.id == selected })
+        else { return nil }
+        return selected
+    }
+
     var body: some View {
         Form {
             Section {
@@ -84,7 +124,7 @@ struct ExcludedAppsPane: View {
 
                 ForEach(model.apps) { app in
                     ZStack(alignment: .leading) {
-                        if selected == app.id {
+                        if effectiveSelected == app.id {
                             Color.accentColor.opacity(0.3)
                         }
                         HStack(spacing: 6) {
@@ -124,11 +164,11 @@ struct ExcludedAppsPane: View {
     /// left-aligned under the list.
     private var buttons: some View {
         AddRemoveSegment(
-            removeEnabled: selected != nil,
+            removeEnabled: effectiveSelected != nil,
             onAdd: { model.runAddPanel() },
             onRemove: {
-                if let selected {
-                    model.remove([selected])
+                if let effectiveSelected {
+                    model.remove([effectiveSelected])
                     self.selected = nil
                 }
             })

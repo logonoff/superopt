@@ -10,7 +10,10 @@ import Cocoa
 @MainActor
 final class ExcludedApps {
     static let enabledKey = "excludedAppsEnabled"
-    static let listKey = "excludedAppIDs"
+    /// Nonisolated so the settings pane's KVO observer can remove itself in
+    /// deinit (nonisolated by definition) — the same reason
+    /// GnomeShortcutSettings.defaultsKey is nonisolated.
+    nonisolated static let listKey = "excludedAppIDs"
 
     /// True while the active app is one of the listed ones.
     private(set) var isSuspended = false
