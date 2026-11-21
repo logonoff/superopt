@@ -43,6 +43,15 @@ class SnapAssistPanel {
     private static let iconSize: CGFloat = 36
     private static let cellPadding: CGFloat = 8
     private static let containerPadding: CGFloat = 8
+    /// The margin containerFrame and capacity leave around the container.
+    private static let panelMargin: CGFloat = 80
+    /// The smallest free area the popup is offered for. Height: one row
+    /// with its padding plus the panel margin. Width: the panel margin plus
+    /// a container wide enough for the icon, its cell paddings, and a
+    /// truncated label. The sliver a near-full-width window leaves when the
+    /// watcher mistakes it for half-tiled has nothing worth offering anyway.
+    private static let minFreeWidth: CGFloat = 180 + panelMargin
+    private static let minFreeHeight: CGFloat = itemHeight + containerPadding * 2 + panelMargin
 
     init?(direction: TileDirection, screen: NSScreen, tiled: TiledWindowInfo,
           onDismiss: @escaping () -> Void) {
@@ -53,6 +62,12 @@ class SnapAssistPanel {
         tiledWindowFrame = tiled.frame
         let freeFrame = Self.freeArea(
             direction: direction, screen: screen, tiledFrame: tiledWindowFrame)
+        // Below the minimums containerFrame's min(_, size − margin) goes
+        // negative (a narrow sliver's width) or leaves no room for even one
+        // row (height).
+        guard freeFrame.width >= Self.minFreeWidth,
+              freeFrame.height >= Self.minFreeHeight
+        else { return nil }
         let candidates = Self.collectWindows(
             screen: screen, excludeWID: tiled.windowID,
             excludePID: tiled.pid, excludeFrame: tiled.frame)
@@ -174,9 +189,9 @@ class SnapAssistPanel {
 
 extension SnapAssistPanel {
     fileprivate static func containerFrame(itemCount: Int, panelSize: NSSize) -> NSRect {
-        let width: CGFloat = min(340, panelSize.width - 80)
+        let width: CGFloat = min(340, panelSize.width - panelMargin)
         let contentHeight = CGFloat(itemCount) * itemHeight + containerPadding * 2
-        let height = min(contentHeight, panelSize.height - 80)
+        let height = min(contentHeight, panelSize.height - panelMargin)
         return NSRect(
             x: (panelSize.width - width) / 2,
             y: (panelSize.height - height) / 2,
@@ -184,10 +199,10 @@ extension SnapAssistPanel {
     }
 
     /// How many item rows fit in a panel of this height — the container caps
-    /// at `panelSize.height - 80`, and buttons laid out past that would draw
-    /// outside the glass entirely.
+    /// at `panelSize.height - panelMargin`, and buttons laid out past that
+    /// would draw outside the glass entirely.
     fileprivate static func capacity(panelHeight: CGFloat) -> Int {
-        max(1, Int((panelHeight - 80 - containerPadding * 2) / itemHeight))
+        max(1, Int((panelHeight - panelMargin - containerPadding * 2) / itemHeight))
     }
 
     fileprivate static func makeButton(
