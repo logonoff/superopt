@@ -15,9 +15,6 @@ final class DynamicSpacesHandler {
     }
 
     private var previous: [String: Proposal] = [:]
-    /// Some display arrangements keep full-screen apps at the end. If Add places
-    /// an empty desktop immediately before that same app, keep it as the spare.
-    private var lastAddAnchor: [String: UInt64] = [:]
     private var submittedOrder: [String: [UInt64]] = [:]
     private var queued: DispatchWorkItem?
     private var nextCheck: TimeInterval = 0
@@ -28,7 +25,6 @@ final class DynamicSpacesHandler {
         nextCheck = 0
         previous.removeAll()
         submittedOrder.removeAll()
-        lastAddAnchor.removeAll()
     }
 
     /// The monitor can discover Mission Control inside the event tap and can tick
@@ -49,7 +45,7 @@ final class DynamicSpacesHandler {
     /// Only type 0 is a desktop. A full-screen or Split View Space (type 4)
     /// can occupy the last position but must never be selected for removal.
     /// A missing occupancy reading is unknown, so it cannot justify an action.
-    static func action(for display: ManagedDisplay, occupied: [UInt64: Bool], lastAddAnchor: UInt64? = nil) -> Action? {
+    static func action(for display: ManagedDisplay, occupied: [UInt64: Bool]) -> Action? {
         guard let last = display.spaceIDs.last, display.spaceTypes.count == display.spaceIDs.count,
               display.spaceTypes.allSatisfy({ $0 == 0 || $0 == 4 }),
               display.spaceIDs.indices.contains(display.currentIndex) else { return nil }
@@ -62,7 +58,11 @@ final class DynamicSpacesHandler {
         }
         if currentIsEmpty { return nil }
         if display.spaceTypes.last == 4 {
-            if lastAddAnchor == last, let spare = desktops.last, occupied[spare] != true { return nil }
+            // A full-screen Space trails the desktops, so the right-most
+            // desktop is the spare — empty, or a just-added one whose
+            // occupancy is not readable yet (unknown reads count: a missing
+            // reading cannot justify an action).
+            if let spare = desktops.last, occupied[spare] != true { return nil }
             return .add
         }
         return occupied[last] == true ? .add : nil
@@ -81,8 +81,7 @@ final class DynamicSpacesHandler {
             let key = display.identifier
             guard submittedOrder[key] != display.spaceIDs else { continue }
             submittedOrder.removeValue(forKey: key)
-            guard let action = Self.action(for: display, occupied: windows.occupancy(of: display),
-                                           lastAddAnchor: lastAddAnchor[key]) else { continue }
+            guard let action = Self.action(for: display, occupied: windows.occupancy(of: display)) else { continue }
             let proposal = Proposal(order: display.spaceIDs, current: display.spaceIDs[display.currentIndex],
                                     action: action)
             proposals[key] = proposal
@@ -93,7 +92,6 @@ final class DynamicSpacesHandler {
             if let strip = MissionControlStrip.match(for: display, in: strips ?? [], displays: displays),
                strip.perform(action, on: display) {
                 submittedOrder[key] = proposal.order
-                if action == .add { lastAddAnchor[key] = proposal.order.last }
             }
         }
         previous = proposals
