@@ -25,12 +25,17 @@ final class DockReopenObserver {
         self.observer = observer
         CFRunLoopAddSource(CFRunLoopGetMain(), AXObserverGetRunLoopSource(observer), .defaultMode)
         // Retain the observer until it sees a window or reaches the deadline.
-        deadline = Timer.scheduledTimer(withTimeInterval: wait, repeats: false) { _ in
+        // The timer runs in .common so the deadline still fires while a menu
+        // is pulled down or a window dragged — the asyncAfter this replaced
+        // was never held hostage by the run-loop mode.
+        let deadline = Timer(timeInterval: wait, repeats: false) { _ in
             MainActor.assumeIsolated {
                 self.stop()
                 onDeadline()
             }
         }
+        self.deadline = deadline
+        RunLoop.main.add(deadline, forMode: .common)
         return true
     }
 
