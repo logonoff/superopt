@@ -420,11 +420,15 @@ extension GnomeShortcutHandler {
         if keyCode == Self.keyRight && !hasShift && isEnabled("wordRight") { // Ctrl+→ → ⌥→
             return remap(event, keyCode, flags: flags, remove: .maskControl, add: .maskAlternate)
         }
-        if hasShift && keyCode == Self.keyDown && isEnabled("moveLineDown") { // Ctrl+Shift+↓ → ⌥↓
-            return remap(event, keyCode, flags: flags, remove: [.maskControl, .maskShift], add: .maskAlternate)
-        }
-        if hasShift && keyCode == Self.keyUp && isEnabled("moveLineUp") { // Ctrl+Shift+↑ → ⌥↑
-            return remap(event, keyCode, flags: flags, remove: [.maskControl, .maskShift], add: .maskAlternate)
+        // Code editors own the chord: disabling Move Line there restores
+        // passthrough rather than falling through to Text Editing's Select
+        // Up/Down mapping of the same keys — the same rule the terminal
+        // chords follow.
+        if hasShift, let id = Self.moveLineID(for: keyCode),
+           KeyboardUtils.isCodeEditorApp() {
+            guard isEnabled(id) else { return false }
+            return remap(event, keyCode, flags: flags,
+                         remove: [.maskControl, .maskShift], add: .maskAlternate)
         }
         if hasShift && keyCode == Self.keyDown && isEnabled("selectDown") { // Ctrl+Shift+↓ → Shift+↓
             return remap(event, keyCode, flags: flags, remove: .maskControl)
@@ -440,6 +444,13 @@ extension GnomeShortcutHandler {
         if Self.types("h", keyCode: keyCode) && !hasShift { // Ctrl+H → ⌥⌘F or ⌘Y
             return ctrlHReplacement(event: event, flags: flags)
         }
+        return nil
+    }
+
+    /// The Move Line shortcut a ⌃⇧ arrow chord maps to, nil for any other key.
+    private static func moveLineID(for keyCode: Int64) -> String? {
+        if keyCode == keyUp { return "moveLineUp" }
+        if keyCode == keyDown { return "moveLineDown" }
         return nil
     }
 
