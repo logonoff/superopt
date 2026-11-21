@@ -315,10 +315,20 @@ extension MiddleClickPasteHandler {
                         Self.postNewWindowIfFrontmost(pid: pid, generation: generation)
                     }
                 } else {
-                    Self.postNewWindowIfReopenDidNot(
-                        pid: pid, deadline: Date() + Self.reopenGrace, generation: generation)
+                    Self.waitForReopenedWindow(pid: pid, generation: generation)
                 }
             }
+        }
+    }
+
+    private static func waitForReopenedWindow(pid: pid_t, generation: Int) {
+        guard generation == MiddleClickPasteHandler.generation, windowCount(pid: pid) == 0 else { return }
+        let observing = DockReopenObserver.start(pid: pid, wait: reopenGrace) {
+            guard generation == MiddleClickPasteHandler.generation, windowCount(pid: pid) == 0 else { return }
+            postNewWindowIfFrontmost(pid: pid, generation: generation)
+        }
+        if !observing {
+            postNewWindowIfReopenDidNot(pid: pid, deadline: Date() + reopenGrace, generation: generation)
         }
     }
 
