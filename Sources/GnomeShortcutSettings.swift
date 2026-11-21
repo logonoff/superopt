@@ -83,9 +83,17 @@ final class GnomeShortcutSettings: NSObject {
     }
 
     func setCategoryEnabled(_ category: String, _ enabled: Bool) {
+        // One write for the whole category: each per-shortcut write fires
+        // the KVO observer and a didChangeNotification, restarting the
+        // watchers behind defaultsChanged once per shortcut.
         for shortcut in GnomeShortcutHandler.shortcuts(in: category) {
-            setEnabled(shortcut.id, enabled)
+            if enabled {
+                disabledShortcuts.remove(shortcut.id)
+            } else {
+                disabledShortcuts.insert(shortcut.id)
+            }
         }
+        UserDefaults.standard.set(Array(disabledShortcuts), forKey: Self.defaultsKey)
     }
 
     func categoryBinding(_ category: String) -> Binding<Bool> {
