@@ -36,11 +36,16 @@ class RippleAnimation {
         let now = CACurrentMediaTime()
 
         activeWindows.append(window)
+        let maxDuration = ripples.map { $0.delay + $0.duration }.max() ?? 1.5
         CATransaction.begin()
-        CATransaction.setCompletionBlock { [weak self] in
+        // The window is captured weakly here: activeWindows retains it, so a
+        // normally delivered completion finds it alive, while one that never
+        // fires (the case the fallback below insures against) leaves the
+        // transaction holding no reference to a hidden window forever.
+        CATransaction.setCompletionBlock { [weak self, weak window] in
             MainActor.assumeIsolated {
-                window.orderOut(nil)
-                self?.activeWindows.removeAll { $0 === window }
+                guard let window else { return }
+                self?.retire(window)
             }
         }
         for config in ripples {
@@ -48,6 +53,23 @@ class RippleAnimation {
         }
         window.orderFrontRegardless()
         CATransaction.commit()
+        // Insurance for the one case the probes could not produce — a display
+        // rearrangement mid-animation, the condition under which this app's
+        // NSAnimationContext completions were measured as never delivered
+        // (OSDPanel's fade; CATransaction completions measured fine in every
+        // configuration tested). The block owns the orderOut so the guarantee
+        // does not depend on the animation object still being alive.
+        DispatchQueue.main.asyncAfter(deadline: .now() + maxDuration + 0.1) { [weak self] in
+            MainActor.assumeIsolated {
+                window.orderOut(nil)
+                self?.retire(window)
+            }
+        }
+    }
+
+    private func retire(_ window: NSWindow) {
+        window.orderOut(nil)
+        activeWindows.removeAll { $0 === window }
     }
 
     private func makeWindow(on screen: NSScreen) -> NSWindow {
