@@ -15,7 +15,7 @@ class MissionControlCloseHandler {
     private var buttonHovered = false
     private var positionTimer: Timer?
     private var lastOverlayOrigin = NSPoint.zero
-    private var stableFrames = 0
+    private var lastThumbnailMotion: TimeInterval = 0
 
     private struct WindowEntry {
         let wid: UInt32
@@ -34,7 +34,6 @@ class MissionControlCloseHandler {
     /// it travelled since the last 4 Hz refresh, so this is deliberately
     /// much wider than the button's hit padding.
     private static let hoverPrefilter: CGFloat = 150
-    private static let slowInterval: TimeInterval = 0.25
 
     init?(monitor: MissionControlMonitor) {
         self.monitor = monitor
@@ -58,49 +57,38 @@ class MissionControlCloseHandler {
         enabled = false; deactivateMC()
     }
 
-    private enum TickRate {
-        case slow // Mission Control up, nothing animating
-        case fast // thumbnails animating, follow them at the display's rate
-    }
-
-    /// Runs on each of the monitor's polls while Mission Control is up, off the window
-    /// list it already fetched. Starting the position timer here is what gets the
-    /// close button on screen when Mission Control was opened with the pointer held
-    /// still, which produces no mouse-moved event of its own.
+    /// Share the monitor's ticks for stationary-pointer hover and stable thumbnails.
     func missionControlDidTick(_ windowList: [[String: Any]]) {
         guard enabled else { return }
         refreshWindowRects(from: windowList)
-        if positionTimer == nil { setTickRate(.slow) }
+        if positionTimer == nil { updatePosition() }
     }
 
-    private func setTickRate(_ rate: TickRate) {
-        let interval: TimeInterval
-        switch rate {
-        case .slow: interval = Self.slowInterval
-        case .fast: interval = DisplayRefreshRate.frameInterval
-        }
-        if let existing = positionTimer, abs(existing.timeInterval - interval) < 0.01 {
-            return
-        }
-        positionTimer?.invalidate()
+    private func followThumbnail() {
+        lastThumbnailMotion = ProcessInfo.processInfo.systemUptime
+        guard positionTimer == nil else { return }
         positionTimer = Timer.scheduledTimer(
-            withTimeInterval: interval, repeats: true
+            withTimeInterval: DisplayRefreshRate.frameInterval, repeats: true
         ) { [weak self] _ in
-            MainActor.assumeIsolated { self?.onTick() }
+            MainActor.assumeIsolated {
+                guard let self else { return }
+                self.updatePosition()
+                if ProcessInfo.processInfo.systemUptime - self.lastThumbnailMotion >= 2 {
+                    self.stopTimer()
+                }
+            }
         }
     }
 
-    private func onTick() {
+    private func updatePosition() {
         guard monitor.isActive else { return }
-        // Derive hover from where the pointer is now rather than from a move event.
-        updateHover(at: CGEvent(source: nil)?.location ?? .zero)
-        if hoveredWID != 0 { updateOverlay() }
+        _ = updateHover(at: CGEvent(source: nil)?.location ?? .zero)
+        updateOverlay()
     }
 
     private func stopTimer() {
         positionTimer?.invalidate()
         positionTimer = nil
-        stableFrames = 0
     }
 
     private func closeButtonCGRect(for windowRect: CGRect) -> CGRect {
@@ -121,13 +109,14 @@ class MissionControlCloseHandler {
         // `hoveredWID` is only ever set while Mission Control was up, so with
         // nothing hovered there is nothing to do — and this runs for every
         // click in every app, so the walk below is not paid there.
-        guard hoveredWID != 0 else { return false }
+        let wid = hoveredWID
+        guard wid != 0 else { return false }
         // A fresh walk rather than the `isActive` flag: it stays true through
         // the close animation, and a click in that window would otherwise
         // close a very real window from where a thumbnail used to be.
         guard monitor.check() else { return false }
         let loc = event.location
-        guard let entry = windowRects.first(where: { $0.wid == hoveredWID })
+        guard let entry = windowRects.first(where: { $0.wid == wid })
         else { return false }
         // The visible button tracks the live compositor rect at the display's
         // refresh rate while `windowRects` refreshes at the monitor's 4 Hz,
@@ -152,11 +141,11 @@ class MissionControlCloseHandler {
         // fires no trigger — gets noticed.
         monitor.checkIfDue()
         guard monitor.isActive else { return false }
-        updateHover(at: loc)
+        if updateHover(at: loc) { updateOverlay() }
         return false
     }
 
-    private func updateHover(at loc: CGPoint) {
+    private func updateHover(at loc: CGPoint) -> Bool {
         // Live compositor rects, not the 4 Hz-cached ones: the click path
         // tests the live rect, so the drawn affordance has to agree with it
         // while thumbnails move. The cached rect pre-filters, generously —
@@ -172,15 +161,15 @@ class MissionControlCloseHandler {
         if hitWID != 0, let entry = windowRects.first(where: { $0.wid == hitWID }) {
             overButton = hitTestCGRect(for: hoverRect(for: entry)).contains(loc)
         }
-        guard hitWID != hoveredWID || overButton != buttonHovered else { return }
+        let changed = hitWID != hoveredWID || overButton != buttonHovered
+        if hitWID == 0 {
+            stopTimer()
+        } else if hitWID != hoveredWID {
+            followThumbnail()
+        }
         hoveredWID = hitWID
         buttonHovered = overButton
-        if hoveredWID != 0 {
-            stableFrames = 0; setTickRate(.fast)
-        } else {
-            setTickRate(.slow)
-        }
-        updateOverlay()
+        return changed
     }
 
     /// Where a window's thumbnail is right now: the live compositor rect
@@ -236,27 +225,21 @@ class MissionControlCloseHandler {
         var liveRect = CGRect.zero
         guard getScreenRect(cid, hoveredWID, &liveRect) == 0,
               liveRect.width > 60, liveRect.height > 60
-        else { hideOverlay(); return }
+        else { stopTimer(); hideOverlay(); return }
         let cgBtn = closeButtonCGRect(for: liveRect)
         let origin = KeyboardUtils.cgRectToNS(cgBtn).origin
         let moved = abs(origin.x - lastOverlayOrigin.x) > 0.5
             || abs(origin.y - lastOverlayOrigin.y) > 0.5
         lastOverlayOrigin = origin
 
-        if moved {
-            stableFrames = 0
-            setTickRate(.fast)
-        } else {
-            stableFrames += 1
-            if stableFrames > Int(DisplayRefreshRate.current * 2) { setTickRate(.slow) }
-        }
-
         if let existing = overlay {
+            if moved { followThumbnail() }
             existing.reposition(origin: origin)
             existing.setState(hovered: buttonHovered)
         } else {
             overlay = CloseOverlay(
                 origin: origin, size: Self.buttonSize, hovered: buttonHovered)
+            followThumbnail()
         }
     }
 
