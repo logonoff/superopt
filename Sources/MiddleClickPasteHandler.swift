@@ -310,7 +310,10 @@ extension MiddleClickPasteHandler {
         NSWorkspace.shared.openApplication(at: appURL, configuration: config) { _, _ in
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
                 if hadWindows {
-                    Self.postNewWindow(pid: pid, deadline: Date() + Self.dockActivationTimeout, generation: generation)
+                    guard generation == MiddleClickPasteHandler.generation else { return }
+                    AppActivation.wait(for: pid, timeout: Self.dockActivationTimeout) {
+                        Self.postNewWindowIfFrontmost(pid: pid, generation: generation)
+                    }
                 } else {
                     Self.postNewWindowIfReopenDidNot(
                         pid: pid, deadline: Date() + Self.reopenGrace, generation: generation)
@@ -342,22 +345,6 @@ extension MiddleClickPasteHandler {
         guard generation == MiddleClickPasteHandler.generation else { return }
         guard NSWorkspace.shared.frontmostApplication?.processIdentifier == pid else { return }
         KeyboardUtils.postKey(keyN, flags: .maskCommand) // ⌘N
-    }
-
-    private static func postNewWindow(pid: pid_t, deadline: Date, generation: Int) {
-        guard generation == MiddleClickPasteHandler.generation else { return }
-        // ⌘N goes to whichever app is frontmost at delivery time; posting it
-        // after the user has moved on would open a window in the wrong app.
-        // Activation is asynchronous and can take well past a fixed delay, so
-        // it is polled for rather than assumed.
-        if NSWorkspace.shared.frontmostApplication?.processIdentifier == pid {
-            KeyboardUtils.postKey(keyN, flags: .maskCommand) // ⌘N
-            return
-        }
-        guard Date() < deadline else { return }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            postNewWindow(pid: pid, deadline: deadline, generation: generation)
-        }
     }
 
     /// The windows the app has, minimized and hidden ones included. Read through
