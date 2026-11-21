@@ -97,7 +97,13 @@ final class MissionControlMonitor {
         lastCheck = ProcessInfo.processInfo.systemUptime
         guard let list = CGWindowListCopyWindowInfo(
             [.optionOnScreenOnly, .excludeDesktopElements], kCGNullWindowID) as? [[String: Any]]
-        else { return isActive }
+        else {
+            if triggerOutstanding && lastCheck > graceDeadline {
+                triggerOutstanding = false
+                if isActive { setTimer(Self.pollInterval) } else { idle() }
+            }
+            return isActive
+        }
 
         if KeyboardUtils.isMissionControlActive(list) {
             if !isActive {
