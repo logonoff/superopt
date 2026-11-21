@@ -35,22 +35,19 @@ class RippleAnimation {
         let path = makeQuarterCirclePath()
         let now = CACurrentMediaTime()
 
-        for config in ripples {
-            animateRipple(config: config, path: path, now: now, rootLayer: rootLayer)
-        }
-
-        window.orderFrontRegardless()
         activeWindows.append(window)
-
-        let maxDuration = ripples.map { $0.delay + $0.duration }.max() ?? 1.5
-        DispatchQueue.main.asyncAfter(
-            deadline: .now() + maxDuration + 0.1
-        ) { [weak self] in
+        CATransaction.begin()
+        CATransaction.setCompletionBlock { [weak self] in
             MainActor.assumeIsolated {
                 window.orderOut(nil)
                 self?.activeWindows.removeAll { $0 === window }
             }
         }
+        for config in ripples {
+            animateRipple(config: config, path: path, now: now, rootLayer: rootLayer)
+        }
+        window.orderFrontRegardless()
+        CATransaction.commit()
     }
 
     private func makeWindow(on screen: NSScreen) -> NSWindow {
