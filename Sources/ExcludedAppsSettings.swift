@@ -1,18 +1,6 @@
 import SwiftUI
 import UniformTypeIdentifiers
 
-// genstrings -SwiftUI only extracts Text(); Section/Toggle string labels need manual entries
-private let _excludedAppsStrings = [
-    NSLocalizedString("Turn off SuperOpt in these apps", comment: "Toggle label"),
-    NSLocalizedString(
-        """
-        While you’re using an app in this list, SuperOpt turns off every feature \
-        and dims its own menu bar icon
-        """,
-        comment: "Toggle description"),
-    NSLocalizedString("No apps are excluded.", comment: "Shown in place of an empty list of apps")
-]
-
 /// One app on the list, resolved for display.
 struct ExcludedApp: Identifiable, Hashable {
     /// The bundle identifier, which is what gets stored and what the frontmost app is
@@ -87,11 +75,11 @@ struct ExcludedAppsPane: View {
         Form {
             Section {
                 Toggle(isOn: $enabled) {
-                    Text("Turn off SuperOpt in these apps")
+                    Text("Turn off SuperOpt in these apps", comment: "Toggle label")
                     Text("""
                         While you’re using an app in this list, SuperOpt turns off every feature \
                         and dims its own menu bar icon
-                        """)
+                        """, comment: "Toggle description")
                 }
 
                 ForEach(model.apps) { app in
@@ -114,7 +102,7 @@ struct ExcludedAppsPane: View {
                 }
 
                 if model.apps.isEmpty {
-                    Text("No apps are excluded.")
+                    Text("No apps are excluded.", comment: "Shown in place of an empty list of apps")
                         .font(.callout)
                         .foregroundStyle(.secondary)
                         .frame(maxWidth: .infinity, alignment: .center)
