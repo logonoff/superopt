@@ -40,7 +40,7 @@ private enum CapsLockOSDText {
 }
 
 @MainActor
-class AppDelegate: NSObject, NSApplicationDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     var eventTap: CFMachPort?
     private var eventTapSource: CFRunLoopSource?
     private var statusItem: NSStatusItem!
@@ -76,6 +76,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private let permissionHelper = PermissionHelper()
     private let excludedApps = ExcludedApps()
     private var lastCapsLockState = false
+    /// Kept so menuNeedsUpdate can refresh the checkmark.
+    private var launchMenuItem: NSMenuItem?
 
     // MARK: - Preferences
 
@@ -477,9 +479,10 @@ extension AppDelegate {
             title: permTitle, action: #selector(requestPermissions), keyEquivalent: ""))
 
         let launchTitle = NSLocalizedString("Open at Login", comment: "Menu item for starting the app at login")
-        let launchItem = NSMenuItem(title: launchTitle, action: #selector(toggleLaunchAtLogin), keyEquivalent: "")
-        launchItem.state = SMAppService.mainApp.status == .enabled ? .on : .off
-        menu.addItem(launchItem)
+        let item = NSMenuItem(title: launchTitle, action: #selector(toggleLaunchAtLogin), keyEquivalent: "")
+        item.state = SMAppService.mainApp.status == .enabled ? .on : .off
+        launchMenuItem = item
+        menu.addItem(item)
 
         let aboutTitle = NSLocalizedString("About SuperOpt", comment: "Menu item to show about panel")
         menu.addItem(NSMenuItem(title: aboutTitle, action: #selector(showAbout), keyEquivalent: ""))
@@ -487,7 +490,15 @@ extension AppDelegate {
 
         let quitTitle = NSLocalizedString("Quit SuperOpt", comment: "Menu item to quit the app")
         menu.addItem(NSMenuItem(title: quitTitle, action: #selector(quit), keyEquivalent: "q"))
+        menu.delegate = self
         statusItem.menu = menu
+    }
+
+    /// The checkmark is a launch-time snapshot otherwise: the registration
+    /// can change outside this menu (System Settings → Login Items), and
+    /// nothing would correct the stale state until relaunch.
+    @objc func menuNeedsUpdate(_ menu: NSMenu) {
+        launchMenuItem?.state = SMAppService.mainApp.status == .enabled ? .on : .off
     }
 
     @objc func requestPermissions() {
