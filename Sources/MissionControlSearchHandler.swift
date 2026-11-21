@@ -96,10 +96,10 @@ class MissionControlSearchHandler {
     }
 
     /// Records a click that may have closed Mission Control — the route the
-    /// activation-consumed guard above cannot see. Applied to every click:
-    /// the stamp is inert when nothing can start a session, and the
-    /// close-button filtering lives with the caller, which knows which
-    /// presses were consumed as close-button hits.
+    /// activation-consumed guard above cannot see. Applied to every real
+    /// (non-synthetic) click: the stamp is inert when nothing can start a
+    /// session, and the close-button filtering lives with the caller, which
+    /// knows which presses were consumed as close-button hits.
     func noteClickInMissionControl() {
         lastClickInMissionControl = ProcessInfo.processInfo.systemUptime
     }

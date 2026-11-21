@@ -45,11 +45,13 @@ class SnapAssistPanel {
     private static let containerPadding: CGFloat = 8
     /// The margin containerFrame and capacity leave around the container.
     private static let panelMargin: CGFloat = 80
-    /// The smallest free area the popup is offered for. Height: one row
-    /// with its padding plus the panel margin. Width: the panel margin plus
-    /// a container wide enough for the icon, its cell paddings, and a
-    /// truncated label. The sliver a near-full-width window leaves when the
-    /// watcher mistakes it for half-tiled has nothing worth offering anyway.
+    /// The smallest free area the popup is offered for. Width: the panel
+    /// margin plus a container wide enough for the icon, its cell paddings,
+    /// and a truncated label — the sliver a near-full-width window leaves
+    /// when the watcher mistakes it for half-tiled has nothing worth
+    /// offering anyway. Height: one row with its padding plus the panel
+    /// margin; freeArea always hands the panel the screen's full visible
+    /// height, so that floor is defensive.
     private static let minFreeWidth: CGFloat = 180 + panelMargin
     private static let minFreeHeight: CGFloat = itemHeight + containerPadding * 2 + panelMargin
 
@@ -63,8 +65,9 @@ class SnapAssistPanel {
         let freeFrame = Self.freeArea(
             direction: direction, screen: screen, tiledFrame: tiledWindowFrame)
         // Below the minimums containerFrame's min(_, size − margin) goes
-        // negative (a narrow sliver's width) or leaves no room for even one
-        // row (height).
+        // negative (a narrow sliver's width) or, defensively, leaves no
+        // room for even one row (height — freeArea always returns the
+        // screen's full visible height).
         guard freeFrame.width >= Self.minFreeWidth,
               freeFrame.height >= Self.minFreeHeight
         else { return nil }
