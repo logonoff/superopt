@@ -16,7 +16,6 @@ class TileAssistWatcher {
     private var observer: AXObserver?
     private var watchedWindow: AXUIElement?
     private var watchedPID: pid_t = -1
-    private var observesWindowChanges = false
     private var previousFrame: CGRect = .zero
     /// The half and screen the window was last tiled on, nil when it was not
     /// tiled. Recording *where* the window is tiled, not just that it is,
@@ -100,7 +99,7 @@ class TileAssistWatcher {
         // failure can happen — an observer with no notifications registered
         // observes nothing, and the watcher would stay deaf to the app until
         // the next activation.
-        let focusResult = AXObserverAddNotification(
+        AXObserverAddNotification(
             obs, axApp, kAXFocusedWindowChangedNotification as CFString, refcon)
 
         var winRef: AnyObject?
@@ -116,9 +115,8 @@ class TileAssistWatcher {
             lastTile = nil
         }
 
-        let moveResult = AXObserverAddNotification(obs, window, kAXMovedNotification as CFString, refcon)
-        let resizeResult = AXObserverAddNotification(obs, window, kAXResizedNotification as CFString, refcon)
-        observesWindowChanges = focusResult == .success && moveResult == .success && resizeResult == .success
+        AXObserverAddNotification(obs, window, kAXMovedNotification as CFString, refcon)
+        AXObserverAddNotification(obs, window, kAXResizedNotification as CFString, refcon)
     }
 
     func windowDidChange() {
@@ -187,8 +185,7 @@ class TileAssistWatcher {
             onTile?(currentTile.direction, screen, TiledWindowInfo(
                 pid: watchedPID,
                 windowID: Self.windowID(of: window),
-                frame: frame,
-                observesWindowChanges: observesWindowChanges))
+                frame: frame))
         }
     }
 
@@ -207,7 +204,6 @@ class TileAssistWatcher {
             observer = nil
         }
         watchedWindow = nil
-        observesWindowChanges = false
     }
 }
 

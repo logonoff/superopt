@@ -16,7 +16,6 @@ struct TiledWindowInfo {
     let pid: pid_t
     let windowID: UInt32
     let frame: CGRect
-    let observesWindowChanges: Bool
 }
 
 @MainActor
@@ -36,6 +35,7 @@ class SnapAssistPanel {
     private var dismissTimer: Timer?
     private var windowCheckTimer: Timer?
     private var tiledWindowFrame: CGRect = .zero
+    private var tiledWindowID: UInt32 = 0
     private var tiledPID: pid_t = -1
     private var onDismiss: (() -> Void)?
     var onWillTile: (() -> Void)?
@@ -63,6 +63,7 @@ class SnapAssistPanel {
 
         tiledPID = tiled.pid
         tiledWindowFrame = tiled.frame
+        tiledWindowID = tiled.windowID
         let freeFrame = Self.freeArea(
             direction: direction, screen: screen, tiledFrame: tiledWindowFrame)
         // Below the minimums containerFrame's min(_, size − margin) goes
@@ -102,10 +103,14 @@ class SnapAssistPanel {
         dismissTimer = Timer.scheduledTimer(withTimeInterval: 5, repeats: false) { [weak self] _ in
             MainActor.assumeIsolated { self?.dismiss() }
         }
-        if !tiled.observesWindowChanges {
-            windowCheckTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [weak self] _ in
-                MainActor.assumeIsolated { self?.checkTiledWindow() }
-            }
+        // Registration success is not delivery — the Dock has accepted AX
+        // notifications that never arrived (measured, see AGENTS.md) — and a
+        // failed focused-window read inside the watcher deafens it until the
+        // next focus change. The poll stays as a backstop at its original
+        // rate: the panel lives at most five seconds, so there is no
+        // steady-state cost for a slower cadence to save.
+        windowCheckTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [weak self] _ in
+            MainActor.assumeIsolated { self?.checkTiledWindow() }
         }
     }
 
@@ -127,6 +132,15 @@ class SnapAssistPanel {
         // whenever the app is briefly unresponsive; the 5-second timeout
         // covers a window that really is gone.
         let currentFrame = Self.frontWindowFrame(pid: tiledPID)
+        // Identity, not just geometry: two windows of the tiled app can share
+        // a frame, and a focus change between them is invisible to the frame
+        // check below. The event path dismisses on the same identity change.
+        if tiledWindowID != 0,
+           let focused = KeyboardUtils.focusedWindowID(pid: tiledPID),
+           focused != tiledWindowID {
+            dismiss()
+            return
+        }
         guard currentFrame != .zero, tiledWindowFrame != .zero,
               currentFrame != tiledWindowFrame
         else { return }
