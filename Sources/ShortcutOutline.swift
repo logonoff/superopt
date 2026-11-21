@@ -209,9 +209,12 @@ struct ShortcutOutline: NSViewRepresentable {
             let row = outline.row(for: sender)
             guard row >= 0, let node = outline.item(atRow: row) as? ShortcutNode else { return }
             if node.children != nil {
-                // Tri-state semantics: off turns on, anything else turns off.
-                let nextOn = settings.categoryState(node.label) == .allOff
-                settings.setCategoryEnabled(node.label, nextOn)
+                // AppKit's own tri-state cycle has already advanced the
+                // button: off clicks to mixed, mixed to on, on to off.
+                // Re-deriving from the model instead would invert the mixed
+                // case — unchecking everything under a box that just showed
+                // itself checked.
+                settings.setCategoryEnabled(node.label, sender.state != .off)
                 for child in node.children ?? [] {
                     refresh(child)
                 }
