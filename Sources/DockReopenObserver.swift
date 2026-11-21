@@ -23,7 +23,12 @@ final class DockReopenObserver {
         guard AXObserverAddNotification(observer, app, kAXWindowCreatedNotification as CFString, context)
                 == .success else { return false }
         self.observer = observer
-        CFRunLoopAddSource(CFRunLoopGetMain(), AXObserverGetRunLoopSource(observer), .defaultMode)
+        // The source runs in common modes, matching the deadline: the
+        // cancellation has to beat the deadline even while a menu is tracked
+        // open or a window dragged, or a window created during tracking goes
+        // unseen and the deadline's own window-count re-check can only see
+        // what still exists by then — a transient window means a spurious ⌘N.
+        CFRunLoopAddSource(CFRunLoopGetMain(), AXObserverGetRunLoopSource(observer), .commonModes)
         // Retain the observer until it sees a window or reaches the deadline.
         // The timer runs in .common so the deadline still fires while a menu
         // is pulled down or a window dragged — the asyncAfter this replaced
@@ -48,7 +53,7 @@ final class DockReopenObserver {
 
     private func stop() {
         if let observer {
-            CFRunLoopRemoveSource(CFRunLoopGetMain(), AXObserverGetRunLoopSource(observer), .defaultMode)
+            CFRunLoopRemoveSource(CFRunLoopGetMain(), AXObserverGetRunLoopSource(observer), .commonModes)
             self.observer = nil
         }
         deadline?.invalidate()
