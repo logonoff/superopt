@@ -44,7 +44,13 @@ class ZoomButtonHandler {
             AXUIElementCreateApplication(pid), kAXFocusedWindowAttribute as CFString, window)
         if NSWorkspace.shared.frontmostApplication?.processIdentifier != pid {
             NSRunningApplication(processIdentifier: pid)?.activate()
-            pressWhenFront(pid: pid, window: window, char: char, attempts: 0)
+            AppActivation.wait(for: pid, timeout: 0.5) {
+                // Activation can restore the app's previous key window.
+                AXUIElementPerformAction(window, kAXRaiseAction as CFString)
+                AXUIElementSetAttributeValue(
+                    AXUIElementCreateApplication(pid), kAXFocusedWindowAttribute as CFString, window)
+                _ = KeyboardUtils.pressTilingMenuItem(pid: pid, char: char)
+            }
             // Consumed even though the press is deferred: passing the click
             // through would give the app its native green-button behaviour
             // instead of Fill, and a synthetic re-post on a still-inactive
@@ -56,27 +62,6 @@ class ZoomButtonHandler {
             return true
         }
         return KeyboardUtils.pressTilingMenuItem(pid: pid, char: char)
-    }
-
-    /// ⌘-menu items reach the app's own menu bar reliably once it is
-    /// frontmost; a background app's activation is asynchronous, so the
-    /// press waits for it (the SnapAssistActions pattern).
-    private func pressWhenFront(
-        pid: pid_t, window: AXUIElement, char: String, attempts: Int
-    ) {
-        if NSWorkspace.shared.frontmostApplication?.processIdentifier == pid || attempts >= 10 {
-            // Activation makes the app's own recorded key window key, which
-            // is not necessarily the one whose button was clicked — re-apply
-            // the raise right before pressing, as SnapAssistActions does.
-            AXUIElementPerformAction(window, kAXRaiseAction as CFString)
-            AXUIElementSetAttributeValue(
-                AXUIElementCreateApplication(pid), kAXFocusedWindowAttribute as CFString, window)
-            _ = KeyboardUtils.pressTilingMenuItem(pid: pid, char: char)
-            return
-        }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) { [weak self] in
-            self?.pressWhenFront(pid: pid, window: window, char: char, attempts: attempts + 1)
-        }
     }
 
     // MARK: - AX helpers
