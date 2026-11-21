@@ -135,14 +135,22 @@ class TileAssistWatcher {
         }
 
         let frame = Self.windowFrame(window)
-        // A failed read is not evidence of a move — forward nothing — but it
-        // still arms the debounce: checkTileState's re-read 400 ms later is
-        // what recovers a real frame the failed read missed, and skipping it
-        // would leave the tile undetected if no further notification follows.
+        // A failed read is not evidence of a move — forward nothing and keep
+        // the last valid frame — but it always arms the debounce:
+        // checkTileState's re-read is the recovery path, and recording the
+        // failed .zero would make a second failure hit the equality guard
+        // below and schedule no retry at all.
+        if frame == .zero {
+            armDebounce()
+            return
+        }
         guard frame != previousFrame else { return }
-        if frame != .zero { onWindowChange?(watchedPID, frame) }
+        onWindowChange?(watchedPID, frame)
         previousFrame = frame
+        armDebounce()
+    }
 
+    private func armDebounce() {
         debounceTimer?.invalidate()
         debounceTimer = Timer.scheduledTimer(withTimeInterval: 0.4, repeats: false) { [weak self] _ in
             MainActor.assumeIsolated { self?.checkTileState() }
