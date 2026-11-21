@@ -274,7 +274,7 @@ extension GnomeShortcutHandler {
         GnomeShortcutDef(id: "reload", label: NSLocalizedString("Reload", comment: ""), fromKeys: "⌃R", toKeys: "⌘R", category: browsers),
         GnomeShortcutDef(id: "devTools", label: NSLocalizedString("Developer Tools", comment: ""), fromKeys: "⌃⇧I", toKeys: "⌥⌘I", category: browsers),
         GnomeShortcutDef(id: "devToolsF12", label: NSLocalizedString("Developer Tools", comment: ""), fromKeys: "F12", toKeys: "⌥⌘I", category: browsers),
-        GnomeShortcutDef(id: "viewHistory", label: NSLocalizedString("Show All History", comment: ""), fromKeys: "⌃H", toKeys: "⌘Y", category: browsers),
+        GnomeShortcutDef(id: "viewHistory", label: NSLocalizedString("Show History", comment: ""), fromKeys: "⌃H", toKeys: "⌘Y", category: browsers),
         GnomeShortcutDef(id: "viewSource", label: NSLocalizedString("View Source", comment: ""), fromKeys: "⌃U", toKeys: "⌘U", category: browsers),
         GnomeShortcutDef(id: "privateWindow", label: NSLocalizedString("New Private Window", comment: ""), fromKeys: "⌃⇧P", toKeys: "⇧⌘P", category: browsers),
         GnomeShortcutDef(id: "bookmark", label: NSLocalizedString("Add Bookmark", comment: ""), fromKeys: "⌃D", toKeys: "⌘D", category: browsers),
@@ -284,7 +284,7 @@ extension GnomeShortcutHandler {
         GnomeShortcutDef(id: "termCopy", label: NSLocalizedString("Copy", comment: ""), fromKeys: "⌃⇧C", toKeys: "⌘C", category: terminal),
         GnomeShortcutDef(id: "termPaste", label: NSLocalizedString("Paste", comment: ""), fromKeys: "⌃⇧V", toKeys: "⌘V", category: terminal),
         GnomeShortcutDef(id: "termCloseTab", label: NSLocalizedString("Close Tab", comment: ""), fromKeys: "⌃⇧W", toKeys: "⌘W", category: terminal),
-        GnomeShortcutDef(id: "termCloseWindow", label: NSLocalizedString("Close Window", comment: ""), fromKeys: "⌃⇧Q", toKeys: "⌘Q", category: terminal),
+        GnomeShortcutDef(id: "termCloseWindow", label: NSLocalizedString("Quit", comment: ""), fromKeys: "⌃⇧Q", toKeys: "⌘Q", category: terminal),
         GnomeShortcutDef(id: "termNewTab", label: NSLocalizedString("New Tab", comment: ""), fromKeys: "⌃⇧T", toKeys: "⌘T", category: terminal),
 
         GnomeShortcutDef(id: "settings", label: NSLocalizedString("Settings", comment: ""), fromKeys: "⌃,", toKeys: "⌘,", category: codeEditor),

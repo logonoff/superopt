@@ -118,7 +118,7 @@ struct ExcludedAppsPane: View {
                     Text("Turn off SuperOpt in these apps", comment: "Toggle label")
                     Text("""
                         While you’re using an app in this list, SuperOpt turns off every feature \
-                        and dims its own menu bar icon
+                        and dims its own menu bar icon.
                         """, comment: "Toggle description")
                 }
 

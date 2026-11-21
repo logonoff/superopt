@@ -1,14 +1,11 @@
 /* No comment provided by engineer. */
-"A black bar appears behind the menu bar when a window fills the screen" = "Affiche une barre noire derrière la barre des menus lorsqu’une fenêtre remplit l’écran";
+"A black bar appears behind the menu bar when a window fills the screen." = "Affiche une barre noire derrière la barre des menus lorsqu’une fenêtre remplit l’écran.";
 
 /* No comment provided by engineer. */
-"A middle click pastes the selected text, or the contents of the Clipboard if nothing is selected; middle-clicking a Dock app icon opens a new window" = "Un clic avec le bouton central colle le texte sélectionné, ou le contenu du presse-papiers si rien n’est sélectionné ; sur l’icône d’une app du Dock, il ouvre une nouvelle fenêtre";
+"A middle click pastes the selected text, or the contents of the Clipboard if nothing is selected; middle-clicking an app icon in the Dock opens a new window." = "Un clic avec le bouton central colle le texte sélectionné, ou le contenu du presse-papiers si rien n’est sélectionné ; sur l’icône d’une app du Dock, il ouvre une nouvelle fenêtre.";
 
 /* Menu item to show about panel */
 "About SuperOpt" = "À propos de SuperOpt";
-
-/* Permission name */
-"Accessibility" = "Accessibilité";
 
 /* Category hint */
 "Active only in browsers" = "Actifs uniquement dans les navigateurs";
@@ -38,10 +35,10 @@
 "Add Link" = "Ajouter un lien";
 
 /* No comment provided by engineer. */
-"An onscreen indicator appears when you turn Caps Lock on or off" = "Affiche un indicateur à l’écran lorsque vous activez ou désactivez le verrouillage majuscule";
+"An onscreen indicator appears when you turn Caps Lock on or off." = "Affiche un indicateur à l’écran lorsque vous activez ou désactivez le verrouillage majuscule.";
 
 /* No comment provided by engineer. */
-"An onscreen row of dots appears when a display switches spaces" = "Affiche une rangée de points sur l’écran concerné lorsqu’il change de Space";
+"An onscreen row of dots appears when a display switches spaces." = "Affiche une rangée de points sur l’écran concerné lorsqu’il change de Space.";
 
 /* No comment provided by engineer. */
 "Apps" = "Apps";
@@ -74,13 +71,13 @@
 "Click-through focus" = "Clic traversant";
 
 /* No comment provided by engineer. */
-"Clicking an inactive window brings it to the front and passes the click through to the item under the pointer" = "Cliquer sur une fenêtre inactive la met au premier plan et transmet le clic à l’élément situé sous le pointeur";
+"Clicking an inactive window brings it to the front and passes the click through to the item under the pointer." = "Cliquer sur une fenêtre inactive la met au premier plan et transmet le clic à l’élément situé sous le pointeur.";
 
 /* No comment provided by engineer. */
-"Clicking the green button expands the window to fill the screen instead of entering full screen" = "Cliquer sur le bouton vert agrandit la fenêtre pour remplir l’écran au lieu d’activer le mode plein écran";
+"Clicking the green button expands the window to fill the screen instead of entering full screen." = "Cliquer sur le bouton vert agrandit la fenêtre pour remplir l’écran au lieu d’activer le mode plein écran.";
 
 /* No comment provided by engineer. */
-"Close buttons appear on windows in Mission Control" = "Affiche des boutons de fermeture sur les fenêtres dans Mission Control";
+"Close buttons appear on windows in Mission Control." = "Affiche des boutons de fermeture sur les fenêtres dans Mission Control.";
 
 /* No comment provided by engineer. */
 "Close Tab" = "Fermer l’onglet";
@@ -107,7 +104,7 @@
 "Continue" = "Continuer";
 
 /* No comment provided by engineer. */
-"Control-scroll zooms in and out" = "Contrôle + défilement permet d’effectuer un zoom avant ou arrière";
+"Control-scroll zooms in and out." = "Le défilement avec la touche Contrôle enfoncée permet d’effectuer un zoom avant ou arrière.";
 
 /* No comment provided by engineer. */
 "Copy" = "Copier";
@@ -122,7 +119,7 @@
 "Cut and paste files in the Finder" = "Couper et coller des fichiers dans le Finder";
 
 /* No comment provided by engineer. */
-"Cut marks the selected files to be moved; Paste moves them to the current folder" = "Couper marque les fichiers sélectionnés en vue de leur déplacement ; Coller les déplace dans le dossier actuel";
+"Cut marks the selected files to be moved; Paste moves them to the current folder." = "Couper marque les fichiers sélectionnés pour les déplacer ; Coller les déplace dans le dossier actuel.";
 
 /* No comment provided by engineer. */
 "Dark menu bar" = "Barre des menus sombre";
@@ -141,6 +138,9 @@
 
 /* No comment provided by engineer. */
 "Developer Tools" = "Outils de développement";
+
+/* Permission name */
+"Device Control and Data Access" = "Contrôle de l’appareil et accès aux données";
 
 /* No comment provided by engineer. */
 "Duplicate" = "Dupliquer";
@@ -200,9 +200,6 @@
 "Home and End" = "Début et Fin";
 
 /* No comment provided by engineer. */
-"Home and End keys move the insertion point to the beginning or end of the line; Control-Home and Control-End move it to the beginning or end of the document" = "Les touches Début et Fin déplacent le point d’insertion au début ou à la fin de la ligne ; Contrôle + Début et Contrôle + Fin le déplacent au début ou à la fin du document";
-
-/* No comment provided by engineer. */
 "Hot corner" = "Coin actif";
 
 /* No comment provided by engineer. */
@@ -227,7 +224,7 @@
 "Lock Screen" = "Verrouiller l’écran";
 
 /* No comment provided by engineer. */
-"Maps Linux keyboard shortcuts to their Mac equivalents" = "Associe les raccourcis clavier Linux à leurs équivalents sur Mac";
+"Maps Linux keyboard shortcuts to their Mac equivalents." = "Associe les raccourcis clavier Linux à leurs équivalents sur Mac.";
 
 /* No comment provided by engineer. */
 "Menu Bar" = "Barre des menus";
@@ -260,7 +257,7 @@
 "Move Word Right" = "Aller au mot suivant";
 
 /* No comment provided by engineer. */
-"Moving the pointer to the top-left corner of any screen opens Mission Control" = "Déplacer le pointeur dans le coin supérieur gauche de n’importe quel écran ouvre Mission Control";
+"Moving the pointer to the top-left corner of any screen opens Mission Control." = "Déplacer le pointeur dans le coin supérieur gauche de n’importe quel écran ouvre Mission Control.";
 
 /* No comment provided by engineer. */
 "Natural" = "Naturel";
@@ -286,11 +283,11 @@
 /* No comment provided by engineer. */
 "Off" = "Désactivé";
 
-/* Button to open Accessibility settings */
-"Open Accessibility Settings" = "Ouvrir les réglages « Accessibilité »";
-
 /* Menu item for starting the app at login */
 "Open at Login" = "Ouvrir avec la session";
+
+/* Button to open Accessibility settings */
+"Open Device Control and Data Access Settings" = "Ouvrir les réglages « Contrôle de l’appareil et accès aux données »";
 
 /* Button to open Input Monitoring settings */
 "Open Input Monitoring Settings" = "Ouvrir les réglages « Surveillance de l’entrée »";
@@ -302,13 +299,13 @@
 "Option Key" = "Touche Option";
 
 /* No comment provided by engineer. */
-"Option-1 through Option-9 open the corresponding app in the Dock" = "Les touches Option + 1 à Option + 9 ouvrent l’app correspondante dans le Dock";
+"Option-1 through Option-9 open the corresponding app in the Dock." = "Les touches Option + 1 à Option + 9 ouvrent l’app correspondante dans le Dock.";
 
 /* No comment provided by engineer. */
-"Option-A opens the Apps view in Spotlight" = "Option + A ouvre la vue Apps de Spotlight";
+"Option-A opens the apps window in Spotlight." = "Option + A ouvre la fenêtre des apps de Spotlight.";
 
 /* No comment provided by engineer. */
-"Option-Arrow keys tile, fill, or restore windows" = "Les touches Option + flèches permettent de disposer les fenêtres en mosaïque, de remplir l’écran ou de rétablir leur taille précédente";
+"Option-Arrow keys tile, fill, or restore windows." = "Les touches Option + flèches permettent de disposer les fenêtres en mosaïque, de remplir l’écran ou de rétablir leur taille précédente.";
 
 /* No comment provided by engineer. */
 "Outdent" = "Désindenter";
@@ -323,10 +320,10 @@
 "Permissions Required" = "Autorisations requises";
 
 /* No comment provided by engineer. */
-"Pressing Option twice opens the Apps view in Spotlight" = "Appuyer deux fois sur la touche Option ouvre la vue Apps de Spotlight";
+"Pressing Option twice opens the apps window in Spotlight." = "Appuyer deux fois sur la touche Option ouvre la fenêtre des apps de Spotlight.";
 
 /* No comment provided by engineer. */
-"Pressing the Option key opens Mission Control" = "Appuyer sur la touche Option ouvre Mission Control";
+"Pressing the Option key opens Mission Control." = "Appuyer sur la touche Option ouvre Mission Control.";
 
 /* No comment provided by engineer. */
 "Print" = "Imprimer";
@@ -368,7 +365,7 @@
 "Scroll to zoom in browsers" = "Utiliser le défilement pour zoomer dans les navigateurs";
 
 /* No comment provided by engineer. */
-"Scrolling over the Apple menu switches that display to the next or previous space" = "Le défilement sur le menu Apple fait passer l’écran concerné au Space suivant ou précédent";
+"Scrolling over the Apple menu switches that display to the next or previous space." = "Le défilement sur le menu Apple fait passer l’écran concerné au Space suivant ou précédent.";
 
 /* No comment provided by engineer. */
 "Select All" = "Tout sélectionner";
@@ -395,13 +392,13 @@
 "Shortcuts" = "Raccourcis";
 
 /* No comment provided by engineer. */
-"Show All History" = "Afficher tout l’historique";
-
-/* No comment provided by engineer. */
 "Show Downloads" = "Afficher les téléchargements";
 
 /* No comment provided by engineer. */
-"Show or Hide Bookmarks Bar" = "Afficher ou masquer la barre des favoris";
+"Show History" = "Afficher l’historique";
+
+/* No comment provided by engineer. */
+"Show or Hide Bookmarks Bar" = "Afficher ou masquer la barre des Favoris";
 
 /* Spoken when the space changes */
 "Space %1$d of %2$d" = "Space %1$d sur %2$d";
@@ -434,10 +431,13 @@
 "Text Editing" = "Édition de texte";
 
 /* No comment provided by engineer. */
-"The Finder takes this position in the Dock; other apps shift to fill the gap" = "Le Finder occupe cette position dans le Dock ; les autres apps se décalent pour combler l’espace libre";
+"The Finder takes this position in the Dock; other apps shift to fill the gap." = "Le Finder occupe cette position dans le Dock ; les autres apps se décalent pour combler l’espace libre.";
 
 /* No comment provided by engineer. */
-"The Menu key on Windows keyboards opens a shortcut menu" = "La touche Menu des claviers PC ouvre un menu contextuel";
+"The Home and End keys move the insertion point to the beginning or end of the line; Control-Home and Control-End move it to the beginning or end of the document." = "Les touches Début et Fin déplacent le point d’insertion au début ou à la fin de la ligne ; Contrôle + Début et Contrôle + Fin le déplacent au début ou à la fin du document.";
+
+/* No comment provided by engineer. */
+"The Menu key on Windows keyboards opens a shortcut menu." = "La touche Menu des claviers Windows ouvre un menu contextuel.";
 
 /* No comment provided by engineer. */
 "Tile assist" = "Assistance à la disposition en mosaïque";
@@ -446,19 +446,19 @@
 "Traditional" = "Traditionnel";
 
 /* No comment provided by engineer. */
-"Treats the integrated terminal in code editors such as VS Code and Cursor as a terminal app, so Control-C and similar shortcuts pass through unchanged" = "Traite le terminal intégré des éditeurs de code tels que VS Code et Cursor comme une app de terminal, afin que Contrôle + C et les raccourcis similaires soient transmis sans modification";
+"Treats the integrated terminal in code editors such as Visual Studio Code and Cursor as a terminal app, so Control-C and similar shortcuts pass through unchanged." = "Traite le terminal intégré des éditeurs de code tels que Visual Studio Code et Cursor comme une app de terminal, afin que Contrôle + C et les raccourcis similaires soient transmis sans modification.";
 
 /* Toggle label */
 "Turn off SuperOpt in these apps" = "Désactiver SuperOpt dans ces apps";
 
 /* No comment provided by engineer. */
-"Turn off “Show menu bar background” in Menu Bar settings to use this feature" = "Désactivez « Afficher l’arrière-plan de la barre des menus » dans les réglages « Barre des menus » pour utiliser cette fonctionnalité";
+"Turn off “Show menu bar background” in Menu Bar settings to use this feature." = "Désactivez « Afficher l’arrière-plan de la barre des menus » dans les réglages « Barre des menus » pour utiliser cette fonctionnalité.";
 
 /* No comment provided by engineer. */
 "Type to search in Mission Control" = "Saisir pour rechercher dans Mission Control";
 
 /* No comment provided by engineer. */
-"Typing in Mission Control closes it and opens Spotlight with what you typed" = "Saisir du texte dans Mission Control le ferme et ouvre Spotlight avec ce que vous avez saisi";
+"Typing in Mission Control closes it and opens Spotlight with what you typed." = "Saisir du texte dans Mission Control le ferme et ouvre Spotlight avec ce que vous avez saisi.";
 
 /* No comment provided by engineer. */
 "Underline" = "Souligné";
@@ -476,10 +476,10 @@
 "View Source" = "Afficher la source";
 
 /* No comment provided by engineer. */
-"When you tile a window to the left or right, SuperOpt suggests windows to fill the other half" = "Lorsque vous disposez une fenêtre à gauche ou à droite de l’écran, SuperOpt suggère des fenêtres pour remplir l’autre moitié";
+"When you tile a window to the left or right, SuperOpt suggests windows to fill the other half." = "Lorsque vous disposez une fenêtre en mosaïque à gauche ou à droite de l’écran, SuperOpt suggère des fenêtres pour remplir l’autre moitié.";
 
 /* Toggle description */
-"While you’re using an app in this list, SuperOpt turns off every feature and dims its own menu bar icon" = "Lorsque vous utilisez une app de cette liste, SuperOpt désactive toutes ses fonctionnalités et atténue sa propre icône dans la barre des menus";
+"While you’re using an app in this list, SuperOpt turns off every feature and dims its own menu bar icon." = "Lorsque vous utilisez une app de cette liste, SuperOpt désactive toutes ses fonctionnalités et atténue sa propre icône dans la barre des menus.";
 
 /* No comment provided by engineer. */
 "Window tiling" = "Affichage de fenêtres en mosaïque";
@@ -488,7 +488,7 @@
 "Windows" = "Fenêtres";
 
 /* Category hint */
-"Word-level navigation, deletion, and formatting" = "Navigation, suppression et mise en forme au niveau du mot";
+"Word-level editing and text formatting" = "Édition au niveau du mot et mise en forme du texte";
 
 /* Alert body directing user to login items settings */
 "You can manage login items in Login Items & Extensions settings." = "Vous pouvez gérer les éléments d’ouverture dans les réglages « Ouverture et extensions ».";
@@ -512,7 +512,7 @@
 "⌥ → Mission Control" = "⌥ → Mission Control";
 
 /* No comment provided by engineer. */
-"⌥1–9 → Apps in the Dock" = "⌥1–9 → Apps du Dock";
+"⌥1–9 → apps in the Dock" = "⌥1–9 → apps dans le Dock";
 
 /* No comment provided by engineer. */
 "⌥A → Apps" = "⌥A → Apps";

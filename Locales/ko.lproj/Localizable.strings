@@ -1,14 +1,11 @@
 /* No comment provided by engineer. */
-"A black bar appears behind the menu bar when a window fills the screen" = "윈도우가 화면을 채울 때 메뉴 막대 뒤에 검은색 막대가 나타납니다";
+"A black bar appears behind the menu bar when a window fills the screen." = "윈도우가 화면을 채울 때 메뉴 막대 뒤에 검은색 막대가 나타납니다.";
 
 /* No comment provided by engineer. */
-"A middle click pastes the selected text, or the contents of the Clipboard if nothing is selected; middle-clicking a Dock app icon opens a new window" = "마우스 중간 버튼으로 클릭하면 선택한 텍스트를 붙여넣고, 선택한 텍스트가 없으면 클립보드의 콘텐츠를 붙여넣습니다. Dock의 앱 아이콘을 중간 버튼으로 클릭하면 새로운 위도우가 열릵니다";
+"A middle click pastes the selected text, or the contents of the Clipboard if nothing is selected; middle-clicking an app icon in the Dock opens a new window." = "마우스 중간 버튼을 클릭하면 선택한 텍스트를 붙여넣고, 선택한 텍스트가 없으면 클립보드의 콘텐츠를 붙여넣습니다. Dock의 앱 아이콘을 중간 버튼으로 클릭하면 새로운 윈도우가 열립니다.";
 
 /* Menu item to show about panel */
 "About SuperOpt" = "SuperOpt에 관하여";
-
-/* Permission name */
-"Accessibility" = "손쉬운 사용";
 
 /* Category hint */
 "Active only in browsers" = "브라우저에서만 작동";
@@ -38,10 +35,10 @@
 "Add Link" = "링크 추가";
 
 /* No comment provided by engineer. */
-"An onscreen indicator appears when you turn Caps Lock on or off" = "Caps Lock을 켜거나 끌 때 화면에 표시기가 나타납니다";
+"An onscreen indicator appears when you turn Caps Lock on or off." = "Caps Lock을 켜거나 끌 때 화면에 표시기가 나타납니다.";
 
 /* No comment provided by engineer. */
-"An onscreen row of dots appears when a display switches spaces" = "디스플레이에서 Space가 바뀔 때 화면에 점이 일렬로 나타납니다";
+"An onscreen row of dots appears when a display switches spaces." = "디스플레이에서 Space가 전환될 때 화면에 점이 일렬로 나타납니다.";
 
 /* No comment provided by engineer. */
 "Apps" = "앱";
@@ -68,19 +65,19 @@
 "Caps Lock On" = "Caps Lock 켜짐";
 
 /* No comment provided by engineer. */
-"Clear Browsing Data" = "인터넷 사용 기록 삭제";
+"Clear Browsing Data" = "방문 기록 지우기";
 
 /* No comment provided by engineer. */
 "Click-through focus" = "클릭으로 윈도우 활성화";
 
 /* No comment provided by engineer. */
-"Clicking an inactive window brings it to the front and passes the click through to the item under the pointer" = "비활성 윈도우를 클릭하면 해당 윈도우를 맨 앞으로 가져오면서 포인터 아래에 있는 항목에 클릭이 전달됩니다";
+"Clicking an inactive window brings it to the front and passes the click through to the item under the pointer." = "비활성 윈도우를 클릭하면 해당 윈도우를 맨 앞으로 가져오면서 포인터 아래에 있는 항목에 클릭이 전달됩니다.";
 
 /* No comment provided by engineer. */
-"Clicking the green button expands the window to fill the screen instead of entering full screen" = "녹색 버튼을 클릭하면 전체 화면으로 전환하는 대신 윈도우가 화면을 채웁니다";
+"Clicking the green button expands the window to fill the screen instead of entering full screen." = "초록색 버튼을 클릭하면 전체 화면으로 전환하는 대신 윈도우가 화면을 채웁니다.";
 
 /* No comment provided by engineer. */
-"Close buttons appear on windows in Mission Control" = "Mission Control의 윈도우에 닫기 버튼이 나타납니다";
+"Close buttons appear on windows in Mission Control." = "Mission Control의 윈도우에 닫기 버튼이 나타납니다.";
 
 /* No comment provided by engineer. */
 "Close Tab" = "탭 닫기";
@@ -107,7 +104,7 @@
 "Continue" = "계속";
 
 /* No comment provided by engineer. */
-"Control-scroll zooms in and out" = "Control 키를 누른 상태에서 스크롤하면 확대/축소할 수 있습니다";
+"Control-scroll zooms in and out." = "Control 키를 누른 상태에서 스크롤하면 확대/축소할 수 있습니다.";
 
 /* No comment provided by engineer. */
 "Copy" = "복사하기";
@@ -122,7 +119,7 @@
 "Cut and paste files in the Finder" = "Finder에서 파일 오려두기 및 붙여넣기";
 
 /* No comment provided by engineer. */
-"Cut marks the selected files to be moved; Paste moves them to the current folder" = "오려두기는 선택한 파일을 이동하도록 표시하고, 붙여넣기는 해당 파일을 현재 폴더로 이동합니다";
+"Cut marks the selected files to be moved; Paste moves them to the current folder." = "오려두기는 선택한 파일을 이동하도록 표시하고, 붙여넣기는 해당 파일을 현재 폴더로 이동합니다.";
 
 /* No comment provided by engineer. */
 "Dark menu bar" = "어두운 메뉴 막대";
@@ -131,7 +128,7 @@
 "Delete Line" = "줄 삭제";
 
 /* No comment provided by engineer. */
-"Delete Word" = "단어 삭제";
+"Delete Word" = "왼쪽으로 한 단어 삭제";
 
 /* Settings pane title */
 "Desktop" = "데스크탑";
@@ -141,6 +138,9 @@
 
 /* No comment provided by engineer. */
 "Developer Tools" = "개발자 도구";
+
+/* Permission name */
+"Device Control and Data Access" = "기기 제어 및 데이터 접근";
 
 /* No comment provided by engineer. */
 "Duplicate" = "복제";
@@ -179,7 +179,7 @@
 "Finder position" = "Finder 위치";
 
 /* No comment provided by engineer. */
-"Focus Address Bar" = "주소창으로 이동";
+"Focus Address Bar" = "주소 표시줄로 이동";
 
 /* No comment provided by engineer. */
 "Forward Delete Word" = "오른쪽으로 한 단어 삭제";
@@ -194,13 +194,10 @@
 "GitHub" = "GitHub";
 
 /* No comment provided by engineer. */
-"Green button fills the screen" = "녹색 버튼으로 화면 채우기";
+"Green button fills the screen" = "초록색 버튼으로 화면 채우기";
 
 /* No comment provided by engineer. */
 "Home and End" = "Home 및 End";
-
-/* No comment provided by engineer. */
-"Home and End keys move the insertion point to the beginning or end of the line; Control-Home and Control-End move it to the beginning or end of the document" = "Home 및 End 키는 삽입 지점을 줄의 시작 또는 끝으로 이동하고, Control-Home 및 Control-End 키는 문서의 시작 또는 끝으로 이동합니다";
 
 /* No comment provided by engineer. */
 "Hot corner" = "핫 코너";
@@ -224,10 +221,10 @@
 "Keyboard" = "키보드";
 
 /* No comment provided by engineer. */
-"Lock Screen" = "화면 잠그기";
+"Lock Screen" = "잠금 화면";
 
 /* No comment provided by engineer. */
-"Maps Linux keyboard shortcuts to their Mac equivalents" = "Linux 키보드 단축키를 Mac의 해당 단축키로 바꿉니다";
+"Maps Linux keyboard shortcuts to their Mac equivalents." = "Linux 키보드 단축키를 Mac의 해당 단축키로 바꿉니다.";
 
 /* No comment provided by engineer. */
 "Menu Bar" = "메뉴 막대";
@@ -236,7 +233,7 @@
 "Menu key → shortcut menu" = "메뉴 키 → 단축 메뉴";
 
 /* No comment provided by engineer. */
-"Middle-click paste" = "중간 클릭으로 붙여넣기";
+"Middle-click paste" = "중간 버튼으로 붙여넣기";
 
 /* No comment provided by engineer. */
 "Mission Control" = "Mission Control";
@@ -260,7 +257,7 @@
 "Move Word Right" = "오른쪽으로 한 단어 이동";
 
 /* No comment provided by engineer. */
-"Moving the pointer to the top-left corner of any screen opens Mission Control" = "어느 화면이든 왼쪽 상단 모서리로 포인터를 이동하면 Mission Control이 열립니다";
+"Moving the pointer to the top-left corner of any screen opens Mission Control." = "어느 화면이든 왼쪽 상단 모서리로 포인터를 이동하면 Mission Control이 열립니다.";
 
 /* No comment provided by engineer. */
 "Natural" = "자연스러운 스크롤";
@@ -284,13 +281,13 @@
 "No apps are excluded." = "제외된 앱이 없습니다.";
 
 /* No comment provided by engineer. */
-"Off" = "안 함";
-
-/* Button to open Accessibility settings */
-"Open Accessibility Settings" = "손쉬운 사용 설정 열기";
+"Off" = "끔";
 
 /* Menu item for starting the app at login */
 "Open at Login" = "로그인 시 열기";
+
+/* Button to open Accessibility settings */
+"Open Device Control and Data Access Settings" = "기기 제어 및 데이터 접근 설정 열기";
 
 /* Button to open Input Monitoring settings */
 "Open Input Monitoring Settings" = "입력 모니터링 설정 열기";
@@ -302,13 +299,13 @@
 "Option Key" = "Option 키";
 
 /* No comment provided by engineer. */
-"Option-1 through Option-9 open the corresponding app in the Dock" = "Option-1부터 Option-9까지 누르면 Dock의 해당 앱이 열립니다";
+"Option-1 through Option-9 open the corresponding app in the Dock." = "Option-1부터 Option-9까지 누르면 Dock의 해당 앱이 열립니다.";
 
 /* No comment provided by engineer. */
-"Option-A opens the Apps view in Spotlight" = "Option-A로 Spotlight의 앱 보기를 엽니다";
+"Option-A opens the apps window in Spotlight." = "Option-A로 Spotlight의 앱 윈도우를 엽니다.";
 
 /* No comment provided by engineer. */
-"Option-Arrow keys tile, fill, or restore windows" = "Option-화살표 키로 윈도우를 타일 정렬하거나 화면을 채우거나 이전 크기로 되돌립니다";
+"Option-Arrow keys tile, fill, or restore windows." = "Option-화살표 키로 윈도우를 타일 정렬하거나 화면을 채우거나 이전 크기로 되돌립니다.";
 
 /* No comment provided by engineer. */
 "Outdent" = "내어쓰기";
@@ -323,10 +320,10 @@
 "Permissions Required" = "권한이 필요함";
 
 /* No comment provided by engineer. */
-"Pressing Option twice opens the Apps view in Spotlight" = "Option 키를 두 번 누르면 Spotlight의 앱 보기가 열립니다";
+"Pressing Option twice opens the apps window in Spotlight." = "Option 키를 두 번 누르면 Spotlight의 앱 윈도우가 열립니다.";
 
 /* No comment provided by engineer. */
-"Pressing the Option key opens Mission Control" = "Option 키를 누르면 Mission Control이 열립니다";
+"Pressing the Option key opens Mission Control." = "Option 키를 누르면 Mission Control이 열립니다.";
 
 /* No comment provided by engineer. */
 "Print" = "프린트";
@@ -368,7 +365,7 @@
 "Scroll to zoom in browsers" = "브라우저에서 스크롤로 확대/축소";
 
 /* No comment provided by engineer. */
-"Scrolling over the Apple menu switches that display to the next or previous space" = "Apple 메뉴 위에서 스크롤하면 해당 디스플레이가 다음 또는 이전 Space로 전환됩니다";
+"Scrolling over the Apple menu switches that display to the next or previous space." = "Apple 메뉴 위에서 스크롤하면 해당 디스플레이가 다음 또는 이전 Space로 전환됩니다.";
 
 /* No comment provided by engineer. */
 "Select All" = "전체 선택";
@@ -395,16 +392,16 @@
 "Shortcuts" = "단축키";
 
 /* No comment provided by engineer. */
-"Show All History" = "방문 기록 보기";
+"Show Downloads" = "다운로드 보기";
 
 /* No comment provided by engineer. */
-"Show Downloads" = "다운로드 보기";
+"Show History" = "방문 기록 보기";
 
 /* No comment provided by engineer. */
 "Show or Hide Bookmarks Bar" = "북마크 막대 보기 또는 가리기";
 
 /* Spoken when the space changes */
-"Space %1$d of %2$d" = "Space %2$d개 중 %1$d번째";
+"Space %1$d of %2$d" = "%2$d개의 Space 중 %1$d번째";
 
 /* No comment provided by engineer. */
 "Space indicator" = "Space 표시기";
@@ -434,10 +431,13 @@
 "Text Editing" = "텍스트 편집";
 
 /* No comment provided by engineer. */
-"The Finder takes this position in the Dock; other apps shift to fill the gap" = "Finder가 Dock에서 이 위치를 차지하며, 나머지 앱은 빈 자리를 채우도록 이동합니다";
+"The Finder takes this position in the Dock; other apps shift to fill the gap." = "Finder가 Dock에서 이 위치를 차지하며, 나머지 앱은 빈 자리를 채우도록 이동합니다.";
 
 /* No comment provided by engineer. */
-"The Menu key on Windows keyboards opens a shortcut menu" = "Windows 키보드의 메뉴 키로 단축 메뉴를 엽니다";
+"The Home and End keys move the insertion point to the beginning or end of the line; Control-Home and Control-End move it to the beginning or end of the document." = "Home 및 End 키는 삽입 지점을 줄의 시작 또는 끝으로 이동하고, Control-Home 및 Control-End 키는 문서의 시작 또는 끝으로 이동합니다.";
+
+/* No comment provided by engineer. */
+"The Menu key on Windows keyboards opens a shortcut menu." = "Windows 키보드의 메뉴 키를 누르면 단축 메뉴가 열립니다.";
 
 /* No comment provided by engineer. */
 "Tile assist" = "타일 정렬 지원";
@@ -446,19 +446,19 @@
 "Traditional" = "기존 방식의 스크롤";
 
 /* No comment provided by engineer. */
-"Treats the integrated terminal in code editors such as VS Code and Cursor as a terminal app, so Control-C and similar shortcuts pass through unchanged" = "VS Code, Cursor 등 코드 편집기의 통합 터미널을 터미널 앱으로 처리하여 Control-C 같은 단축키를 변경하지 않고 그대로 전달합니다";
+"Treats the integrated terminal in code editors such as Visual Studio Code and Cursor as a terminal app, so Control-C and similar shortcuts pass through unchanged." = "Visual Studio Code, Cursor 등 코드 편집기의 통합 터미널을 터미널 앱으로 처리하여 Control-C 같은 단축키를 변경하지 않고 그대로 전달합니다.";
 
 /* Toggle label */
 "Turn off SuperOpt in these apps" = "이 목록의 앱에서 SuperOpt 끄기";
 
 /* No comment provided by engineer. */
-"Turn off “Show menu bar background” in Menu Bar settings to use this feature" = "이 기능을 사용하려면 메뉴 막대 설정에서 ‘메뉴 막대 배경 보기’를 끄십시오";
+"Turn off “Show menu bar background” in Menu Bar settings to use this feature." = "이 기능을 사용하려면 ‘메뉴 막대’ 설정에서 ‘메뉴 막대 배경 보기’를 끄십시오.";
 
 /* No comment provided by engineer. */
 "Type to search in Mission Control" = "Mission Control에서 입력하여 검색";
 
 /* No comment provided by engineer. */
-"Typing in Mission Control closes it and opens Spotlight with what you typed" = "Mission Control에서 입력하면 Mission Control이 닫히고 입력한 내용으로 Spotlight가 열립니다";
+"Typing in Mission Control closes it and opens Spotlight with what you typed." = "Mission Control에서 입력하면 Mission Control이 닫히고 입력한 내용으로 Spotlight가 열립니다.";
 
 /* No comment provided by engineer. */
 "Underline" = "밑줄체";
@@ -476,10 +476,10 @@
 "View Source" = "페이지 소스 보기";
 
 /* No comment provided by engineer. */
-"When you tile a window to the left or right, SuperOpt suggests windows to fill the other half" = "윈도우를 왼쪽이나 오른쪽으로 타일 정렬하면 SuperOpt가 나머지 절반을 채울 윈도우를 제안합니다";
+"When you tile a window to the left or right, SuperOpt suggests windows to fill the other half." = "윈도우를 왼쪽이나 오른쪽으로 타일 정렬하면 SuperOpt가 나머지 절반을 채울 윈도우를 제안합니다.";
 
 /* Toggle description */
-"While you’re using an app in this list, SuperOpt turns off every feature and dims its own menu bar icon" = "이 목록에 있는 앱을 사용하는 동안 SuperOpt가 모든 기능을 끄고 메뉴 막대 아이콘을 흐리게 표시합니다";
+"While you’re using an app in this list, SuperOpt turns off every feature and dims its own menu bar icon." = "이 목록에 있는 앱을 사용하는 동안 SuperOpt가 모든 기능을 끄고 메뉴 막대 아이콘을 흐리게 표시합니다.";
 
 /* No comment provided by engineer. */
 "Window tiling" = "윈도우 타일 정렬";
@@ -488,10 +488,10 @@
 "Windows" = "윈도우";
 
 /* Category hint */
-"Word-level navigation, deletion, and formatting" = "단어 단위 이동, 삭제 및 서식 지정";
+"Word-level editing and text formatting" = "단어 단위 편집 및 텍스트 포맷 지정";
 
 /* Alert body directing user to login items settings */
-"You can manage login items in Login Items & Extensions settings." = "로그인 항목 및 확장 프로그램 설정에서 로그인 항목을 관리할 수 있습니다.";
+"You can manage login items in Login Items & Extensions settings." = "‘로그인 항목 및 확장 프로그램’ 설정에서 로그인 항목을 관리할 수 있습니다.";
 
 /* Category hint */
 "Zoom and full screen" = "확대/축소 및 전체 화면";
@@ -512,7 +512,7 @@
 "⌥ → Mission Control" = "⌥ → Mission Control";
 
 /* No comment provided by engineer. */
-"⌥1–9 → Apps in the Dock" = "⌥1–9 → Dock의 앱";
+"⌥1–9 → apps in the Dock" = "⌥1–9 → Dock의 앱";
 
 /* No comment provided by engineer. */
 "⌥A → Apps" = "⌥A → 앱";

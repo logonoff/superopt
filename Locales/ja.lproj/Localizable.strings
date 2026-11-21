@@ -1,14 +1,11 @@
 /* No comment provided by engineer. */
-"A black bar appears behind the menu bar when a window fills the screen" = "ウインドウが画面全体に広がっているとき、メニューバーの背後に黒いバーを表示します";
+"A black bar appears behind the menu bar when a window fills the screen." = "ウインドウが画面全体に広がっているとき、メニューバーの背面に黒いバーを表示します。";
 
 /* No comment provided by engineer. */
-"A middle click pastes the selected text, or the contents of the Clipboard if nothing is selected; middle-clicking a Dock app icon opens a new window" = "中クリックすると、選択したテキストをペーストします。何も選択されていない場合はクリップボードの内容をペーストします。また、Dockのアプリアイコンを中クリックすると、新規ウインドウを開きます";
+"A middle click pastes the selected text, or the contents of the Clipboard if nothing is selected; middle-clicking an app icon in the Dock opens a new window." = "マウスの中央ボタンをクリックすると、選択したテキストをペーストします。何も選択されていない場合はクリップボードの内容をペーストします。また、Dockのアプリアイコンを中央ボタンでクリックすると、新規ウインドウを開きます。";
 
 /* Menu item to show about panel */
 "About SuperOpt" = "SuperOptについて";
-
-/* Permission name */
-"Accessibility" = "アクセシビリティ";
 
 /* Category hint */
 "Active only in browsers" = "ブラウザでのみ有効";
@@ -38,10 +35,10 @@
 "Add Link" = "リンクを追加";
 
 /* No comment provided by engineer. */
-"An onscreen indicator appears when you turn Caps Lock on or off" = "Caps Lockをオン/オフにしたときに、画面上にインジケータを表示します";
+"An onscreen indicator appears when you turn Caps Lock on or off." = "Caps Lockをオン/オフにしたときに、画面上にインジケータを表示します。";
 
 /* No comment provided by engineer. */
-"An onscreen row of dots appears when a display switches spaces" = "ディスプレイの操作スペースが切り替わったときに、画面上にドットを1列に表示します";
+"An onscreen row of dots appears when a display switches spaces." = "ディスプレイの操作スペースが切り替わったときに、画面上にドットを1列に表示します。";
 
 /* No comment provided by engineer. */
 "Apps" = "アプリ";
@@ -74,13 +71,13 @@
 "Click-through focus" = "クリックスルーフォーカス";
 
 /* No comment provided by engineer. */
-"Clicking an inactive window brings it to the front and passes the click through to the item under the pointer" = "非アクティブなウインドウをクリックすると、そのウインドウが最前面に移動すると同時に、ポインタの下にある項目にもクリックが渡されます";
+"Clicking an inactive window brings it to the front and passes the click through to the item under the pointer." = "非アクティブなウインドウをクリックすると、そのウインドウが最前面に移動すると同時に、ポインタの下にある項目にもクリックが渡されます。";
 
 /* No comment provided by engineer. */
-"Clicking the green button expands the window to fill the screen instead of entering full screen" = "緑色のボタンをクリックすると、フルスクリーンにすることなく、ウインドウが画面全体に広がります";
+"Clicking the green button expands the window to fill the screen instead of entering full screen." = "緑色のボタンをクリックすると、フルスクリーンにすることなく、ウインドウが画面全体に広がります。";
 
 /* No comment provided by engineer. */
-"Close buttons appear on windows in Mission Control" = "Mission Controlのウインドウに“閉じる”ボタンを表示します";
+"Close buttons appear on windows in Mission Control." = "Mission Controlで表示されるウインドウに“閉じる”ボタンを表示します。";
 
 /* No comment provided by engineer. */
 "Close Tab" = "タブを閉じる";
@@ -107,7 +104,7 @@
 "Continue" = "続ける";
 
 /* No comment provided by engineer. */
-"Control-scroll zooms in and out" = "Controlキーを押しながらスクロールすると、拡大/縮小できます";
+"Control-scroll zooms in and out." = "Controlキーを押しながらスクロールすると、拡大/縮小できます。";
 
 /* No comment provided by engineer. */
 "Copy" = "コピー";
@@ -122,7 +119,7 @@
 "Cut and paste files in the Finder" = "Finderでのファイルのカットとペースト";
 
 /* No comment provided by engineer. */
-"Cut marks the selected files to be moved; Paste moves them to the current folder" = "“カット”で選択したファイルを移動対象としてマークし、“ペースト”で現在のフォルダに移動します";
+"Cut marks the selected files to be moved; Paste moves them to the current folder." = "“カット”で選択したファイルを移動対象としてマークし、“ペースト”で現在のフォルダに移動します。";
 
 /* No comment provided by engineer. */
 "Dark menu bar" = "ダークメニューバー";
@@ -141,6 +138,9 @@
 
 /* No comment provided by engineer. */
 "Developer Tools" = "デベロッパツール";
+
+/* Permission name */
+"Device Control and Data Access" = "デバイスの制御とデータへのアクセス";
 
 /* No comment provided by engineer. */
 "Duplicate" = "複製";
@@ -197,10 +197,7 @@
 "Green button fills the screen" = "緑色のボタンでウインドウを画面全体に表示";
 
 /* No comment provided by engineer. */
-"Home and End" = "HomeとEnd";
-
-/* No comment provided by engineer. */
-"Home and End keys move the insertion point to the beginning or end of the line; Control-Home and Control-End move it to the beginning or end of the document" = "HomeキーとEndキーで挿入ポイントを行の先頭または末尾に移動します。Controlキーを押しながらHomeキーまたはEndキーを押すと、挿入ポイントが書類の先頭または末尾に移動します";
+"Home and End" = "HomeキーとEndキー";
 
 /* No comment provided by engineer. */
 "Hot corner" = "ホットコーナー";
@@ -224,10 +221,10 @@
 "Keyboard" = "キーボード";
 
 /* No comment provided by engineer. */
-"Lock Screen" = "画面をロック";
+"Lock Screen" = "ロック画面";
 
 /* No comment provided by engineer. */
-"Maps Linux keyboard shortcuts to their Mac equivalents" = "Linuxのキーボードショートカットを対応するMacのショートカットに割り当て直します";
+"Maps Linux keyboard shortcuts to their Mac equivalents." = "Linuxのキーボードショートカットを対応するMacのショートカットに割り当て直します。";
 
 /* No comment provided by engineer. */
 "Menu Bar" = "メニューバー";
@@ -236,7 +233,7 @@
 "Menu key → shortcut menu" = "メニューキー → ショートカットメニュー";
 
 /* No comment provided by engineer. */
-"Middle-click paste" = "中クリックでペースト";
+"Middle-click paste" = "マウスの中央ボタンでペースト";
 
 /* No comment provided by engineer. */
 "Mission Control" = "Mission Control";
@@ -260,7 +257,7 @@
 "Move Word Right" = "次の単語へ移動";
 
 /* No comment provided by engineer. */
-"Moving the pointer to the top-left corner of any screen opens Mission Control" = "ポインタをどのディスプレイの左上隅に移動しても、Mission Controlが開きます";
+"Moving the pointer to the top-left corner of any screen opens Mission Control." = "ポインタをどの画面の左上隅に移動しても、Mission Controlが開きます。";
 
 /* No comment provided by engineer. */
 "Natural" = "ナチュラル";
@@ -286,11 +283,11 @@
 /* No comment provided by engineer. */
 "Off" = "オフ";
 
-/* Button to open Accessibility settings */
-"Open Accessibility Settings" = "“アクセシビリティ”設定を開く";
-
 /* Menu item for starting the app at login */
 "Open at Login" = "ログイン時に開く";
+
+/* Button to open Accessibility settings */
+"Open Device Control and Data Access Settings" = "“デバイスの制御とデータへのアクセス”設定を開く";
 
 /* Button to open Input Monitoring settings */
 "Open Input Monitoring Settings" = "“入力監視”設定を開く";
@@ -302,13 +299,13 @@
 "Option Key" = "Optionキー";
 
 /* No comment provided by engineer. */
-"Option-1 through Option-9 open the corresponding app in the Dock" = "Option+1〜Option+9で、Dockの対応するアプリを開きます";
+"Option-1 through Option-9 open the corresponding app in the Dock." = "Option+1〜Option+9で、Dockにある対応するアプリを開きます。";
 
 /* No comment provided by engineer. */
-"Option-A opens the Apps view in Spotlight" = "Option+AでSpotlightのアプリ一覧が開きます";
+"Option-A opens the apps window in Spotlight." = "Option+AでSpotlightのアプリ一覧が開きます。";
 
 /* No comment provided by engineer. */
-"Option-Arrow keys tile, fill, or restore windows" = "Option+矢印キーで、ウインドウをタイル表示したり、画面全体に表示したり、前のサイズに戻したりできます";
+"Option-Arrow keys tile, fill, or restore windows." = "Option+矢印キーで、ウインドウをタイル表示したり、画面全体に表示したり、前のサイズに戻したりできます。";
 
 /* No comment provided by engineer. */
 "Outdent" = "インデント解除";
@@ -323,10 +320,10 @@
 "Permissions Required" = "アクセス権が必要です";
 
 /* No comment provided by engineer. */
-"Pressing Option twice opens the Apps view in Spotlight" = "Optionキーを2回押すと、Spotlightのアプリ一覧が開きます";
+"Pressing Option twice opens the apps window in Spotlight." = "Optionキーを2回押すと、Spotlightのアプリ一覧が開きます。";
 
 /* No comment provided by engineer. */
-"Pressing the Option key opens Mission Control" = "Optionキーを押すと、Mission Controlが開きます";
+"Pressing the Option key opens Mission Control." = "Optionキーを押すと、Mission Controlが開きます。";
 
 /* No comment provided by engineer. */
 "Print" = "プリント";
@@ -365,10 +362,10 @@
 "Scroll to switch spaces" = "スクロールで操作スペースを切り替える";
 
 /* No comment provided by engineer. */
-"Scroll to zoom in browsers" = "ブラウザでスクロールしてズーム";
+"Scroll to zoom in browsers" = "ブラウザでスクロールして拡大/縮小";
 
 /* No comment provided by engineer. */
-"Scrolling over the Apple menu switches that display to the next or previous space" = "アップルメニュー上でスクロールすると、そのディスプレイが次または前の操作スペースに切り替わります";
+"Scrolling over the Apple menu switches that display to the next or previous space." = "アップルメニュー上でスクロールすると、そのディスプレイが前または次の操作スペースに切り替わります。";
 
 /* No comment provided by engineer. */
 "Select All" = "すべてを選択";
@@ -395,16 +392,16 @@
 "Shortcuts" = "ショートカット";
 
 /* No comment provided by engineer. */
-"Show All History" = "すべての履歴を表示";
+"Show Downloads" = "ダウンロードを表示";
 
 /* No comment provided by engineer. */
-"Show Downloads" = "ダウンロードを表示";
+"Show History" = "履歴を表示";
 
 /* No comment provided by engineer. */
 "Show or Hide Bookmarks Bar" = "ブックマークバーを表示/非表示";
 
 /* Spoken when the space changes */
-"Space %1$d of %2$d" = "操作スペース%2$d個中%1$d番目";
+"Space %1$d of %2$d" = "操作スペース%2$d個中%1$d個目";
 
 /* No comment provided by engineer. */
 "Space indicator" = "操作スペースインジケータ";
@@ -434,10 +431,13 @@
 "Text Editing" = "テキスト編集";
 
 /* No comment provided by engineer. */
-"The Finder takes this position in the Dock; other apps shift to fill the gap" = "Dock内のこの位置はFinderに割り当てられ、ほかのアプリは空いた場所を埋めるように配置されます";
+"The Finder takes this position in the Dock; other apps shift to fill the gap." = "Dock内のこの位置はFinderに割り当てられ、ほかのアプリは空いた場所を埋めるように配置されます。";
 
 /* No comment provided by engineer. */
-"The Menu key on Windows keyboards opens a shortcut menu" = "Windowsキーボードのメニューキーでショートカットメニューを開きます";
+"The Home and End keys move the insertion point to the beginning or end of the line; Control-Home and Control-End move it to the beginning or end of the document." = "HomeキーとEndキーで挿入ポイントを行の先頭または末尾に移動します。Controlキーを押しながらHomeキーまたはEndキーを押すと、挿入ポイントが書類の先頭または末尾に移動します。";
+
+/* No comment provided by engineer. */
+"The Menu key on Windows keyboards opens a shortcut menu." = "Windowsパソコン用のキーボードにあるメニューキーを押すと、ショートカットメニューが開きます。";
 
 /* No comment provided by engineer. */
 "Tile assist" = "タイルアシスト";
@@ -446,19 +446,19 @@
 "Traditional" = "従来型";
 
 /* No comment provided by engineer. */
-"Treats the integrated terminal in code editors such as VS Code and Cursor as a terminal app, so Control-C and similar shortcuts pass through unchanged" = "VS CodeやCursorなどのコードエディタの統合ターミナルをターミナルアプリとして扱い、Control+Cなどのショートカットをそのまま渡します";
+"Treats the integrated terminal in code editors such as Visual Studio Code and Cursor as a terminal app, so Control-C and similar shortcuts pass through unchanged." = "Visual Studio CodeやCursorなどのコードエディタの統合ターミナルをターミナルアプリとして扱い、Control+Cなどのショートカットをそのまま渡します。";
 
 /* Toggle label */
 "Turn off SuperOpt in these apps" = "これらのアプリではSuperOptをオフにする";
 
 /* No comment provided by engineer. */
-"Turn off “Show menu bar background” in Menu Bar settings to use this feature" = "この機能を使用するには、“メニューバー”設定で“メニューバーの背景を表示”をオフにしてください";
+"Turn off “Show menu bar background” in Menu Bar settings to use this feature." = "この機能を使用するには、“メニューバー”設定で“メニューバーの背景を表示”をオフにしてください。";
 
 /* No comment provided by engineer. */
 "Type to search in Mission Control" = "Mission Controlで入力して検索";
 
 /* No comment provided by engineer. */
-"Typing in Mission Control closes it and opens Spotlight with what you typed" = "Mission Controlで入力すると、Mission Controlが閉じ、入力した内容でSpotlightが開きます";
+"Typing in Mission Control closes it and opens Spotlight with what you typed." = "Mission Controlで入力すると、Mission Controlが閉じ、入力した内容でSpotlightが開きます。";
 
 /* No comment provided by engineer. */
 "Underline" = "下線";
@@ -476,10 +476,10 @@
 "View Source" = "ソースを表示";
 
 /* No comment provided by engineer. */
-"When you tile a window to the left or right, SuperOpt suggests windows to fill the other half" = "ウインドウを左または右にタイル表示すると、SuperOptは残りの半分を埋めるウインドウを提案します";
+"When you tile a window to the left or right, SuperOpt suggests windows to fill the other half." = "ウインドウを左または右にタイル表示すると、SuperOptは残りの半分を埋めるウインドウを提案します。";
 
 /* Toggle description */
-"While you’re using an app in this list, SuperOpt turns off every feature and dims its own menu bar icon" = "このリストにあるアプリを使用している間は、SuperOptのすべての機能がオフになり、メニューバーのアイコンが薄く表示されます";
+"While you’re using an app in this list, SuperOpt turns off every feature and dims its own menu bar icon." = "このリストにあるアプリを使用している間は、SuperOptのすべての機能がオフになり、SuperOptのメニューバーアイコンが暗く表示されます。";
 
 /* No comment provided by engineer. */
 "Window tiling" = "ウインドウのタイル表示";
@@ -488,13 +488,13 @@
 "Windows" = "ウインドウ";
 
 /* Category hint */
-"Word-level navigation, deletion, and formatting" = "単語単位の移動、削除、書式設定";
+"Word-level editing and text formatting" = "単語単位の編集とテキストの書式設定";
 
 /* Alert body directing user to login items settings */
 "You can manage login items in Login Items & Extensions settings." = "ログイン項目は“ログイン項目と機能拡張”設定で管理できます。";
 
 /* Category hint */
-"Zoom and full screen" = "ズームとフルスクリーン";
+"Zoom and full screen" = "拡大/縮小とフルスクリーン";
 
 /* No comment provided by engineer. */
 "Zoom In" = "拡大";
@@ -512,7 +512,7 @@
 "⌥ → Mission Control" = "⌥ → Mission Control";
 
 /* No comment provided by engineer. */
-"⌥1–9 → Apps in the Dock" = "⌥1〜9 → Dockのアプリ";
+"⌥1–9 → apps in the Dock" = "⌥1〜9 → Dockのアプリ";
 
 /* No comment provided by engineer. */
 "⌥A → Apps" = "⌥A → アプリ";

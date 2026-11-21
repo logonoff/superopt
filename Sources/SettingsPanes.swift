@@ -24,12 +24,12 @@ struct DesktopPane: View {
             Section {
                 Toggle(isOn: $hotCorners) {
                     Text("Hot corner")
-                    Text("Moving the pointer to the top-left corner of any screen opens Mission Control")
+                    Text("Moving the pointer to the top-left corner of any screen opens Mission Control.")
                 }
 
                 Toggle(isOn: $mcClose) {
                     Text("Close windows in Mission Control")
-                    Text("Close buttons appear on windows in Mission Control")
+                    Text("Close buttons appear on windows in Mission Control.")
                 }
 
                 Picker(selection: $mcTypeToSearchMode) {
@@ -38,7 +38,7 @@ struct DesktopPane: View {
                     Text("Apps").tag(MissionControlSearchMode.apps.rawValue)
                 } label: {
                     Text("Type to search in Mission Control")
-                    Text("Typing in Mission Control closes it and opens Spotlight with what you typed")
+                    Text("Typing in Mission Control closes it and opens Spotlight with what you typed.")
                 }
             } header: {
                 Text("Mission Control")
@@ -49,13 +49,13 @@ struct DesktopPane: View {
                     Text("Scroll to switch spaces")
                     Text("""
                         Scrolling over the Apple menu switches that display to the \
-                        next or previous space
+                        next or previous space.
                         """)
                 }
 
                 Toggle(isOn: $spaceIndicator) {
                     Text("Space indicator")
-                    Text("An onscreen row of dots appears when a display switches spaces")
+                    Text("An onscreen row of dots appears when a display switches spaces.")
                 }
             } header: {
                 Text("Spaces")
@@ -66,20 +66,20 @@ struct DesktopPane: View {
                     Text("Green button fills the screen")
                     Text("""
                         Clicking the green button expands the window to fill the screen \
-                        instead of entering full screen
+                        instead of entering full screen.
                         """)
                 }
 
                 Toggle(isOn: $windowTiling) {
                     Text("Window tiling")
-                    Text("Option-Arrow keys tile, fill, or restore windows")
+                    Text("Option-Arrow keys tile, fill, or restore windows.")
                 }
 
                 Toggle(isOn: $snapAssist) {
                     Text("Tile assist")
                     Text("""
                         When you tile a window to the left or right, SuperOpt suggests \
-                        windows to fill the other half
+                        windows to fill the other half.
                         """)
                 }
             } header: {
@@ -90,9 +90,9 @@ struct DesktopPane: View {
                 Toggle(isOn: $menuBarBg) {
                     Text("Dark menu bar")
                     if systemMenuBarBgOn {
-                        Text("Turn off “Show menu bar background” in Menu Bar settings to use this feature")
+                        Text("Turn off “Show menu bar background” in Menu Bar settings to use this feature.")
                     } else {
-                        Text("A black bar appears behind the menu bar when a window fills the screen")
+                        Text("A black bar appears behind the menu bar when a window fills the screen.")
                     }
                 }
                 .disabled(systemMenuBarBgOn)
@@ -130,35 +130,35 @@ struct KeyboardPane: View {
             Section {
                 Toggle(isOn: $lockKeyOSD) {
                     Text("Caps Lock indicator")
-                    Text("An onscreen indicator appears when you turn Caps Lock on or off")
+                    Text("An onscreen indicator appears when you turn Caps Lock on or off.")
                 }
 
                 Toggle(isOn: $homeEndRemap) {
                     Text("Home and End")
                     Text("""
-                        Home and End keys move the insertion point to the beginning or end of the \
-                        line; Control-Home and Control-End move it to the beginning or end of the document
+                        The Home and End keys move the insertion point to the beginning or end of the \
+                        line; Control-Home and Control-End move it to the beginning or end of the document.
                         """)
                 }
 
                 Toggle(isOn: $menuKeyRightClick) {
                     Text("Menu key → shortcut menu")
-                    Text("The Menu key on Windows keyboards opens a shortcut menu")
+                    Text("The Menu key on Windows keyboards opens a shortcut menu.")
                 }
             }
 
             Section {
                 Toggle(isOn: $gnomeShortcuts) {
                     Text("Remap Linux shortcuts")
-                    Text("Maps Linux keyboard shortcuts to their Mac equivalents")
+                    Text("Maps Linux keyboard shortcuts to their Mac equivalents.")
                 }
 
                 if gnomeShortcuts {
                     Toggle(isOn: $vscodeTerminal) {
                         Text("Detect integrated terminals in code editors")
                         Text("""
-                            Treats the integrated terminal in code editors such as VS Code and Cursor \
-                            as a terminal app, so Control-C and similar shortcuts pass through unchanged
+                            Treats the integrated terminal in code editors such as Visual Studio Code and Cursor \
+                            as a terminal app, so Control-C and similar shortcuts pass through unchanged.
                             """)
                     }
                 }
@@ -203,7 +203,7 @@ struct InputPane: View {
     @ViewBuilder
     private var cutPasteLabel: some View {
         Text("Cut and paste files in the Finder")
-        Text("Cut marks the selected files to be moved; Paste moves them to the current folder")
+        Text("Cut marks the selected files to be moved; Paste moves them to the current folder.")
     }
 
     /// Same pattern as cutPasteLabel.
@@ -212,7 +212,7 @@ struct InputPane: View {
         Text("Click-through focus")
         Text("""
             Clicking an inactive window brings it to the front and passes the click \
-            through to the item under the pointer
+            through to the item under the pointer.
             """)
     }
 
@@ -221,28 +221,28 @@ struct InputPane: View {
             Section {
                 Toggle(isOn: $optSingle) {
                     Text("⌥ → Mission Control")
-                    Text("Pressing the Option key opens Mission Control")
+                    Text("Pressing the Option key opens Mission Control.")
                 }
                 Toggle(isOn: $optDouble) {
                     Text("⌥⌥ → Apps")
-                    Text("Pressing Option twice opens the Apps view in Spotlight")
+                    Text("Pressing Option twice opens the apps window in Spotlight.")
                 }
 
                 Toggle(isOn: $appGrid) {
                     Text("⌥A → Apps")
-                    Text("Option-A opens the Apps view in Spotlight")
+                    Text("Option-A opens the apps window in Spotlight.")
                 }
 
                 Toggle(isOn: $dockShortcuts) {
-                    Text("⌥1–9 → Apps in the Dock")
-                    Text("Option-1 through Option-9 open the corresponding app in the Dock")
+                    Text("⌥1–9 → apps in the Dock")
+                    Text("Option-1 through Option-9 open the corresponding app in the Dock.")
                 }
                 Picker(selection: $finderPosition) {
                     // Verbatim: the row labels are the numbers 1–9, not text.
                     ForEach(1...9, id: \.self) { Text(verbatim: "\($0)").tag($0) }
                 } label: {
                     Text("Finder position")
-                    Text("The Finder takes this position in the Dock; other apps shift to fill the gap")
+                    Text("The Finder takes this position in the Dock; other apps shift to fill the gap.")
                 }
                 // Inert while the parent feature is off — the position is
                 // only read on the ⌥1–9 path.
@@ -256,8 +256,8 @@ struct InputPane: View {
                     Text("Middle-click paste")
                     Text("""
                         A middle click pastes the selected text, or the contents of the \
-                        Clipboard if nothing is selected; middle-clicking a Dock app icon \
-                        opens a new window
+                        Clipboard if nothing is selected; middle-clicking an app icon \
+                        in the Dock opens a new window.
                         """)
                 }
 
@@ -271,7 +271,7 @@ struct InputPane: View {
                     Text("Traditional").tag(ScrollZoomMode.traditional.rawValue)
                 } label: {
                     Text("Scroll to zoom in browsers")
-                    Text("Control-scroll zooms in and out")
+                    Text("Control-scroll zooms in and out.")
                 }
             } header: {
                 Text("Mouse")

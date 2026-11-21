@@ -54,7 +54,7 @@ final class ShortcutNode: Identifiable {
         NSLocalizedString("View", comment: "Shortcut category"):
             NSLocalizedString("Zoom and full screen", comment: "Category hint"),
         NSLocalizedString("Text Editing", comment: "Shortcut category"):
-            NSLocalizedString("Word-level navigation, deletion, and formatting", comment: "Category hint"),
+            NSLocalizedString("Word-level editing and text formatting", comment: "Category hint"),
         NSLocalizedString("Finder", comment: "Shortcut category"):
             NSLocalizedString("Active only in the Finder", comment: "Category hint"),
         NSLocalizedString("Tabs & Windows", comment: "Shortcut category"):

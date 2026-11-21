@@ -23,7 +23,8 @@ class PermissionHelper {
         "x-apple.systempreferences:com.apple.preference.security?Privacy_ListenEvent"
 
     private static var openAccessibilityTitle: String {
-        NSLocalizedString("Open Accessibility Settings", comment: "Button to open Accessibility settings")
+        NSLocalizedString("Open Device Control and Data Access Settings",
+                          comment: "Button to open Accessibility settings")
     }
     private static var openInputMonitoringTitle: String {
         NSLocalizedString("Open Input Monitoring Settings", comment: "Button to open Input Monitoring settings")
@@ -40,7 +41,7 @@ class PermissionHelper {
         var names: [String] {
             var names: [String] = []
             if accessibility {
-                names.append(NSLocalizedString("Accessibility", comment: "Permission name"))
+                names.append(NSLocalizedString("Device Control and Data Access", comment: "Permission name"))
             }
             if inputMonitoring {
                 names.append(NSLocalizedString("Input Monitoring", comment: "Permission name"))
