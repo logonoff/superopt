@@ -11,10 +11,12 @@ private func tileWatcherCallback(
 @MainActor
 class TileAssistWatcher {
     var onTile: ((SnapAssistPanel.TileDirection, NSScreen, TiledWindowInfo) -> Void)?
+    var onWindowChange: ((pid_t, CGRect?) -> Void)?
 
     private var observer: AXObserver?
     private var watchedWindow: AXUIElement?
     private var watchedPID: pid_t = -1
+    private var observesWindowChanges = false
     private var previousFrame: CGRect = .zero
     /// The half and screen the window was last tiled on, nil when it was not
     /// tiled. Recording *where* the window is tiled, not just that it is,
@@ -98,9 +100,8 @@ class TileAssistWatcher {
         // failure can happen — an observer with no notifications registered
         // observes nothing, and the watcher would stay deaf to the app until
         // the next activation.
-        AXObserverAddNotification(
-            obs, axApp,
-            kAXFocusedWindowChangedNotification as CFString, refcon)
+        let focusResult = AXObserverAddNotification(
+            obs, axApp, kAXFocusedWindowChangedNotification as CFString, refcon)
 
         var winRef: AnyObject?
         AXUIElementCopyAttributeValue(
@@ -115,9 +116,9 @@ class TileAssistWatcher {
             lastTile = nil
         }
 
-        for note in [kAXMovedNotification, kAXResizedNotification] as [CFString] {
-            AXObserverAddNotification(obs, window, note, refcon)
-        }
+        let moveResult = AXObserverAddNotification(obs, window, kAXMovedNotification as CFString, refcon)
+        let resizeResult = AXObserverAddNotification(obs, window, kAXResizedNotification as CFString, refcon)
+        observesWindowChanges = focusResult == .success && moveResult == .success && resizeResult == .success
     }
 
     func windowDidChange() {
@@ -128,6 +129,7 @@ class TileAssistWatcher {
         guard let window = winRef.flatMap(KeyboardUtils.toAXElement) else { return }
 
         if window != watchedWindow {
+            onWindowChange?(watchedPID, nil)
             debounceTimer?.invalidate(); debounceTimer = nil
             tearDownObserver()
             observeFrontmostApp()
@@ -135,7 +137,8 @@ class TileAssistWatcher {
         }
 
         let frame = Self.windowFrame(window)
-        guard frame != previousFrame else { return }
+        guard frame != .zero, frame != previousFrame else { return }
+        onWindowChange?(watchedPID, frame)
         previousFrame = frame
 
         debounceTimer?.invalidate()
@@ -180,7 +183,8 @@ class TileAssistWatcher {
             onTile?(currentTile.direction, screen, TiledWindowInfo(
                 pid: watchedPID,
                 windowID: Self.windowID(of: window),
-                frame: frame))
+                frame: frame,
+                observesWindowChanges: observesWindowChanges))
         }
     }
 
@@ -199,6 +203,7 @@ class TileAssistWatcher {
             observer = nil
         }
         watchedWindow = nil
+        observesWindowChanges = false
     }
 }
 

@@ -16,6 +16,7 @@ struct TiledWindowInfo {
     let pid: pid_t
     let windowID: UInt32
     let frame: CGRect
+    let observesWindowChanges: Bool
 }
 
 @MainActor
@@ -101,8 +102,10 @@ class SnapAssistPanel {
         dismissTimer = Timer.scheduledTimer(withTimeInterval: 5, repeats: false) { [weak self] _ in
             MainActor.assumeIsolated { self?.dismiss() }
         }
-        windowCheckTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [weak self] _ in
-            MainActor.assumeIsolated { self?.checkTiledWindow() }
+        if !tiled.observesWindowChanges {
+            windowCheckTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [weak self] _ in
+                MainActor.assumeIsolated { self?.checkTiledWindow() }
+            }
         }
     }
 
@@ -127,6 +130,12 @@ class SnapAssistPanel {
         guard currentFrame != .zero, tiledWindowFrame != .zero,
               currentFrame != tiledWindowFrame
         else { return }
+        dismiss()
+    }
+
+    /// A nil frame denotes a change of focused window within the tiled app.
+    func tiledWindowDidChange(pid: pid_t, frame: CGRect?) {
+        guard pid == tiledPID, frame != tiledWindowFrame else { return }
         dismiss()
     }
     // MARK: - Panel setup
@@ -291,7 +300,7 @@ extension SnapAssistPanel {
     }
 
     func dismiss() {
-        guard panel.isVisible else { return }
+        guard dismissTimer != nil else { return }
         fadeGeneration += 1
         dismissTimer?.invalidate(); dismissTimer = nil
         windowCheckTimer?.invalidate(); windowCheckTimer = nil

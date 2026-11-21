@@ -404,6 +404,9 @@ extension AppDelegate {
         tileAssistWatcher.onTile = { [weak self] dir, screen, tiled in
             self?.showSnapAssist(direction: dir, screen: screen, tiled: tiled)
         }
+        tileAssistWatcher.onWindowChange = { [weak self] pid, frame in
+            self?.snapAssistPanel?.tiledWindowDidChange(pid: pid, frame: frame)
+        }
         if isEnabled("snapAssistEnabled") { tileAssistWatcher.start() }
         spaceChangeWatcher.onChange = { [weak self] display, screens in
             guard let self, isEnabled("spaceIndicatorEnabled") else { return }
