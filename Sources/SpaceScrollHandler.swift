@@ -27,6 +27,10 @@ final class SpaceScrollHandler {
     private static let switchSettle: TimeInterval = 1.3
 
     private var travel: CGFloat = 0
+    /// The display whose menu bar `travel` was accumulated against, so a
+    /// gesture begun on one display's Apple menu cannot complete on
+    /// another's.
+    private var travelDisplayID: CGDirectDisplayID = 0
     private var lastScrollAt: TimeInterval = 0
     private var lastSwitchAt: TimeInterval = 0
     /// When a switch was last posted, per display — the stale read is per
@@ -47,6 +51,16 @@ final class SpaceScrollHandler {
               let screen = menuBarScreen(under: event.location),
               isOverAppleMenu(event.location, on: screen)
         else { return false }
+
+        // One gesture belongs to one display's menu bar: travel accumulated
+        // against another display's Apple menu must not carry over, or a
+        // short scroll here completes a gesture begun there.
+        let displayID = screen.deviceDescription[
+            NSDeviceDescriptionKey("NSScreenNumber")] as? CGDirectDisplayID ?? 0
+        if displayID != travelDisplayID {
+            travel = 0
+            travelDisplayID = displayID
+        }
 
         let now = ProcessInfo.processInfo.systemUptime
         guard now - lastSwitchAt >= Self.cooldown else { return true }
