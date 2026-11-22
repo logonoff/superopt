@@ -25,8 +25,6 @@ class MissionControlSearchHandler {
     /// Virtual key code emitted by the Apps key, which opens the Spotlight Apps view.
     /// It opened Launchpad before macOS 26 removed it.
     private static let appsKeyCode: Int64 = 131
-    /// On macOS 27 the Spotlight UI lives in Siri AI.app.
-    private static let spotlightBundleID = "com.apple.campo"
 
     private static let keyEscape: Int64 = 0x35
     private static let keyDelete: Int64 = 0x33
@@ -40,7 +38,9 @@ class MissionControlSearchHandler {
     /// animation — the Mission Control window itself lingers for ~320 ms.
     private static let dismissDelay: TimeInterval = 0.025
     /// Spotlight is normally ready ~140 ms after its key. Give up well after that
-    /// rather than holding the user's keystrokes indefinitely.
+    /// rather than holding the user's keystrokes indefinitely. Refreshed on every
+    /// post, so it bounds one wait — for readiness, or for a post's landing —
+    /// rather than the whole typing session.
     private static let readyTimeout: TimeInterval = 1.5
     /// Only look for Mission Control on the first keystroke of a typing burst.
     private static let burstGap: TimeInterval = 0.3
@@ -61,6 +61,12 @@ class MissionControlSearchHandler {
     private var pendingDeletes = 0
     private var pending = false
     private var injected = false
+    /// Whether a flushed chunk (text or deletes) is still on its way into
+    /// Spotlight's field. The first chunk is confirmed by the field going
+    /// from empty to populated; later ones can only be confirmed as a change
+    /// from the value read at flush time.
+    private var awaitingLanding = false
+    private var valueAtFlush: String?
     private var lastTypedAt: TimeInterval = 0
     private var lastClickInMissionControl: TimeInterval = 0
     private var handledActivation: Int?
@@ -233,19 +239,76 @@ class MissionControlSearchHandler {
         if !injected {
             guard isSpotlightReady() else { return giveUpIfLate() }
             injected = true
+            // Progress: the wait is over, and the deadline now bounds the
+            // first post's landing rather than the session.
+            deadline = ProcessInfo.processInfo.systemUptime + Self.readyTimeout
             flushBuffer()
-        } else if !spotlightFieldIsPopulated() {
-            giveUpIfLate()
-        } else if !buffer.isEmpty {
-            // Deletes queued before this text belong to the characters that
-            // preceded it, so they go out first — replaying them after would
-            // delete the freshly typed character instead of the old one.
-            flushDeletes()
-            flushBuffer()
+            return
+        }
+        // A post is in flight until the field has changed from its value at
+        // flush time. The first chunk is the special case: its flush-time
+        // value was the empty field, so its landing is the field going
+        // non-empty. Nothing new is posted while a post is in flight — two
+        // posts sharing one snapshot would release the intercept on the
+        // first one's landing with the second still airborne, and a
+        // re-snapshot taken before the first landed would not include it.
+        // A read that fails is never a landing either: nil is not a change,
+        // and treating it as one would release the intercept — or post a
+        // buffered tail — into whatever app now has the focus.
+        let inFlight: Bool
+        if awaitingLanding {
+            guard let value = spotlightFieldValue() else { return giveUpIfLate() }
+            inFlight = value == valueAtFlush
         } else {
-            flushDeletes()
+            inFlight = !spotlightFieldIsPopulated()
+        }
+        if inFlight {
+            giveUpIfLate()
+        } else if pendingDeletes > 0 {
+            flushPendingDeletes()
+        } else if !buffer.isEmpty {
+            flushText()
+        } else {
             finish()
         }
+    }
+
+    /// Flushes queued deletes. Alone when they can change the field — text
+    /// queued behind them waits for their landing, because deletes and text
+    /// sharing one snapshot could release on the deletes' landing with the
+    /// text still airborne. As no-op companions when the field is already
+    /// empty (only the text can land the flush), or as the session's own
+    /// completion when nothing else is queued: the field is up and focused,
+    /// so typing after this reaches it natively.
+    private func flushPendingDeletes() {
+        guard let value = spotlightFieldValue() else { return giveUpIfLate() }
+        // Progress: a read answered, and the deadline now bounds this post's
+        // landing rather than the whole session.
+        deadline = ProcessInfo.processInfo.systemUptime + Self.readyTimeout
+        valueAtFlush = value
+        flushDeletes()
+        if value.isEmpty, !buffer.isEmpty {
+            flushBuffer()
+            awaitingLanding = true
+        } else if value.isEmpty {
+            finish()
+        } else {
+            awaitingLanding = true
+        }
+    }
+
+    /// Flushes buffered text. Nothing is in flight and the field read
+    /// answered, so the snapshot is the settled field; a failed read defers
+    /// the post to a later tick rather than sending it with nothing to
+    /// compare against.
+    private func flushText() {
+        guard let value = spotlightFieldValue() else { return giveUpIfLate() }
+        // Progress: a read answered, and the deadline now bounds this post's
+        // landing rather than the whole session.
+        deadline = ProcessInfo.processInfo.systemUptime + Self.readyTimeout
+        valueAtFlush = value
+        flushBuffer()
+        awaitingLanding = true
     }
 
     private func flushDeletes() {
@@ -271,6 +334,8 @@ class MissionControlSearchHandler {
         injected = false
         buffer = ""
         pendingDeletes = 0
+        awaitingLanding = false
+        valueAtFlush = nil
         timer?.invalidate()
         timer = nil
     }
@@ -301,67 +366,6 @@ class MissionControlSearchHandler {
         // Spotlight is not up yet, so anything let through would land in whatever
         // window Mission Control uncovers.
         return true
-    }
-
-    // MARK: - Spotlight readiness
-
-    /// True once Spotlight is both on screen and focused on its search field.
-    ///
-    /// The window alone is not enough: Siri AI keeps its panel window around after
-    /// Spotlight is dismissed, hidden by dropping its alpha to 0 rather than by
-    /// ordering it out, so a plain on-screen check matches a closed Spotlight too.
-    /// The focused field alone is not enough either, because that field stays focused
-    /// after dismissal.
-    private func isSpotlightReady() -> Bool { spotlightField() != nil }
-
-    /// True once the injected text has shown up in Spotlight's field. Only emptiness
-    /// is checked, not the exact contents: Spotlight is empty when it opens, so
-    /// anything at all means the text landed, and matching exactly would be brittle
-    /// if Spotlight ever completed or reformatted the query.
-    private func spotlightFieldIsPopulated() -> Bool {
-        guard let field = spotlightField() else { return false }
-        var value: AnyObject?
-        AXUIElementCopyAttributeValue(field, kAXValueAttribute as CFString, &value)
-        return (value as? String).map { !$0.isEmpty } ?? false
-    }
-
-    /// Spotlight's focused search field, or nil if Spotlight is not up and ready.
-    private func spotlightField() -> AXUIElement? {
-        guard let pid = NSRunningApplication.runningApplications(
-            withBundleIdentifier: Self.spotlightBundleID).first?.processIdentifier,
-              spotlightWindowVisible(pid: pid),
-              let (field, fieldPID) = focusedTextField(), fieldPID == pid
-        else { return nil }
-        return field
-    }
-
-    private func spotlightWindowVisible(pid: pid_t) -> Bool {
-        guard let list = CGWindowListCopyWindowInfo(
-            [.optionOnScreenOnly], kCGNullWindowID) as? [[String: Any]]
-        else { return false }
-        return list.contains { info in
-            info[kCGWindowOwnerPID as String] as? pid_t == pid
-                && (info[kCGWindowLayer as String] as? Int ?? 0) > 0
-                && (info[kCGWindowAlpha as String] as? Double ?? 0) > 0
-        }
-    }
-
-    private func focusedTextField() -> (AXUIElement, pid_t)? {
-        var focused: AnyObject?
-        guard AXUIElementCopyAttributeValue(
-            KeyboardUtils.systemWide, kAXFocusedUIElementAttribute as CFString,
-            &focused) == .success,
-            let element = focused.flatMap(KeyboardUtils.toAXElement)
-        else { return nil }
-
-        var roleRef: AnyObject?
-        AXUIElementCopyAttributeValue(element, kAXRoleAttribute as CFString, &roleRef)
-        let textRoles: Set<String> = [kAXTextFieldRole, kAXTextAreaRole, "AXSearchField"]
-        guard let role = roleRef as? String, textRoles.contains(role) else { return nil }
-
-        var pid: pid_t = 0
-        guard AXUIElementGetPid(element, &pid) == .success else { return nil }
-        return (element, pid)
     }
 
     // MARK: - Key decoding
