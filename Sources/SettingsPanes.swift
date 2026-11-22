@@ -162,7 +162,13 @@ struct KeyboardPane: View {
                     Text("Maps Linux keyboard shortcuts to their Mac equivalents.")
                 }
 
-                if gnomeShortcuts {
+                // The row stays visible while the setting is on: the detector
+                // (and the Chromium accessibility opt-in it carries into the
+                // editors) runs as long as its key is set — and Home/End's
+                // terminal skip consults it too — so hiding it with the
+                // parent off would leave it active with no way to turn it
+                // off.
+                if gnomeShortcuts || vscodeTerminal {
                     Toggle(isOn: $vscodeTerminal) {
                         Text("Detect integrated terminals in code editors")
                         Text("""
