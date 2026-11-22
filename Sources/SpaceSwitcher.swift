@@ -69,10 +69,15 @@ enum SpaceSwitcher {
         else { return [] }
 
         return raw.compactMap { entry in
-            guard let identifier = entry["Display Identifier"] as? String,
-                  let spaces = entry["Spaces"] as? [[String: Any]],
-                  let current = (entry["Current Space"] as? [String: Any])?["id64"] as? UInt64
-            else { return nil }
+            // The identifier alone makes a row worth keeping: a display whose
+            // other fields did not decode is present but unreadable — a
+            // mid-transition read — and dropping it would make a
+            // list-pruning consumer mistake the misread for a disconnect. A
+            // row with no identifier at all names nothing; that is what a
+            // real disconnect looks like.
+            guard let identifier = entry["Display Identifier"] as? String else { return nil }
+            let spaces = (entry["Spaces"] as? [[String: Any]]) ?? []
+            let current = (entry["Current Space"] as? [String: Any])?["id64"] as? UInt64
             let ids = spaces.compactMap { $0["id64"] as? UInt64 }
             // The current space can fail to appear among the display's
             // spaces, and a space list can fail to fully decode, in a
@@ -80,11 +85,11 @@ enum SpaceSwitcher {
             // index rather than dropped, so the space-change watcher does
             // not mistake the misread for a disconnect and erase the
             // display's baseline; the other consumers treat the index as
-            // unreadable or clamp it. A hole in the list would shift every
+            // unreadable or bail on it. A hole in the list would shift every
             // position after it, so a partial list resolves no index at
             // all — not one against the entries that did decode.
             let index = ids.count == spaces.count
-                ? ids.firstIndex(of: current) ?? ids.count
+                ? current.flatMap { ids.firstIndex(of: $0) } ?? ids.count
                 : ids.count
             return ManagedDisplay(identifier: identifier, spaceIDs: ids, currentIndex: index,
                                   spaceTypes: spaces.map { $0["type"] as? Int })
