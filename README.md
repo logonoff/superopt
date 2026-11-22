@@ -43,49 +43,49 @@ The code-signing public key is available at [`codesign.pem`](https://logonoff.gi
 
 ## Features
 
-Features are turned on by default unless otherwise noted.
+Features are turned off by default unless otherwise noted.
 
 ### Option key shortcuts
 
 | Shortcut | Action |
 |---|---|
-| ⌥ | Open or close Mission Control |
-| ⌥ twice | Show or hide the Apps view in Spotlight |
-| ⌥A | Show or hide the Apps view in Spotlight |
-| ⌥1–9 | Open the app at that position in the Dock |
+| ⌥ | Open or close Mission Control (on by default) |
+| ⌥ twice | Show or hide the Apps view in Spotlight (on by default) |
+| ⌥A | Show or hide the Apps view in Spotlight (on by default) |
+| ⌥1–9 | Open the app at that position in the Dock (on by default) |
 
 ### Desktop
 
 | Feature | Description |
 |---|---|
-| Hot corner | Quickly moving the pointer to the top-left corner of any screen opens Mission Control (with a GNOME-style ripple animation) |
-| Window tiling | The Option-arrow keys tile, fill, or return windows to their previous size (off by default) |
-| Green button fills the desktop | Clicking the green button expands the window to fill the desktop instead of entering full screen (off by default) |
-| Close windows in Mission Control | A close button appears when you hold the pointer over a window in Mission Control |
-| Type to search in Mission Control | Typing in Mission Control closes it and sends what you typed to Spotlight or the Apps view (off by default) |
-| Tile assist | When you tile a window to the left or right, SuperOpt suggests windows to fill the other half (off by default) |
-| Dark menu bar | A black bar appears behind the menu bar when a window fills the desktop (off by default) |
-| Scroll to switch spaces | Scrolling over a display’s Apple menu switches that display to the next or previous space (off by default) |
-| Dynamic Spaces | While you’re in Mission Control, SuperOpt keeps one desktop empty and removes other empty desktops (off by default) |
-| Space indicator | An onscreen row of dots appears when a display switches spaces (off by default) |
+| Hot corner | Quickly moving the pointer to the top-left corner of any screen opens Mission Control (with a GNOME-style ripple animation) (on by default) |
+| Window tiling | The Option-arrow keys tile, fill, or return windows to their previous size |
+| Green button fills the desktop | Clicking the green button expands the window to fill the desktop instead of entering full screen |
+| Close windows in Mission Control | A close button appears when you hold the pointer over a window in Mission Control (on by default) |
+| Type to search in Mission Control | Typing in Mission Control closes it and sends what you typed to Spotlight or the Apps view |
+| Tile assist | When you tile a window to the left or right, SuperOpt suggests windows to fill the other half |
+| Dark menu bar | A black bar appears behind the menu bar when a window fills the desktop |
+| Scroll to switch spaces | Scrolling over a display’s Apple menu switches that display to the next or previous space |
+| Dynamic Spaces | While you’re in Mission Control, SuperOpt keeps one desktop empty and removes other empty desktops |
+| Space indicator | An onscreen row of dots appears when a display switches spaces |
 
 ### Keyboard
 
 | Feature | Description |
 |---|---|
-| Caps Lock indicator | An onscreen indicator appears when you turn Caps Lock on or off |
-| Home and End | The Home and End keys move the insertion point to the beginning or end of the line in text fields; Control-Home and Control-End move it to the beginning or end of the document |
-| Menu key → shortcut menu | The Menu key on Windows keyboards opens a shortcut menu (off by default) |
-| Remap Linux shortcuts | SuperOpt maps Linux keyboard shortcuts to their Mac equivalents: Control-C, Control-X, and Control-V; Alt-F4; F2 to rename in the Finder; browser, terminal, and code editor shortcuts; and more (off by default) |
+| Caps Lock indicator | An onscreen indicator appears when you turn Caps Lock on or off (on by default) |
+| Home and End | The Home and End keys move the insertion point to the beginning or end of the line in text fields; Control-Home and Control-End move it to the beginning or end of the document (on by default) |
+| Menu key → shortcut menu | The Menu key on Windows keyboards opens a shortcut menu |
+| Remap Linux shortcuts | SuperOpt maps Linux keyboard shortcuts to their Mac equivalents: Control-C, Control-X, and Control-V; Alt-F4; F2 to rename in the Finder; browser, terminal, and code editor shortcuts; and more |
 
 ### Input
 
 | Feature | Description |
 |---|---|
-| Scroll to zoom in browsers | In web browsers, Control-scroll zooms in and out, with a choice of Natural or Traditional scroll direction (off by default) |
-| Click-through focus | Clicking an inactive window brings it to the front and passes the click through, as on Windows or Linux (off by default) |
-| Cut and paste files in the Finder | Cut, then paste in the Finder to move files: Press Command-X, then Command-V (or Control-X, then Control-V), depending on which pair you choose in SuperOpt settings (off by default) |
-| Middle-click paste | Middle-clicking pastes in text fields (X11-style), opens a new window when you middle-click an app icon in the Dock, or behaves as it normally does elsewhere (off by default) |
+| Scroll to zoom in browsers | In web browsers, Control-scroll zooms in and out, with a choice of Natural or Traditional scroll direction |
+| Click-through focus | Clicking an inactive window brings it to the front and passes the click through, as on Windows or Linux |
+| Cut and paste files in the Finder | Cut, then paste in the Finder to move files: Press Command-X, then Command-V (or Control-X, then Control-V), depending on which pair you choose in SuperOpt settings |
+| Middle-click paste | Middle-clicking pastes in text fields (X11-style), opens a new window when you middle-click an app icon in the Dock, or behaves as it normally does elsewhere |
 
 You can turn each feature on or off in SuperOpt settings, which you open by clicking the SuperOpt icon in the menu bar and choosing Settings. SuperOpt detects the Option key when you release it, so existing shortcuts are unaffected.
 
