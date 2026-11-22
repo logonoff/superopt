@@ -147,8 +147,9 @@ class ClickThroughFocusHandler {
     /// window with the button down.
     var hasPendingPress: Bool { pending != nil || afterPress != nil }
 
-    /// Drops any withheld press, e.g. when the feature is switched off. Runs just
-    /// before a replay, which then records its own release to wait for.
+    /// Drops any withheld press and its release obligation without preserving
+    /// either. Runs just before a replay, which then records its own release
+    /// to wait for.
     func reset() {
         pollTimer?.invalidate()
         pollTimer = nil
@@ -162,12 +163,22 @@ class ClickThroughFocusHandler {
     /// `.dropped` obligation survives the call — `defaultsChanged` fires for
     /// every preference write, and a second one while the button is still
     /// held must not release the first one's hold on the upcoming release.
+    /// A `.replayed` obligation survives it too: the press is already on its
+    /// way to the window, and clearing the obligation would let the raw
+    /// release race the posted press — the exact failure the re-ordered
+    /// release in `handleMouseUp` exists to prevent.
     func dropWithheldPress() {
         let unreleased = pending != nil && pending?.releasedAt == nil
         var alreadyDropped = false
         if case .dropped = afterPress { alreadyDropped = true }
+        var replayed: PendingClick?
+        if case .replayed(let click) = afterPress { replayed = click }
         reset()
-        if unreleased || alreadyDropped { afterPress = .dropped }
+        if let replayed {
+            afterPress = .replayed(replayed)
+        } else if unreleased || alreadyDropped {
+            afterPress = .dropped
+        }
     }
 
     // MARK: - Hit testing
