@@ -101,6 +101,10 @@ final class SpaceScrollHandler {
     private func switchSpace(by direction: Int, on screen: NSScreen) {
         guard let target = SpaceSwitcher.target(for: screen) else { return }
         let display = target.display
+        // An unreadable current space carries no position in the row, so the
+        // row's end cannot be known and nothing is posted — the same nothing
+        // a read that dropped the display used to produce.
+        guard display.currentIndex < display.spaceIDs.count else { return }
         let now = ProcessInfo.processInfo.systemUptime
         let lastPosted = lastSwitchPostedAt[display.identifier] ?? 0
         let index = min(max(display.currentIndex + direction, 0), display.spaceIDs.count - 1)
