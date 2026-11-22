@@ -74,7 +74,18 @@ enum SpaceSwitcher {
                   let current = (entry["Current Space"] as? [String: Any])?["id64"] as? UInt64
             else { return nil }
             let ids = spaces.compactMap { $0["id64"] as? UInt64 }
-            guard ids.count == spaces.count, let index = ids.firstIndex(of: current) else { return nil }
+            // The current space can fail to appear among the display's
+            // spaces, and a space list can fail to fully decode, in a
+            // mid-transition read. The row is kept with an out-of-range
+            // index rather than dropped, so the space-change watcher does
+            // not mistake the misread for a disconnect and erase the
+            // display's baseline; the other consumers treat the index as
+            // unreadable or clamp it. A hole in the list would shift every
+            // position after it, so a partial list resolves no index at
+            // all — not one against the entries that did decode.
+            let index = ids.count == spaces.count
+                ? ids.firstIndex(of: current) ?? ids.count
+                : ids.count
             return ManagedDisplay(identifier: identifier, spaceIDs: ids, currentIndex: index,
                                   spaceTypes: spaces.map { $0["type"] as? Int })
         }
