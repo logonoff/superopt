@@ -62,9 +62,8 @@ class MissionControlSearchHandler {
     private var pending = false
     private var injected = false
     /// Whether a flushed chunk (text or deletes) is still on its way into
-    /// Spotlight's field. The first chunk is confirmed by the field going
-    /// from empty to populated; later ones can only be confirmed as a change
-    /// from the value read at flush time.
+    /// Spotlight's field, confirmed only by the field changing from its
+    /// flush-time value (the first chunk: by going non-empty).
     private var awaitingLanding = false
     private var valueAtFlush: String?
     private var lastTypedAt: TimeInterval = 0
@@ -273,26 +272,30 @@ class MissionControlSearchHandler {
         }
     }
 
-    /// Flushes queued deletes. Alone when they can change the field — text
-    /// queued behind them waits for their landing, because deletes and text
-    /// sharing one snapshot could release on the deletes' landing with the
-    /// text still airborne. As no-op companions when the field is already
-    /// empty (only the text can land the flush), or as the session's own
-    /// completion when nothing else is queued: the field is up and focused,
-    /// so typing after this reaches it natively.
+    /// Flushes queued deletes — one per landing against a non-empty field
+    /// (backspaces are separate key events that arrive one at a time, so a
+    /// batch posted together would confirm on the first one's landing with
+    /// the rest still airborne, and queued text waits for the last), or,
+    /// against an empty field, as no-ops accompanying queued text or
+    /// completing the session alone: the field is up and focused, so typing
+    /// after that reaches it natively.
     private func flushPendingDeletes() {
         guard let value = spotlightFieldValue() else { return giveUpIfLate() }
         // Progress: a read answered, and the deadline now bounds this post's
         // landing rather than the whole session.
         deadline = ProcessInfo.processInfo.systemUptime + Self.readyTimeout
         valueAtFlush = value
-        flushDeletes()
-        if value.isEmpty, !buffer.isEmpty {
-            flushBuffer()
-            awaitingLanding = true
-        } else if value.isEmpty {
-            finish()
+        if value.isEmpty {
+            flushDeletes()
+            if !buffer.isEmpty {
+                flushBuffer()
+                awaitingLanding = true
+            } else {
+                finish()
+            }
         } else {
+            pendingDeletes -= 1
+            KeyboardUtils.postKey(Self.keyDelete, flags: [])
             awaitingLanding = true
         }
     }
