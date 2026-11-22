@@ -37,7 +37,15 @@ final class SpaceChangeWatcher {
         for display in SpaceSwitcher.displays() {
             guard display.currentIndex < display.spaceIDs.count else { continue }
             let current = display.spaceIDs[display.currentIndex]
-            guard lastCurrent[display.identifier] != current else { continue }
+            guard let previous = lastCurrent[display.identifier] else {
+                // A display with no baseline — connected after start(), or
+                // missed by the transient read there — is not a space
+                // change, and firing for it would pop the indicator up on a
+                // display that did not move.
+                lastCurrent[display.identifier] = current
+                continue
+            }
+            guard previous != current else { continue }
             lastCurrent[display.identifier] = current
             onChange?(display, SpaceSwitcher.screens(showing: display))
         }
