@@ -65,6 +65,23 @@ class OptionKeyHandler {
         if optionIsDown { otherInputDetected = true }
     }
 
+    /// Resynchronises the latch with the live modifier state after the event
+    /// tap has been down. A release the tap never saw (secure input took it
+    /// down, or it was disabled) leaves `optionIsDown` stale, and the next
+    /// unrelated `flagsChanged` — a Caps Lock toggle carries no modifiers —
+    /// would read as a clean release and toggle Mission Control out of
+    /// nowhere. A press or release this handler could not observe earns no
+    /// action: the transition is adopted without firing, the same rule the
+    /// Caps Lock latch's resync follows.
+    func resync() {
+        let optionDown = NSEvent.modifierFlags.contains(.option)
+        if optionDown != optionIsDown {
+            optionIsDown = optionDown
+            otherInputDetected = true
+            pressWasSuspended = false
+        }
+    }
+
     private func handleCleanOptionRelease() {
         let now = ProcessInfo.processInfo.systemUptime
 

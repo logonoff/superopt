@@ -302,6 +302,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         // Caps Lock toggles that happened while no tap was listening left the
         // OSD's latch stale; resync so the next real toggle still shows.
         resyncCapsLockLatch()
+        // The Option latch goes stale the same way, and a missed release
+        // would read as a clean press on the next modifier-less flagsChanged.
+        optionKeyHandler.resync()
         return true
     }
 
@@ -320,6 +323,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         if let tap = eventTap, !CGEvent.tapIsEnabled(tap: tap) {
             CGEvent.tapEnable(tap: tap, enable: true)
             resyncCapsLockLatch()
+            optionKeyHandler.resync()
             if !CGEvent.tapIsEnabled(tap: tap) {
                 // A tap that will not come back is not helped by re-enabling
                 // it every few seconds; drop it so the next tick builds a
