@@ -120,7 +120,15 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         !excludedApps.isSuspended && UserDefaults.standard.bool(forKey: key)
     }
 
-    @objc private func defaultsChanged() {
+    @objc private func defaultsChanged() { defaultsChanged(activatedApp: nil) }
+
+    /// `activatedApp` is the app named by the activation notification when
+    /// this runs from inside one (the exclusion transition), nil otherwise.
+    /// `frontmostApplication` still answers with the outgoing app there, so
+    /// anything seeded from it — the Tile Assist watcher's initial
+    /// observation — must be handed the real app or it watches the app the
+    /// user just left until the next switch.
+    private func defaultsChanged(activatedApp: NSRunningApplication?) {
         excludedApps.reload()
         hotCorner.enabled = isEnabled("hotCornersEnabled")
         let wantsBg = isEnabled("menuBarBgEnabled")
@@ -135,7 +143,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         } else { mcCloseHandler?.stop() }
         updateMissionControlMonitor()
         if isEnabled("snapAssistEnabled") {
-            tileAssistWatcher.start()
+            tileAssistWatcher.start(with: activatedApp)
         } else {
             tileAssistWatcher.stop()
             // Dismiss it with its feature: left up, it keeps its timers to
@@ -162,7 +170,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     /// Switching into or out of an excluded app. The menu bar icon dims, anything
     /// already on screen goes away, and the timers and observers behind the features
     /// are stopped or started by `defaultsChanged`, which reads `isEnabled`.
-    private func applyExclusion() {
+    private func applyExclusion(_ activatedApp: NSRunningApplication? = nil) {
         statusItem?.button?.alphaValue = excludedApps.isSuspended ? 0.5 : 1
         if excludedApps.isSuspended { snapAssistPanel?.dismiss() }
         // A pending type-to-search session keeps posting synthetic input and
@@ -170,7 +178,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         // suspension guard only blocks new events — so it is abandoned on
         // the way into an excluded app, like the middle-click paste is.
         if excludedApps.isSuspended { mcSearchHandler.reset() }
-        defaultsChanged()
+        defaultsChanged(activatedApp: activatedApp)
     }
 
     private var dockFinderPosition: Int { UserDefaults.standard.integer(forKey: "dockFinderPosition") }
@@ -225,11 +233,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         hotCorner.enabled = isEnabled("hotCornersEnabled")
 
         NotificationCenter.default.addObserver(
-            self, selector: #selector(defaultsChanged),
+            self, selector: #selector(defaultsChanged as () -> Void),
             name: UserDefaults.didChangeNotification, object: nil
         )
 
-        excludedApps.onChange = { [weak self] in self?.applyExclusion() }
+        excludedApps.onChange = { [weak self] app in self?.applyExclusion(app) }
         excludedApps.start()
 
         permissionHelper.hasEventTap = { [weak self] in self?.eventTap != nil }

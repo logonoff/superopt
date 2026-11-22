@@ -38,10 +38,18 @@ class TileAssistWatcher {
 
     func suppress() { suppressUntil = ProcessInfo.processInfo.systemUptime + 1.5 }
 
-    func start() {
+    func start(with app: NSRunningApplication? = nil) {
         guard selfPtr == nil else { return }
         selfPtr = Unmanaged.passRetained(self)
-        observeFrontmostApp()
+        // Seeded from the app handed in when this runs inside an activation
+        // notification — `frontmostApplication` still answers with the
+        // outgoing app there (measured; see AGENTS.md) — and from the
+        // property otherwise, the only answer there is outside one.
+        if let app {
+            observe(app)
+        } else {
+            observeFrontmostApp()
+        }
         appObserver = NSWorkspace.shared.notificationCenter.addObserver(
             forName: NSWorkspace.didActivateApplicationNotification,
             object: nil, queue: .main

@@ -18,8 +18,11 @@ final class ExcludedApps {
     /// True while the active app is one of the listed ones.
     private(set) var isSuspended = false
 
-    /// Called when `isSuspended` changes.
-    var onChange: (() -> Void)?
+    /// Called when `isSuspended` changes, with the app whose activation
+    /// caused it. Inside that notification `frontmostApplication` still
+    /// names the outgoing app (measured; see AGENTS.md), so the activated
+    /// app is the only fresh answer available to whatever runs next.
+    var onChange: ((NSRunningApplication?) -> Void)?
 
     private var observer: NSObjectProtocol?
     private var activeBundleID: String?
@@ -43,7 +46,7 @@ final class ExcludedApps {
                 guard let self else { return }
                 self.activeBundleID = activated?.bundleIdentifier
                     ?? NSWorkspace.shared.frontmostApplication?.bundleIdentifier
-                self.reload()
+                self.reload(activated)
             }
         }
         activeBundleID = NSWorkspace.shared.frontmostApplication?.bundleIdentifier
@@ -51,12 +54,15 @@ final class ExcludedApps {
     }
 
     /// Re-reads the list and the toggle, for when either changes while the app it names
-    /// is the active one.
-    func reload() {
+    /// is the active one. `activatedApp` is the notification's app on the activation
+    /// path — inside that notification `frontmostApplication` still answers with the
+    /// outgoing app (measured; see AGENTS.md) — and nil elsewhere, where the property
+    /// is the only answer there is.
+    func reload(_ activatedApp: NSRunningApplication? = nil) {
         let suspended = listIncludesActiveApp()
         guard suspended != isSuspended else { return }
         isSuspended = suspended
-        onChange?()
+        onChange?(activatedApp)
     }
 
     private func listIncludesActiveApp() -> Bool {
