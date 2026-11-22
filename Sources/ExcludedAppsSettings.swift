@@ -50,16 +50,6 @@ final class ExcludedAppsModel: NSObject {
         apps = ExcludedApps.bundleIDs().map(Self.describe)
     }
 
-    /// Adds the app at `url`, ignoring one that is already on the list.
-    func add(_ url: URL) {
-        guard let identifier = Bundle(url: url)?.bundleIdentifier else { return }
-        var identifiers = ExcludedApps.bundleIDs()
-        guard !identifiers.contains(identifier) else { return }
-        identifiers.append(identifier)
-        UserDefaults.standard.set(identifiers, forKey: ExcludedApps.listKey)
-        reload()
-    }
-
     func remove(_ identifiers: Set<String>) {
         let kept = ExcludedApps.bundleIDs().filter { !identifiers.contains($0) }
         UserDefaults.standard.set(kept, forKey: ExcludedApps.listKey)
@@ -76,7 +66,20 @@ final class ExcludedAppsModel: NSObject {
         panel.message = NSLocalizedString(
             "Select the apps you want to exclude.", comment: "Open panel message")
         guard panel.runModal() == .OK else { return }
-        for url in panel.urls { add(url) }
+        // One write for the whole selection: each per-app write fires the
+        // KVO observer and a didChangeNotification, restarting the watchers
+        // behind defaultsChanged once per app — the same defect the
+        // shortcut tree's category toggle was fixed for.
+        var identifiers = ExcludedApps.bundleIDs()
+        let existing = identifiers.count
+        for url in panel.urls {
+            guard let identifier = Bundle(url: url)?.bundleIdentifier,
+                  !identifiers.contains(identifier) else { continue }
+            identifiers.append(identifier)
+        }
+        guard identifiers.count > existing else { return }
+        UserDefaults.standard.set(identifiers, forKey: ExcludedApps.listKey)
+        reload()
     }
 
     /// An app that has since been moved or deleted keeps its identifier as its name, so
