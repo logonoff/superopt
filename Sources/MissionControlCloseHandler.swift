@@ -26,9 +26,19 @@ class MissionControlCloseHandler {
     private var windowRects: [WindowEntry] = []
     private var unclosableWIDs: Set<UInt32> = []
     private var closableWIDs: Set<UInt32> = []
+    /// Consecutive unanswered AX reads per window — the window match or the
+    /// close-button read — bounding the retry of a transient failure: a
+    /// window with no AX counterpart at all would otherwise re-pay the
+    /// lookup (including its window-list fallback) every tick for the whole
+    /// Mission Control session.
+    private var axFailureCounts: [UInt32: Int] = [:]
 
     private static let buttonSize: CGFloat = 26
     private static let hitPadding: CGFloat = 9
+    /// After this many consecutive unanswered reads a window is treated as
+    /// unclosable: enough ticks for a busy app to recover, few enough that
+    /// a structural miss costs a fixed number of probes.
+    private static let axRetryLimit = 3
     /// How far from a cached thumbnail rect the pointer may sit before the
     /// live read is skipped: the cache lags a moving thumbnail by whatever
     /// it travelled since the last 4 Hz refresh, so this is deliberately
@@ -191,7 +201,20 @@ class MissionControlCloseHandler {
         hideOverlay()
         windowRects.removeAll()
         unclosableWIDs.removeAll(); closableWIDs.removeAll()
+        axFailureCounts.removeAll()
         stopTimer()
+    }
+
+    /// Records an unanswered classification read; after enough consecutive
+    /// ones the window is given up on for the session, so a structural miss
+    /// costs a fixed number of probes.
+    private func noteAXFailure(_ wid: UInt32) {
+        let failures = (axFailureCounts[wid] ?? 0) + 1
+        axFailureCounts[wid] = failures
+        if failures >= Self.axRetryLimit {
+            unclosableWIDs.insert(wid)
+            axFailureCounts.removeValue(forKey: wid)
+        }
     }
 
     private func refreshWindowRects(from windowList: [[String: Any]]) {
@@ -207,11 +230,26 @@ class MissionControlCloseHandler {
             guard getScreenRect(cid, wid, &screenRect) == 0,
                   screenRect.width > 60, screenRect.height > 60 else { continue }
             if !closableWIDs.contains(wid) {
-                guard let axWin = KeyboardUtils.findAXWindow(pid: pid, windowID: wid),
-                      let btn = axCloseButton(of: axWin),
-                      axIsEnabled(btn)
-                else { unclosableWIDs.insert(wid); continue }
-                closableWIDs.insert(wid)
+                // A read that did not answer — the app busy, an AX timeout
+                // at the tick — is retried on later ticks rather than cached
+                // as a structural answer, and bounded so a window with no AX
+                // counterpart at all costs a fixed number of probes.
+                guard let axWin = KeyboardUtils.findAXWindow(pid: pid, windowID: wid) else {
+                    noteAXFailure(wid)
+                    continue
+                }
+                let (btn, answered) = axCloseButtonRead(of: axWin)
+                guard answered else {
+                    noteAXFailure(wid)
+                    continue
+                }
+                axFailureCounts.removeValue(forKey: wid)
+                if let btn, axIsEnabled(btn) {
+                    closableWIDs.insert(wid)
+                } else {
+                    unclosableWIDs.insert(wid)
+                    continue
+                }
             }
             rects.append(WindowEntry(wid: wid, pid: pid, rect: screenRect))
         }
@@ -249,16 +287,24 @@ class MissionControlCloseHandler {
 // MARK: - AX helpers
 
 extension MissionControlCloseHandler {
-    fileprivate func axCloseButton(of window: AXUIElement) -> AXUIElement? {
+    /// The window's close button, and whether the read that produced it
+    /// answered at all. A read error is distinct from "no close button":
+    /// an app that is merely busy must not be cached as a structural
+    /// answer for the whole session.
+    fileprivate func axCloseButtonRead(of window: AXUIElement) -> (
+        button: AXUIElement?, answered: Bool
+    ) {
         var ref: AnyObject?
-        AXUIElementCopyAttributeValue(
+        let error = AXUIElementCopyAttributeValue(
             window, kAXCloseButtonAttribute as CFString, &ref)
-        return ref.flatMap(KeyboardUtils.toAXElement)
+        if error == .success { return (ref.flatMap(KeyboardUtils.toAXElement), true) }
+        if error == .noValue || error == .attributeUnsupported { return (nil, true) }
+        return (nil, false)
     }
 
     fileprivate func closeWindow(pid: pid_t, windowID: UInt32) {
         guard let win = KeyboardUtils.findAXWindow(pid: pid, windowID: windowID),
-              let btn = axCloseButton(of: win) else { return }
+              let btn = axCloseButtonRead(of: win).button else { return }
         AXUIElementPerformAction(btn, kAXPressAction as CFString)
         hoveredWID = 0; hideOverlay()
         closableWIDs.remove(windowID)
