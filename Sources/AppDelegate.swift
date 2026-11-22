@@ -387,7 +387,9 @@ extension AppDelegate {
         // The key toggles: when Mission Control is up, this closes it, and
         // the search handler has to treat that activation as consumed — its
         // phantom-search guard never sees the synthetic key posted below.
-        if mcMonitor.isActive { mcSearchHandler.noteDismissal() }
+        // It syncs the monitor itself, so a Mission Control it has not seen
+        // open is still marked before this key closes it.
+        mcSearchHandler.noteDismissal()
         // Emulate the Mission Control key rather than spawning `open -a "Mission Control"`:
         // no subprocess, and it does exactly what the hardware key does. Key code
         // 160 needs the Fn flag set — without it the key does nothing. Like the

@@ -91,7 +91,13 @@ class MissionControlSearchHandler {
     /// re-opens what the user just closed. For closes SuperOpt itself
     /// performs — the Option press, the hot corner — whose synthetic
     /// Mission Control key the event tap never delivers to `handleKeyDown`.
+    /// The monitor is synced first: a Mission Control it never saw open (a
+    /// trackpad swipe with the pointer held still) is still on screen and
+    /// still closable, and unmarked, the trigger that follows the key would
+    /// mint the lingering close animation as a brand-new activation — one
+    /// a keystroke would happily search.
     func noteDismissal() {
+        monitor.check()
         if monitor.isActive { handledActivation = monitor.activationID }
     }
 
@@ -126,14 +132,29 @@ class MissionControlSearchHandler {
         // what the user just closed. Bare keys only — a modified Escape
         // (⌥⌘Esc is Force Quit) does not close Mission Control, and marking
         // the activation consumed here would kill the session's search.
-        if monitor.isActive,
-           !event.flags.contains(.maskCommand),
-           !event.flags.contains(.maskControl),
-           !event.flags.contains(.maskAlternate),
-           !event.flags.contains(.maskShift),
-           [Self.keyEscape, Self.missionControlKeyCode].contains(
-               event.getIntegerValueField(.keyboardEventKeycode)) {
-            handledActivation = monitor.activationID
+        // With the monitor not reporting Mission Control open it is synced
+        // before deciding — one opened by a swipe with the pointer held
+        // still closes on this key too, and unmarked, the trigger that
+        // follows the key would mint the lingering shield as a fresh
+        // activation for a keystroke to search. The sync skips autorepeats:
+        // the walk is the only cost worth gating there, while the marking
+        // above must keep answering repeats.
+        let bareKey = !event.flags.contains(.maskCommand)
+            && !event.flags.contains(.maskControl)
+            && !event.flags.contains(.maskAlternate)
+            && !event.flags.contains(.maskShift)
+        if bareKey, [Self.keyEscape, Self.missionControlKeyCode].contains(
+            event.getIntegerValueField(.keyboardEventKeycode)) {
+            if monitor.isActive {
+                handledActivation = monitor.activationID
+            } else if event.getIntegerValueField(.keyboardEventAutorepeat) == 0, monitor.check() {
+                handledActivation = monitor.activationID
+                // The key is about to close what the check just discovered,
+                // and a discovery carries no trigger — without one the close
+                // is learned at the 4 Hz rate, leaving the buttons and the
+                // isActive flag stale for up to ~570 ms after it.
+                monitor.noteTrigger()
+            }
             return false
         }
 
