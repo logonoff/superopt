@@ -167,6 +167,23 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         }
     }
 
+    // swiftlint:disable block_based_kvo
+    // Arbitrary UserDefaults keys have no KeyPath representation, so the
+    // block-based KVO API cannot observe them and the selector-based
+    // override is the only route.
+    nonisolated override func observeValue(
+        forKeyPath keyPath: String?,
+        of object: Any?,
+        change: [NSKeyValueChangeKey: Any]?,
+        context: UnsafeMutableRawPointer?
+    ) {
+        guard keyPath == "SLSMenuBarUseBlurredAppearance" else { return }
+        DispatchQueue.main.async { [weak self] in
+            MainActor.assumeIsolated { self?.defaultsChanged() }
+        }
+    }
+    // swiftlint:enable block_based_kvo
+
     /// Switching into or out of an excluded app. The menu bar icon dims, anything
     /// already on screen goes away, and the timers and observers behind the features
     /// are stopped or started by `defaultsChanged`, which reads `isEnabled`.
@@ -236,6 +253,16 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             self, selector: #selector(defaultsChanged as () -> Void),
             name: UserDefaults.didChangeNotification, object: nil
         )
+
+        // "Show menu bar background" is written by System Settings, not by
+        // this process, and didChangeNotification covers only this
+        // process's own writes — KVO on the key is the route that sees the
+        // external one, the same way the excluded-apps list and the
+        // shortcut tree observe their keys (measured). The app delegate
+        // lives for the process lifetime, so the observation is never
+        // removed.
+        UserDefaults.standard.addObserver(
+            self, forKeyPath: "SLSMenuBarUseBlurredAppearance", options: [], context: nil)
 
         excludedApps.onChange = { [weak self] app in self?.applyExclusion(app) }
         excludedApps.start()
