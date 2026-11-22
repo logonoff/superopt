@@ -79,6 +79,14 @@ final class DynamicSpacesHandler {
         var proposals: [String: Proposal] = [:]
         for display in displays {
             let key = display.identifier
+            // An unreadable row (a mid-transition read) is not a reading.
+            // Acting on it is already barred by action(for:)'s guards, but
+            // the latch below must not be cleared either: a partial list
+            // can differ from a recorded order, and clearing it would let a
+            // submitted action be submitted again once the read recovers.
+            guard display.currentIndex < display.spaceIDs.count,
+                  display.spaceTypes.count == display.spaceIDs.count
+            else { continue }
             guard submittedOrder[key] != display.spaceIDs else { continue }
             submittedOrder.removeValue(forKey: key)
             guard let action = Self.action(for: display, occupied: windows.occupancy(of: display)) else { continue }
