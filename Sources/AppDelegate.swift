@@ -603,7 +603,7 @@ extension AppDelegate {
                 comment: "Alert body directing user to login items settings")
             alert.alertStyle = .warning
             let openTitle = NSLocalizedString(
-                "Open Login Items & Extensions Settings", comment: "Button to open login items settings")
+                "Open Login Items & Extensions settings", comment: "Button to open login items settings")
             alert.addButton(withTitle: openTitle)
             alert.addButton(withTitle: NSLocalizedString("Cancel", comment: "Cancel button"))
             if alert.runModal() == .alertFirstButtonReturn {

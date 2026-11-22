@@ -57,7 +57,7 @@ struct DesktopPane: View {
                 Toggle(isOn: $spaceScroll) {
                     Text("Scroll to switch spaces")
                     Text("""
-                        Scrolling over the Apple menu switches that display to the \
+                        Scrolling over the Apple menu moves that display to the \
                         next or previous space.
                         """)
                 }
@@ -72,16 +72,16 @@ struct DesktopPane: View {
 
             Section {
                 Toggle(isOn: $zoomButton) {
-                    Text("Green button fills the screen")
+                    Text("Green button fills the desktop")
                     Text("""
-                        Clicking the green button expands the window to fill the screen \
+                        Clicking the green button expands the window to fill the desktop \
                         instead of entering full screen.
                         """)
                 }
 
                 Toggle(isOn: $windowTiling) {
                     Text("Window tiling")
-                    Text("Option-Arrow keys tile, fill, or restore windows.")
+                    Text("Option-arrow keys tile, fill, or return windows to their previous size.")
                 }
 
                 Toggle(isOn: $snapAssist) {
@@ -99,9 +99,9 @@ struct DesktopPane: View {
                 Toggle(isOn: $menuBarBg) {
                     Text("Dark menu bar")
                     if systemMenuBarBgOn {
-                        Text("Turn off “Show menu bar background” in Menu Bar settings to use this feature.")
+                        Text("Turn off “Show menu bar background” in System Settings to use this feature.")
                     } else {
-                        Text("A black bar appears behind the menu bar when a window fills the screen.")
+                        Text("A black bar appears behind the menu bar when a window fills the desktop.")
                     }
                 }
                 .disabled(systemMenuBarBgOn)
@@ -218,7 +218,7 @@ struct InputPane: View {
     @ViewBuilder
     private var cutPasteLabel: some View {
         Text("Cut and paste files in the Finder")
-        Text("Cut marks the selected files to be moved; Paste moves them to the current folder.")
+        Text("Cut marks the selected files to be moved. Paste moves them to the current folder.")
     }
 
     /// Same pattern as cutPasteLabel.
@@ -240,12 +240,12 @@ struct InputPane: View {
                 }
                 Toggle(isOn: $optDouble) {
                     Text("⌥⌥ → Apps")
-                    Text("Pressing Option twice opens the apps window in Spotlight.")
+                    Text("Pressing Option twice opens the Apps view in Spotlight.")
                 }
 
                 Toggle(isOn: $appGrid) {
                     Text("⌥A → Apps")
-                    Text("Option-A opens the apps window in Spotlight.")
+                    Text("Option-A opens the Apps view in Spotlight.")
                 }
 
                 Toggle(isOn: $dockShortcuts) {
@@ -257,13 +257,13 @@ struct InputPane: View {
                     ForEach(1...9, id: \.self) { Text(verbatim: "\($0)").tag($0) }
                 } label: {
                     Text("Finder position")
-                    Text("The Finder takes this position in the Dock; other apps shift to fill the gap.")
+                    Text("The Finder takes this position in the Dock. Other apps shift to fill the gap.")
                 }
                 // Inert while the parent feature is off — the position is
                 // only read on the ⌥1–9 path.
                 .disabled(!dockShortcuts)
             } header: {
-                Text("Option Key")
+                Text("Option key")
             }
 
             Section {
@@ -271,7 +271,7 @@ struct InputPane: View {
                     Text("Middle-click paste")
                     Text("""
                         A middle click pastes the selected text, or the contents of the \
-                        Clipboard if nothing is selected; middle-clicking an app icon \
+                        Clipboard if nothing is selected. Middle-clicking an app icon \
                         in the Dock opens a new window.
                         """)
                 }

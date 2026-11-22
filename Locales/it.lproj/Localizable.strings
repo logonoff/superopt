@@ -1,8 +1,8 @@
 /* No comment provided by engineer. */
-"A black bar appears behind the menu bar when a window fills the screen." = "Mostra una barra nera dietro la barra dei menu quando una finestra riempie lo schermo.";
+"A black bar appears behind the menu bar when a window fills the desktop." = "Mostra una barra nera dietro la barra dei menu quando una finestra riempie la scrivania.";
 
 /* No comment provided by engineer. */
-"A middle click pastes the selected text, or the contents of the Clipboard if nothing is selected; middle-clicking an app icon in the Dock opens a new window." = "Il clic centrale incolla il testo selezionato, o il contenuto degli Appunti se non c’è nulla di selezionato; un clic centrale sull’icona di un’app nel Dock apre invece una nuova finestra.";
+"A middle click pastes the selected text, or the contents of the Clipboard if nothing is selected. Middle-clicking an app icon in the Dock opens a new window." = "Il clic centrale incolla il testo selezionato, o il contenuto degli Appunti se non c’è nulla di selezionato; un clic centrale sull’icona di un’app nel Dock apre invece una nuova finestra.";
 
 /* Menu item to show about panel */
 "About SuperOpt" = "Informazioni su SuperOpt";
@@ -74,7 +74,7 @@
 "Clicking an inactive window brings it to the front and passes the click through to the item under the pointer." = "Se fai clic su una finestra inattiva, viene portata in primo piano e il clic passa all’elemento sotto il puntatore.";
 
 /* No comment provided by engineer. */
-"Clicking the green button expands the window to fill the screen instead of entering full screen." = "Se fai clic sul pulsante verde, la finestra si espande per riempire lo schermo invece di passare alla modalità a tutto schermo.";
+"Clicking the green button expands the window to fill the desktop instead of entering full screen." = "Se fai clic sul pulsante verde, la finestra si espande per riempire la scrivania invece di passare alla modalità a tutto schermo.";
 
 /* No comment provided by engineer. */
 "Close buttons appear on windows in Mission Control." = "Mostra pulsanti di chiusura sulle finestre in Mission Control.";
@@ -92,7 +92,7 @@
 "Code Editors" = "Editor di codice";
 
 /* No comment provided by engineer. */
-"Command Palette" = "Riquadro comandi";
+"Command Palette" = "Tavolozza comandi";
 
 /* No comment provided by engineer. */
 "Comment or Uncomment" = "Commenta o decommenta";
@@ -119,7 +119,7 @@
 "Cut and paste files in the Finder" = "Taglia e incolla i file nel Finder";
 
 /* No comment provided by engineer. */
-"Cut marks the selected files to be moved; Paste moves them to the current folder." = "Il comando Taglia contrassegna i file selezionati per lo spostamento; il comando Incolla li sposta nella cartella corrente.";
+"Cut marks the selected files to be moved. Paste moves them to the current folder." = "Il comando Taglia contrassegna i file selezionati per lo spostamento; il comando Incolla li sposta nella cartella corrente.";
 
 /* No comment provided by engineer. */
 "Dark menu bar" = "Barra dei menu scura";
@@ -197,7 +197,7 @@
 "GitHub" = "GitHub";
 
 /* No comment provided by engineer. */
-"Green button fills the screen" = "Il pulsante verde riempie lo schermo";
+"Green button fills the desktop" = "Il pulsante verde riempie la scrivania";
 
 /* No comment provided by engineer. */
 "Home and End" = "Inizio e Fine";
@@ -290,25 +290,25 @@
 "Open at Login" = "Apri al login";
 
 /* Button to open Accessibility settings */
-"Open Device Control and Data Access Settings" = "Apri le impostazioni di Controllo del dispositivo e accesso ai dati";
+"Open Device Control and Data Access settings" = "Apri le impostazioni di Controllo del dispositivo e accesso ai dati";
 
 /* Button to open Input Monitoring settings */
-"Open Input Monitoring Settings" = "Apri le impostazioni di Monitoraggio input";
+"Open Input Monitoring settings" = "Apri le impostazioni di Monitoraggio input";
 
 /* Button to open login items settings */
-"Open Login Items & Extensions Settings" = "Apri le impostazioni di Elementi login ed estensioni";
+"Open Login Items & Extensions settings" = "Apri le impostazioni di Elementi login ed estensioni";
 
 /* No comment provided by engineer. */
-"Option Key" = "Tasto Opzione";
+"Option key" = "Tasto Opzione";
 
 /* No comment provided by engineer. */
 "Option-1 through Option-9 open the corresponding app in the Dock." = "I tasti da Opzione-1 a Opzione-9 aprono l’app corrispondente nel Dock.";
 
 /* No comment provided by engineer. */
-"Option-A opens the apps window in Spotlight." = "Opzione-A apre la finestra delle app di Spotlight.";
+"Option-A opens the Apps view in Spotlight." = "Opzione-A apre la vista App di Spotlight.";
 
 /* No comment provided by engineer. */
-"Option-Arrow keys tile, fill, or restore windows." = "Con i tasti Opzione-Freccia puoi disporre le finestre a mosaico, riempire lo schermo o ripristinarle.";
+"Option-arrow keys tile, fill, or return windows to their previous size." = "Con i tasti Opzione-Freccia puoi disporre le finestre a mosaico, riempirle o riportarle alle dimensioni precedenti.";
 
 /* No comment provided by engineer. */
 "Outdent" = "Riduci rientro";
@@ -323,7 +323,7 @@
 "Permissions Required" = "Permessi necessari";
 
 /* No comment provided by engineer. */
-"Pressing Option twice opens the apps window in Spotlight." = "Premendo il tasto Opzione due volte si apre la finestra delle app di Spotlight.";
+"Pressing Option twice opens the Apps view in Spotlight." = "Premendo il tasto Opzione due volte si apre la vista App di Spotlight.";
 
 /* No comment provided by engineer. */
 "Pressing the Option key opens Mission Control." = "Premendo il tasto Opzione si apre Mission Control.";
@@ -368,7 +368,7 @@
 "Scroll to zoom in browsers" = "Scorri per ingrandire e ridurre le pagine nei browser";
 
 /* No comment provided by engineer. */
-"Scrolling over the Apple menu switches that display to the next or previous space." = "Se scorri mentre il puntatore si trova sul menu Apple, quello schermo passa allo spazio successivo o precedente.";
+"Scrolling over the Apple menu moves that display to the next or previous space." = "Se scorri mentre il puntatore si trova sul menu Apple, quello schermo passa allo spazio successivo o precedente.";
 
 /* No comment provided by engineer. */
 "Select All" = "Seleziona tutto";
@@ -434,7 +434,7 @@
 "Text Editing" = "Modifica del testo";
 
 /* No comment provided by engineer. */
-"The Finder takes this position in the Dock; other apps shift to fill the gap." = "Il Finder occupa questa posizione nel Dock; le altre app si spostano per colmare il vuoto.";
+"The Finder takes this position in the Dock. Other apps shift to fill the gap." = "Il Finder occupa questa posizione nel Dock; le altre app si spostano per colmare il vuoto.";
 
 /* No comment provided by engineer. */
 "The Home and End keys move the insertion point to the beginning or end of the line; Control-Home and Control-End move it to the beginning or end of the document." = "I tasti Inizio e Fine spostano il punto di inserimento all’inizio o alla fine della riga; Ctrl-Inizio e Ctrl-Fine lo spostano all’inizio o alla fine del documento.";
@@ -455,7 +455,7 @@
 "Turn off SuperOpt in these apps" = "Disattiva SuperOpt in queste app";
 
 /* No comment provided by engineer. */
-"Turn off “Show menu bar background” in Menu Bar settings to use this feature." = "Per usare questa funzione, disattiva “Mostra sfondo barra dei menu” nelle impostazioni “Barra dei menu”.";
+"Turn off “Show menu bar background” in System Settings to use this feature." = "Per usare questa funzione, disattiva “Mostra sfondo barra dei menu” in Impostazioni di Sistema.";
 
 /* No comment provided by engineer. */
 "Type to search in Mission Control" = "Digita per cercare in Mission Control";
@@ -488,7 +488,7 @@
 "While you’re using an app in this list, SuperOpt turns off every feature and dims its own menu bar icon." = "Mentre usi un’app di questo elenco, SuperOpt disattiva tutte le funzionalità e attenua la propria icona nella barra dei menu.";
 
 /* No comment provided by engineer. */
-"Window tiling" = "Disposizione a mosaico delle finestre";
+"Window tiling" = "Mosaico finestre";
 
 /* No comment provided by engineer. */
 "Windows" = "Finestre";

@@ -1,8 +1,8 @@
 /* No comment provided by engineer. */
-"A black bar appears behind the menu bar when a window fills the screen." = "За строкой меню появляется черная полоса, когда окно заполняет экран.";
+"A black bar appears behind the menu bar when a window fills the desktop." = "За строкой меню появляется черная полоса, когда окно заполняет Рабочий стол.";
 
 /* No comment provided by engineer. */
-"A middle click pastes the selected text, or the contents of the Clipboard if nothing is selected; middle-clicking an app icon in the Dock opens a new window." = "Нажатие средней кнопки мыши вставляет выделенный текст, а если ничего не выделено — содержимое буфера обмена; нажатие средней кнопки мыши на значок приложения в Dock открывает новое окно.";
+"A middle click pastes the selected text, or the contents of the Clipboard if nothing is selected. Middle-clicking an app icon in the Dock opens a new window." = "Нажатие средней кнопки мыши вставляет выделенный текст, а если ничего не выделено — содержимое буфера обмена; нажатие средней кнопки мыши на значок приложения в Dock открывает новое окно.";
 
 /* Menu item to show about panel */
 "About SuperOpt" = "О приложении SuperOpt";
@@ -74,7 +74,7 @@
 "Clicking an inactive window brings it to the front and passes the click through to the item under the pointer." = "Нажатие на неактивное окно выводит его на передний план и одновременно передается элементу под указателем.";
 
 /* No comment provided by engineer. */
-"Clicking the green button expands the window to fill the screen instead of entering full screen." = "Нажатие зеленой кнопки заполняет экран окном вместо перехода в полноэкранный режим.";
+"Clicking the green button expands the window to fill the desktop instead of entering full screen." = "Нажатие зеленой кнопки разворачивает окно на весь Рабочий стол вместо перехода в полноэкранный режим.";
 
 /* No comment provided by engineer. */
 "Close buttons appear on windows in Mission Control." = "На окнах в Mission Control появляются кнопки закрытия.";
@@ -119,7 +119,7 @@
 "Cut and paste files in the Finder" = "Вырезание и вставка файлов в Finder";
 
 /* No comment provided by engineer. */
-"Cut marks the selected files to be moved; Paste moves them to the current folder." = "«Вырезать» помечает выделенные файлы для перемещения; «Вставить» перемещает их в текущую папку.";
+"Cut marks the selected files to be moved. Paste moves them to the current folder." = "«Вырезать» помечает выделенные файлы для перемещения; «Вставить» перемещает их в текущую папку.";
 
 /* No comment provided by engineer. */
 "Dark menu bar" = "Темная строка меню";
@@ -197,7 +197,7 @@
 "GitHub" = "GitHub";
 
 /* No comment provided by engineer. */
-"Green button fills the screen" = "Заполнение экрана при нажатии зеленой кнопки";
+"Green button fills the desktop" = "Заполнение Рабочего стола при нажатии зеленой кнопки";
 
 /* No comment provided by engineer. */
 "Home and End" = "Home и End";
@@ -290,25 +290,25 @@
 "Open at Login" = "Открывать при входе";
 
 /* Button to open Accessibility settings */
-"Open Device Control and Data Access Settings" = "Открыть раздел «Управление устройством и доступ к данным»";
+"Open Device Control and Data Access settings" = "Открыть раздел «Управление устройством и доступ к данным»";
 
 /* Button to open Input Monitoring settings */
-"Open Input Monitoring Settings" = "Открыть раздел «Мониторинг ввода»";
+"Open Input Monitoring settings" = "Открыть раздел «Мониторинг ввода»";
 
 /* Button to open login items settings */
-"Open Login Items & Extensions Settings" = "Открыть раздел «Объекты входа и расширения»";
+"Open Login Items & Extensions settings" = "Открыть раздел «Объекты входа и расширения»";
 
 /* No comment provided by engineer. */
-"Option Key" = "Клавиша Option";
+"Option key" = "Клавиша Option";
 
 /* No comment provided by engineer. */
 "Option-1 through Option-9 open the corresponding app in the Dock." = "Сочетания с Option-1 по Option-9 открывают соответствующие приложения в Dock.";
 
 /* No comment provided by engineer. */
-"Option-A opens the apps window in Spotlight." = "Option-A открывает окно приложений в Spotlight.";
+"Option-A opens the Apps view in Spotlight." = "Option-A открывает раздел «Приложения» в Spotlight.";
 
 /* No comment provided by engineer. */
-"Option-Arrow keys tile, fill, or restore windows." = "Сочетания Option со стрелками позволяют создавать окна-плитки, заполнять экран или возвращать окна к предыдущему размеру.";
+"Option-arrow keys tile, fill, or return windows to their previous size." = "Сочетания Option со стрелками помещают окна в половину экрана, заполняют экран или возвращают окна к предыдущему размеру.";
 
 /* No comment provided by engineer. */
 "Outdent" = "Уменьшить отступ";
@@ -323,7 +323,7 @@
 "Permissions Required" = "Требуются разрешения";
 
 /* No comment provided by engineer. */
-"Pressing Option twice opens the apps window in Spotlight." = "Двойное нажатие клавиши Option открывает окно приложений в Spotlight.";
+"Pressing Option twice opens the Apps view in Spotlight." = "Двойное нажатие клавиши Option открывает раздел «Приложения» в Spotlight.";
 
 /* No comment provided by engineer. */
 "Pressing the Option key opens Mission Control." = "Нажатие клавиши Option открывает Mission Control.";
@@ -368,7 +368,7 @@
 "Scroll to zoom in browsers" = "Масштабирование прокруткой в браузерах";
 
 /* No comment provided by engineer. */
-"Scrolling over the Apple menu switches that display to the next or previous space." = "Прокрутка над меню Apple переключает этот дисплей на следующее или предыдущее пространство.";
+"Scrolling over the Apple menu moves that display to the next or previous space." = "Прокрутка над меню Apple переключает этот дисплей на следующее или предыдущее пространство.";
 
 /* No comment provided by engineer. */
 "Select All" = "Выбрать все";
@@ -410,7 +410,7 @@
 "Space indicator" = "Индикатор пространств";
 
 /* No comment provided by engineer. */
-"Spaces" = "Пространства";
+"Spaces" = "Spaces";
 
 /* No comment provided by engineer. */
 "Spotlight" = "Spotlight";
@@ -419,7 +419,7 @@
 "SuperOpt already has the permissions it needs." = "У SuperOpt уже есть все необходимые разрешения.";
 
 /* Alert body for missing permissions — %@ is the list of missing permissions; shared by both permission alerts, so it can't name a specific button */
-"SuperOpt needs the following:\n\n%@\n\nGrant access in Privacy & Security settings." = "Для SuperOpt требуется следующее:\n\n%@\n\nПредоставьте доступ в разделе «Конфиденциальность и безопасность».";
+"SuperOpt needs the following:\n\n%@\n\nGrant access in Privacy & Security settings." = "Для SuperOpt требуется следующее:\n\n%@\n\nПредоставьте доступ в разделе настроек «Конфиденциальность и безопасность».";
 
 /* Category hint */
 "Tab and window management" = "Управление вкладками и окнами";
@@ -434,7 +434,7 @@
 "Text Editing" = "Редактирование текста";
 
 /* No comment provided by engineer. */
-"The Finder takes this position in the Dock; other apps shift to fill the gap." = "Finder занимает эту позицию в Dock, а остальные приложения сдвигаются, заполняя освободившееся место.";
+"The Finder takes this position in the Dock. Other apps shift to fill the gap." = "Finder занимает эту позицию в Dock, а остальные приложения сдвигаются, заполняя освободившееся место.";
 
 /* No comment provided by engineer. */
 "The Home and End keys move the insertion point to the beginning or end of the line; Control-Home and Control-End move it to the beginning or end of the document." = "Клавиши Home и End перемещают точку вставки в начало или конец строки; Control-Home и Control-End — в начало или конец документа.";
@@ -455,7 +455,7 @@
 "Turn off SuperOpt in these apps" = "Отключать SuperOpt в этих приложениях";
 
 /* No comment provided by engineer. */
-"Turn off “Show menu bar background” in Menu Bar settings to use this feature." = "Выключите параметр «Показывать фон строки меню» в разделе «Строка меню», чтобы использовать эту функцию.";
+"Turn off “Show menu bar background” in System Settings to use this feature." = "Выключите параметр «Показывать фон строки меню» в «Системных настройках», чтобы использовать эту функцию.";
 
 /* No comment provided by engineer. */
 "Type to search in Mission Control" = "Ввод текста для поиска в Mission Control";
@@ -479,7 +479,7 @@
 "View Source" = "Показать исходный код";
 
 /* No comment provided by engineer. */
-"When you tile a window to the left or right, SuperOpt suggests windows to fill the other half." = "Когда Вы создаете окно-плитку в левой или правой половине экрана, SuperOpt предлагает окна для заполнения другой половины.";
+"When you tile a window to the left or right, SuperOpt suggests windows to fill the other half." = "Когда Вы помещаете окно в левую или правую половину экрана, SuperOpt предлагает окна для заполнения другой половины.";
 
 /* No comment provided by engineer. */
 "While you’re in Mission Control, SuperOpt keeps one desktop empty and removes other empty desktops." = "Пока открыт Mission Control, SuperOpt оставляет один Рабочий стол пустым и удаляет остальные пустые Рабочие столы.";
@@ -497,7 +497,7 @@
 "Word-level editing and text formatting" = "Редактирование на уровне слов и форматирование текста";
 
 /* Alert body directing user to login items settings */
-"You can manage login items in Login Items & Extensions settings." = "Управлять объектами входа можно в разделе «Объекты входа и расширения».";
+"You can manage login items in Login Items & Extensions settings." = "Управлять объектами входа можно в разделе настроек «Объекты входа и расширения».";
 
 /* Category hint */
 "Zoom and full screen" = "Масштабирование и полноэкранный режим";

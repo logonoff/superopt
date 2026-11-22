@@ -23,11 +23,11 @@ class PermissionHelper {
         "x-apple.systempreferences:com.apple.preference.security?Privacy_ListenEvent"
 
     private static var openAccessibilityTitle: String {
-        NSLocalizedString("Open Device Control and Data Access Settings",
+        NSLocalizedString("Open Device Control and Data Access settings",
                           comment: "Button to open Accessibility settings")
     }
     private static var openInputMonitoringTitle: String {
-        NSLocalizedString("Open Input Monitoring Settings", comment: "Button to open Input Monitoring settings")
+        NSLocalizedString("Open Input Monitoring settings", comment: "Button to open Input Monitoring settings")
     }
     private static var permissionsRequiredTitle: String {
         NSLocalizedString("Permissions Required", comment: "Alert title for missing permissions")

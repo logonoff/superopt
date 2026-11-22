@@ -7,9 +7,9 @@
 [![WTFPL](http://www.wtfpl.net/wp-content/uploads/2012/12/wtfpl-badge-4.png)](http://www.wtfpl.net/)
 
 > [!WARNING]
-> Much of this code was written with AI assistance and has not been thoroughly reviewed. Use at your own risk.
+> Much of this code was written with AI assistance and hasn’t been thoroughly reviewed. Use at your own risk.
 
-A macOS menu bar app that brings GNOME desktop muscle memory to the Mac. Requires macOS 27 Golden Gate or later.
+A macOS menu bar app that brings GNOME desktop muscle memory to Mac. Requires macOS 27 Golden Gate or later.
 
 ## Install
 
@@ -43,15 +43,15 @@ The code-signing public key is available at [`codesign.pem`](https://logonoff.gi
 
 ## Features
 
-Features are on by default unless noted otherwise.
+Features are turned on by default unless otherwise noted.
 
 ### Option key shortcuts
 
 | Shortcut | Action |
 |---|---|
-| ⌥ | Enter or leave Mission Control |
-| ⌥ twice | Show or hide the apps window in Spotlight |
-| ⌥A | Show or hide the apps window in Spotlight |
+| ⌥ | Open or close Mission Control |
+| ⌥ twice | Show or hide the Apps view in Spotlight |
+| ⌥A | Show or hide the Apps view in Spotlight |
 | ⌥1–9 | Open the app at that position in the Dock |
 
 ### Desktop
@@ -59,12 +59,12 @@ Features are on by default unless noted otherwise.
 | Feature | Description |
 |---|---|
 | Hot corner | Quickly moving the pointer to the top-left corner of any screen opens Mission Control (with a GNOME-style ripple animation) |
-| Window tiling | The Option-Arrow keys tile, fill, or restore windows (off by default) |
-| Green button fills the screen | Clicking the green button expands the window to fill the screen instead of entering full screen (off by default) |
+| Window tiling | The Option-arrow keys tile, fill, or return windows to their previous size (off by default) |
+| Green button fills the desktop | Clicking the green button expands the window to fill the desktop instead of entering full screen (off by default) |
 | Close windows in Mission Control | A close button appears when you hold the pointer over a window in Mission Control |
-| Type to search in Mission Control | Typing in Mission Control closes it and sends what you typed to Spotlight or the apps window (off by default) |
+| Type to search in Mission Control | Typing in Mission Control closes it and sends what you typed to Spotlight or the Apps view (off by default) |
 | Tile assist | When you tile a window to the left or right, SuperOpt suggests windows to fill the other half (off by default) |
-| Dark menu bar | A black bar appears behind the menu bar when a window fills the screen (off by default) |
+| Dark menu bar | A black bar appears behind the menu bar when a window fills the desktop (off by default) |
 | Scroll to switch spaces | Scrolling over a display’s Apple menu switches that display to the next or previous space (off by default) |
 | Dynamic Spaces | While you’re in Mission Control, SuperOpt keeps one desktop empty and removes other empty desktops (off by default) |
 | Space indicator | An onscreen row of dots appears when a display switches spaces (off by default) |
@@ -89,7 +89,7 @@ Features are on by default unless noted otherwise.
 
 You can turn each feature on or off in SuperOpt settings, which you open by clicking the SuperOpt icon in the menu bar and choosing Settings. SuperOpt detects the Option key when you release it, so existing shortcuts are unaffected.
 
-While you’re using an app in the Excluded Apps list, SuperOpt turns off every feature and dims its own menu bar icon, so the app behaves as it would without SuperOpt. Excluded Apps is off by default.
+While you’re using an app in the Excluded Apps list, SuperOpt turns off every feature and dims its own menu bar icon, so the app behaves as it would without SuperOpt. Excluded Apps is turned off by default.
 
 ## Build
 
