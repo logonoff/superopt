@@ -163,13 +163,32 @@ class MissionControlCloseHandler {
         // the last 4 Hz refresh, so a tight margin would drop hover exactly
         // during animations — and the live read is still only paid for
         // entries the pointer is plausibly on.
-        let hitWID = windowRects.first(where: { entry in
+        //
+        // Two passes: a thumbnail the pointer is on outranks a neighbouring
+        // button's padding band, which reaches past its own thumbnail's
+        // corner and could otherwise steal a pointer sitting on the
+        // neighbour. Only with no thumbnail under the pointer does the band
+        // count — the button's outer half, which the click path tests too.
+        func near(_ entry: WindowEntry) -> Bool {
             entry.rect.insetBy(dx: -Self.hoverPrefilter, dy: -Self.hoverPrefilter).contains(loc)
-                && hoverRect(for: entry).contains(loc)
+        }
+        var matchedRect = CGRect.zero
+        let hitWID = windowRects.first(where: { entry in
+            guard near(entry) else { return false }
+            let rect = hoverRect(for: entry)
+            guard rect.contains(loc) else { return false }
+            matchedRect = rect
+            return true
+        })?.wid ?? windowRects.first(where: { entry in
+            guard near(entry) else { return false }
+            let rect = hoverRect(for: entry)
+            guard hitTestCGRect(for: rect).contains(loc) else { return false }
+            matchedRect = rect
+            return true
         })?.wid ?? 0
         var overButton = false
-        if hitWID != 0, let entry = windowRects.first(where: { $0.wid == hitWID }) {
-            overButton = hitTestCGRect(for: hoverRect(for: entry)).contains(loc)
+        if hitWID != 0 {
+            overButton = hitTestCGRect(for: matchedRect).contains(loc)
         }
         let changed = hitWID != hoveredWID || overButton != buttonHovered
         if hitWID == 0 {
