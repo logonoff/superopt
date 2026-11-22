@@ -140,7 +140,14 @@ final class SpaceScrollHandler {
     /// the accessibility query below off the common path.
     private func menuBarScreen(under location: CGPoint) -> NSScreen? {
         let point = KeyboardUtils.cgRectToNS(CGRect(origin: location, size: .zero)).origin
-        return NSScreen.screens.first { screen in
+        // With "Displays have separate Spaces" off, only the main display has
+        // a menu bar — the top strip of the others is ordinary screen space,
+        // and treating it as a scrollable Apple menu would consume scrolls
+        // aimed at window toolbars and switch spaces with no menu involved.
+        let screens = NSScreen.screens
+        let candidates = NSScreen.screensHaveSeparateSpaces
+            ? screens : Array(screens.prefix(1))
+        return candidates.first { screen in
             let menuBarHeight = max(
                 screen.frame.maxY - screen.visibleFrame.maxY, Self.hiddenMenuBarHeight)
             return point.y > screen.frame.maxY - menuBarHeight
