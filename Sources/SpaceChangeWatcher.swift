@@ -35,6 +35,9 @@ final class SpaceChangeWatcher {
 
     private func report() {
         let displays = SpaceSwitcher.displays()
+        // An empty list is a failed WindowServer read, not a reading — a
+        // running Mac always has at least one display — so no baseline moves.
+        guard !displays.isEmpty else { return }
         var present: Set<String> = []
         for display in displays {
             present.insert(display.identifier)
