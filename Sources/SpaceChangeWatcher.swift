@@ -34,7 +34,10 @@ final class SpaceChangeWatcher {
     }
 
     private func report() {
-        for display in SpaceSwitcher.displays() {
+        let displays = SpaceSwitcher.displays()
+        var present: Set<String> = []
+        for display in displays {
+            present.insert(display.identifier)
             guard display.currentIndex < display.spaceIDs.count else { continue }
             let current = display.spaceIDs[display.currentIndex]
             guard let previous = lastCurrent[display.identifier] else {
@@ -49,6 +52,12 @@ final class SpaceChangeWatcher {
             lastCurrent[display.identifier] = current
             onChange?(display, SpaceSwitcher.screens(showing: display))
         }
+        // A display absent from this reading loses its baseline, so one that
+        // reconnects is a first sighting again rather than a change from
+        // whatever space it showed before it went away. Displays merely
+        // carrying an out-of-range index keep theirs — that read is
+        // transient, not an absence.
+        lastCurrent = lastCurrent.filter { present.contains($0.key) }
     }
 
     private func currentSpaces() -> [String: UInt64] {
