@@ -149,6 +149,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             // Dismiss it with its feature: left up, it keeps its timers to
             // the 5 s timeout. The exclusion path relies on this branch too.
             snapAssistPanel?.dismiss()
+            // An arrange press still waiting on its app to activate is
+            // synthetic input in flight — abandoned rather than delivered
+            // while the feature is off, the middle-click paste's rule.
+            SnapAssistPanel.cancelPendingTileActions()
         }
         if isEnabled("spaceIndicatorEnabled") {
             spaceChangeWatcher.start()
