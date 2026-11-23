@@ -38,7 +38,7 @@
 "An onscreen indicator appears when you turn Caps Lock on or off." = "Aparece un indicador en pantalla cuando activas o desactivas el bloqueo de mayúsculas.";
 
 /* No comment provided by engineer. */
-"An onscreen row of dots appears when a display switches spaces." = "Aparece una fila de puntos en la pantalla cuando esta cambia de espacio.";
+"An onscreen row of dots appears when a display switches spaces." = "Cuando una pantalla cambia de espacio, aparece en ella una fila de puntos.";
 
 /* No comment provided by engineer. */
 "Apps" = "Apps";
@@ -59,10 +59,10 @@
 "Caps Lock indicator" = "Indicador de bloqueo de mayúsculas";
 
 /* OSD text when Caps Lock is turned off */
-"Caps Lock Off" = "Bloqueo Mayúsculas desactivado";
+"Caps Lock Off" = "Bloqueo de mayúsculas desactivado";
 
 /* OSD text when Caps Lock is turned on */
-"Caps Lock On" = "Bloqueo Mayúsculas activado";
+"Caps Lock On" = "Bloqueo de mayúsculas activado";
 
 /* No comment provided by engineer. */
 "Clear Browsing Data" = "Borrar datos de navegación";
@@ -212,7 +212,7 @@
 "Input" = "Entrada";
 
 /* Permission name */
-"Input Monitoring" = "Monitorización de los dispositivos de entrada";
+"Input Monitoring" = "Monitorización de entrada";
 
 /* No comment provided by engineer. */
 "Insert Line Above" = "Insertar línea encima";
@@ -293,7 +293,7 @@
 "Open Device Control and Data Access settings" = "Abrir los ajustes de “Control de dispositivos y acceso a datos”";
 
 /* Button to open Input Monitoring settings */
-"Open Input Monitoring settings" = "Abrir los ajustes de “Monitorización de los dispositivos de entrada”";
+"Open Input Monitoring settings" = "Abrir los ajustes de “Monitorización de entrada”";
 
 /* Button to open login items settings */
 "Open Login Items & Extensions settings" = "Abrir los ajustes de “Ítems de inicio y extensiones”";
@@ -308,7 +308,7 @@
 "Option-A opens the Apps view in Spotlight." = "Opción-A abre la vista de apps de Spotlight.";
 
 /* No comment provided by engineer. */
-"Option-arrow keys tile, fill, or return windows to their previous size." = "Las teclas de flecha con la tecla Opción permiten disponer las ventanas en mosaico, rellenarlas o volver al tamaño anterior.";
+"Option-arrow keys tile, fill, or return windows to their previous size." = "Las teclas de flecha con la tecla Opción permiten disponer las ventanas en mosaico, rellenarlas o devolverlas a su tamaño anterior.";
 
 /* No comment provided by engineer. */
 "Outdent" = "Reducir sangría";
@@ -479,7 +479,7 @@
 "View Source" = "Ver código fuente";
 
 /* No comment provided by engineer. */
-"When you tile a window to the left or right, SuperOpt suggests windows to fill the other half." = "Cuando ajustas una ventana a la mitad izquierda o derecha, SuperOpt sugiere ventanas para rellenar la otra mitad.";
+"When you tile a window to the left or right, SuperOpt suggests windows to fill the other half." = "Cuando dispones una ventana en mosaico a la izquierda o a la derecha, SuperOpt sugiere ventanas para rellenar la otra mitad.";
 
 /* No comment provided by engineer. */
 "While you’re in Mission Control, SuperOpt keeps one desktop empty and removes other empty desktops." = "Mientras estás en Mission Control, SuperOpt mantiene un escritorio vacío y elimina los demás escritorios vacíos.";

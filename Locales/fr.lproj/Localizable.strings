@@ -401,7 +401,7 @@
 "Show History" = "Afficher l’historique";
 
 /* No comment provided by engineer. */
-"Show or Hide Bookmarks Bar" = "Afficher ou masquer la barre des Favoris";
+"Show or Hide Bookmarks Bar" = "Afficher ou masquer la barre des signets";
 
 /* Spoken when the space changes */
 "Space %1$d of %2$d" = "Space %1$d sur %2$d";
@@ -455,7 +455,7 @@
 "Turn off SuperOpt in these apps" = "Désactiver SuperOpt dans ces apps";
 
 /* No comment provided by engineer. */
-"Turn off “Show menu bar background” in System Settings to use this feature." = "Désactivez « Afficher l’arrière-plan de la barre des menus » dans les réglages « Barre des menus » pour utiliser cette fonctionnalité.";
+"Turn off “Show menu bar background” in System Settings to use this feature." = "Désactivez « Afficher l’arrière-plan de la barre des menus » dans Réglages Système > Barre des menus pour utiliser cette fonctionnalité.";
 
 /* No comment provided by engineer. */
 "Type to search in Mission Control" = "Saisir pour rechercher dans Mission Control";

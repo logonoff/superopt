@@ -38,7 +38,7 @@
 "An onscreen indicator appears when you turn Caps Lock on or off." = "Mostra um indicador na tela quando você ativa ou desativa o Caps Lock.";
 
 /* No comment provided by engineer. */
-"An onscreen row of dots appears when a display switches spaces." = "Mostra uma fileira de pontos quando uma tela muda de mesa.";
+"An onscreen row of dots appears when a display switches spaces." = "Mostra uma fileira de pontos quando uma tela muda de espaço.";
 
 /* No comment provided by engineer. */
 "Apps" = "Apps";
@@ -53,7 +53,7 @@
 "Cancel" = "Cancelar";
 
 /* Alert title when login item registration fails */
-"Can’t Update Login Item" = "Não foi possível atualizar o Item de Início de Sessão";
+"Can’t Update Login Item" = "Não foi possível atualizar o item de início de sessão";
 
 /* No comment provided by engineer. */
 "Caps Lock indicator" = "Indicador de Caps Lock";
@@ -71,7 +71,7 @@
 "Click-through focus" = "Foco no primeiro clique";
 
 /* No comment provided by engineer. */
-"Clicking an inactive window brings it to the front and passes the click through to the item under the pointer." = "Clicar em uma janela inativa a traz para a frente e repassa o clique ao item sob o cursor.";
+"Clicking an inactive window brings it to the front and passes the click through to the item under the pointer." = "Clicar em uma janela inativa a traz para a frente e repassa o clique ao item sob o ponteiro.";
 
 /* No comment provided by engineer. */
 "Clicking the green button expands the window to fill the desktop instead of entering full screen." = "Clicar no botão verde expande a janela para preencher a mesa em vez de entrar em tela cheia.";
@@ -119,7 +119,7 @@
 "Cut and paste files in the Finder" = "Cortar e colar arquivos no Finder";
 
 /* No comment provided by engineer. */
-"Cut marks the selected files to be moved. Paste moves them to the current folder." = "Cortar marca os arquivos selecionados para serem movidos; Colar move esses arquivos para a pasta atual.";
+"Cut marks the selected files to be moved. Paste moves them to the current folder." = "Cortar marca os arquivos selecionados para serem movidos; colar move esses arquivos para a pasta atual.";
 
 /* No comment provided by engineer. */
 "Dark menu bar" = "Barra de menus escura";
@@ -260,7 +260,7 @@
 "Move Word Right" = "Mover Palavra à Direita";
 
 /* No comment provided by engineer. */
-"Moving the pointer to the top-left corner of any screen opens Mission Control." = "Mover o cursor para o canto superior esquerdo de qualquer tela abre o Mission Control.";
+"Moving the pointer to the top-left corner of any screen opens Mission Control." = "Mover o ponteiro para o canto superior esquerdo de qualquer tela abre o Mission Control.";
 
 /* No comment provided by engineer. */
 "Natural" = "Natural";
@@ -302,13 +302,13 @@
 "Option key" = "Tecla Option";
 
 /* No comment provided by engineer. */
-"Option-1 through Option-9 open the corresponding app in the Dock." = "Option + 1 até Option + 9 abrem o app correspondente no Dock.";
+"Option-1 through Option-9 open the corresponding app in the Dock." = "As combinações Option + 1 a Option + 9 abrem o app correspondente no Dock.";
 
 /* No comment provided by engineer. */
 "Option-A opens the Apps view in Spotlight." = "Option + A abre a visualização de Apps do Spotlight.";
 
 /* No comment provided by engineer. */
-"Option-arrow keys tile, fill, or return windows to their previous size." = "As teclas Option + seta organizam as janelas em mosaico, preenchem a tela ou restauram o tamanho anterior.";
+"Option-arrow keys tile, fill, or return windows to their previous size." = "As teclas Option + seta organizam as janelas em mosaico, preenchem a mesa ou restauram o tamanho anterior.";
 
 /* No comment provided by engineer. */
 "Outdent" = "Diminuir Recuo";
@@ -368,7 +368,7 @@
 "Scroll to zoom in browsers" = "Rolar para ampliar ou reduzir o zoom em navegadores";
 
 /* No comment provided by engineer. */
-"Scrolling over the Apple menu moves that display to the next or previous space." = "Rolar sobre o menu Apple muda essa tela para a mesa seguinte ou anterior.";
+"Scrolling over the Apple menu moves that display to the next or previous space." = "Rolar sobre o menu Apple muda essa tela para o espaço seguinte ou anterior.";
 
 /* No comment provided by engineer. */
 "Select All" = "Selecionar Tudo";
@@ -404,7 +404,7 @@
 "Show or Hide Bookmarks Bar" = "Mostrar ou Ocultar Barra de Favoritos";
 
 /* Spoken when the space changes */
-"Space %1$d of %2$d" = "Mesa %1$d de %2$d";
+"Space %1$d of %2$d" = "Espaço %1$d de %2$d";
 
 /* No comment provided by engineer. */
 "Space indicator" = "Indicador de Spaces";
@@ -440,7 +440,7 @@
 "The Home and End keys move the insertion point to the beginning or end of the line; Control-Home and Control-End move it to the beginning or end of the document." = "As teclas Home e End movem o ponto de inserção para o início ou o final da linha; Control + Home e Control + End o movem para o início ou o final do documento.";
 
 /* No comment provided by engineer. */
-"The Menu key on Windows keyboards opens a shortcut menu." = "A tecla Menu em teclados feitos para PCs com Windows abre um menu de atalho.";
+"The Menu key on Windows keyboards opens a shortcut menu." = "A tecla Menu em teclados Windows abre um menu de atalho.";
 
 /* No comment provided by engineer. */
 "Tile assist" = "Assistente de mosaico";

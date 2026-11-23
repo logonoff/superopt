@@ -65,7 +65,7 @@
 "Caps Lock On" = "Caps Lock 켜짐";
 
 /* No comment provided by engineer. */
-"Clear Browsing Data" = "방문 기록 지우기";
+"Clear Browsing Data" = "인터넷 사용 기록 삭제";
 
 /* No comment provided by engineer. */
 "Click-through focus" = "클릭 전달 포커스";
@@ -266,7 +266,7 @@
 "Natural" = "자연스러운 스크롤";
 
 /* No comment provided by engineer. */
-"New" = "신규";
+"New" = "새로 만들기";
 
 /* No comment provided by engineer. */
 "New Private Window" = "새로운 개인정보 보호 윈도우";
@@ -278,7 +278,7 @@
 "New Window" = "새로운 윈도우";
 
 /* Category hint */
-"New, Save, Print, and Quit" = "신규, 저장, 프린트 및 종료";
+"New, Save, Print, and Quit" = "새로 만들기, 저장, 프린트 및 종료";
 
 /* Shown in place of an empty list of apps */
 "No apps are excluded." = "제외된 앱이 없습니다.";

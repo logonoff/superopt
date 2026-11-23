@@ -53,7 +53,7 @@
 "Cancel" = "Annulla";
 
 /* Alert title when login item registration fails */
-"Can’t Update Login Item" = "Impossibile aggiornare l’elemento login";
+"Can’t Update Login Item" = "Impossibile aggiornare l’elemento di login";
 
 /* No comment provided by engineer. */
 "Caps Lock indicator" = "Indicatore Blocco maiuscole";
@@ -80,7 +80,7 @@
 "Close buttons appear on windows in Mission Control." = "Mostra pulsanti di chiusura sulle finestre in Mission Control.";
 
 /* No comment provided by engineer. */
-"Close Tab" = "Chiudi pannello";
+"Close Tab" = "Chiudi scheda";
 
 /* No comment provided by engineer. */
 "Close Window" = "Chiudi finestra";
@@ -92,7 +92,7 @@
 "Code Editors" = "Editor di codice";
 
 /* No comment provided by engineer. */
-"Command Palette" = "Tavolozza comandi";
+"Command Palette" = "Riquadro comandi";
 
 /* No comment provided by engineer. */
 "Comment or Uncomment" = "Commenta o decommenta";
@@ -272,7 +272,7 @@
 "New Private Window" = "Nuova finestra privata";
 
 /* No comment provided by engineer. */
-"New Tab" = "Nuovo pannello";
+"New Tab" = "Nuova scheda";
 
 /* No comment provided by engineer. */
 "New Window" = "Nuova finestra";
@@ -353,7 +353,7 @@
 "Rename" = "Rinomina";
 
 /* No comment provided by engineer. */
-"Reopen Closed Tab" = "Riapri l’ultimo pannello chiuso";
+"Reopen Closed Tab" = "Riapri l’ultima scheda chiusa";
 
 /* Menu item to check and request permissions */
 "Request Permissions…" = "Richiedi permessi…";
@@ -422,10 +422,10 @@
 "SuperOpt needs the following:\n\n%@\n\nGrant access in Privacy & Security settings." = "SuperOpt richiede quanto segue:\n\n%@\n\nConcedi l’accesso nelle impostazioni di Privacy e sicurezza.";
 
 /* Category hint */
-"Tab and window management" = "Gestione pannelli e finestre";
+"Tab and window management" = "Gestione schede e finestre";
 
 /* Shortcut category */
-"Tabs & Windows" = "Pannelli e finestre";
+"Tabs & Windows" = "Schede e finestre";
 
 /* Shortcut category */
 "Terminal" = "Terminale";
@@ -449,13 +449,13 @@
 "Traditional" = "Tradizionale";
 
 /* No comment provided by engineer. */
-"Treats the integrated terminal in code editors such as Visual Studio Code and Cursor as a terminal app, so Control-C and similar shortcuts pass through unchanged." = "Il terminale integrato negli editor di codice come Visual Studio Code e Cursor viene considerato un terminale a tutti gli effetti, così Ctrl-C e le scorciatoie simili passano invariate.";
+"Treats the integrated terminal in code editors such as Visual Studio Code and Cursor as a terminal app, so Control-C and similar shortcuts pass through unchanged." = "Il terminale integrato negli editor di codice come Visual Studio Code e Cursor viene considerato un’app di terminale, così Ctrl-C e le scorciatoie simili passano invariate.";
 
 /* Toggle label */
 "Turn off SuperOpt in these apps" = "Disattiva SuperOpt in queste app";
 
 /* No comment provided by engineer. */
-"Turn off “Show menu bar background” in System Settings to use this feature." = "Per usare questa funzione, disattiva “Mostra sfondo barra dei menu” in Impostazioni di Sistema.";
+"Turn off “Show menu bar background” in System Settings to use this feature." = "Per usare questa funzione, disattiva “Mostra lo sfondo della barra dei menu” in Impostazioni di Sistema.";
 
 /* No comment provided by engineer. */
 "Type to search in Mission Control" = "Digita per cercare in Mission Control";
@@ -488,7 +488,7 @@
 "While you’re using an app in this list, SuperOpt turns off every feature and dims its own menu bar icon." = "Mentre usi un’app di questo elenco, SuperOpt disattiva tutte le funzionalità e attenua la propria icona nella barra dei menu.";
 
 /* No comment provided by engineer. */
-"Window tiling" = "Mosaico finestre";
+"Window tiling" = "Finestre a mosaico";
 
 /* No comment provided by engineer. */
 "Windows" = "Finestre";
@@ -497,7 +497,7 @@
 "Word-level editing and text formatting" = "Modifica a livello di parola e formattazione del testo";
 
 /* Alert body directing user to login items settings */
-"You can manage login items in Login Items & Extensions settings." = "Puoi gestire gli elementi login nelle impostazioni di Elementi login ed estensioni.";
+"You can manage login items in Login Items & Extensions settings." = "Puoi gestire gli elementi di login nelle impostazioni di Elementi login ed estensioni.";
 
 /* Category hint */
 "Zoom and full screen" = "Zoom e modalità a tutto schermo";

@@ -233,7 +233,7 @@
 "Menu Bar" = "菜单栏";
 
 /* No comment provided by engineer. */
-"Menu key → shortcut menu" = "菜单键→快捷键菜单";
+"Menu key → shortcut menu" = "菜单键 → 快捷菜单";
 
 /* No comment provided by engineer. */
 "Middle-click paste" = "鼠标中键粘贴";
@@ -440,7 +440,7 @@
 "The Home and End keys move the insertion point to the beginning or end of the line; Control-Home and Control-End move it to the beginning or end of the document." = "Home键和End键将插入点移至行首或行尾；Control-Home和Control-End则将其移至文稿开头或末尾。";
 
 /* No comment provided by engineer. */
-"The Menu key on Windows keyboards opens a shortcut menu." = "Windows键盘上的菜单键可打开快捷键菜单。";
+"The Menu key on Windows keyboards opens a shortcut menu." = "Windows键盘上的菜单键可打开快捷菜单。";
 
 /* No comment provided by engineer. */
 "Tile assist" = "平铺助手";
@@ -455,7 +455,7 @@
 "Turn off SuperOpt in these apps" = "在这些App中关闭SuperOpt";
 
 /* No comment provided by engineer. */
-"Turn off “Show menu bar background” in System Settings to use this feature." = "请在系统设置中关闭“显示菜单栏背景”以使用此功能。";
+"Turn off “Show menu bar background” in System Settings to use this feature." = "请在“系统设置”中关闭“显示菜单栏背景”以使用此功能。";
 
 /* No comment provided by engineer. */
 "Type to search in Mission Control" = "在调度中心键入即可搜索";
@@ -515,14 +515,14 @@
 "⌘X and ⌘V" = "⌘X和⌘V";
 
 /* No comment provided by engineer. */
-"⌥ → Mission Control" = "⌥→调度中心";
+"⌥ → Mission Control" = "⌥ → 调度中心";
 
 /* No comment provided by engineer. */
-"⌥1–9 → apps in the Dock" = "⌥1–9→程序坞中的App";
+"⌥1–9 → apps in the Dock" = "⌥1–9 → 程序坞中的App";
 
 /* No comment provided by engineer. */
-"⌥A → Apps" = "⌥A→App";
+"⌥A → Apps" = "⌥A → App";
 
 /* No comment provided by engineer. */
-"⌥⌥ → Apps" = "⌥⌥→App";
+"⌥⌥ → Apps" = "⌥⌥ → App";
 

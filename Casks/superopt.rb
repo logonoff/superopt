@@ -23,11 +23,13 @@ cask "superopt" do
   zap trash: "~/Library/Preferences/co.logonoff.superopt.plist"
 
   caveats <<~EOS
-    #{token} requires Accessibility and Input Monitoring permissions.
-    Grant both in System Settings > Privacy & Security after first launch.
+    SuperOpt requires two permissions:
+      Device Control and Data Access
+      Input Monitoring
+    Turn both on in System Settings > Privacy & Security the first time you open SuperOpt.
 
-    #{token} is not signed with an Apple Developer ID.
-    The quarantine flag is removed automatically during install.
+    SuperOpt isn’t signed with a Developer ID certificate.
+    The Homebrew cask removes the quarantine attribute automatically.
     If macOS still says the app is damaged, run:
       xattr -rd com.apple.quarantine #{appdir}/SuperOpt.app
   EOS

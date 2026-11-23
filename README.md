@@ -25,15 +25,15 @@ make install
 
 ### Gatekeeper
 
-This app is self-signed but not notarized, so macOS may block it the first time you try to open it. If it does, open System Settings, click Privacy & Security, scroll down, and click Open Anyway. Or remove the quarantine attribute before opening it:
+This app is self-signed but not notarized, so macOS may block a release you download from GitHub the first time you try to open it. (The Homebrew cask removes the quarantine attribute for you.) If it does, open System Settings, click Privacy & Security, scroll down, and click Open Anyway. Or remove the quarantine attribute before opening it:
 
 ```
-xattr -d com.apple.quarantine /Applications/SuperOpt.app
+xattr -rd com.apple.quarantine /Applications/SuperOpt.app
 ```
 
 ### Verification
 
-Releases are signed with a self-signed certificate (RSA-2048; CN=SuperOpt) but not notarized (notarization requires a paid Apple Developer Program membership). For additional assurance:
+Releases are signed with a self-signed certificate (RSA-2048; CN=logonoff-SuperOpt-1) but not notarized (notarization requires a paid Apple Developer Program membership). For additional assurance:
 
 - **[Build attestations](https://github.com/logonoff/superopt/attestations)**: Every release ZIP file has a GitHub build provenance attestation linking the artifact to the exact source commit and workflow run, so you can confirm that the binary was built from the published source code and hasn’t been tampered with since. Verify with `gh attestation verify SuperOpt.zip --repo logonoff/superopt`.
 - **[Immutable releases](https://docs.github.com/en/code-security/concepts/supply-chain-security/immutable-releases)**: Release tags are never moved, and release assets are never replaced. The Homebrew cask pins a SHA-256 hash.
@@ -58,7 +58,7 @@ Features are turned off by default unless otherwise noted.
 
 | Feature | Description |
 |---|---|
-| Hot corner | Quickly moving the pointer to the top-left corner of any screen opens Mission Control (with a GNOME-style ripple animation) (on by default) |
+| Hot corner | Quickly moving the pointer to the top-left corner of any screen opens Mission Control, with a GNOME-style ripple animation (on by default) |
 | Window tiling | The Option-arrow keys tile, fill, or return windows to their previous size |
 | Green button fills the desktop | Clicking the green button expands the window to fill the desktop instead of entering full screen |
 | Close windows in Mission Control | A close button appears when you hold the pointer over a window in Mission Control (on by default) |

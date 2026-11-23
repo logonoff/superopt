@@ -356,7 +356,7 @@
 "Reopen Closed Tab" = "Zuletzt geschlossenen Tab erneut öffnen";
 
 /* Menu item to check and request permissions */
-"Request Permissions…" = "Berechtigungen anfordern…";
+"Request Permissions…" = "Berechtigungen anfordern …";
 
 /* No comment provided by engineer. */
 "Save" = "Sichern";
@@ -386,7 +386,7 @@
 "Settings" = "Einstellungen";
 
 /* Menu item to open settings window */
-"Settings…" = "Einstellungen…";
+"Settings…" = "Einstellungen …";
 
 /* No comment provided by engineer. */
 "Shortcut Remapping" = "Neuzuordnung von Tastaturkurzbefehlen";
